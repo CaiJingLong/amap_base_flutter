@@ -19,6 +19,7 @@ class _AMapState extends State<AMapView> {
     if (defaultTargetPlatform == TargetPlatform.android) {
       return AndroidView(
         viewType: 'me.yohom/AMapView',
+        hitTestBehavior: PlatformViewHitTestBehavior.opaque,
         onPlatformViewCreated: onPlatformViewCreated,
         creationParams: widget.options._toJson(),
         creationParamsCodec: const StandardMessageCodec(),
