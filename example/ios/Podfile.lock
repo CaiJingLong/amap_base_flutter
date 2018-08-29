@@ -1,0 +1,22 @@
+PODS:
+  - amap_base (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - amap_base (from `.symlinks/plugins/amap_base/ios`)
+  - Flutter (from `.symlinks/flutter/ios-release`)
+
+EXTERNAL SOURCES:
+  amap_base:
+    :path: ".symlinks/plugins/amap_base/ios"
+  Flutter:
+    :path: ".symlinks/flutter/ios-release"
+
+SPEC CHECKSUMS:
+  amap_base: b6180e56bd89a6705868899de5a31082b358ae78
+  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
+
+PODFILE CHECKSUM: 1e5af4103afd21ca5ead147d7b81d06f494f51a2
+
+COCOAPODS: 1.5.3
