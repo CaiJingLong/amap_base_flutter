@@ -3,11 +3,15 @@ part of amap_flutter;
 typedef void MapCreatedCallback(AMapController controller);
 
 class AMapView extends StatefulWidget {
-  AMapView({@required this.onMapCreated, AMapOptions options})
-      : this.options = AMapOptions.defaultOptions.copyWith(options);
+  AMapView({
+    @required this.onMapCreated,
+    AMapOptions options,
+    this.hitTestBehavior = PlatformViewHitTestBehavior.opaque,
+  }) : this.options = AMapOptions.defaultOptions.copyWith(options);
 
   final MapCreatedCallback onMapCreated;
   final AMapOptions options;
+  final PlatformViewHitTestBehavior hitTestBehavior;
 
   @override
   State createState() => _AMapState();
@@ -19,7 +23,7 @@ class _AMapState extends State<AMapView> {
     if (defaultTargetPlatform == TargetPlatform.android) {
       return AndroidView(
         viewType: 'me.yohom/AMapView',
-        hitTestBehavior: PlatformViewHitTestBehavior.opaque,
+        hitTestBehavior: widget.hitTestBehavior,
         onPlatformViewCreated: onPlatformViewCreated,
         creationParams: widget.options._toJson(),
         creationParamsCodec: const StandardMessageCodec(),
