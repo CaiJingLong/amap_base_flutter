@@ -292,7 +292,7 @@ class AMapController(
     }
 
     override fun setZoomControlEnabled(zoomControlEnabled: Boolean) {
-        // 没有对应api, 只能在option里设置
+        aMap.uiSettings.isZoomControlsEnabled = zoomControlEnabled
     }
     //endregion
 
