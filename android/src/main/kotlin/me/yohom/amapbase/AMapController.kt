@@ -47,6 +47,7 @@ class AMapController(
     }
 
     private var disposed = false
+    private var addedToParent = false
     private var trackCameraPosition = false
 
     fun init() {
@@ -72,6 +73,7 @@ class AMapController(
                 mapView.onCreate(null)
             }
         }
+        addedToParent = true
 
         aMap.apply {
             setOnInfoWindowClickListener(this@AMapController)
@@ -147,15 +149,17 @@ class AMapController(
 
     //region Application.ActivityLifecycleCallbacks
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-        if (disposed) return
+        if (disposed || addedToParent) return
         mapView.onCreate(savedInstanceState)
+        addedToParent = true
     }
 
     override fun onActivityStarted(activity: Activity?) {}
 
     override fun onActivityResumed(activity: Activity?) {
-        if (disposed) return
+        if (disposed || addedToParent) return
         mapView.onResume()
+        addedToParent = true
     }
 
     override fun onActivityPaused(activity: Activity?) {
