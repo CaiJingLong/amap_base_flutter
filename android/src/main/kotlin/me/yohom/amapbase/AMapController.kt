@@ -10,6 +10,7 @@ import com.amap.api.maps.model.*
 import com.amap.api.navi.AmapNaviPage
 import com.amap.api.navi.AmapNaviParams
 import com.amap.api.navi.AmapNaviType
+import io.flutter.app.FlutterActivity
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
@@ -48,7 +49,6 @@ class AMapController(
     }
 
     private var disposed = false
-    private var addedToParent = false
     private var trackCameraPosition = false
 
     fun init() {
@@ -74,7 +74,6 @@ class AMapController(
                 mapView.onCreate(null)
             }
         }
-        addedToParent = true
 
         aMap.apply {
             setOnInfoWindowClickListener(this@AMapController)
@@ -150,33 +149,31 @@ class AMapController(
 
     //region Application.ActivityLifecycleCallbacks
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-        if (disposed || addedToParent) return
+        if (activity !is FlutterActivity || disposed) return
         mapView.onCreate(savedInstanceState)
-        addedToParent = true
     }
 
     override fun onActivityStarted(activity: Activity?) {}
 
     override fun onActivityResumed(activity: Activity?) {
-        if (disposed || addedToParent) return
+        if (activity !is FlutterActivity || disposed) return
         mapView.onResume()
-        addedToParent = true
     }
 
     override fun onActivityPaused(activity: Activity?) {
-        if (disposed) return
+        if (activity !is FlutterActivity || disposed) return
         mapView.onPause()
     }
 
     override fun onActivityStopped(activity: Activity?) {}
 
     override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
-        if (disposed) return
+        if (activity !is FlutterActivity || disposed) return
         mapView.onSaveInstanceState(outState)
     }
 
     override fun onActivityDestroyed(activity: Activity?) {
-        if (disposed) return
+        if (activity !is FlutterActivity || disposed) return
         mapView.onDestroy()
     }
     //endregion
