@@ -57,7 +57,6 @@ class AmapBasePlugin : Application.ActivityLifecycleCallbacks {
             val plugin = AmapBasePlugin()
             registrar.activity().application.registerActivityLifecycleCallbacks(plugin)
 
-
             // 导航相关插件
             registrar.setupNaviChannel()
             registrar
