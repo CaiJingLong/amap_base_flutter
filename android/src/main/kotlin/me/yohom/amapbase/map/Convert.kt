@@ -145,11 +145,6 @@ object Convert {
         if (cameraPosition != null) {
             sink.setCameraPosition(toCameraPosition(cameraPosition))
         }
-        val cameraTargetBounds = data["cameraTargetBounds"]
-//        if (cameraTargetBounds != null) {
-//            val targetData = toList(cameraTargetBounds)
-//            sink.setCameraTargetBounds(toLatLngBounds(targetData[0])!!)
-//        }
         val compassEnabled = data["compassEnabled"]
         if (compassEnabled != null) {
             sink.setCompassEnabled(toBoolean(compassEnabled))
@@ -184,6 +179,10 @@ object Convert {
         val zoomGesturesEnabled = data["zoomGesturesEnabled"]
         if (zoomGesturesEnabled != null) {
             sink.setZoomGesturesEnabled(toBoolean(zoomGesturesEnabled))
+        }
+        val zoomControlsEnabled = data["zoomControlsEnabled"]
+        if (zoomControlsEnabled != null) {
+            sink.setZoomControlEnabled(toBoolean(zoomControlsEnabled))
         }
     }
 
