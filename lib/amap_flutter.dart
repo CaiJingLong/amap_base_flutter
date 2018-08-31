@@ -14,12 +14,13 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/gestures.dart';
 
 export 'dart:async';
+export 'package:amap_base/src/navi/amap_navi.dart';
 
-part 'src/bitmap.dart';
-part 'src/callbacks.dart';
-part 'src/camera.dart';
-part 'src/controller.dart';
-part 'src/amap.dart';
-part 'src/marker.dart';
-part 'src/location.dart';
-part 'src/ui.dart';
+part 'package:amap_base/src/map/bitmap.dart';
+part 'package:amap_base/src/map/callbacks.dart';
+part 'package:amap_base/src/map/camera.dart';
+part 'package:amap_base/src/map/controller.dart';
+part 'package:amap_base/src/map/amap.dart';
+part 'package:amap_base/src/map/marker.dart';
+part 'package:amap_base/src/map/location.dart';
+part 'package:amap_base/src/map/ui.dart';
