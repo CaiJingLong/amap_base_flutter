@@ -16,7 +16,7 @@ class AMapBuilder : AMapOptionsSink {
             state: AtomicInteger,
             registrar: PluginRegistry.Registrar
     ): AMapController {
-        val controller = AMapController(id, context, state, registrar, options)
+        val controller = AMapController(id, registrar, state, context, options)
         controller.init()
         controller.setTrackCameraPosition(trackCameraPosition)
         return controller

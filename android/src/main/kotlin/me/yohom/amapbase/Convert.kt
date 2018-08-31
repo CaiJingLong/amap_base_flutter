@@ -139,8 +139,8 @@ object Convert {
         return o as String
     }
 
-    fun interpretGoogleMapOptions(o: Any, sink: AMapOptionsSink) {
-        val data = toMap(o)
+    fun interpretGoogleMapOptions(params: Any, sink: AMapOptionsSink) {
+        val data = toMap(params)
         val cameraPosition = data["cameraPosition"]
         if (cameraPosition != null) {
             sink.setCameraPosition(toCameraPosition(cameraPosition))

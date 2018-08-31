@@ -47,7 +47,8 @@ class AmapBasePlugin : Application.ActivityLifecycleCallbacks {
         fun registerWith(registrar: Registrar) {
             val plugin = AmapBasePlugin()
             registrar.activity().application.registerActivityLifecycleCallbacks(plugin)
-            registrar.platformViewRegistry()
+            registrar
+                    .platformViewRegistry()
                     .registerViewFactory("me.yohom/AMapView", AMapFactory(plugin.state, registrar))
         }
     }

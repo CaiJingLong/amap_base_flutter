@@ -18,9 +18,9 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class AMapController(
         private val id: Int,
-        private val context: Context,
-        private val activityState: AtomicInteger,
         private val registrar: PluginRegistry.Registrar,
+        private val activityState: AtomicInteger,
+        context: Context,
         options: AMapOptions
 ) :     // AMap相关
         AMap.OnCameraChangeListener,
@@ -38,7 +38,7 @@ class AMapController(
         AMapOptionsSink,
         OnMarkerTappedListener {
 
-    private val mapView: MapView = MapView(context, options)
+    private val mapView = TextureMapView(context, options)
     private val aMap: AMap = mapView.map
     private val density: Float = context.resources.displayMetrics.density
     private val markers = HashMap<String, MarkerController>()
@@ -47,8 +47,7 @@ class AMapController(
     }
 
     private var disposed = false
-//    private var trackCameraPosition = false
-    private var trackCameraPosition = true
+    private var trackCameraPosition = false
 
     fun init() {
         when (activityState.get()) {

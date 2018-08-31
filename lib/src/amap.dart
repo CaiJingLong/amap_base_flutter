@@ -31,12 +31,12 @@ class _AMapState extends State<AMapView> {
     }
 
     return Text(
-        '$defaultTargetPlatform is not yet supported by the maps plugin');
+      '$defaultTargetPlatform is not yet supported by the maps plugin',
+    );
   }
 
   Future<void> onPlatformViewCreated(int id) async {
-    final AMapController controller =
-        await AMapController.init(id, widget.options);
+    final controller = await AMapController.init(id, widget.options);
     widget.onMapCreated(controller);
   }
 }

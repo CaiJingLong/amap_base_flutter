@@ -30,7 +30,7 @@ class AMapController extends ChangeNotifier {
     assert(id != null);
     assert(options != null);
     assert(options.cameraPosition != null);
-    final MethodChannel channel = new MethodChannel('me.yohom/amap_base_$id');
+    final MethodChannel channel = MethodChannel('me.yohom/amap_base_$id');
     await channel.invokeMethod('map#waitForMap');
     return AMapController._(id, options, channel);
   }
@@ -38,12 +38,11 @@ class AMapController extends ChangeNotifier {
   final MethodChannel _channel;
 
   /// Callbacks to receive tap events for markers placed on this map.
-  final ArgumentCallbacks<Marker> onMarkerTapped =
-      new ArgumentCallbacks<Marker>();
+  final ArgumentCallbacks<Marker> onMarkerTapped = ArgumentCallbacks<Marker>();
 
   /// Callbacks to receive tap events for info windows on markers
   final ArgumentCallbacks<Marker> onInfoWindowTapped =
-      new ArgumentCallbacks<Marker>();
+      ArgumentCallbacks<Marker>();
 
   /// The configuration options most recently applied via controller
   /// initialization or [updateMapOptions].
@@ -53,7 +52,8 @@ class AMapController extends ChangeNotifier {
   /// The current set of markers on this map.
   ///
   /// The returned set will be a detached snapshot of the markers collection.
-  Set<Marker> get markers => new Set<Marker>.from(_markers.values);
+  Set<Marker> get markers => Set<Marker>.from(_markers.values);
+
   final Map<String, Marker> _markers = <String, Marker>{};
 
   /// True if the map camera is currently moving.
@@ -77,7 +77,6 @@ class AMapController extends ChangeNotifier {
           onInfoWindowTapped(marker);
         }
         break;
-
       case 'marker#onTap':
         final String markerId = call.arguments['marker'];
         final Marker marker = _markers[markerId];
@@ -98,7 +97,7 @@ class AMapController extends ChangeNotifier {
         notifyListeners();
         break;
       default:
-        throw new MissingPluginException();
+        throw MissingPluginException();
     }
   }
 
@@ -157,7 +156,7 @@ class AMapController extends ChangeNotifier {
         'options': effectiveOptions._toJson(),
       },
     );
-    final Marker marker = new Marker(markerId, effectiveOptions);
+    final Marker marker = Marker(markerId, effectiveOptions);
     _markers[markerId] = marker;
     notifyListeners();
     return marker;
