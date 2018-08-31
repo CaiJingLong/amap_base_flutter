@@ -104,6 +104,9 @@ class AMapOptions {
   /// True if the map view should respond to zoom gestures.
   final bool zoomGesturesEnabled;
 
+  /// True if the map view should respond to zoom control.
+  final bool zoomControlsEnabled;
+
   /// Creates a set of map user interface configuration options.
   ///
   /// By default, every non-specified field is null, meaning no desire to change
@@ -119,6 +122,7 @@ class AMapOptions {
     this.tiltGesturesEnabled,
     this.trackCameraPosition,
     this.zoomGesturesEnabled,
+    this.zoomControlsEnabled,
   });
 
   /// Default user interface options.
@@ -134,6 +138,7 @@ class AMapOptions {
   /// * responds to tilt gestures; [tiltGesturesEnabled] is true
   /// * is silent about camera movement; [trackCameraPosition] is false
   /// * responds to zoom gestures; [zoomGesturesEnabled] is true
+  /// * responds to zoom control; [zoomControlsEnabled] is true
   static final AMapOptions defaultOptions = AMapOptions(
     compassEnabled: true,
     cameraPosition: const CameraPosition(target: LatLng(0.0, 0.0)),
@@ -145,6 +150,7 @@ class AMapOptions {
     tiltGesturesEnabled: true,
     trackCameraPosition: false,
     zoomGesturesEnabled: true,
+    zoomControlsEnabled: true,
   );
 
   /// Creates a new options object whose values are the same as this instance,
@@ -168,6 +174,7 @@ class AMapOptions {
       tiltGesturesEnabled: change.tiltGesturesEnabled ?? tiltGesturesEnabled,
       trackCameraPosition: change.trackCameraPosition ?? trackCameraPosition,
       zoomGesturesEnabled: change.zoomGesturesEnabled ?? zoomGesturesEnabled,
+      zoomControlsEnabled: change.zoomControlsEnabled ?? zoomControlsEnabled,
     );
   }
 
@@ -190,6 +197,7 @@ class AMapOptions {
     addIfPresent('tiltGesturesEnabled', tiltGesturesEnabled);
     addIfPresent('trackCameraPosition', trackCameraPosition);
     addIfPresent('zoomGesturesEnabled', zoomGesturesEnabled);
+    addIfPresent('zoomControlsEnabled', zoomControlsEnabled);
     return json;
   }
 

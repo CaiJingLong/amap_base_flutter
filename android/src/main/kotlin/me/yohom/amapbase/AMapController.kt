@@ -277,6 +277,10 @@ class AMapController(
     override fun setZoomGesturesEnabled(zoomGesturesEnabled: Boolean) {
         aMap.uiSettings.isZoomGesturesEnabled = zoomGesturesEnabled
     }
+
+    override fun setZoomControlEnabled(zoomControlEnabled: Boolean) {
+        // 没有对应api, 只能在option里设置
+    }
     //endregion
 
     //region OnMarkerTappedListener

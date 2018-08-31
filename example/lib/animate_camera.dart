@@ -41,7 +41,8 @@ class AnimateCameraState extends State<AnimateCamera> {
             height: 200.0,
             child: AMapView(
               onMapCreated: _onMapCreated,
-              options: AMapOptions.defaultOptions,
+              options: AMapOptions.defaultOptions
+                  .copyWith(AMapOptions(zoomControlsEnabled: false)),
             ),
           ),
         ),

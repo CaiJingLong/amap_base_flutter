@@ -20,4 +20,6 @@ interface AMapOptionsSink {
     fun setTrackCameraPosition(trackCameraPosition: Boolean)
 
     fun setZoomGesturesEnabled(zoomGesturesEnabled: Boolean)
+
+    fun setZoomControlEnabled(zoomControlEnabled: Boolean)
 }

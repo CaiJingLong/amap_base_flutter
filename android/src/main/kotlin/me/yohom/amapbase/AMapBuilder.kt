@@ -55,4 +55,8 @@ class AMapBuilder : AMapOptionsSink {
     override fun setZoomGesturesEnabled(zoomGesturesEnabled: Boolean) {
         options.zoomGesturesEnabled(zoomGesturesEnabled)
     }
+
+    override fun setZoomControlEnabled(zoomControlEnabled: Boolean) {
+        options.zoomControlsEnabled(zoomControlEnabled)
+    }
 }
