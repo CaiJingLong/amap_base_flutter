@@ -151,10 +151,7 @@ class AMapController(
         mapView.onCreate(savedInstanceState)
     }
 
-    override fun onActivityStarted(activity: Activity?) {
-//        if (disposed) return
-//        mapView.onResume()
-    }
+    override fun onActivityStarted(activity: Activity?) {}
 
     override fun onActivityResumed(activity: Activity?) {
         if (disposed) return
@@ -166,10 +163,7 @@ class AMapController(
         mapView.onPause()
     }
 
-    override fun onActivityStopped(activity: Activity?) {
-//        if (disposed) return
-//        mapView.onPause()
-    }
+    override fun onActivityStopped(activity: Activity?) {}
 
     override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
         if (disposed) return
@@ -245,10 +239,6 @@ class AMapController(
         aMap.moveCamera(CameraUpdateFactory.newCameraPosition(position))
     }
 
-//    override fun setCameraTargetBounds(bounds: LatLngBounds) {
-//        TODO()
-//    }
-
     override fun setCompassEnabled(compassEnabled: Boolean) {
         aMap.uiSettings.isCompassEnabled = compassEnabled
     }
@@ -295,5 +285,4 @@ class AMapController(
     }
     //endregion
     //endregion
-
 }

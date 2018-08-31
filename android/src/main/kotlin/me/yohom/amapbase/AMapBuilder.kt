@@ -30,24 +30,11 @@ class AMapBuilder : AMapOptionsSink {
         options.compassEnabled(compassEnabled)
     }
 
-//    override fun setCameraTargetBounds(bounds: LatLngBounds) {
-////        options.latLngBoundsForCameraTarget(bounds)
-//    }
-
     override fun setMapType(mapType: Int) {
         options.mapType(mapType)
     }
 
-    override fun setMinMaxZoomPreference(min: Float?, max: Float?) {
-        // fixme: amap 没有对应api
-//        if (min != null) {
-//            options.minz(min)
-//            options
-//        }
-//        if (max != null) {
-//            options.maxZoomPreference(max)
-//        }
-    }
+    override fun setMinMaxZoomPreference(min: Float?, max: Float?) {}
 
     override fun setTrackCameraPosition(trackCameraPosition: Boolean) {
         this.trackCameraPosition = trackCameraPosition
