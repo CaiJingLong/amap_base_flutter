@@ -11,4 +11,12 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+
+    <application>
+        <activity
+                android:name="com.amap.api.navi.AmapRouteActivity"
+                android:theme="@android:style/Theme.NoTitleBar"
+                android:screenOrientation="portrait"
+                android:configChanges="orientation|keyboardHidden|screenSize"/>
+    </application>
 </manifest>
