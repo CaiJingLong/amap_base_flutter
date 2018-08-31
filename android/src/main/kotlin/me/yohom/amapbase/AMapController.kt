@@ -6,9 +6,10 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.amap.api.maps.*
-import com.amap.api.maps.model.CameraPosition
-import com.amap.api.maps.model.Marker
-import com.amap.api.maps.model.MarkerOptions
+import com.amap.api.maps.model.*
+import com.amap.api.navi.AmapNaviPage
+import com.amap.api.navi.AmapNaviParams
+import com.amap.api.navi.AmapNaviType
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
@@ -217,6 +218,16 @@ class AMapController(
                 val marker = marker(markerId)
                 Convert.interpretMarkerOptions(call.argument("options"), marker)
                 result.success(null)
+            }
+            "navi#start" -> {
+                val lat = call.argument<Double>("lat")
+                val lon = call.argument<Double>("lon")
+                val end = Poi(null, LatLng(lat, lon), "")
+                AmapNaviPage.getInstance().showRouteActivity(
+                        registrar.activity(),
+                        AmapNaviParams(null, null, end, AmapNaviType.DRIVER),
+                        null
+                )
             }
             else -> result.notImplemented()
         }
