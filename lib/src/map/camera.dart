@@ -59,10 +59,10 @@ class CameraPosition {
       return null;
     }
     return CameraPosition(
-      bearing: json['bearing'],
+      bearing: json['bearing'] as double,
       target: LatLng._fromJson(json['target']),
-      tilt: json['tilt'],
-      zoom: json['zoom'],
+      tilt: json['tilt'] as double,
+      zoom: json['zoom'] as double,
     );
   }
 }

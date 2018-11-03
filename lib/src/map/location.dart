@@ -30,7 +30,7 @@ class LatLng {
     if (json == null) {
       return null;
     }
-    return new LatLng(json[0], json[1]);
+    return LatLng(json[0] as double, json[1] as double);
   }
 
   @override
@@ -79,7 +79,7 @@ class LatLngBounds {
     if (json == null) {
       return null;
     }
-    return new LatLngBounds(
+    return LatLngBounds(
       southwest: LatLng._fromJson(json[0]),
       northeast: LatLng._fromJson(json[1]),
     );

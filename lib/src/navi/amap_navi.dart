@@ -19,7 +19,7 @@ class AmapNavi {
     });
   }
 
-  static Future<bool> setIOSKey(String key) async {
+  static Future setIOSKey(String key) async {
     try {
       if (Platform.isAndroid) {
         return true;

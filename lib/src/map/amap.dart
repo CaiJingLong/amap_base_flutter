@@ -7,13 +7,13 @@ class AMapView extends StatefulWidget {
     @required this.onMapCreated,
     AMapOptions options,
     this.hitTestBehavior = PlatformViewHitTestBehavior.opaque,
-    this.gestureRecognizers = const [],
+    this.gestureRecognizers,
   }) : this.options = AMapOptions.defaultOptions.copyWith(options);
 
   final MapCreatedCallback onMapCreated;
   final AMapOptions options;
   final PlatformViewHitTestBehavior hitTestBehavior;
-  final List<OneSequenceGestureRecognizer> gestureRecognizers;
+  final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
 
   @override
   State createState() => _AMapState();
