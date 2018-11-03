@@ -17,8 +17,8 @@ fun PluginRegistry.Registrar.setupNaviChannel() {
     channel.setMethodCallHandler { call, result ->
         when (call.method) {
             startNavi -> {
-                val lat = call.argument<Double>("lat")
-                val lon = call.argument<Double>("lon")
+                val lat = call.argument<Double>("lat")!!
+                val lon = call.argument<Double>("lon")!!
                 val end = Poi(null, LatLng(lat, lon), "")
                 AmapNaviPage.getInstance().showRouteActivity(
                         activity(),

@@ -187,39 +187,39 @@ class AMapController(
                 result.success(null)
             }
             "map#update" -> {
-                Convert.interpretGoogleMapOptions(call.argument("options"), this)
+                Convert.interpretGoogleMapOptions(call.argument("options")!!, this)
                 result.success(Convert.toJson(getCameraPosition()))
             }
             "camera#move" -> {
-                val cameraUpdate = Convert.toCameraUpdate(call.argument("cameraUpdate"), density)
+                val cameraUpdate = Convert.toCameraUpdate(call.argument("cameraUpdate")!!, density)
                 moveCamera(cameraUpdate)
                 result.success(null)
             }
             "camera#animate" -> {
-                val cameraUpdate = Convert.toCameraUpdate(call.argument("cameraUpdate"), density)
+                val cameraUpdate = Convert.toCameraUpdate(call.argument("cameraUpdate")!!, density)
                 animateCamera(cameraUpdate)
                 result.success(null)
             }
             "marker#add" -> {
                 val markerBuilder = newMarkerBuilder()
-                Convert.interpretMarkerOptions(call.argument("options"), markerBuilder)
+                Convert.interpretMarkerOptions(call.argument("options")!!, markerBuilder)
                 val markerId = markerBuilder.build()
                 result.success(markerId)
             }
             "marker#remove" -> {
-                val markerId = call.argument<String>("marker")
+                val markerId = call.argument<String>("marker")!!
                 removeMarker(markerId)
                 result.success(null)
             }
             "marker#update" -> {
-                val markerId = call.argument<String>("marker")
+                val markerId = call.argument<String>("marker")!!
                 val marker = marker(markerId)
-                Convert.interpretMarkerOptions(call.argument("options"), marker)
+                Convert.interpretMarkerOptions(call.argument("options")!!, marker)
                 result.success(null)
             }
             "navi#start" -> {
-                val lat = call.argument<Double>("lat")
-                val lon = call.argument<Double>("lon")
+                val lat = call.argument<Double>("lat")!!
+                val lon = call.argument<Double>("lon")!!
                 val end = Poi(null, LatLng(lat, lon), "")
                 AmapNaviPage.getInstance().showRouteActivity(
                         registrar.activity(),
