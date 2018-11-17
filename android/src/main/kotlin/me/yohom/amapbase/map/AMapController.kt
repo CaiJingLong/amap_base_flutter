@@ -10,7 +10,6 @@ import com.amap.api.maps.model.*
 import com.amap.api.navi.AmapNaviPage
 import com.amap.api.navi.AmapNaviParams
 import com.amap.api.navi.AmapNaviType
-import io.flutter.app.FlutterActivity
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
@@ -51,6 +50,9 @@ class AMapController(
 
     private var disposed = false
     private var trackCameraPosition = false
+
+    private val registrarActivityHashCode: Int = registrar.activity().hashCode()
+
 
     fun init() {
         when (activityState.get()) {
@@ -150,31 +152,31 @@ class AMapController(
 
     //region Application.ActivityLifecycleCallbacks
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-        if (activity !is FlutterActivity || disposed) return
+        if (activity?.hashCode() != registrarActivityHashCode || disposed) return
         mapView.onCreate(savedInstanceState)
     }
 
     override fun onActivityStarted(activity: Activity?) {}
 
     override fun onActivityResumed(activity: Activity?) {
-        if (activity !is FlutterActivity || disposed) return
+        if (activity?.hashCode() != registrarActivityHashCode || disposed) return
         mapView.onResume()
     }
 
     override fun onActivityPaused(activity: Activity?) {
-        if (activity !is FlutterActivity || disposed) return
+        if (activity?.hashCode() != registrarActivityHashCode || disposed) return
         mapView.onPause()
     }
 
     override fun onActivityStopped(activity: Activity?) {}
 
     override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
-        if (activity !is FlutterActivity || disposed) return
+        if (activity?.hashCode() != registrarActivityHashCode || disposed) return
         mapView.onSaveInstanceState(outState)
     }
 
     override fun onActivityDestroyed(activity: Activity?) {
-        if (activity !is FlutterActivity || disposed) return
+        if (activity?.hashCode() != registrarActivityHashCode || disposed) return
         mapView.onDestroy()
     }
     //endregion
