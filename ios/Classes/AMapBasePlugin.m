@@ -1,6 +1,6 @@
-#import "AmapBasePlugin.h"
+#import "AMapBasePlugin.h"
 
-@implementation AmapBasePlugin
+@implementation AMapBasePlugin
 
 - (AMapNaviCompositeManager *)compositeManager {
     if (!_compositeManager) {
@@ -13,7 +13,7 @@
     FlutterMethodChannel* channel = [FlutterMethodChannel
                                      methodChannelWithName:@"me.yohom/amap_navi"
                                      binaryMessenger:[registrar messenger]];
-    AmapBasePlugin* instance = [[AmapBasePlugin alloc] init];
+    AMapBasePlugin* instance = [[AMapBasePlugin alloc] init];
     [registrar addMethodCallDelegate:instance channel:channel];
 }
 
