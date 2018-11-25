@@ -7,11 +7,7 @@ class AMapView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gestureRecognizers = Set.of([
-      Factory<OneSequenceGestureRecognizer>(
-        () => EagerGestureRecognizer(),
-      ),
-    ]);
+    final gestureRecognizers = Set.of([]);
     final onPlatformViewCreated = () {};
     final hitTestBehavior = PlatformViewHitTestBehavior.opaque;
     if (defaultTargetPlatform == TargetPlatform.android) {
