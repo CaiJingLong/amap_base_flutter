@@ -3,7 +3,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 
-@interface AMapBasePlugin : NSObject<FlutterPlugin>
+@interface AmapBasePlugin : NSObject<FlutterPlugin>
 
 @property (nonatomic, strong) AMapNaviCompositeManager *compositeManager;
 
