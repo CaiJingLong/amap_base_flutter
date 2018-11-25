@@ -1,23 +1,33 @@
 part of amap_flutter;
 
-class AMapView extends StatefulWidget {
-  AMapView();
+const _viewType = 'me.yohom/AMapView';
 
-  @override
-  State createState() => _AMapState();
-}
+class AMapView extends StatelessWidget {
+  const AMapView({Key key}) : super(key: key);
 
-class _AMapState extends State<AMapView> {
   @override
   Widget build(BuildContext context) {
+    final gestureRecognizers = Set.of([
+      Factory<OneSequenceGestureRecognizer>(
+        () => EagerGestureRecognizer(),
+      ),
+    ]);
+    final onPlatformViewCreated = () {};
+    final hitTestBehavior = PlatformViewHitTestBehavior.opaque;
     if (defaultTargetPlatform == TargetPlatform.android) {
-      return AndroidView(viewType: 'me.yohom/AMapView');
+      return AndroidView(
+        viewType: _viewType,
+        gestureRecognizers: gestureRecognizers,
+      );
     } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-      return UiKitView(viewType: 'me.yohom/AMapView');
+      return UiKitView(
+        viewType: _viewType,
+        gestureRecognizers: gestureRecognizers,
+      );
+    } else {
+      return Text(
+        '$defaultTargetPlatform is not yet supported by the maps plugin',
+      );
     }
-
-    return Text(
-      '$defaultTargetPlatform is not yet supported by the maps plugin',
-    );
   }
 }

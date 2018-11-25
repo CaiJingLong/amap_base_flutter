@@ -1,8 +1,4 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
+part of amap_flutter;
 
 class AmapNavi {
   static final _channel = MethodChannel('me.yohom/amap_navi');

@@ -11,13 +11,7 @@ class MapsDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('AMaps examples')),
-      body: Center(
-        child: Container(
-          width: 300,
-          height: 300,
-          child: AMapView(),
-        ),
-      ),
+      body: AMapView(),
     );
   }
 }
