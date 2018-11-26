@@ -1,4 +1,3 @@
-import 'package:amap_base/amap_flutter.dart';
 import 'package:amap_base_example/map/map.widget.dart';
 import 'package:amap_base_example/navi/navi.dart';
 import 'package:flutter/material.dart';
