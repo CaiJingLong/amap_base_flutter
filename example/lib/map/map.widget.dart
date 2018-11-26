@@ -10,6 +10,7 @@ class MapScreen extends StatelessWidget {
         amapOptions: AMapOptions(
           logoPosition: AMapOptions.LOGO_POSITION_BOTTOM_RIGHT,
           mapType: AMapOptions.MAP_TYPE_NIGHT,
+          camera: CameraPosition(target: LatLng(29.12, 119.64)),
         ),
       ),
     );
