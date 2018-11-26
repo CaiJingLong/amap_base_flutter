@@ -1,4 +1,7 @@
-part of amap_flutter;
+import 'dart:io';
+
+import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 
 class AmapNavi {
   static final _channel = MethodChannel('me.yohom/amap_navi');
