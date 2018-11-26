@@ -43,5 +43,16 @@
         <false/>
         <key>io.flutter.embedded_views_preview</key>
         <true/>
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>导航SDK需要您的定位服务，否则可能无法使用。</string>
+        <key>NSLocationAlwaysUsageDescription</key>
+        <string>导航SDK需要您的定位服务，否则可能无法使用。</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>导航SDK需要您的定位服务，否则可能无法使用，如果您需要使用后台导航功能请选择“始终允许”。</string>
+        <key>NSAppTransportSecurity</key>
+        <dict>
+            <key>NSAllowsArbitraryLoads</key>
+            <true/>
+        </dict>
     </dict>
 </plist>

@@ -7,6 +7,11 @@
 #import "AmapBasePlugin.h"
 
 
-@interface AmapBasePlugin (AMapNavi)
-- (void) handleNavi: (FlutterMethodCall *)call result:(FlutterResult)result;
+@interface NSObject (AMapNavi) <FlutterPluginRegistrar>
+
+/**
+ * 设置导航channel
+ */
+- (void) setupNaviChannel;
+
 @end
