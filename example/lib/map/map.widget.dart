@@ -6,7 +6,12 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Map')),
-      body: AMapView(),
+      body: AMapView(
+        amapOptions: AMapOptions(
+          logoPosition: AMapOptions.LOGO_POSITION_BOTTOM_RIGHT,
+          mapType: AMapOptions.MAP_TYPE_NIGHT,
+        ),
+      ),
     );
   }
 }

@@ -1,13 +1,13 @@
 class LatLng {
-  final double lat;
-  final double lng;
+  final double latitude;
+  final double longitude;
 
-  const LatLng(this.lat, this.lng);
+  const LatLng(this.latitude, this.longitude);
 
   Map<String, Object> toJson() {
     return {
-      'lat': lat,
-      'lng': lng,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 
@@ -16,14 +16,14 @@ class LatLng {
       identical(this, other) ||
       other is LatLng &&
           runtimeType == other.runtimeType &&
-          lat == other.lat &&
-          lng == other.lng;
+          latitude == other.latitude &&
+          longitude == other.longitude;
 
   @override
-  int get hashCode => lat.hashCode ^ lng.hashCode;
+  int get hashCode => latitude.hashCode ^ longitude.hashCode;
 
   @override
   String toString() {
-    return 'LatLng{lat: $lat, lng: $lng}';
+    return 'LatLng{lat: $latitude, lng: $longitude}';
   }
 }

@@ -12,7 +12,9 @@ import io.flutter.plugin.platform.PlatformViewFactory
 class AMapFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
 
     override fun create(context: Context, id: Int, params: Any?): PlatformView {
-        val amapOptions = Gson().fromJson(params as String, AMapOptions::class.java)
+        val amapOptions = Gson()
+                .fromJson(params as String, AMapOptionsLike::class.java)
+                .toAMapOption()
 
         val view = AMapView(context, amapOptions)
         view.init()
