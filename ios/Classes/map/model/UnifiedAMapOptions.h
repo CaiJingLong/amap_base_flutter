@@ -8,7 +8,7 @@
 @class LatLng;
 @class CameraPosition;
 
-@interface AMapOptions : JSONModel
+@interface UnifiedAMapOptions : JSONModel
 /// “高德地图”Logo的位置
 @property(nonatomic) NSInteger logoPosition;
 @property(nonatomic) BOOL zOrderOnTop;

@@ -2,10 +2,10 @@
 // Created by Yohom Bao on 2018/11/26.
 //
 
-#import "AMapOptions.h"
+#import "UnifiedAMapOptions.h"
 
 
-@implementation AMapOptions {
+@implementation UnifiedAMapOptions {
 }
 
 - (NSString *)description {

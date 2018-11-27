@@ -28,15 +28,15 @@ class UnifiedMyLocationStyle(
         return MyLocationStyle()
                 .myLocationIcon(null)
                 .anchor(anchorU, anchorV)
-                .radiusFillColor(stringToColorInt(radiusFillColor) ?: Color.argb(100, 0, 0, 180))
-                .strokeColor(stringToColorInt(strokeColor) ?: Color.argb(255, 0, 0, 220))
+                .radiusFillColor(hexStringToColorInt(radiusFillColor) ?: Color.argb(100, 0, 0, 180))
+                .strokeColor(hexStringToColorInt(strokeColor) ?: Color.argb(255, 0, 0, 220))
                 .strokeWidth(strokeWidth)
                 .myLocationType(myLocationType)
                 .interval(interval)
                 .showMyLocation(showMyLocation)
     }
 
-    private fun stringToColorInt(source: String): Int? {
+    private fun hexStringToColorInt(source: String): Int? {
         return try {
             val alpha = source.substring(0, 2).toInt(16)
             val red = source.substring(2, 4).toInt(16)

@@ -5,14 +5,14 @@
 #import <Foundation/Foundation.h>
 #import <Flutter/Flutter.h>
 
-@class AMapOptions;
+@class UnifiedAMapOptions;
 
 @interface AMapViewFactory : NSObject <FlutterPlatformViewFactory>
 @end
 
 @interface AMapView : NSObject <FlutterPlatformView>
 - (instancetype)initWithFrame:(CGRect)frame
-                      options:(AMapOptions *)options
+                      options:(UnifiedAMapOptions *)options
                viewIdentifier:(int64_t)viewId;
 
 - (void) setup;
