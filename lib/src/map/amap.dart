@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:amap_base/amap_flutter.dart';
 import 'package:amap_base/src/map/model/amap_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -8,6 +9,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 const _viewType = 'me.yohom/AMapView';
+
+typedef void MapCreatedCallback(AMapController controller);
 
 class AMapView extends StatelessWidget {
   const AMapView({
@@ -18,7 +21,7 @@ class AMapView extends StatelessWidget {
     this.amapOptions = const AMapOptions(),
   }) : super(key: key);
 
-  final PlatformViewCreatedCallback onAMapViewCreated;
+  final MapCreatedCallback onAMapViewCreated;
   final PlatformViewHitTestBehavior hitTestBehavior;
   final TextDirection layoutDirection;
   final AMapOptions amapOptions;
@@ -36,7 +39,7 @@ class AMapView extends StatelessWidget {
         viewType: _viewType,
         hitTestBehavior: hitTestBehavior,
         gestureRecognizers: gestureRecognizers,
-        onPlatformViewCreated: onAMapViewCreated,
+        onPlatformViewCreated: _onViewCreated,
         layoutDirection: layoutDirection,
         creationParams: params,
         creationParamsCodec: messageCodec,
@@ -46,7 +49,7 @@ class AMapView extends StatelessWidget {
         viewType: _viewType,
         hitTestBehavior: hitTestBehavior,
         gestureRecognizers: gestureRecognizers,
-        onPlatformViewCreated: onAMapViewCreated,
+        onPlatformViewCreated: _onViewCreated,
         layoutDirection: layoutDirection,
         creationParams: params,
         creationParamsCodec: messageCodec,
@@ -55,6 +58,13 @@ class AMapView extends StatelessWidget {
       return Text(
         '$defaultTargetPlatform is not yet supported by the maps plugin',
       );
+    }
+  }
+
+  void _onViewCreated(int id) {
+    final controller = AMapController.withId(id);
+    if (onAMapViewCreated != null) {
+      onAMapViewCreated(controller);
     }
   }
 }

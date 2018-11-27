@@ -13,6 +13,7 @@ class AMapOptions {
     this.zoomGesturesEnabled = true,
     this.tiltGesturesEnabled = true,
     this.rotateGesturesEnabled = true,
+    this.myLocationEnabled = false,
   });
 
   /// Logo位置常量（地图左下角）。
@@ -70,12 +71,15 @@ class AMapOptions {
   /// 地图旋转手势是否可用
   final bool rotateGesturesEnabled;
 
+  /// 是否启动显示定位蓝点, 默认false
+  final bool myLocationEnabled;
+
   Map<String, Object> toJson() {
     return {
       'logoPosition': logoPosition,
       'zOrderOnTop': zOrderOnTop,
       'mapType': mapType,
-      'camera': camera?.toJson() ?? CameraPosition().toJson(),
+      'camera': camera?.toJson(),
       'scaleControlsEnabled': scaleControlsEnabled,
       'zoomControlsEnabled': zoomControlsEnabled,
       'compassEnabled': compassEnabled,
@@ -83,6 +87,7 @@ class AMapOptions {
       'zoomGesturesEnabled': zoomGesturesEnabled,
       'tiltGesturesEnabled': tiltGesturesEnabled,
       'rotateGesturesEnabled': rotateGesturesEnabled,
+      'myLocationEnabled': myLocationEnabled,
     };
   }
 }

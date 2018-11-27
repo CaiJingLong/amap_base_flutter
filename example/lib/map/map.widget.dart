@@ -6,19 +6,18 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Map')),
-      body: Column(
-        children: <Widget>[
-          Flexible(
-            child: AMapView(
-              amapOptions: AMapOptions(
-                logoPosition: AMapOptions.LOGO_POSITION_BOTTOM_RIGHT,
-                mapType: AMapOptions.MAP_TYPE_NIGHT,
-                camera: CameraPosition(target: LatLng(29.12, 119.64)),
-              ),
+      body: AMapView(
+        onAMapViewCreated: (controller) {
+          controller.setMyLocationEnabled(
+            true,
+            style: MyLocationStyle(
+              radiusFillColor: Colors.green,
+              strokeColor: Colors.amberAccent,
+              strokeWidth: 10,
             ),
-          ),
-          Flexible(child: Container()),
-        ],
+          );
+        },
+        amapOptions: AMapOptions(),
       ),
     );
   }

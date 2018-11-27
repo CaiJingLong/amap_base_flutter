@@ -1,4 +1,4 @@
-package me.yohom.amapbase.map
+package me.yohom.amapbase.map.model
 
 import com.amap.api.maps.AMap
 import com.amap.api.maps.AMapOptions
@@ -7,8 +7,9 @@ import com.amap.api.maps.model.CameraPosition
 /**
  * 由于高德的AMapOption被混淆了, 无法通过Gson直接反序列化, 这里用这个类过渡一下
  * [CameraPosition]和[LatLng]没有被混淆, 所以可以直接使用
+ * 另外这个类和ios端的做一个统一
  */
-class AMapOptionsLike(
+class UnifiedAMapOptions(
         /// “高德地图”Logo的位置
         private val logoPosition: Int = AMapOptions.LOGO_POSITION_BOTTOM_LEFT,
         private val zOrderOnTop: Boolean = false,

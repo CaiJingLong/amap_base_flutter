@@ -3,7 +3,7 @@ import 'package:amap_base_example/navi/navi.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
-  final result = await AMapNavi.setKey('9154ddba741dc1e383716405f1ba1c5c');
+  final result = await AMapNavi.setKey('27d67839721288be2ddd87b4fd868822');
   print('设置key的结果: $result');
   runApp(MaterialApp(home: MapsDemo()));
 }
