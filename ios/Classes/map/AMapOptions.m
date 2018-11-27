@@ -2,10 +2,10 @@
 // Created by Yohom Bao on 2018/11/26.
 //
 
-#import "AMapOptionsLike.h"
+#import "AMapOptions.h"
 
 
-@implementation AMapOptionsLike {
+@implementation AMapOptions {
 }
 
 - (NSString *)description {

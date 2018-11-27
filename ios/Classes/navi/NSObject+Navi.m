@@ -2,9 +2,9 @@
 // Created by Yohom Bao on 2018/11/25.
 //
 
-#import "AMapNavi.h"
+#import "NSObject+Navi.h"
 
-NSString *channel = @"me.yohom/amap_navi";
+NSString *naviChannelName = @"me.yohom/amap_navi";
 NSString *startNavi = @"startNavi";
 NSString *setKey = @"setKey";
 
@@ -12,7 +12,7 @@ NSString *setKey = @"setKey";
 
 - (void)setupNaviChannel {
     FlutterMethodChannel *naviChannel = [FlutterMethodChannel
-            methodChannelWithName:channel
+            methodChannelWithName:naviChannelName
                   binaryMessenger:[self messenger]];
 
     [naviChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {

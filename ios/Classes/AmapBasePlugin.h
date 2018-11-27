@@ -4,4 +4,7 @@
 #import <AMapFoundationKit/AMapFoundationKit.h>
 
 @interface AmapBasePlugin : NSObject <FlutterPlugin>
+
++ (NSObject <FlutterPluginRegistrar> *)registrar;
+
 @end
