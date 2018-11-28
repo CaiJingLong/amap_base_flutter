@@ -7,6 +7,7 @@
 #import "UnifiedAMapOptions.h"
 #import "AMapBasePlugin.h"
 #import "UnifiedMyLocationStyle.h"
+#import "UnifiedUiSettings.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 
@@ -92,11 +93,11 @@ static NSString *mapChannelName = @"me.yohom/map";
     if ([@"map#setMyLocationEnabled" isEqualToString:call.method]) {
         BOOL enabled = (BOOL) paramDic[@"enabled"];
         NSString *styleJson = (NSString *) paramDic[@"myLocationStyle"];
-
+        
         NSLog(@"方法setMyLocationEnabled ios端参数: enabled -> %d, styleJson -> %@", enabled, styleJson);
         JSONModelError *error;
         UnifiedMyLocationStyle *style = [[UnifiedMyLocationStyle alloc] initWithString:styleJson error:&error];
-
+        
         NSLog(@"JSONModelError: %@", error.description);
         NSLog(@"UnifiedMyLocationStyle: %@", style.description);
         _mapView.showsUserLocation = style.showMyLocation;
@@ -104,6 +105,14 @@ static NSString *mapChannelName = @"me.yohom/map";
             _mapView.userTrackingMode = MAUserTrackingModeFollow;
         }
         [_mapView updateUserLocationRepresentation:[style toMAUserLocationRepresentation]];
+    } else if ([@"map#setUiSettings" isEqualToString:call.method]) {
+        NSString *uiSettingsJson = (NSString *) paramDic[@"uiSettings"];
+        
+        NSLog(@"方法setUiSettings ios端参数: _uiSettings -> %@", uiSettingsJson);
+        JSONModelError *error;
+        [[[UnifiedUiSettings alloc] initWithString:uiSettingsJson error:&error] applyTo:_mapView];
+        
+        NSLog(@"JSONModelError: %@", error.description);
     } else {
         result(FlutterMethodNotImplemented);
     }
