@@ -1,6 +1,7 @@
 import 'package:amap_base_example/map/map.widget.dart';
 import 'package:amap_base_example/navi/navi.dart';
 import 'package:flutter/material.dart';
+import 'package:framework/framework.dart';
 
 void main() async {
   final result = await AMapNavi.setKey('27d67839721288be2ddd87b4fd868822');
@@ -15,8 +16,9 @@ class MapsDemo extends StatelessWidget {
       appBar: AppBar(title: const Text('AMaps examples')),
       body: ListView(
         children: <Widget>[
-          Column(
+          DecoratedColumn(
             crossAxisAlignment: CrossAxisAlignment.start,
+            padding: EdgeInsets.all(kSpaceLittleBig),
             children: <Widget>[
               Text('创建地图', style: Theme.of(context).textTheme.headline),
               FlatButton(

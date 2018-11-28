@@ -1,7 +1,7 @@
 name: amap_base
 description: 高德地图&导航.
 version: 0.0.1
-author: yohom(382146139@qq.com)
+author: yohom <382146139@qq.com>
 homepage: https://github.com/yohom/amap_base_flutter
 
 environment:
