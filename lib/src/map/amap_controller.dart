@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:amap_base/src/map/model/my_location_style.dart';
+import 'package:amap_base/src/map/model/ui_settings.dart';
 import 'package:amap_base/src/utils/log.dart';
 import 'package:flutter/services.dart';
 
@@ -22,6 +23,17 @@ class AMapController {
         'enabled': _enabled,
         'myLocationStyle': _styleJson,
       },
+    );
+  }
+
+  /// 缩放按钮
+  void setUiSettings(UiSettings uiSettings) {
+    final _uiSettings = jsonEncode(uiSettings.toJson());
+
+    L.p('方法setUiSettings dart端参数: _uiSettings -> $_uiSettings');
+    _mapChannel.invokeMethod(
+      'map#setUiSettings',
+      {'uiSettings': _uiSettings},
     );
   }
 }

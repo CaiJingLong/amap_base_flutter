@@ -2,12 +2,12 @@ import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/widgets/setting.widget.dart';
 import 'package:flutter/material.dart';
 
-class MapScreen extends StatefulWidget {
+class CreateMapScreen extends StatefulWidget {
   @override
-  _MapScreenState createState() => _MapScreenState();
+  _CreateMapScreenState createState() => _CreateMapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _CreateMapScreenState extends State<CreateMapScreen> {
   AMapController _controller;
   MyLocationStyle _myLocationStyle = MyLocationStyle();
 

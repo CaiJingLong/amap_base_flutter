@@ -103,17 +103,26 @@ class BooleanSetting extends StatefulWidget {
     Key key,
     @required this.head,
     @required this.onSelected,
+    this.selected = false,
   }) : super(key: key);
 
   final String head;
   final ValueChanged<bool> onSelected;
+  final bool selected;
 
   @override
   _BooleanSettingState createState() => _BooleanSettingState();
 }
 
 class _BooleanSettingState extends State<BooleanSetting> {
-  bool _selected = false;
+  bool _selected;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _selected = widget.selected;
+  }
 
   @override
   Widget build(BuildContext context) {

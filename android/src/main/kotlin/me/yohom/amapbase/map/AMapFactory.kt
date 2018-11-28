@@ -13,6 +13,7 @@ import io.flutter.plugin.platform.PlatformViewFactory
 import me.yohom.amapbase.AMapBasePlugin
 import me.yohom.amapbase.map.model.UnifiedAMapOptions
 import me.yohom.amapbase.map.model.UnifiedMyLocationStyle
+import me.yohom.amapbase.map.model.UnifiedUiSettings
 import me.yohom.amapbase.utils.Jsons
 import me.yohom.amapbase.utils.log
 
@@ -59,11 +60,21 @@ class AMapView(context: Context,
                 map.isMyLocationEnabled = enabled
 
             }
+            "map#setUiSettings" -> {
+                val uiSettingsJson = call.argument<String>("uiSettings") ?: "{}"
+
+                log("方法setUiSettings android端参数: _uiSettings -> $uiSettingsJson")
+
+                Jsons.fromJson<UnifiedUiSettings>(uiSettingsJson).applyTo(map)
+            }
             else -> result.notImplemented()
         }
     }
 
     override fun getView(): View = mapView
 
-    override fun dispose() {}
+    override fun dispose() {
+        mapView.onPause()
+        mapView.onDestroy()
+    }
 }
