@@ -80,6 +80,30 @@ class MyLocationStyle {
     };
   }
 
+  MyLocationStyle copyWith({
+    String myLocationIcon,
+    double anchorU,
+    double anchorV,
+    Color radiusFillColor,
+    Color strokeColor,
+    double strokeWidth,
+    int myLocationType,
+    int interval,
+    bool showMyLocation,
+  }) {
+    return MyLocationStyle(
+      myLocationIcon: myLocationIcon ?? this.myLocationIcon,
+      anchorU: anchorU ?? this.anchorU,
+      anchorV: anchorV ?? this.anchorV,
+      radiusFillColor: radiusFillColor ?? this.radiusFillColor,
+      strokeColor: strokeColor ?? this.strokeColor,
+      strokeWidth: strokeWidth ?? this.strokeWidth,
+      myLocationType: myLocationType ?? this.myLocationType,
+      interval: interval ?? this.interval,
+      showMyLocation: showMyLocation ?? this.showMyLocation,
+    );
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

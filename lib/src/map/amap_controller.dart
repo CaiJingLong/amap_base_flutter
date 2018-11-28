@@ -12,7 +12,8 @@ class AMapController {
 
   void setMyLocationEnabled(bool enabled, {MyLocationStyle style}) {
     final _enabled = enabled;
-    final _styleJson = jsonEncode(style?.toJson() ?? '{}');
+    final _styleJson =
+        jsonEncode(style?.toJson() ?? MyLocationStyle().toJson());
 
     L.p('方法setMyLocationEnabled dart端参数: enabled -> $enabled, styleJson -> $_styleJson');
     _mapChannel.invokeMethod(

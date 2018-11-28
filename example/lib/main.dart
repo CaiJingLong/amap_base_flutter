@@ -13,22 +13,22 @@ class MapsDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('AMaps examples')),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: ListView(
         children: <Widget>[
-          RaisedButton(
-            onPressed: () => AMapNavi.start(29.12, 119.64),
-            child: Text('导航'),
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => MapScreen()),
-              );
-            },
-            child: Text('地图'),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('创建地图', style: Theme.of(context).textTheme.headline),
+              FlatButton(
+                child: Text('显示地图', style: Theme.of(context).textTheme.subhead),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => MapScreen()),
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),

@@ -90,4 +90,41 @@ class AMapOptions {
       'myLocationEnabled': myLocationEnabled,
     };
   }
+
+  AMapOptions copyWith({
+    int logoPosition,
+    bool zOrderOnTop,
+    int mapType,
+    CameraPosition camera,
+    bool scaleControlsEnabled,
+    bool zoomControlsEnabled,
+    bool compassEnabled,
+    bool scrollGesturesEnabled,
+    bool zoomGesturesEnabled,
+    bool tiltGesturesEnabled,
+    bool rotateGesturesEnabled,
+    bool myLocationEnabled,
+  }) {
+    return AMapOptions(
+      logoPosition: logoPosition ?? this.logoPosition,
+      zOrderOnTop: zOrderOnTop ?? this.zOrderOnTop,
+      mapType: mapType ?? this.mapType,
+      camera: camera ?? this.camera,
+      scaleControlsEnabled: scaleControlsEnabled ?? this.scaleControlsEnabled,
+      zoomControlsEnabled: zoomControlsEnabled ?? this.zoomControlsEnabled,
+      compassEnabled: compassEnabled ?? this.compassEnabled,
+      scrollGesturesEnabled:
+          scrollGesturesEnabled ?? this.scrollGesturesEnabled,
+      zoomGesturesEnabled: zoomGesturesEnabled ?? this.zoomGesturesEnabled,
+      tiltGesturesEnabled: tiltGesturesEnabled ?? this.tiltGesturesEnabled,
+      rotateGesturesEnabled:
+          rotateGesturesEnabled ?? this.rotateGesturesEnabled,
+      myLocationEnabled: myLocationEnabled ?? this.myLocationEnabled,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'AMapOptions{logoPosition: $logoPosition, zOrderOnTop: $zOrderOnTop, mapType: $mapType, camera: $camera, scaleControlsEnabled: $scaleControlsEnabled, zoomControlsEnabled: $zoomControlsEnabled, compassEnabled: $compassEnabled, scrollGesturesEnabled: $scrollGesturesEnabled, zoomGesturesEnabled: $zoomGesturesEnabled, tiltGesturesEnabled: $tiltGesturesEnabled, rotateGesturesEnabled: $rotateGesturesEnabled, myLocationEnabled: $myLocationEnabled}';
+  }
 }

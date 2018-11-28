@@ -12,12 +12,21 @@ PODS:
   - AMapNavi (6.2.0):
     - AMap3DMap (~> 6.2)
     - AMapFoundation (~> 1.5)
+  - device_info (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - JSONModel (1.7.0)
+  - path_provider (0.0.1):
+    - Flutter
+  - shared_preferences (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - amap_base (from `.symlinks/plugins/amap_base/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -30,8 +39,14 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   amap_base:
     :path: ".symlinks/plugins/amap_base/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   Flutter:
     :path: ".symlinks/flutter/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
 
 SPEC CHECKSUMS:
   AMap3DMap: 7e1b2f2a1628a584f085d7f158d7c9835837e8c2
@@ -39,8 +54,11 @@ SPEC CHECKSUMS:
   AMapFoundation: 58f883c80754c659cf626deb3150936bfe8f1772
   AMapLocation: cf024b53dc03663efb4ea4bcce27d4cce58bb97a
   AMapNavi: bb43c7ac8f85197c562e89b39af22e7c85182d95
+  device_info: 76ce0b32e13034d1883be4a382433648f9dcee63
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
   JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
+  path_provider: 09407919825bfe3c2deae39453b7a5b44f467873
+  shared_preferences: 5a1d487c427ee18fcd3ea1f2a131569481834b53
 
 PODFILE CHECKSUM: 1e5af4103afd21ca5ead147d7b81d06f494f51a2
 
