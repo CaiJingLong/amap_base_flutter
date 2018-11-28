@@ -1,10 +1,16 @@
 # 高德地图&导航Flutter插件
 
+## 关于高德的Android SDK和iOS SDK
+- 由于Android和iOS端的实现完全不一样, Android端照抄了Google Map的api设计, 而iOS
+端又没有去抄Google Map的设计, 导致需要额外的工作去兼容两个平台的功能. 这个库的目标是
+尽可能的统一双端的api设置(其实主要还是iOS迁就Android😂).
+
 FAQ:
 1. 定位到非洲去了
-- 因为key设置错了.
+- 实际上是定位在了经纬度(0, 0)的位置了, 那个位置大致在非洲西部的几内亚湾, 原因是key
+设置错了, 建议检查一下key的设置.
 
-TODO:
+TODO LIST:
 * [ ] 创建地图
     * [x] 显示地图
     * [x] 显示定位蓝点
