@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="me.yohom.amapbaseexample">
 
     <!-- The INTERNET permission is required for development. Specifically,
@@ -15,10 +16,11 @@
     <application
             android:name="io.flutter.app.FlutterApplication"
             android:label="amap_base_example"
-            android:icon="@mipmap/ic_launcher">
+            android:icon="@mipmap/ic_launcher"
+            tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <meta-data
                 android:name="com.amap.api.v2.apikey"
-                android:value="d7d24c8e8f63973abcda6c80f63049fe"/>
+                android:value="cb5e27c594f97720cbed9cda82ed791a"/>
         <activity
                 android:name=".MainActivity"
                 android:launchMode="singleTop"

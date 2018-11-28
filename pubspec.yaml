@@ -1,8 +1,8 @@
 name: amap_base
-description: A new Flutter plugin.
+description: 高德地图&导航.
 version: 0.0.1
-author:
-homepage:
+author: yohom <382146139@qq.com>
+homepage: https://github.com/yohom/amap_base_flutter
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -18,7 +18,7 @@ dependencies:
 flutter:
   plugin:
     androidPackage: me.yohom.amapbase
-    pluginClass: AmapBasePlugin
+    pluginClass: AMapBasePlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

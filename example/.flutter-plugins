@@ -1,1 +1,4 @@
-amap_base=/Users/yohom/Github/Util/Flutter/flutter_plugin/amap_base/
+amap_base=/Users/yohom/Github/Util/Flutter/flutter_plugin/amap_base_flutter/
+device_info=/Users/yohom/Library/Flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/device_info-0.2.1/
+path_provider=/Users/yohom/Library/Flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_provider-0.4.1/
+shared_preferences=/Users/yohom/Library/Flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences-0.4.3/

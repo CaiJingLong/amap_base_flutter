@@ -2,14 +2,14 @@ group 'me.yohom.amapbase'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.2.30'
+    ext.kotlin_version = '1.2.71'
     repositories {
         google()
         jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -40,6 +40,9 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api 'com.amap.api:navi-3dmap:6.2.0_3dmap6.4.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    api 'com.amap.api:location:4.4.0'
+    compile "org.jetbrains.kotlin:kotlin-reflect:1.2.71"
 }

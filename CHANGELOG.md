@@ -1,3 +1,3 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* 实现了`显示地图`和`定位蓝点`功能
