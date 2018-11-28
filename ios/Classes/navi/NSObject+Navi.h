@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Flutter/Flutter.h>
-#import "AmapBasePlugin.h"
+#import "AMapBasePlugin.h"
 
 
 @interface NSObject (AMapNavi) <FlutterPluginRegistrar>

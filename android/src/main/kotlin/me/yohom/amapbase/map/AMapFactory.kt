@@ -10,7 +10,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
-import me.yohom.amapbase.AmapBasePlugin
+import me.yohom.amapbase.AMapBasePlugin
 import me.yohom.amapbase.map.model.UnifiedAMapOptions
 import me.yohom.amapbase.map.model.UnifiedMyLocationStyle
 import me.yohom.amapbase.utils.Jsons
@@ -39,7 +39,7 @@ class AMapView(context: Context,
 
     fun setup() {
         mapView.onCreate(null)
-        val mapChannel = MethodChannel(AmapBasePlugin.registrar.messenger(), "$mapChannelName$id")
+        val mapChannel = MethodChannel(AMapBasePlugin.registrar.messenger(), "$mapChannelName$id")
         mapChannel.setMethodCallHandler { call, result ->
             handleMethodCall(call, result)
         }

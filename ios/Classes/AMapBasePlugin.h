@@ -3,7 +3,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 
-@interface AmapBasePlugin : NSObject <FlutterPlugin>
+@interface AMapBasePlugin : NSObject <FlutterPlugin>
 
 + (NSObject <FlutterPluginRegistrar> *)registrar;
 

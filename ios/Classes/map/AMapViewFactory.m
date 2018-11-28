@@ -5,7 +5,7 @@
 #import "AMapViewFactory.h"
 #import "MAMapView.h"
 #import "UnifiedAMapOptions.h"
-#import "AmapBasePlugin.h"
+#import "AMapBasePlugin.h"
 #import "UnifiedMyLocationStyle.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
@@ -78,7 +78,7 @@ static NSString *mapChannelName = @"me.yohom/map";
     //endregion
 
     _channel = [FlutterMethodChannel methodChannelWithName:[NSString stringWithFormat:@"%@%lld", mapChannelName, _viewId]
-                                           binaryMessenger:[AmapBasePlugin registrar].messenger];
+                                           binaryMessenger:[AMapBasePlugin registrar].messenger];
     __weak __typeof__(self) weakSelf = self;
     [_channel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
         if (weakSelf) {
