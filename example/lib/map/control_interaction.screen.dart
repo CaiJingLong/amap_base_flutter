@@ -15,7 +15,7 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('ControlInteraction')),
+      appBar: AppBar(title: Text('控件交互')),
       body: Column(
         children: <Widget>[
           Flexible(

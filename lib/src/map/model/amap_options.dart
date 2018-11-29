@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amap_base/src/map/model/camera_position.dart';
 
 /// 缩放按钮右边界中部
@@ -104,6 +106,8 @@ class AMapOptions {
       'myLocationEnabled': myLocationEnabled,
     };
   }
+
+  String toJsonString() => jsonEncode(toJson());
 
   AMapOptions copyWith({
     int logoPosition,

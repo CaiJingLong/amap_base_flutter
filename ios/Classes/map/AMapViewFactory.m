@@ -99,12 +99,25 @@ static NSString *mapChannelName = @"me.yohom/map";
         
         NSLog(@"JSONModelError: %@", error.description);
     } else if ([@"map#setUiSettings" isEqualToString:call.method]) {
-        NSString *uiSettingsJson = (NSString *) paramDic[@"uiSettings"];
-        
+        NSString *from = (NSString *) paramDic[@"from"];
+        NSString *to = (NSString *) paramDic[@"to"];
+        NSString *mode = (NSString *) paramDic[@"mode"];
+        NSString *passedByPoints = (NSString *) paramDic[@"passedByPoints"];
+        NSString *avoidPolygons = (NSString *) paramDic[@"avoidPolygons"];
+        NSString *avoidRoad = (NSString *) paramDic[@"avoidRoad"];
+
         NSLog(@"方法setUiSettings ios端参数: _uiSettings -> %@", uiSettingsJson);
         JSONModelError *error;
         [[[UnifiedUiSettings alloc] initWithString:uiSettingsJson error:&error] applyTo:_mapView];
         
+        NSLog(@"JSONModelError: %@", error.description);
+    }  else if ([@"map#calculateDriveRoute" isEqualToString:call.method]) {
+        NSString *uiSettingsJson = (NSString *) paramDic[@"uiSettings"];
+
+        NSLog(@"方法setUiSettings ios端参数: _uiSettings -> %@", uiSettingsJson);
+        JSONModelError *error;
+        [[[UnifiedUiSettings alloc] initWithString:uiSettingsJson error:&error] applyTo:_mapView];
+
         NSLog(@"JSONModelError: %@", error.description);
     } else {
         result(FlutterMethodNotImplemented);

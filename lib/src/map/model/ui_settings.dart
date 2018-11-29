@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class UiSettings {
   /// 是否允许显示缩放按钮 [Android]
   final bool isZoomControlsEnabled;
@@ -36,6 +38,8 @@ class UiSettings {
       'logoPosition': logoPosition
     };
   }
+
+  String toJsonString() => jsonEncode(toJson());
 
   UiSettings copyWith({
     bool isZoomControlsEnabled,

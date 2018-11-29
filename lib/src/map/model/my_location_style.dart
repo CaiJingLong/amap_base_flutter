@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -109,6 +110,8 @@ class MyLocationStyle {
       'image': image,
     };
   }
+
+  String toJsonString() => jsonEncode(toJson());
 
   MyLocationStyle copyWith({
     String myLocationIcon,

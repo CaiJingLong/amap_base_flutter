@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class LatLng {
   final double latitude;
   final double longitude;
@@ -10,6 +12,8 @@ class LatLng {
       'longitude': longitude,
     };
   }
+
+  String toJsonString() => jsonEncode(toJson());
 
   @override
   bool operator ==(Object other) =>
