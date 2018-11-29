@@ -13,6 +13,7 @@ import io.flutter.plugin.platform.PlatformViewFactory
 import me.yohom.amapbase.AMapBasePlugin
 import me.yohom.amapbase.map.model.UnifiedAMapOptions
 import me.yohom.amapbase.map.model.UnifiedMyLocationStyle
+import me.yohom.amapbase.map.model.UnifiedUiSettings
 import me.yohom.amapbase.utils.Jsons
 import me.yohom.amapbase.utils.log
 
@@ -48,16 +49,19 @@ class AMapView(context: Context,
     private fun handleMethodCall(call: MethodCall, result: MethodChannel.Result) {
         val map = mapView.map
         when (call.method) {
-            "map#setMyLocationEnabled" -> {
-                val enabled = call.argument<Boolean>("enabled") ?: false
+            "map#setMyLocationStyle" -> {
                 val styleJson = call.argument<String>("myLocationStyle") ?: "{}"
 
-                log("方法setMyLocationEnabled android端参数: enabled -> $enabled, styleJson -> $styleJson")
+                log("方法setMyLocationEnabled android端参数: styleJson -> $styleJson")
 
-                val style = Jsons.fromJson<UnifiedMyLocationStyle>(styleJson).toMyLocationStyle()
-                map.myLocationStyle = style
-                map.isMyLocationEnabled = enabled
+                Jsons.fromJson<UnifiedMyLocationStyle>(styleJson).applyTo(map)
+            }
+            "map#setUiSettings" -> {
+                val uiSettingsJson = call.argument<String>("uiSettings") ?: "{}"
 
+                log("方法setUiSettings android端参数: _uiSettings -> $uiSettingsJson")
+
+                Jsons.fromJson<UnifiedUiSettings>(uiSettingsJson).applyTo(map)
             }
             else -> result.notImplemented()
         }
@@ -65,5 +69,8 @@ class AMapView(context: Context,
 
     override fun getView(): View = mapView
 
-    override fun dispose() {}
+    override fun dispose() {
+        mapView.onPause()
+        mapView.onDestroy()
+    }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:framework/framework.dart';
+
+const SPACE_NORMAL = const SizedBox(width: 8, height: 8);
+const kDividerTiny = const Divider(height: 1);
 
 /// 连续设置
 class ContinuousSetting extends StatefulWidget {
@@ -31,30 +33,32 @@ class _ContinuousSettingState extends State<ContinuousSetting> {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedColumn(
+    return Padding(
       padding: const EdgeInsets.only(
         left: 16,
         top: 16,
         right: 16,
       ),
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(widget.head, style: Theme.of(context).textTheme.subhead),
-        SPACE_NORMAL,
-        Slider(
-          value: _value,
-          min: widget.min,
-          max: widget.max,
-          onChanged: (_) {},
-          onChangeEnd: (value) {
-            setState(() {
-              _value = value;
-              widget.onChanged(value);
-            });
-          },
-        ),
-        kDividerTiny,
-      ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(widget.head, style: Theme.of(context).textTheme.subhead),
+          SPACE_NORMAL,
+          Slider(
+            value: _value,
+            min: widget.min,
+            max: widget.max,
+            onChanged: (_) {},
+            onChangeEnd: (value) {
+              setState(() {
+                _value = value;
+                widget.onChanged(value);
+              });
+            },
+          ),
+          kDividerTiny,
+        ],
+      ),
     );
   }
 }
@@ -79,7 +83,7 @@ class DiscreteSetting extends StatelessWidget {
         PopupMenuButton<String>(
           onSelected: onSelected,
           child: Padding(
-            padding: const EdgeInsets.all(kSpaceBig),
+            padding: const EdgeInsets.all(16),
             child: Text(head, style: Theme.of(context).textTheme.subhead),
           ),
           itemBuilder: (context) {
@@ -97,23 +101,68 @@ class DiscreteSetting extends StatelessWidget {
   }
 }
 
-/// 二元设置
-class BooleanSetting extends StatefulWidget {
-  const BooleanSetting({
+/// 颜色设置
+class ColorSetting extends StatelessWidget {
+  const ColorSetting({
     Key key,
     @required this.head,
     @required this.onSelected,
   }) : super(key: key);
 
   final String head;
+  final ValueChanged<Color> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return DiscreteSetting(
+      head: head,
+      options: ['绿色', '红色', '黄色'],
+      onSelected: (value) {
+        Color color;
+        switch (value) {
+          case '绿色':
+            color = Colors.green;
+            break;
+          case '红色':
+            color = Colors.red;
+            break;
+          case '黄色':
+            color = Colors.yellow;
+            break;
+        }
+
+        onSelected(color);
+      },
+    );
+  }
+}
+
+/// 二元设置
+class BooleanSetting extends StatefulWidget {
+  const BooleanSetting({
+    Key key,
+    @required this.head,
+    @required this.onSelected,
+    this.selected = false,
+  }) : super(key: key);
+
+  final String head;
   final ValueChanged<bool> onSelected;
+  final bool selected;
 
   @override
   _BooleanSettingState createState() => _BooleanSettingState();
 }
 
 class _BooleanSettingState extends State<BooleanSetting> {
-  bool _selected = false;
+  bool _selected;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _selected = widget.selected;
+  }
 
   @override
   Widget build(BuildContext context) {
