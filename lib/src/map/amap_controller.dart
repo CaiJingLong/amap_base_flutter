@@ -11,22 +11,17 @@ class AMapController {
   AMapController.withId(int id)
       : _mapChannel = MethodChannel('me.yohom/map$id');
 
-  void setMyLocationEnabled(bool enabled, {MyLocationStyle style}) {
-    final _enabled = enabled;
+  void setMyLocationStyle(MyLocationStyle style) {
     final _styleJson =
         jsonEncode(style?.toJson() ?? MyLocationStyle().toJson());
 
-    L.p('方法setMyLocationEnabled dart端参数: enabled -> $enabled, styleJson -> $_styleJson');
+    L.p('方法setMyLocationStyle dart端参数: styleJson -> $_styleJson');
     _mapChannel.invokeMethod(
-      'map#setMyLocationEnabled',
-      {
-        'enabled': _enabled,
-        'myLocationStyle': _styleJson,
-      },
+      'map#setMyLocationStyle',
+      {'myLocationStyle': _styleJson},
     );
   }
 
-  /// 缩放按钮
   void setUiSettings(UiSettings uiSettings) {
     final _uiSettings = jsonEncode(uiSettings.toJson());
 

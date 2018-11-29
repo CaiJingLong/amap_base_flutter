@@ -3,6 +3,7 @@
 //
 
 #import <AMap3DMap/MAMapKit/MAUserLocationRepresentation.h>
+#import <AMap3DMap/MAMapKit/MAMapView.h>
 #import "UnifiedMyLocationStyle.h"
 
 
@@ -11,42 +12,38 @@
 }
 
 - (NSString *)description {
-    NSMutableString *description = [NSMutableString string];
-    [description appendFormat:@"self.myLocationIcon=%@", self.myLocationIcon];
-    [description appendFormat:@", self.anchorU=%f", self.anchorU];
-    [description appendFormat:@", self.anchorV=%f", self.anchorV];
-    [description appendFormat:@", self.radiusFillColor=%@", self.radiusFillColor];
-    [description appendFormat:@", self.strokeColor=%@", self.strokeColor];
+    NSMutableString *description = [NSMutableString stringWithFormat:@"<%@: ", NSStringFromClass([self class])];
+    [description appendFormat:@"self.radiusFillColor=%p", self.radiusFillColor];
+    [description appendFormat:@", self.strokeColor=%p", self.strokeColor];
     [description appendFormat:@", self.strokeWidth=%f", self.strokeWidth];
-    [description appendFormat:@", self.myLocationType=%i", self.myLocationType];
-    [description appendFormat:@", self.interval=%i", self.interval];
-    [description appendFormat:@", self.showMyLocation=%d", self.showMyLocation];
-
-    NSMutableString *superDescription = [[super description] mutableCopy];
-    NSUInteger length = [superDescription length];
-
-    if (length > 0 && [superDescription characterAtIndex:length - 1] == '>') {
-        [superDescription insertString:@", " atIndex:length - 1];
-        [superDescription insertString:description atIndex:length + 1];
-        return superDescription;
-    } else {
-        return [NSString stringWithFormat:@"<%@: %@>", NSStringFromClass([self class]), description];
-    }
+    [description appendFormat:@", self.showsAccuracyRing=%d", self.showsAccuracyRing];
+    [description appendFormat:@", self.showsHeadingIndicator=%d", self.showsHeadingIndicator];
+    [description appendFormat:@", self.locationDotBgColor=%p", self.locationDotBgColor];
+    [description appendFormat:@", self.locationDotFillColor=%p", self.locationDotFillColor];
+    [description appendFormat:@", self.enablePulseAnnimation=%d", self.enablePulseAnnimation];
+    [description appendFormat:@", self.image=%p", self.image];
+    [description appendString:@">"];
+    return description;
 }
 
-- (MAUserLocationRepresentation *)toMAUserLocationRepresentation {
+- (void)applyTo: (MAMapView *) mapView {
     MAUserLocationRepresentation *r = [[MAUserLocationRepresentation alloc] init];
 
-    r.showsAccuracyRing = YES;
-    r.showsHeadingIndicator = YES;
+    r.showsAccuracyRing = self.showsAccuracyRing;
+    r.showsHeadingIndicator = self.showsHeadingIndicator;
     r.fillColor = [self hexStringToColor:self.radiusFillColor];
     r.strokeColor = [self hexStringToColor:self.strokeColor];
     r.lineWidth = self.strokeWidth;
-    r.enablePulseAnnimation = YES;
-    r.locationDotBgColor = UIColor.whiteColor;
-    r.locationDotFillColor = [UIColor grayColor]; ///定位点蓝色圆点颜色，不设置默认蓝色
-//    r.image = [UIImage imageNamed:@"你的图片"]; ///定位图标, 与蓝色原点互斥
-    return r;
+    r.enablePulseAnnimation = self.enablePulseAnnimation;
+    r.locationDotBgColor = [self hexStringToColor:self.locationDotBgColor];
+    r.locationDotFillColor = [self hexStringToColor:self.locationDotFillColor];
+    r.image = nil;
+
+    mapView.showsUserLocation = self.showMyLocation;
+    if (mapView.showsUserLocation) {
+        mapView.userTrackingMode = MAUserTrackingModeFollow;
+    }
+    [mapView updateUserLocationRepresentation:r];
 }
 
 - (UIColor *)hexStringToColor:(NSString *)source {

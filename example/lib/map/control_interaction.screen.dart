@@ -31,7 +31,10 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
               children: <Widget>[
                 BooleanSetting(
                   head: '显示自己的位置',
-                  onSelected: _controller?.setMyLocationEnabled,
+                  onSelected: (value) {
+                    _controller?.setMyLocationStyle(
+                        MyLocationStyle(showMyLocation: value));
+                  },
                 ),
                 BooleanSetting(
                   head: '缩放按钮',

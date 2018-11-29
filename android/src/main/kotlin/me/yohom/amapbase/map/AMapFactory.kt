@@ -49,16 +49,12 @@ class AMapView(context: Context,
     private fun handleMethodCall(call: MethodCall, result: MethodChannel.Result) {
         val map = mapView.map
         when (call.method) {
-            "map#setMyLocationEnabled" -> {
-                val enabled = call.argument<Boolean>("enabled") ?: false
+            "map#setMyLocationStyle" -> {
                 val styleJson = call.argument<String>("myLocationStyle") ?: "{}"
 
-                log("方法setMyLocationEnabled android端参数: enabled -> $enabled, styleJson -> $styleJson")
+                log("方法setMyLocationEnabled android端参数: styleJson -> $styleJson")
 
-                val style = Jsons.fromJson<UnifiedMyLocationStyle>(styleJson).toMyLocationStyle()
-                map.myLocationStyle = style
-                map.isMyLocationEnabled = enabled
-
+                Jsons.fromJson<UnifiedMyLocationStyle>(styleJson).applyTo(map)
             }
             "map#setUiSettings" -> {
                 val uiSettingsJson = call.argument<String>("uiSettings") ?: "{}"

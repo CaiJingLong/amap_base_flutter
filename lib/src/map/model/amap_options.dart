@@ -48,38 +48,38 @@ class AMapOptions {
     this.myLocationEnabled = false,
   });
 
-  /// “高德地图”Logo的位置 Android
+  /// “高德地图”Logo的位置 [Android]
   final int logoPosition;
   final bool zOrderOnTop;
 
-  /// 地图模式 Android, iOS
+  /// 地图模式 [Android, iOS]
   final int mapType;
 
-  /// 地图初始化时的地图状态， 默认地图中心点为北京天安门，缩放级别为 10.0f。 Android全部有效, iOS部分有效
+  /// 地图初始化时的地图状态， 默认地图中心点为北京天安门，缩放级别为 10.0f。 [Android全部有效, iOS部分有效]
   final CameraPosition camera;
 
-  /// 比例尺功能是否可用 Android, iOS
+  /// 比例尺功能是否可用 [Android, iOS]
   final bool scaleControlsEnabled;
 
-  /// 地图是否允许缩放 Android
+  /// 地图是否允许缩放 [Android]
   final bool zoomControlsEnabled;
 
-  /// 指南针是否可用。 Android, iOS
+  /// 指南针是否可用。 [Android, iOS]
   final bool compassEnabled;
 
-  /// 拖动手势是否可用 Android, iOS
+  /// 拖动手势是否可用 [Android, iOS]
   final bool scrollGesturesEnabled;
 
-  /// 缩放手势是否可用 Android, iOS
+  /// 缩放手势是否可用 [Android, iOS]
   final bool zoomGesturesEnabled;
 
-  /// 地图倾斜手势（显示3D效果）是否可用 Android
+  /// 地图倾斜手势（显示3D效果）是否可用 [Android]
   final bool tiltGesturesEnabled;
 
-  /// 地图旋转手势是否可用 Android, iOS
+  /// 地图旋转手势是否可用 [Android, iOS]
   final bool rotateGesturesEnabled;
 
-  /// 是否启动显示定位蓝点, 默认false Android
+  /// 是否启动显示定位蓝点, 默认false [Android]
   final bool myLocationEnabled;
 
   Map<String, Object> toJson() {

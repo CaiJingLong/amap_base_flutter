@@ -14,7 +14,7 @@ class _CreateMapScreenState extends State<CreateMapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Map')),
+      appBar: AppBar(title: Text('显示地图')),
       body: Column(
         children: <Widget>[
           Flexible(
@@ -29,68 +29,44 @@ class _CreateMapScreenState extends State<CreateMapScreen> {
             child: ListView(
               children: <Widget>[
                 BooleanSetting(
-                  head: '显示自己的位置',
-                  onSelected: _controller?.setMyLocationEnabled,
+                  head: '显示自己的位置 [Android, iOS]',
+                  onSelected: (value) {
+                    _updateMyLocationStyle(showMyLocation: value);
+                  },
                 ),
                 ContinuousSetting(
-                  head: '横坐标偏移量',
+                  head: '横坐标偏移量 [Android]',
                   onChanged: (value) {
                     _updateMyLocationStyle(anchorU: value);
                   },
                 ),
                 ContinuousSetting(
-                  head: '纵坐标偏移量',
+                  head: '纵坐标偏移量 [Android]',
                   onChanged: (value) {
                     _updateMyLocationStyle(anchorV: value);
                   },
                 ),
-                DiscreteSetting(
-                  head: '圆形区域（以定位位置为圆心，定位半径的圆形区域）的填充颜色值',
-                  options: ['绿色', '红色', '黄色'],
-                  onSelected: (value) {
-                    Color color;
-                    switch (value) {
-                      case '绿色':
-                        color = Colors.green;
-                        break;
-                      case '红色':
-                        color = Colors.red;
-                        break;
-                      case '黄色':
-                        color = Colors.yellow;
-                        break;
-                    }
+                ColorSetting(
+                  head: '圆形区域（以定位位置为圆心，定位半径的圆形区域）的填充颜色值 [Android, iOS]',
+                  onSelected: (color) {
                     _updateMyLocationStyle(radiusFillColor: color);
                   },
                 ),
-                DiscreteSetting(
-                  head: '圆形区域（以定位位置为圆心，定位半径的圆形区域）边框的颜色值',
-                  options: ['绿色', '红色', '黄色'],
-                  onSelected: (value) {
-                    Color color;
-                    switch (value) {
-                      case '绿色':
-                        color = Colors.green;
-                        break;
-                      case '红色':
-                        color = Colors.red;
-                        break;
-                      case '黄色':
-                        color = Colors.yellow;
-                        break;
-                    }
+                ColorSetting(
+                  head: '圆形区域（以定位位置为圆心，定位半径的圆形区域）边框的颜色值 [Android, iOS]',
+                  onSelected: (color) {
                     _updateMyLocationStyle(strokeColor: color);
                   },
                 ),
                 ContinuousSetting(
-                  head: '圆形区域（以定位位置为圆心，定位半径的圆形区域）边框的宽度',
+                  head: '圆形区域（以定位位置为圆心，定位半径的圆形区域）边框的宽度 [Android, iOS]',
                   max: 50,
                   onChanged: (value) {
                     _updateMyLocationStyle(strokeWidth: value);
                   },
                 ),
                 DiscreteSetting(
-                  head: '我的位置展示模式',
+                  head: '我的位置展示模式 [Android]',
                   options: [
                     '定位、且将视角移动到地图中心点，定位点跟随设备移动',
                     '定位、但不会移动到地图中心点，并且会跟随设备移动',
@@ -105,32 +81,28 @@ class _CreateMapScreenState extends State<CreateMapScreen> {
                     int locationType;
                     switch (value) {
                       case '定位、且将视角移动到地图中心点，定位点跟随设备移动':
-                        locationType = MyLocationStyle.LOCATION_TYPE_FOLLOW;
+                        locationType = LOCATION_TYPE_FOLLOW;
                         break;
                       case '定位、但不会移动到地图中心点，并且会跟随设备移动':
-                        locationType =
-                            MyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER;
+                        locationType = LOCATION_TYPE_FOLLOW_NO_CENTER;
                         break;
                       case '定位、且将视角移动到地图中心点':
-                        locationType = MyLocationStyle.LOCATION_TYPE_LOCATE;
+                        locationType = LOCATION_TYPE_LOCATE;
                         break;
                       case '定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动':
-                        locationType =
-                            MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE;
+                        locationType = LOCATION_TYPE_LOCATION_ROTATE;
                         break;
                       case '定位、但不会移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动':
-                        locationType = MyLocationStyle
-                            .LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER;
+                        locationType = LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER;
                         break;
                       case '定位、且将视角移动到地图中心点，地图依照设备方向旋转，定位点会跟随设备移动':
-                        locationType = MyLocationStyle.LOCATION_TYPE_MAP_ROTATE;
+                        locationType = LOCATION_TYPE_MAP_ROTATE;
                         break;
                       case '定位、但不会移动到地图中心点，地图依照设备方向旋转，并且会跟随设备移动':
-                        locationType =
-                            MyLocationStyle.LOCATION_TYPE_MAP_ROTATE_NO_CENTER;
+                        locationType = LOCATION_TYPE_MAP_ROTATE_NO_CENTER;
                         break;
                       case '只定位':
-                        locationType = MyLocationStyle.LOCATION_TYPE_SHOW;
+                        locationType = LOCATION_TYPE_SHOW;
                         break;
                     }
                     _updateMyLocationStyle(myLocationType: locationType);
@@ -139,7 +111,7 @@ class _CreateMapScreenState extends State<CreateMapScreen> {
                 Builder(
                   builder: (context) {
                     return ContinuousSetting(
-                      head: '定位请求时间间隔, 单位毫秒',
+                      head: '定位请求时间间隔, 单位毫秒 [Android]',
                       max: 5,
                       onChanged: (value) {
                         _updateMyLocationStyle(interval: value.round() * 1000);
@@ -151,7 +123,39 @@ class _CreateMapScreenState extends State<CreateMapScreen> {
                       },
                     );
                   },
-                )
+                ),
+                BooleanSetting(
+                  head: '精度圈是否显示 [iOS]',
+                  selected: true,
+                  onSelected: (value) {
+                    _updateMyLocationStyle(showsAccuracyRing: value);
+                  },
+                ),
+                BooleanSetting(
+                  head: '是否显示方向指示 [iOS]',
+                  onSelected: (value) {
+                    _updateMyLocationStyle(showsHeadingIndicator: value);
+                  },
+                ),
+                ColorSetting(
+                  head: '定位点背景色，不设置默认白色 [iOS]',
+                  onSelected: (value) {
+                    _updateMyLocationStyle(locationDotBgColor: value);
+                  },
+                ),
+                ColorSetting(
+                  head: '定位点蓝色圆点颜色，不设置默认蓝色 [iOS]',
+                  onSelected: (value) {
+                    _updateMyLocationStyle(locationDotFillColor: value);
+                  },
+                ),
+                BooleanSetting(
+                  head: '定位图标, 与蓝色原点互斥 [iOS]',
+                  selected: true,
+                  onSelected: (value) {
+                    _updateMyLocationStyle(enablePulseAnnimation: value);
+                  },
+                ),
               ],
             ),
           ),
@@ -170,6 +174,12 @@ class _CreateMapScreenState extends State<CreateMapScreen> {
     int myLocationType,
     int interval,
     bool showMyLocation,
+    bool showsAccuracyRing,
+    bool showsHeadingIndicator,
+    Color locationDotBgColor,
+    Color locationDotFillColor,
+    bool enablePulseAnnimation,
+    String image,
   }) {
     _myLocationStyle = _myLocationStyle.copyWith(
       myLocationIcon: myLocationIcon,
@@ -181,10 +191,13 @@ class _CreateMapScreenState extends State<CreateMapScreen> {
       myLocationType: myLocationType,
       interval: interval,
       showMyLocation: showMyLocation,
+      showsAccuracyRing: showsAccuracyRing,
+      showsHeadingIndicator: showsHeadingIndicator,
+      locationDotBgColor: locationDotBgColor,
+      locationDotFillColor: locationDotFillColor,
+      enablePulseAnnimation: enablePulseAnnimation,
+      image: image,
     );
-    _controller.setMyLocationEnabled(
-      true,
-      style: _myLocationStyle,
-    );
+    _controller.setMyLocationStyle(_myLocationStyle);
   }
 }

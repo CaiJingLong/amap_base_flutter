@@ -90,21 +90,14 @@ static NSString *mapChannelName = @"me.yohom/map";
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *paramDic = call.arguments;
-    if ([@"map#setMyLocationEnabled" isEqualToString:call.method]) {
-        BOOL enabled = (BOOL) paramDic[@"enabled"];
+    if ([@"map#setMyLocationStyle" isEqualToString:call.method]) {
         NSString *styleJson = (NSString *) paramDic[@"myLocationStyle"];
         
-        NSLog(@"方法setMyLocationEnabled ios端参数: enabled -> %d, styleJson -> %@", enabled, styleJson);
+        NSLog(@"方法setMyLocationStyle ios端参数: styleJson -> %@", styleJson);
         JSONModelError *error;
-        UnifiedMyLocationStyle *style = [[UnifiedMyLocationStyle alloc] initWithString:styleJson error:&error];
+        [[[UnifiedMyLocationStyle alloc] initWithString:styleJson error:&error] applyTo:_mapView];
         
         NSLog(@"JSONModelError: %@", error.description);
-        NSLog(@"UnifiedMyLocationStyle: %@", style.description);
-        _mapView.showsUserLocation = style.showMyLocation;
-        if (_mapView.showsUserLocation) {
-            _mapView.userTrackingMode = MAUserTrackingModeFollow;
-        }
-        [_mapView updateUserLocationRepresentation:[style toMAUserLocationRepresentation]];
     } else if ([@"map#setUiSettings" isEqualToString:call.method]) {
         NSString *uiSettingsJson = (NSString *) paramDic[@"uiSettings"];
         

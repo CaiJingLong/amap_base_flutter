@@ -1,6 +1,7 @@
 package me.yohom.amapbase.map.model
 
 import android.graphics.Color
+import com.amap.api.maps.AMap
 import com.amap.api.maps.model.MyLocationStyle
 
 class UnifiedMyLocationStyle(
@@ -24,8 +25,9 @@ class UnifiedMyLocationStyle(
         /// 是否显示定位小蓝点
         private val showMyLocation: Boolean
 ) {
-    fun toMyLocationStyle(): MyLocationStyle {
-        return MyLocationStyle()
+    fun applyTo(map: AMap) {
+        map.isMyLocationEnabled = showMyLocation
+        map.myLocationStyle = MyLocationStyle()
                 .myLocationIcon(null)
                 .anchor(anchorU, anchorV)
                 .radiusFillColor(hexStringToColorInt(radiusFillColor) ?: Color.argb(100, 0, 0, 180))
