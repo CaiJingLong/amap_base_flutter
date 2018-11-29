@@ -72,13 +72,13 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
                     int position;
                     switch (value) {
                       case '左下':
-                        position = AMapOptions.LOGO_POSITION_BOTTOM_LEFT;
+                        position = LOGO_POSITION_BOTTOM_LEFT;
                         break;
                       case '中下':
-                        position = AMapOptions.LOGO_POSITION_BOTTOM_CENTER;
+                        position = LOGO_POSITION_BOTTOM_CENTER;
                         break;
                       case '右下':
-                        position = AMapOptions.LOGO_POSITION_BOTTOM_RIGHT;
+                        position = LOGO_POSITION_BOTTOM_RIGHT;
                         break;
                     }
                     _controller?.setUiSettings(

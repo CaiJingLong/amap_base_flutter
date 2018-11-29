@@ -1,5 +1,37 @@
 import 'package:amap_base/src/map/model/camera_position.dart';
 
+/// Logo位置常量（地图左下角）。
+const LOGO_POSITION_BOTTOM_LEFT = 0;
+
+/// Logo位置常量（地图底部居中）。
+const LOGO_POSITION_BOTTOM_CENTER = 1;
+
+/// Logo位置常量（地图右下角）。
+const LOGO_POSITION_BOTTOM_RIGHT = 2;
+
+/// 普通地图
+const MAP_TYPE_NORMAL = 1;
+
+/// 卫星地图
+const MAP_TYPE_SATELLITE = 2;
+
+/// 黑夜地图
+const MAP_TYPE_NIGHT = 3;
+
+/// 导航模式
+const MAP_TYPE_NAVI = 4;
+
+/// 公交模式
+const MAP_TYPE_BUS = 5;
+
+/// 关于[AMapOptions]:
+///   1. 在Android端主要起到一个初始配置MapView的作用, 它里面的所有的设置都能通过[setUiSettings]
+///     进行二次设置
+///   2. iOS端则不同, iOS端的做法是所有的配置都在[MAMapView]这一个类里, 所以理论上初始化的时候就能
+///     够对[MAMapView]做所有的配置
+/// 结论:
+///   这个类只按照Android端的实现去做两端的初始化配置, 如果iOS端想要其他的配置, 可以通过[AMapController.setUiSettings]
+///   去二次设置.
 class AMapOptions {
   const AMapOptions({
     this.logoPosition = LOGO_POSITION_BOTTOM_LEFT,
@@ -16,62 +48,38 @@ class AMapOptions {
     this.myLocationEnabled = false,
   });
 
-  /// Logo位置常量（地图左下角）。
-  static const int LOGO_POSITION_BOTTOM_LEFT = 0;
-
-  /// Logo位置常量（地图底部居中）。
-  static const int LOGO_POSITION_BOTTOM_CENTER = 1;
-
-  /// Logo位置常量（地图右下角）。
-  static const int LOGO_POSITION_BOTTOM_RIGHT = 2;
-
-  /// 普通地图
-  static const int MAP_TYPE_NORMAL = 1;
-
-  /// 卫星地图
-  static const int MAP_TYPE_SATELLITE = 2;
-
-  /// 黑夜地图
-  static const int MAP_TYPE_NIGHT = 3;
-
-  /// 导航模式
-  static const int MAP_TYPE_NAVI = 4;
-
-  /// 公交模式
-  static const int MAP_TYPE_BUS = 5;
-
-  /// “高德地图”Logo的位置
+  /// “高德地图”Logo的位置 Android
   final int logoPosition;
   final bool zOrderOnTop;
 
-  /// 地图模式
+  /// 地图模式 Android, iOS
   final int mapType;
 
-  /// 地图初始化时的地图状态， 默认地图中心点为北京天安门，缩放级别为 10.0f。
+  /// 地图初始化时的地图状态， 默认地图中心点为北京天安门，缩放级别为 10.0f。 Android全部有效, iOS部分有效
   final CameraPosition camera;
 
-  /// 比例尺功能是否可用
+  /// 比例尺功能是否可用 Android, iOS
   final bool scaleControlsEnabled;
 
-  /// 地图是否允许缩放
+  /// 地图是否允许缩放 Android
   final bool zoomControlsEnabled;
 
-  /// 指南针是否可用。
+  /// 指南针是否可用。 Android, iOS
   final bool compassEnabled;
 
-  /// 拖动手势是否可用
+  /// 拖动手势是否可用 Android, iOS
   final bool scrollGesturesEnabled;
 
-  /// 缩放手势是否可用
+  /// 缩放手势是否可用 Android, iOS
   final bool zoomGesturesEnabled;
 
-  /// 地图倾斜手势（显示3D效果）是否可用
+  /// 地图倾斜手势（显示3D效果）是否可用 Android
   final bool tiltGesturesEnabled;
 
-  /// 地图旋转手势是否可用
+  /// 地图旋转手势是否可用 Android, iOS
   final bool rotateGesturesEnabled;
 
-  /// 是否启动显示定位蓝点, 默认false
+  /// 是否启动显示定位蓝点, 默认false Android
   final bool myLocationEnabled;
 
   Map<String, Object> toJson() {

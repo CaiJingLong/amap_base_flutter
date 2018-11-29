@@ -59,7 +59,7 @@ static NSString *mapChannelName = @"me.yohom/map";
     // 因为android端的mapType从1开始, 所以这里减去1
     _mapView.mapType = (MAMapType) (_options.mapType - 1);
     _mapView.showsScale = _options.scaleControlsEnabled;
-    _mapView.zoomEnabled = _options.zoomControlsEnabled || _options.zoomGesturesEnabled;
+    _mapView.zoomEnabled = _options.zoomGesturesEnabled;
     _mapView.showsCompass = _options.compassEnabled;
     _mapView.scrollEnabled = _options.scrollGesturesEnabled;
     _mapView.cameraDegree = _options.camera.tilt;
