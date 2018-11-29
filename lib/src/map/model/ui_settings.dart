@@ -1,20 +1,20 @@
 class UiSettings {
-  /// 是否允许显示缩放按钮
+  /// 是否允许显示缩放按钮 [Android]
   final bool isZoomControlsEnabled;
 
-  /// 设置缩放按钮的位置
+  /// 设置缩放按钮的位置 [Android]
   final int zoomPosition;
 
-  /// 指南针
+  /// 指南针 [Android, iOS]
   final bool isCompassEnabled;
 
-  /// 定位按钮
+  /// 定位按钮 [Android]
   final bool isMyLocationButtonEnabled;
 
-  /// 比例尺控件
+  /// 比例尺控件 [Android, iOS]
   final bool isScaleControlsEnabled;
 
-  /// 地图Logo
+  /// 地图Logo [Android, iOS暂未实现]
   final int logoPosition;
 
   UiSettings({

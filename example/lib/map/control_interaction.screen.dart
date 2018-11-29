@@ -30,22 +30,39 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
             child: ListView(
               children: <Widget>[
                 BooleanSetting(
-                  head: '显示自己的位置',
+                  head: '显示自己的位置 [Android, iOS]',
                   onSelected: (value) {
                     _controller?.setMyLocationStyle(
                         MyLocationStyle(showMyLocation: value));
                   },
                 ),
                 BooleanSetting(
-                  head: '缩放按钮',
+                  head: '缩放按钮 [Android]',
                   selected: true,
                   onSelected: (value) {
                     _controller?.setUiSettings(
                         _uiSettings.copyWith(isZoomControlsEnabled: value));
                   },
                 ),
+                DiscreteSetting(
+                  head: '缩放按钮位置 [Android]',
+                  options: ['右中', '右下'],
+                  onSelected: (value) {
+                    int position;
+                    switch (value) {
+                      case '右中':
+                        position = ZOOM_POSITION_RIGHT_CENTER;
+                        break;
+                      case '右下':
+                        position = ZOOM_POSITION_RIGHT_BUTTOM;
+                        break;
+                    }
+                    _controller?.setUiSettings(
+                        _uiSettings.copyWith(zoomPosition: position));
+                  },
+                ),
                 BooleanSetting(
-                  head: '指南针',
+                  head: '指南针 [Android, iOS]',
                   selected: false,
                   onSelected: (value) {
                     _controller?.setUiSettings(
@@ -53,7 +70,7 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
                   },
                 ),
                 BooleanSetting(
-                  head: '定位按钮',
+                  head: '定位按钮 [Android]',
                   selected: false,
                   onSelected: (value) {
                     _controller?.setUiSettings(
@@ -61,7 +78,7 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
                   },
                 ),
                 BooleanSetting(
-                  head: '比例尺控件',
+                  head: '比例尺控件 [Android, iOS]',
                   selected: false,
                   onSelected: (value) {
                     _controller?.setUiSettings(
@@ -69,7 +86,7 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
                   },
                 ),
                 DiscreteSetting(
-                  head: '地图Logo',
+                  head: '地图Logo [Android]',
                   options: ['左下', '中下', '右下'],
                   onSelected: (value) {
                     int position;

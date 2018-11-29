@@ -1,5 +1,11 @@
 import 'package:amap_base/src/map/model/camera_position.dart';
 
+/// 缩放按钮右边界中部
+const ZOOM_POSITION_RIGHT_CENTER = 1;
+
+/// 缩放按钮右下
+const ZOOM_POSITION_RIGHT_BUTTOM = 2;
+
 /// Logo位置常量（地图左下角）。
 const LOGO_POSITION_BOTTOM_LEFT = 0;
 
