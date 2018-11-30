@@ -68,6 +68,10 @@
     return [AMapGeoPoint locationWithLatitude:self.latitude longitude:self.longitude];
 }
 
+- (CLLocationCoordinate2D)toCLLocationCoordinate2D {
+    return CLLocationCoordinate2DMake(self.latitude, self.longitude);
+}
+
 - (NSString *)description {
     NSMutableString *description = [NSMutableString string];
     [description appendFormat:@"self.latitude=%f", self.latitude];

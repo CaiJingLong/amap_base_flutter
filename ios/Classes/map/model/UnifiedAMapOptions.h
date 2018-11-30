@@ -3,6 +3,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 #import "JSONModel.h"
 
 @class LatLng;
@@ -66,7 +67,9 @@
 @property(nonatomic) CGFloat latitude;
 @property(nonatomic) CGFloat longitude;
 
--(AMapGeoPoint*) toAMapGeoPoint;
+- (AMapGeoPoint *)toAMapGeoPoint;
+
+- (CLLocationCoordinate2D)toCLLocationCoordinate2D;
 
 - (NSString *)description;
 

@@ -19,47 +19,26 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
           Flexible(
             child: AMapView(
               onAMapViewCreated: (controller) {
-                setState(() => _controller = controller
-                  ..setMyLocationStyle(MyLocationStyle()));
+                setState(() => _controller = controller);
               },
               amapOptions: AMapOptions(),
             ),
           ),
           Flexible(
             child: ListView(
+              padding: const EdgeInsets.all(8.0),
               shrinkWrap: true,
               children: <Widget>[
-                TextSetting(
-                  leadingString: '起点',
-                  hintString: '输入经纬度 格式: 12.34,56.78',
-                ),
-                TextSetting(
-                  leadingString: '终点',
-                  hintString: '输入经纬度 格式: 12.34,56.78',
-                ),
-                TextSetting(
-                  leadingString: '途径点',
-                  hintString: '输入经纬度 格式: 12.34,56.78',
-                ),
-                TextSetting(
-                  leadingString: '避让区域',
-                  hintString: '输入经纬度 格式: 12.34,56.78',
-                ),
-                TextSetting(
-                  leadingString: '避让道路',
-                  hintString: '输入经纬度 格式: 12.34,56.78',
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RaisedButton(
-                    onPressed: () {
-                      _controller.calculateDriveRoute(RoutePlanParam(
-                        from: LatLng(29.993291, 116.473188),
-                        to: LatLng(39.940474, 116.355426),
-                      ));
-                    },
-                    child: Text('开始规划'),
-                  ),
+                Text('起点: 39.993291, 116.473188'),
+                Text('终点: 39.940474, 116.355426'),
+                RaisedButton(
+                  onPressed: () {
+                    _controller.calculateDriveRoute(RoutePlanParam(
+                      from: LatLng(39.993291, 116.473188),
+                      to: LatLng(39.940474, 116.355426),
+                    ));
+                  },
+                  child: Text('开始规划'),
                 ),
               ],
             ),

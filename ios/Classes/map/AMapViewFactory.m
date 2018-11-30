@@ -161,12 +161,26 @@ static NSString *mapChannelName = @"me.yohom/map";
     }
 }
 
+#pragma AMapSearchDelegate
 /* 路径规划搜索回调. */
 - (void)onRouteSearchDone:(AMapRouteSearchBaseRequest *)request response:(AMapRouteSearchResponse *)response {
     if (response.route.paths.count == 0) {
         return _result(@"没有规划出合适的路线");
     }
 
+    // 添加起终点
+    MAPointAnnotation *startAnnotation = [[MAPointAnnotation alloc] init];
+    startAnnotation.coordinate = [_routePlanParam.from toCLLocationCoordinate2D];
+    startAnnotation.title = @"起点";
+
+    MAPointAnnotation *destinationAnnotation = [[MAPointAnnotation alloc] init];
+    destinationAnnotation.coordinate = [_routePlanParam.to toCLLocationCoordinate2D];
+    destinationAnnotation.title = @"终点";
+
+    [_mapView addAnnotation:startAnnotation];
+    [_mapView addAnnotation:destinationAnnotation];
+
+    // 添加中间的路径
     AMapPath *path = response.route.paths[0];
     _overlay = [MANaviRoute naviRouteForPath:path
                                 withNaviType:MANaviAnnotationTypeDrive
@@ -177,17 +191,21 @@ static NSString *mapChannelName = @"me.yohom/map";
                                                                       longitude:_routePlanParam.to.longitude]];
     [_overlay addToMapView:_mapView];
 
+    // 收缩地图到路径范围
     [_mapView setVisibleMapRect:[CommonUtility mapRectForOverlays:_overlay.routePolylines]
                     edgePadding:UIEdgeInsetsMake(20, 20, 20, 20)
                        animated:YES];
 }
 
+/// 路线规划失败回调
 - (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error {
     if (_result != nil) {
         _result([NSString stringWithFormat:@"路线规划失败, 错误码: %d", error.code]);
     }
 }
 
+#pragma MAMapViewDelegate
+/// 渲染overlay回调
 - (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay {
     if ([overlay isKindOfClass:[LineDashPolyline class]]) {
         MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:((LineDashPolyline *) overlay).polyline];
@@ -224,4 +242,65 @@ static NSString *mapChannelName = @"me.yohom/map";
 
     return nil;
 }
+
+/// 渲染annotation, 就是Android中的marker
+- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id <MAAnnotation>)annotation {
+    if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
+        static NSString *routePlanningCellIdentifier = @"RoutePlanningCellIdentifier";
+
+        MAAnnotationView *poiAnnotationView = [_mapView dequeueReusableAnnotationViewWithIdentifier:routePlanningCellIdentifier];
+        if (poiAnnotationView == nil) {
+            poiAnnotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
+                                                             reuseIdentifier:routePlanningCellIdentifier];
+        }
+
+        poiAnnotationView.canShowCallout = YES;
+        poiAnnotationView.image = nil;
+
+        NSBundle *podBundle = [NSBundle bundleForClass:[self class]];
+
+        NSURL *path = [podBundle URLForResource:@"amap_base" withExtension:@"bundle"];
+
+        NSBundle *bundle = [NSBundle bundleWithURL:path];
+        if ([annotation isKindOfClass:[MANaviAnnotation class]]) {
+            switch (((MANaviAnnotation *) annotation).type) {
+                case MANaviAnnotationTypeRailway:
+                    poiAnnotationView.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"railway_station"
+                                                                                                ofType:@"png"]];
+                    break;
+                case MANaviAnnotationTypeBus:
+                    poiAnnotationView.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"bus"
+                                                                                                ofType:@"png"]];
+                    break;
+                case MANaviAnnotationTypeDrive:
+                    poiAnnotationView.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"car"
+                                                                                                ofType:@"png"]];
+                    break;
+                case MANaviAnnotationTypeWalking:
+                    poiAnnotationView.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"man"
+                                                                                                ofType:@"png"]];
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            /* 起点. */
+            if ([[annotation title] isEqualToString:@"起点"]) {
+                NSString *imagePath = [bundle pathForResource:@"startPoint" ofType:@"png"];
+                poiAnnotationView.image = [UIImage imageWithContentsOfFile:imagePath];
+            }
+                /* 终点. */
+            else if ([[annotation title] isEqualToString:@"终点"]) {
+                NSString *imagePath = [bundle pathForResource:@"endPoint" ofType:@"png"];
+                poiAnnotationView.image = [UIImage imageWithContentsOfFile:imagePath];
+            }
+
+        }
+
+        return poiAnnotationView;
+    }
+
+    return nil;
+}
+
 @end
