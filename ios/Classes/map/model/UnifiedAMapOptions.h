@@ -3,10 +3,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 #import "JSONModel.h"
 
 @class LatLng;
 @class CameraPosition;
+@class AMapGeoPoint;
 
 @interface UnifiedAMapOptions : JSONModel
 /// “高德地图”Logo的位置
@@ -64,6 +66,10 @@
 
 @property(nonatomic) CGFloat latitude;
 @property(nonatomic) CGFloat longitude;
+
+- (AMapGeoPoint *)toAMapGeoPoint;
+
+- (CLLocationCoordinate2D)toCLLocationCoordinate2D;
 
 - (NSString *)description;
 

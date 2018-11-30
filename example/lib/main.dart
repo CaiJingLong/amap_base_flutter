@@ -1,5 +1,6 @@
 import 'package:amap_base_example/map/control_interaction.screen.dart';
 import 'package:amap_base_example/map/create_map.screen.dart';
+import 'package:amap_base_example/map/driving_route_plan.screen.dart';
 import 'package:amap_base_example/navi/navi.dart';
 import 'package:flutter/material.dart';
 
@@ -56,6 +57,29 @@ class MapsDemo extends StatelessWidget {
               ],
             ),
           ),
+          Padding(
+            padding: EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('出行路线规划', style: Theme.of(context).textTheme.headline),
+                FlatButton(
+                  child: Text(
+                    '驾车出行路线规划',
+                    style: Theme.of(context).textTheme.subhead,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => DrivingRoutPlanScreen(),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

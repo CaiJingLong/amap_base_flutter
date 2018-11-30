@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amap_base/src/map/model/latlng.dart';
 
 /// Android全部有效, iOS部分有效
@@ -30,6 +32,8 @@ class CameraPosition {
       'bearing': bearing,
     };
   }
+
+  String toJsonString() => jsonEncode(toJson());
 
   @override
   bool operator ==(Object other) =>

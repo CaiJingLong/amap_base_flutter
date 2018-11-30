@@ -183,3 +183,27 @@ class _BooleanSettingState extends State<BooleanSetting> {
     );
   }
 }
+
+/// 输入文字
+class TextSetting extends StatelessWidget {
+  final String leadingString;
+  final String hintString;
+
+  const TextSetting({
+    Key key,
+    @required this.leadingString,
+    @required this.hintString,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Text(leadingString),
+      title: TextFormField(
+        decoration: InputDecoration(
+          hintText: hintString,
+        ),
+      ),
+    );
+  }
+}

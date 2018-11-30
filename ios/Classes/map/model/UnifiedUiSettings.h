@@ -11,16 +11,15 @@
 
 @interface UnifiedUiSettings : JSONModel
 
-/// 是否允许显示缩放按钮
-@property(nonatomic) NSString *isZoomControlsEnabled;
 /// 设置缩放按钮的位置
 @property(nonatomic) NSInteger zoomPosition;
+
 /// 指南针
 @property(nonatomic) BOOL isCompassEnabled;
-/// 定位按钮
-@property(nonatomic) BOOL isMyLocationButtonEnabled;
+
 /// 比例尺控件
 @property(nonatomic) BOOL isScaleControlsEnabled;
+
 /// 地图Logo
 @property(nonatomic) NSInteger logoPosition;
 
