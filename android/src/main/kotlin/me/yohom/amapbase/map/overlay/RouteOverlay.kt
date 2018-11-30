@@ -10,8 +10,8 @@ import me.yohom.amapbase.R
 import java.util.*
 
 open class RouteOverlay(private val mContext: Context) {
-    protected var stationMarkers: MutableList<Marker>? = ArrayList<Marker>()
-    protected var allPolyLines: MutableList<Polyline> = ArrayList<Polyline>()
+    private var stationMarkers: MutableList<Marker>? = ArrayList()
+    private var allPolyLines: MutableList<Polyline> = ArrayList()
     protected var startMarker: Marker? = null
     protected var endMarker: Marker? = null
     protected var startPoint: LatLng? = null
@@ -28,14 +28,14 @@ open class RouteOverlay(private val mContext: Context) {
      * @return 更换的Marker图片。
      * @since V2.1.0
      */
-    protected val startBitmapDescriptor: BitmapDescriptor
+    private val startBitmapDescriptor: BitmapDescriptor
         get() = BitmapDescriptorFactory.fromResource(R.drawable.amap_start)
     /**
      * 给终点Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
      * @return 更换的Marker图片。
      * @since V2.1.0
      */
-    protected val endBitmapDescriptor: BitmapDescriptor
+    private val endBitmapDescriptor: BitmapDescriptor
         get() = BitmapDescriptorFactory.fromResource(R.drawable.amap_end)
     /**
      * 给公交Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
@@ -166,7 +166,7 @@ open class RouteOverlay(private val mContext: Context) {
             nodeIconVisible = visible
             if (this.stationMarkers != null && this.stationMarkers!!.size > 0) {
                 for (i in this.stationMarkers!!.indices) {
-                    this.stationMarkers!![i].setVisible(visible)
+                    this.stationMarkers!![i].isVisible = visible
                 }
             }
         } catch (e: Throwable) {

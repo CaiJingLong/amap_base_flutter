@@ -84,7 +84,7 @@ object AMapUtil {
     }
 
     fun IsEmptyOrNullString(s: String?): Boolean {
-        return s == null || s.trim { it <= ' ' }.length == 0
+        return s == null || s.trim { it <= ' ' }.isEmpty()
     }
 
     /**

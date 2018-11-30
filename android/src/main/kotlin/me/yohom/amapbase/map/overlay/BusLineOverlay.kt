@@ -28,38 +28,34 @@ class BusLineOverlay
 (private val mContext: Context, private val mAMap: AMap?, private val mBusLineItem: BusLineItem) {
     private val mBusStationMarks = ArrayList<Marker>()
     private var mBusLinePolyline: Polyline? = null
-    private val mBusStations: List<BusStationItem>
+    private val mBusStations: List<BusStationItem> = mBusLineItem.busStations
     private var startBit: BitmapDescriptor? = null
     private var endBit: BitmapDescriptor? = null
     private var busBit: BitmapDescriptor? = null
 
-    protected val startBitmapDescriptor: BitmapDescriptor?
+    private val startBitmapDescriptor: BitmapDescriptor?
         get() {
             startBit = BitmapDescriptorFactory.fromResource(R.drawable.amap_start)
             return startBit
         }
 
-    protected val endBitmapDescriptor: BitmapDescriptor?
+    private val endBitmapDescriptor: BitmapDescriptor?
         get() {
             endBit = BitmapDescriptorFactory.fromResource(R.drawable.amap_end)
             return endBit
         }
 
-    protected val busBitmapDescriptor: BitmapDescriptor?
+    private val busBitmapDescriptor: BitmapDescriptor?
         get() {
             busBit = BitmapDescriptorFactory.fromResource(R.drawable.amap_bus)
             return busBit
         }
 
-    protected val busColor: Int
+    private val busColor: Int
         get() = Color.parseColor("#537edc")
 
-    protected val buslineWidth: Float
+    private val buslineWidth: Float
         get() = 18f
-
-    init {
-        mBusStations = mBusLineItem.busStations
-    }
 
     /**
      * 添加公交线路到地图中。
@@ -73,16 +69,16 @@ class BusLineOverlay
             mBusLinePolyline = mAMap!!.addPolyline(PolylineOptions()
                     .addAll(listPolyline).color(busColor)
                     .width(buslineWidth))
-            if (mBusStations.size < 1) {
+            if (mBusStations.isEmpty()) {
                 return
             }
             for (i in 1 until mBusStations.size - 1) {
-                val marker = mAMap!!.addMarker(getMarkerOptions(i))
+                val marker = mAMap.addMarker(getMarkerOptions(i))
                 mBusStationMarks.add(marker)
             }
-            val markerStart = mAMap!!.addMarker(getMarkerOptions(0))
+            val markerStart = mAMap.addMarker(getMarkerOptions(0))
             mBusStationMarks.add(markerStart)
-            val markerEnd = mAMap!!
+            val markerEnd = mAMap
                     .addMarker(getMarkerOptions(mBusStations.size - 1))
             mBusStationMarks.add(markerEnd)
         } catch (e: Throwable) {
@@ -138,7 +134,7 @@ class BusLineOverlay
             val coordin = mBusLineItem.directionsCoordinates
             if (coordin != null && coordin.size > 0) {
                 val bounds = getLatLngBounds(coordin)
-                mAMap!!.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 5))
+                mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 5))
             }
         } catch (e: Throwable) {
             e.printStackTrace()
@@ -180,7 +176,7 @@ class BusLineOverlay
      * @return marker的标题。
      * @since V2.1.0
      */
-    protected fun getTitle(index: Int): String {
+    private fun getTitle(index: Int): String {
         return mBusStations[index].busStationName
 
     }
@@ -192,7 +188,7 @@ class BusLineOverlay
      * @return marker的详情。
      * @since V2.1.0
      */
-    protected fun getSnippet(index: Int): String {
+    private fun getSnippet(index: Int): String {
         return ""
     }
 
@@ -205,7 +201,7 @@ class BusLineOverlay
      */
     fun getBusStationIndex(marker: Marker): Int {
         for (i in mBusStationMarks.indices) {
-            if (mBusStationMarks[i].equals(marker)) {
+            if (mBusStationMarks[i] == marker) {
                 return i
             }
         }

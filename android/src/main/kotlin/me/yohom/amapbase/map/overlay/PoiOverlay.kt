@@ -10,7 +10,7 @@ import java.util.*
  * Poi图层类。在高德地图API里，如果要显示Poi，可以用此类来创建Poi图层。如不满足需求，也可以自己创建自定义的Poi图层。
  * @since V2.1.0
  */
-class PoiOverlay
+open class PoiOverlay
 /**
  * 通过此构造函数创建Poi图层。
  * @_routePlanParam amap 地图对象。
@@ -63,15 +63,15 @@ class PoiOverlay
      */
     fun zoomToSpan() {
         try {
-            if (mPois != null && mPois.size > 0) {
+            if (mPois != null && mPois.isNotEmpty()) {
                 if (mAMap == null)
                     return
                 if (mPois.size == 1) {
-                    mAMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mPois[0].latLonPoint.latitude,
+                    mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mPois[0].latLonPoint.latitude,
                             mPois[0].latLonPoint.longitude), 18f))
                 } else {
                     val bounds = latLngBounds
-                    mAMap!!.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 5))
+                    mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 5))
                 }
             }
         } catch (e: Throwable) {
@@ -96,7 +96,7 @@ class PoiOverlay
      * @return 更换的Marker图片。
      * @since V2.1.0
      */
-    protected fun getBitmapDescriptor(index: Int): BitmapDescriptor? {
+    private fun getBitmapDescriptor(index: Int): BitmapDescriptor? {
         return null
     }
 
@@ -106,7 +106,7 @@ class PoiOverlay
      * @return marker的标题。
      * @since V2.1.0
      */
-    protected fun getTitle(index: Int): String {
+    private fun getTitle(index: Int): String {
         return mPois!![index].title
     }
 
@@ -116,7 +116,7 @@ class PoiOverlay
      * @return marker的详情。
      * @since V2.1.0
      */
-    protected fun getSnippet(index: Int): String {
+    private fun getSnippet(index: Int): String {
         return mPois!![index].snippet
     }
 
@@ -128,7 +128,7 @@ class PoiOverlay
      */
     fun getPoiIndex(marker: Marker): Int {
         for (i in mPoiMarks.indices) {
-            if (mPoiMarks[i].equals(marker)) {
+            if (mPoiMarks[i] == marker) {
                 return i
             }
         }

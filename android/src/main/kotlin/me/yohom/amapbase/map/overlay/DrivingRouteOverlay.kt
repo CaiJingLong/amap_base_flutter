@@ -39,12 +39,12 @@ class DrivingRouteOverlay
     override var routeWidth = 25f
     private var mLatLngsOfPath: MutableList<LatLng>? = null
 
-    protected override val latLngBounds: LatLngBounds
+    override val latLngBounds: LatLngBounds
         get() {
             val b = LatLngBounds.builder()
             b.include(LatLng(startPoint!!.latitude, startPoint!!.longitude))
             b.include(LatLng(endPoint!!.latitude, endPoint!!.longitude))
-            if (this.throughPointList != null && this.throughPointList.size > 0) {
+            if (this.throughPointList != null && this.throughPointList.isNotEmpty()) {
                 for (i in this.throughPointList.indices) {
                     b.include(LatLng(
                             this.throughPointList[i].latitude,
@@ -80,7 +80,7 @@ class DrivingRouteOverlay
             if (routeWidth == 0f || drivePath == null) {
                 return
             }
-            mLatLngsOfPath = ArrayList<LatLng>()
+            mLatLngsOfPath = ArrayList()
             tmcs = ArrayList()
             val drivePaths = drivePath.steps
             mPolylineOptions!!.add(startPoint)
@@ -107,7 +107,7 @@ class DrivingRouteOverlay
             addThroughPointMarker()
             if (isColorfulline && tmcs!!.size > 0) {
                 colorWayUpdate(tmcs)
-                showcolorPolyline()
+                showColorPolyline()
             } else {
                 showPolyline()
             }
@@ -133,7 +133,7 @@ class DrivingRouteOverlay
         addPolyLine(mPolylineOptions)
     }
 
-    private fun showcolorPolyline() {
+    private fun showColorPolyline() {
         addPolyLine(mPolylineOptionscolor)
 
     }
@@ -147,7 +147,7 @@ class DrivingRouteOverlay
         if (mAMap == null) {
             return
         }
-        if (tmcSection == null || tmcSection.size <= 0) {
+        if (tmcSection == null || tmcSection.isEmpty()) {
             return
         }
         var segmentTrafficStatus: TMC
@@ -160,7 +160,7 @@ class DrivingRouteOverlay
         mPolylineOptionscolor!!.add(AMapUtil.convertToLatLng(tmcSection[0].polyline[0]))
         for (i in tmcSection.indices) {
             segmentTrafficStatus = tmcSection[i]
-            val color = getcolor(segmentTrafficStatus.status)
+            val color = getColor(segmentTrafficStatus.status)
             val mployline = segmentTrafficStatus.polyline
             mPolylineOptionscolor!!.color(color)
             var lastLanLng: LatLng? = null
@@ -183,22 +183,17 @@ class DrivingRouteOverlay
         mAMap!!.addPolyline(mPolylineOptionscolor)
     }
 
-    private fun getcolor(status: String): Int {
-
-        return if (status == "畅通") {
-            Color.GREEN
-        } else if (status == "缓行") {
-            Color.YELLOW
-        } else if (status == "拥堵") {
-            Color.RED
-        } else if (status == "严重拥堵") {
-            Color.parseColor("#990033")
-        } else {
-            Color.parseColor("#537edc")
+    private fun getColor(status: String): Int {
+        return when (status) {
+            "畅通" -> Color.GREEN
+            "缓行" -> Color.YELLOW
+            "拥堵" -> Color.RED
+            "严重拥堵" -> Color.parseColor("#990033")
+            else -> Color.parseColor("#537edc")
         }
     }
 
-    fun convertToLatLng(point: LatLonPoint): LatLng {
+    private fun convertToLatLng(point: LatLonPoint): LatLng {
         return LatLng(point.latitude, point.longitude)
     }
 
@@ -218,9 +213,9 @@ class DrivingRouteOverlay
     fun setThroughPointIconVisibility(visible: Boolean) {
         try {
             throughPointMarkerVisible = visible
-            if (this.throughPointMarkerList != null && this.throughPointMarkerList.size > 0) {
+            if (this.throughPointMarkerList.size > 0) {
                 for (i in this.throughPointMarkerList.indices) {
-                    this.throughPointMarkerList[i].setVisible(visible)
+                    this.throughPointMarkerList[i].isVisible = visible
                 }
             }
         } catch (e: Throwable) {
@@ -230,21 +225,19 @@ class DrivingRouteOverlay
     }
 
     private fun addThroughPointMarker() {
-        if (this.throughPointList != null && this.throughPointList.size > 0) {
-            var latLonPoint: LatLonPoint? = null
+        if (this.throughPointList != null && this.throughPointList.isNotEmpty()) {
+            var latLonPoint: LatLonPoint?
             for (i in this.throughPointList.indices) {
                 latLonPoint = this.throughPointList[i]
-                if (latLonPoint != null) {
-                    throughPointMarkerList.add(mAMap!!
-                            .addMarker(MarkerOptions()
-                                    .position(
-                                            LatLng(latLonPoint
-                                                    .latitude, latLonPoint
-                                                    .longitude))
-                                    .visible(throughPointMarkerVisible)
-                                    .icon(throughPointBitDes)
-                                    .title("\u9014\u7ECF\u70B9")))
-                }
+                throughPointMarkerList.add(mAMap!!
+                        .addMarker(MarkerOptions()
+                                .position(
+                                        LatLng(latLonPoint
+                                                .latitude, latLonPoint
+                                                .longitude))
+                                .visible(throughPointMarkerVisible)
+                                .icon(throughPointBitDes)
+                                .title("\u9014\u7ECF\u70B9")))
             }
         }
     }
@@ -255,7 +248,7 @@ class DrivingRouteOverlay
     override fun removeFromMap() {
         try {
             super.removeFromMap()
-            if (this.throughPointMarkerList != null && this.throughPointMarkerList.size > 0) {
+            if (this.throughPointMarkerList.size > 0) {
                 for (i in this.throughPointMarkerList.indices) {
                     this.throughPointMarkerList[i].remove()
                 }
@@ -276,7 +269,7 @@ class DrivingRouteOverlay
          * @_routePlanParam end
          * @return
          */
-        fun calculateDistance(start: LatLng, end: LatLng): Int {
+        private fun calculateDistance(start: LatLng, end: LatLng): Int {
             val x1 = start.longitude
             val y1 = start.latitude
             val x2 = end.longitude
@@ -284,7 +277,7 @@ class DrivingRouteOverlay
             return calculateDistance(x1, y1, x2, y2)
         }
 
-        fun calculateDistance(x1: Double, y1: Double, x2: Double, y2: Double): Int {
+        private fun calculateDistance(x1: Double, y1: Double, x2: Double, y2: Double): Int {
             var x1 = x1
             var y1 = y1
             var x2 = x2
