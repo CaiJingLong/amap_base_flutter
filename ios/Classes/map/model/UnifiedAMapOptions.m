@@ -2,6 +2,7 @@
 // Created by Yohom Bao on 2018/11/26.
 //
 
+#import <AMapSearch/AMapSearchKit/AMapCommonObj.h>
 #import "UnifiedAMapOptions.h"
 
 
@@ -61,6 +62,10 @@
 @end
 
 @implementation LatLng {
+}
+
+- (AMapGeoPoint *)toAMapGeoPoint {
+    return [AMapGeoPoint locationWithLatitude:self.latitude longitude:self.longitude];
 }
 
 - (NSString *)description {

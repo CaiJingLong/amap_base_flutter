@@ -13,8 +13,8 @@ import java.util.*
 class PoiOverlay
 /**
  * 通过此构造函数创建Poi图层。
- * @param amap 地图对象。
- * @param pois 要在地图上添加的poi。列表中的poi对象详见搜索服务模块的基础核心包（com.amap.api.services.core）中的类** [PoiItem](../../../../../../Search/com/amap/api/services/core/PoiItem.html)**。
+ * @_routePlanParam amap 地图对象。
+ * @_routePlanParam pois 要在地图上添加的poi。列表中的poi对象详见搜索服务模块的基础核心包（com.amap.api.services.core）中的类** [PoiItem](../../../../../../Search/com/amap/api/services/core/PoiItem.html)**。
  * @since V2.1.0
  */
 (private val mAMap: AMap?, private val mPois: List<PoiItem>?) {
@@ -92,7 +92,7 @@ class PoiOverlay
 
     /**
      * 给第几个Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
-     * @param index 第几个Marker。
+     * @_routePlanParam index 第几个Marker。
      * @return 更换的Marker图片。
      * @since V2.1.0
      */
@@ -102,7 +102,7 @@ class PoiOverlay
 
     /**
      * 返回第index的Marker的标题。
-     * @param index 第几个Marker。
+     * @_routePlanParam index 第几个Marker。
      * @return marker的标题。
      * @since V2.1.0
      */
@@ -112,7 +112,7 @@ class PoiOverlay
 
     /**
      * 返回第index的Marker的详情。
-     * @param index 第几个Marker。
+     * @_routePlanParam index 第几个Marker。
      * @return marker的详情。
      * @since V2.1.0
      */
@@ -122,7 +122,7 @@ class PoiOverlay
 
     /**
      * 从marker中得到poi在list的位置。
-     * @param marker 一个标记的对象。
+     * @_routePlanParam marker 一个标记的对象。
      * @return 返回该marker对应的poi在list的位置。
      * @since V2.1.0
      */
@@ -137,7 +137,7 @@ class PoiOverlay
 
     /**
      * 返回第index的poi的信息。
-     * @param index 第几个poi。
+     * @_routePlanParam index 第几个poi。
      * @return poi的信息。poi对象详见搜索服务模块的基础核心包（com.amap.api.services.core）中的类 **[PoiItem](../../../../../../Search/com/amap/api/services/core/PoiItem.html)**。
      * @since V2.1.0
      */

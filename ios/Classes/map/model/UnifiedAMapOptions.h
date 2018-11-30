@@ -7,6 +7,7 @@
 
 @class LatLng;
 @class CameraPosition;
+@class AMapGeoPoint;
 
 @interface UnifiedAMapOptions : JSONModel
 /// “高德地图”Logo的位置
@@ -64,6 +65,8 @@
 
 @property(nonatomic) CGFloat latitude;
 @property(nonatomic) CGFloat longitude;
+
+-(AMapGeoPoint*) toAMapGeoPoint;
 
 - (NSString *)description;
 

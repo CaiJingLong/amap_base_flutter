@@ -2,12 +2,19 @@
 // Created by Yohom Bao on 2018/11/25.
 //
 
+#import <AMapSearch/AMapSearchKit/AMapSearchObj.h>
+#import <AMapSearch/AMapSearchKit/AMapSearchAPI.h>
 #import "AMapViewFactory.h"
 #import "MAMapView.h"
 #import "UnifiedAMapOptions.h"
 #import "AMapBasePlugin.h"
 #import "UnifiedMyLocationStyle.h"
 #import "UnifiedUiSettings.h"
+#import "RoutePlanParam.h"
+#import "NSArray+Rx.h"
+#import "MANaviAnnotation.h"
+#import "MANaviRoute.h"
+#import "CommonUtility.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 
@@ -39,6 +46,10 @@ static NSString *mapChannelName = @"me.yohom/map";
     UnifiedAMapOptions *_options;
     FlutterMethodChannel *_channel;
     MAMapView *_mapView;
+    FlutterResult _result;
+    AMapSearchAPI *_search;
+    MANaviRoute *_overlay;
+    RoutePlanParam *_routePlanParam;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -50,6 +61,11 @@ static NSString *mapChannelName = @"me.yohom/map";
         _options = options;
     }
     return self;
+}
+
+- (UIView *)view {
+    _mapView = [[MAMapView alloc] initWithFrame:_frame];
+    return _mapView;
 }
 
 - (void)setup {
@@ -82,6 +98,7 @@ static NSString *mapChannelName = @"me.yohom/map";
                                            binaryMessenger:[AMapBasePlugin registrar].messenger];
     __weak __typeof__(self) weakSelf = self;
     [_channel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
+        _result = result;
         if (weakSelf) {
             [weakSelf handleMethodCall:call result:result];
         }
@@ -92,41 +109,119 @@ static NSString *mapChannelName = @"me.yohom/map";
     NSDictionary *paramDic = call.arguments;
     if ([@"map#setMyLocationStyle" isEqualToString:call.method]) {
         NSString *styleJson = (NSString *) paramDic[@"myLocationStyle"];
-        
+
         NSLog(@"方法setMyLocationStyle ios端参数: styleJson -> %@", styleJson);
         JSONModelError *error;
         [[[UnifiedMyLocationStyle alloc] initWithString:styleJson error:&error] applyTo:_mapView];
-        
+
         NSLog(@"JSONModelError: %@", error.description);
     } else if ([@"map#setUiSettings" isEqualToString:call.method]) {
-        NSString *from = (NSString *) paramDic[@"from"];
-        NSString *to = (NSString *) paramDic[@"to"];
-        NSString *mode = (NSString *) paramDic[@"mode"];
-        NSString *passedByPoints = (NSString *) paramDic[@"passedByPoints"];
-        NSString *avoidPolygons = (NSString *) paramDic[@"avoidPolygons"];
-        NSString *avoidRoad = (NSString *) paramDic[@"avoidRoad"];
-
-        NSLog(@"方法setUiSettings ios端参数: _uiSettings -> %@", uiSettingsJson);
-        JSONModelError *error;
-        [[[UnifiedUiSettings alloc] initWithString:uiSettingsJson error:&error] applyTo:_mapView];
-        
-        NSLog(@"JSONModelError: %@", error.description);
-    }  else if ([@"map#calculateDriveRoute" isEqualToString:call.method]) {
         NSString *uiSettingsJson = (NSString *) paramDic[@"uiSettings"];
 
-        NSLog(@"方法setUiSettings ios端参数: _uiSettings -> %@", uiSettingsJson);
+        NSLog(@"方法setUiSettings ios端参数: uiSettingsJson -> %@", uiSettingsJson);
         JSONModelError *error;
         [[[UnifiedUiSettings alloc] initWithString:uiSettingsJson error:&error] applyTo:_mapView];
 
         NSLog(@"JSONModelError: %@", error.description);
+    } else if ([@"map#calculateDriveRoute" isEqualToString:call.method]) {
+        NSString *routePlanParamJson = (NSString *) paramDic[@"routePlanParam"];
+
+        NSLog(@"方法calculateDriveRoute ios端参数: routePlanParamJson -> %@", routePlanParamJson);
+        JSONModelError *error;
+        _routePlanParam = [[RoutePlanParam alloc] initWithString:routePlanParamJson error:&error];
+        NSLog(@"JSONModelError: %@", error.description);
+
+        // 设置delegate, 渲染overlay和annotation的时候需要
+        _mapView.delegate = self;
+
+        // 开始搜索路线
+        _search = [[AMapSearchAPI alloc] init];
+        _search.delegate = self;
+
+        // 路线请求参数构造
+        AMapDrivingRouteSearchRequest *routeQuery = [[AMapDrivingRouteSearchRequest alloc] init];
+        routeQuery.origin = [_routePlanParam.from toAMapGeoPoint];
+        routeQuery.destination = [_routePlanParam.to toAMapGeoPoint];
+        routeQuery.strategy = _routePlanParam.mode;
+        routeQuery.waypoints = [_routePlanParam.passedByPoints map:^(id it) {
+            return [it toAMapGeoPoint];
+        }];
+        routeQuery.avoidpolygons = [_routePlanParam.avoidPolygons map:^(id list) {
+            return [list map:^(id it) {
+                return [it toAMapGeoPoint];
+            }];
+        }];
+        routeQuery.avoidroad = _routePlanParam.avoidRoad;
+        routeQuery.requireExtension = YES;
+
+        NSLog(@"AMapDrivingRouteSearchRequest: %@", routeQuery.formattedDescription);
+        [_search AMapDrivingRouteSearch:routeQuery];
     } else {
         result(FlutterMethodNotImplemented);
     }
 }
 
-- (UIView *)view {
-    _mapView = [[MAMapView alloc] initWithFrame:_frame];
-    return _mapView;
+/* 路径规划搜索回调. */
+- (void)onRouteSearchDone:(AMapRouteSearchBaseRequest *)request response:(AMapRouteSearchResponse *)response {
+    if (response.route.paths.count == 0) {
+        return _result(@"没有规划出合适的路线");
+    }
+
+    AMapPath *path = response.route.paths[0];
+    _overlay = [MANaviRoute naviRouteForPath:path
+                                withNaviType:MANaviAnnotationTypeDrive
+                                 showTraffic:YES
+                                  startPoint:[AMapGeoPoint locationWithLatitude:_routePlanParam.from.latitude
+                                                                      longitude:_routePlanParam.from.longitude]
+                                    endPoint:[AMapGeoPoint locationWithLatitude:_routePlanParam.to.latitude
+                                                                      longitude:_routePlanParam.to.longitude]];
+    [_overlay addToMapView:_mapView];
+
+    [_mapView setVisibleMapRect:[CommonUtility mapRectForOverlays:_overlay.routePolylines]
+                    edgePadding:UIEdgeInsetsMake(20, 20, 20, 20)
+                       animated:YES];
 }
 
+- (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error {
+    if (_result != nil) {
+        _result([NSString stringWithFormat:@"路线规划失败, 错误码: %d", error.code]);
+    }
+}
+
+- (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay {
+    if ([overlay isKindOfClass:[LineDashPolyline class]]) {
+        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:((LineDashPolyline *) overlay).polyline];
+        polylineRenderer.lineWidth = 8;
+        polylineRenderer.lineDashType = kMALineDashTypeSquare;
+        polylineRenderer.strokeColor = [UIColor redColor];
+
+        return polylineRenderer;
+    }
+    if ([overlay isKindOfClass:[MANaviPolyline class]]) {
+        MANaviPolyline *naviPolyline = (MANaviPolyline *) overlay;
+        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:naviPolyline.polyline];
+
+        polylineRenderer.lineWidth = 8;
+
+        if (naviPolyline.type == MANaviAnnotationTypeWalking) {
+            polylineRenderer.strokeColor = _overlay.walkingColor;
+        } else if (naviPolyline.type == MANaviAnnotationTypeRailway) {
+            polylineRenderer.strokeColor = _overlay.railwayColor;
+        } else {
+            polylineRenderer.strokeColor = _overlay.routeColor;
+        }
+
+        return polylineRenderer;
+    }
+    if ([overlay isKindOfClass:[MAMultiPolyline class]]) {
+        MAMultiColoredPolylineRenderer *polylineRenderer = [[MAMultiColoredPolylineRenderer alloc] initWithMultiPolyline:overlay];
+
+        polylineRenderer.lineWidth = 10;
+        polylineRenderer.strokeColors = [_overlay.multiPolylineColors copy];
+
+        return polylineRenderer;
+    }
+
+    return nil;
+}
 @end

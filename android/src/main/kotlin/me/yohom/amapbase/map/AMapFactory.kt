@@ -43,6 +43,13 @@ class AMapView(private val context: Context,
 
     private val mapView = TextureMapView(context, amapOptions)
 
+    override fun getView(): View = mapView
+
+    override fun dispose() {
+        mapView.onPause()
+        mapView.onDestroy()
+    }
+
     fun setup() {
         mapView.onCreate(null)
         val mapChannel = MethodChannel(AMapBasePlugin.registrar.messenger(), "$mapChannelName$id")
@@ -89,6 +96,7 @@ class AMapView(private val context: Context,
                             } else if (r.paths.isEmpty()) {
                                 result.error("没有规划出合适的路线", null, null)
                             } else {
+                                map.clear()
                                 DrivingRouteOverlay(context, map, r.paths[0], r.startPos, r.targetPos, null)
                                         .apply {
                                             setNodeIconVisibility(false)//设置节点marker是否显示
@@ -114,12 +122,5 @@ class AMapView(private val context: Context,
             }
             else -> result.notImplemented()
         }
-    }
-
-    override fun getView(): View = mapView
-
-    override fun dispose() {
-        mapView.onPause()
-        mapView.onDestroy()
     }
 }

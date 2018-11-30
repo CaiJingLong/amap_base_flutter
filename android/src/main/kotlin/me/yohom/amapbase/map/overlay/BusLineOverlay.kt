@@ -20,9 +20,9 @@ class BusLineOverlay
 /**
  * 通过此构造函数创建公交线路图层。
  *
- * @param context     当前activity。
- * @param amap        地图对象。
- * @param busLineItem 公交线路。详见搜索服务模块的公交线路和公交站点包（com.amap.api.services.busline）中的类 **[BusStationItem](../../../../../../Search/com/amap/api/services/busline/BusStationItem.html)**。
+ * @_routePlanParam context     当前activity。
+ * @_routePlanParam amap        地图对象。
+ * @_routePlanParam busLineItem 公交线路。详见搜索服务模块的公交线路和公交站点包（com.amap.api.services.busline）中的类 **[BusStationItem](../../../../../../Search/com/amap/api/services/busline/BusStationItem.html)**。
  * @since V2.1.0
  */
 (private val mContext: Context, private val mAMap: AMap?, private val mBusLineItem: BusLineItem) {
@@ -176,7 +176,7 @@ class BusLineOverlay
     /**
      * 返回第index的Marker的标题。
      *
-     * @param index 第几个Marker。
+     * @_routePlanParam index 第几个Marker。
      * @return marker的标题。
      * @since V2.1.0
      */
@@ -188,7 +188,7 @@ class BusLineOverlay
     /**
      * 返回第index的Marker的详情。
      *
-     * @param index 第几个Marker。
+     * @_routePlanParam index 第几个Marker。
      * @return marker的详情。
      * @since V2.1.0
      */
@@ -199,7 +199,7 @@ class BusLineOverlay
     /**
      * 从marker中得到公交站点在list的位置。
      *
-     * @param marker 一个标记的对象。
+     * @_routePlanParam marker 一个标记的对象。
      * @return 返回该marker对应的公交站点在list的位置。
      * @since V2.1.0
      */
@@ -215,7 +215,7 @@ class BusLineOverlay
     /**
      * 返回第index的公交站点的信息。
      *
-     * @param index 第几个公交站点。
+     * @_routePlanParam index 第几个公交站点。
      * @return 公交站点的信息。详见搜索服务模块的公交线路和公交站点包（com.amap.api.services.busline）中的类 **[BusStationItem](../../../../../../Search/com/amap/api/services/busline/BusStationItem.html)**。
      * @since V2.1.0
      */

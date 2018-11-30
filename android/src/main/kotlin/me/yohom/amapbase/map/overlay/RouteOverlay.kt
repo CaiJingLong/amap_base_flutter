@@ -158,7 +158,7 @@ open class RouteOverlay(private val mContext: Context) {
 
     /**
      * 路段节点图标控制显示接口。
-     * @param visible true为显示节点图标，false为不显示。
+     * @_routePlanParam visible true为显示节点图标，false为不显示。
      * @since V2.3.1
      */
     fun setNodeIconVisibility(visible: Boolean) {

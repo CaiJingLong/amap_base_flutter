@@ -16,11 +16,11 @@ import java.util.*
 class BusRouteOverlay
 /**
  * 通过此构造函数创建公交路线图层。
- * @param context 当前activity。
- * @param amap 地图对象。
- * @param path 公交路径规划的一个路段。详见搜索服务模块的路径查询包（com.amap.api.services.route）中的类** [BusPath](../../../../../../Search/com/amap/api/services/route/BusPath.html)**。
- * @param start 起点坐标。详见搜索服务模块的核心基础包（com.amap.api.services.core）中的类 **[LatLonPoint](../../../../../../Search/com/amap/api/services/core/LatLonPoint.html)**。
- * @param end 终点坐标。详见搜索服务模块的核心基础包（com.amap.api.services.core）中的类 **[LatLonPoint](../../../../../../Search/com/amap/api/services/core/LatLonPoint.html)**。
+ * @_routePlanParam context 当前activity。
+ * @_routePlanParam amap 地图对象。
+ * @_routePlanParam path 公交路径规划的一个路段。详见搜索服务模块的路径查询包（com.amap.api.services.route）中的类** [BusPath](../../../../../../Search/com/amap/api/services/route/BusPath.html)**。
+ * @_routePlanParam start 起点坐标。详见搜索服务模块的核心基础包（com.amap.api.services.core）中的类 **[LatLonPoint](../../../../../../Search/com/amap/api/services/core/LatLonPoint.html)**。
+ * @_routePlanParam end 终点坐标。详见搜索服务模块的核心基础包（com.amap.api.services.core）中的类 **[LatLonPoint](../../../../../../Search/com/amap/api/services/core/LatLonPoint.html)**。
  * @since V2.1.0
  */
 (context: Context, amap: AMap, private val busPath: BusPath,
@@ -189,7 +189,7 @@ class BusRouteOverlay
     }
 
     /**
-     * @param busStep
+     * @_routePlanParam busStep
      */
     private fun addWalkSteps(busStep: BusStep) {
         val routeBusWalkItem = busStep.walk
@@ -227,7 +227,7 @@ class BusRouteOverlay
     /**
      * 添加一系列的bus PolyLine
      *
-     * @param routeBusLineItem
+     * @_routePlanParam routeBusLineItem
      */
     private fun addBusLineSteps(routeBusLineItem: RouteBusLineItem) {
         addBusLineSteps(routeBusLineItem.polyline)
@@ -243,10 +243,10 @@ class BusRouteOverlay
     }
 
     /**
-     * @param latLng
+     * @_routePlanParam latLng
      * marker
-     * @param title
-     * @param snippet
+     * @_routePlanParam title
+     * @_routePlanParam snippet
      */
     private fun addWalkStationMarkers(latLng: LatLng, title: String,
                                       snippet: String) {
@@ -256,7 +256,7 @@ class BusRouteOverlay
     }
 
     /**
-     * @param routeBusLineItem
+     * @_routePlanParam routeBusLineItem
      */
     private fun addBusStationMarkers(routeBusLineItem: RouteBusLineItem) {
         val startBusStation = routeBusLineItem
@@ -307,8 +307,8 @@ class BusRouteOverlay
     /**
      * 如果换乘没有步行 检查bus最后一点和下一个step的bus起点是否一致
      *
-     * @param busStep
-     * @param busStep1
+     * @_routePlanParam busStep
+     * @_routePlanParam busStep1
      */
     private fun checkBusToNextBusNoWalk(busStep: BusStep, busStep1: BusStep) {
         val endbusLatLng = AMapUtil
@@ -324,8 +324,8 @@ class BusRouteOverlay
      *
      * checkBusToNextBusNoWalk 和这个类似
      *
-     * @param busStep
-     * @param busStep1
+     * @_routePlanParam busStep
+     * @_routePlanParam busStep1
      */
     private fun checkBusEndToNextBusStart(busStep: BusStep, busStep1: BusStep) {
         val busLastPoint = getLastBuslinePoint(busStep)
@@ -340,8 +340,8 @@ class BusRouteOverlay
     /**
      * 检查bus最后一步和下一各step的步行起点是否一致
      *
-     * @param busStep
-     * @param busStep1
+     * @_routePlanParam busStep
+     * @_routePlanParam busStep1
      */
     private fun checkBusLineToNextWalk(busStep: BusStep, busStep1: BusStep) {
         val busLastPoint = getLastBuslinePoint(busStep)
@@ -354,7 +354,7 @@ class BusRouteOverlay
     /**
      * 检查 步行最后一点 和 bus的起点 是否一致
      *
-     * @param busStep
+     * @_routePlanParam busStep
      */
     private fun checkWalkToBusline(busStep: BusStep) {
         val walkLastPoint = getLastWalkPoint(busStep)
@@ -366,7 +366,7 @@ class BusRouteOverlay
     }
 
     /**
-     * @param busStep1
+     * @_routePlanParam busStep1
      * @return
      */
     private fun getFirstWalkPoint(busStep1: BusStep): LatLonPoint {
@@ -385,8 +385,8 @@ class BusRouteOverlay
     }
 
     /**
-     * @param latLngFrom
-     * @param latLngTo
+     * @_routePlanParam latLngFrom
+     * @_routePlanParam latLngTo
      * @return
      */
     private fun addWalkPolyline(latLngFrom: LatLng?, latLngTo: LatLng?) {
@@ -395,7 +395,7 @@ class BusRouteOverlay
     }
 
     /**
-     * @param listWalkPolyline
+     * @_routePlanParam listWalkPolyline
      */
     private fun addWalkPolyline(listWalkPolyline: List<LatLng>) {
 
@@ -434,7 +434,7 @@ class BusRouteOverlay
     }
 
     /**
-     * @param busStep
+     * @_routePlanParam busStep
      * @return
      */
     private fun getLastWalkPoint(busStep: BusStep): LatLonPoint {

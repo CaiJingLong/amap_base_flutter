@@ -17,11 +17,11 @@ import com.amap.api.services.route.WalkStep
 class WalkRouteOverlay
 /**
  * 通过此构造函数创建步行路线图层。
- * @param context 当前activity。
- * @param amap 地图对象。
- * @param path 步行路线规划的一个方案。详见搜索服务模块的路径查询包（com.amap.api.services.route）中的类 **[WalkStep](../../../../../../Search/com/amap/api/services/route/WalkStep.html)**。
- * @param start 起点。详见搜索服务模块的核心基础包（com.amap.api.services.core）中的类**[LatLonPoint](../../../../../../Search/com/amap/api/services/core/LatLonPoint.html)**。
- * @param end 终点。详见搜索服务模块的核心基础包（com.amap.api.services.core）中的类**[LatLonPoint](../../../../../../Search/com/amap/api/services/core/LatLonPoint.html)**。
+ * @_routePlanParam context 当前activity。
+ * @_routePlanParam amap 地图对象。
+ * @_routePlanParam path 步行路线规划的一个方案。详见搜索服务模块的路径查询包（com.amap.api.services.route）中的类 **[WalkStep](../../../../../../Search/com/amap/api/services/route/WalkStep.html)**。
+ * @_routePlanParam start 起点。详见搜索服务模块的核心基础包（com.amap.api.services.core）中的类**[LatLonPoint](../../../../../../Search/com/amap/api/services/core/LatLonPoint.html)**。
+ * @_routePlanParam end 终点。详见搜索服务模块的核心基础包（com.amap.api.services.core）中的类**[LatLonPoint](../../../../../../Search/com/amap/api/services/core/LatLonPoint.html)**。
  * @since V2.1.0
  */
 (context: Context, amap: AMap, private val walkPath: WalkPath,
@@ -79,7 +79,7 @@ class WalkRouteOverlay
     }
 
     /**
-     * @param walkStep
+     * @_routePlanParam walkStep
      * @return
      */
     private fun getLastWalkPoint(walkStep: WalkStep): LatLonPoint {
@@ -87,7 +87,7 @@ class WalkRouteOverlay
     }
 
     /**
-     * @param walkStep
+     * @_routePlanParam walkStep
      * @return
      */
     private fun getFirstWalkPoint(walkStep: WalkStep): LatLonPoint {
@@ -104,15 +104,15 @@ class WalkRouteOverlay
     }
 
     /**
-     * @param walkStep
+     * @_routePlanParam walkStep
      */
     private fun addWalkPolyLines(walkStep: WalkStep) {
         mPolylineOptions!!.addAll(AMapServicesUtil.convertArrList(walkStep.polyline))
     }
 
     /**
-     * @param walkStep
-     * @param position
+     * @_routePlanParam walkStep
+     * @_routePlanParam position
      */
     private fun addWalkStationMarkers(walkStep: WalkStep, position: LatLng) {
         addStationMarker(MarkerOptions()

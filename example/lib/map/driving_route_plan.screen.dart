@@ -54,8 +54,8 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
                   child: RaisedButton(
                     onPressed: () {
                       _controller.calculateDriveRoute(RoutePlanParam(
-                        from: LatLng(29.079208, 119.647229),
-                        to: LatLng(29.05115, 119.641907),
+                        from: LatLng(29.993291, 116.473188),
+                        to: LatLng(39.940474, 116.355426),
                       ));
                     },
                     child: Text('开始规划'),

@@ -19,9 +19,9 @@ class DrivingRouteOverlay
 /**
  * 根据给定的参数，构造一个导航路线图层类对象。
  *
- * @param amap      地图对象。
- * @param path 导航路线规划方案。
- * @param context   当前的activity对象。
+ * @_routePlanParam amap      地图对象。
+ * @_routePlanParam path 导航路线规划方案。
+ * @_routePlanParam context   当前的activity对象。
  */
 (private val mContext: Context, amap: AMap, private val drivePath: DrivePath?,
  start: LatLonPoint, end: LatLonPoint, private val throughPointList: List<LatLonPoint>?) : RouteOverlay(mContext) {
@@ -34,7 +34,7 @@ class DrivingRouteOverlay
     /**
      * 设置路线宽度
      *
-     * @param mWidth 路线宽度，取值范围：大于0
+     * @_routePlanParam mWidth 路线宽度，取值范围：大于0
      */
     override var routeWidth = 25f
     private var mLatLngsOfPath: MutableList<LatLng>? = null
@@ -141,7 +141,7 @@ class DrivingRouteOverlay
     /**
      * 根据不同的路段拥堵情况展示不同的颜色
      *
-     * @param tmcSection
+     * @_routePlanParam tmcSection
      */
     private fun colorWayUpdate(tmcSection: List<TMC>?) {
         if (mAMap == null) {
@@ -203,8 +203,8 @@ class DrivingRouteOverlay
     }
 
     /**
-     * @param driveStep
-     * @param latLng
+     * @_routePlanParam driveStep
+     * @_routePlanParam latLng
      */
     private fun addDrivingStationMarkers(driveStep: DriveStep, latLng: LatLng) {
         addStationMarker(MarkerOptions()
@@ -272,8 +272,8 @@ class DrivingRouteOverlay
         /**
          * 获取两点间距离
          *
-         * @param start
-         * @param end
+         * @_routePlanParam start
+         * @_routePlanParam end
          * @return
          */
         fun calculateDistance(start: LatLng, end: LatLng): Int {
