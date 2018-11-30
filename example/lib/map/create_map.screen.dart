@@ -3,6 +3,10 @@ import 'package:amap_base_example/widgets/setting.widget.dart';
 import 'package:flutter/material.dart';
 
 class CreateMapScreen extends StatefulWidget {
+  CreateMapScreen();
+
+  factory CreateMapScreen.forDesignTime() => CreateMapScreen();
+
   @override
   _CreateMapScreenState createState() => _CreateMapScreenState();
 }
