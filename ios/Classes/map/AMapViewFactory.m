@@ -205,6 +205,12 @@ static NSString *mapChannelName = @"me.yohom/map";
         if (moveToCenter) {
             [_mapView showAnnotations:optionList animated:YES];
         }
+    } else if ([@"map#showIndoorMap" isEqualToString:call.method]) {
+        BOOL enabled = (BOOL) paramDic[@"showIndoorMap"];
+
+        NSLog(@"方法map#showIndoorMap android端参数: enabled -> %d", enabled);
+
+        _mapView.showsIndoorMap = enabled;
     } else {
         result(FlutterMethodNotImplemented);
     }

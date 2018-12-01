@@ -133,6 +133,13 @@ class AMapView(private val context: Context,
                 val optionsList = ArrayList(optionsListJson.parseJson<List<UnifiedMarkerOptions>>().map { it.toMarkerOption() })
                 map.addMarkers(optionsList, moveToCenter)
             }
+            "map#showIndoorMap" -> {
+                val enabled = call.argument<Boolean>("showIndoorMap") ?: false
+
+                log("方法map#showIndoorMap android端参数: enabled -> $enabled")
+
+                map.showIndoorMap(enabled)
+            }
             else -> result.notImplemented()
         }
     }
