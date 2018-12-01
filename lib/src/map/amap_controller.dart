@@ -65,4 +65,11 @@ class AMapController {
       },
     );
   }
+
+  void showIndoorMap(bool enable) {
+    _mapChannel.invokeMethod(
+      'map#showIndoorMap',
+      {'showIndoorMap': enable},
+    );
+  }
 }
