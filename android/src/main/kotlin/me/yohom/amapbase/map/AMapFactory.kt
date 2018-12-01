@@ -13,14 +13,12 @@ import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
 import me.yohom.amapbase.AMapBasePlugin
-import me.yohom.amapbase.map.model.RoutePlanParam
-import me.yohom.amapbase.map.model.UnifiedAMapOptions
-import me.yohom.amapbase.map.model.UnifiedMyLocationStyle
-import me.yohom.amapbase.map.model.UnifiedUiSettings
+import me.yohom.amapbase.map.model.*
 import me.yohom.amapbase.map.overlay.DrivingRouteOverlay
 import me.yohom.amapbase.utils.log
 import me.yohom.amapbase.utils.parseJson
 import me.yohom.amapbase.utils.toLatLonPoint
+import java.util.*
 
 
 const val mapChannelName = "me.yohom/map"
@@ -118,6 +116,22 @@ class AMapView(private val context: Context,
 
                     calculateDriveRouteAsyn(routeQuery)
                 }
+            }
+            "marker#addMarker" -> {
+                val optionsJson = call.argument<String>("markerOptions") ?: "{}"
+
+                log("方法marker#addMarker android端参数: optionsJson -> $optionsJson")
+
+                optionsJson.parseJson<UnifiedMarkerOptions>().applyTo(map)
+            }
+            "marker#addMarkers" -> {
+                val moveToCenter = call.argument<Boolean>("moveToCenter") ?: true
+                val optionsListJson = call.argument<String>("markerOptionsList") ?: "[]"
+
+                log("方法marker#addMarkers android端参数: optionsListJson -> $optionsListJson")
+
+                val optionsList = ArrayList(optionsListJson.parseJson<List<UnifiedMarkerOptions>>().map { it.toMarkerOption() })
+                map.addMarkers(optionsList, moveToCenter)
             }
             else -> result.notImplemented()
         }
