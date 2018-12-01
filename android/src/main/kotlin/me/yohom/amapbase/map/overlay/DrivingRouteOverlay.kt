@@ -1,6 +1,5 @@
 package me.yohom.amapbase.map.overlay
 
-import android.content.Context
 import android.graphics.Color
 import com.amap.api.maps.AMap
 import com.amap.api.maps.model.*
@@ -9,63 +8,49 @@ import com.amap.api.services.route.DrivePath
 import com.amap.api.services.route.DriveStep
 import com.amap.api.services.route.TMC
 import me.yohom.amapbase.R
+import me.yohom.amapbase.utils.toLatLng
 import java.util.*
 
 
 /**
  * 导航路线图层类。
- */
-class DrivingRouteOverlay
-/**
  * 根据给定的参数，构造一个导航路线图层类对象。
  *
- * @_routePlanParam amap      地图对象。
- * @_routePlanParam path 导航路线规划方案。
- * @_routePlanParam context   当前的activity对象。
+ * @param map      地图对象。
+ * @param drivePath 导航路线规划方案。
  */
-(private val mContext: Context, amap: AMap, private val drivePath: DrivePath?,
- start: LatLonPoint, end: LatLonPoint, private val throughPointList: List<LatLonPoint>?) : RouteOverlay(mContext) {
-    private val throughPointMarkerList = ArrayList<Marker>()
-    private var throughPointMarkerVisible = true
-    private var tmcs: MutableList<TMC>? = null
-    private var mPolylineOptions: PolylineOptions? = null
-    private var mPolylineOptionscolor: PolylineOptions? = null
-    private var isColorfulline = true
+class DrivingRouteOverlay(map: AMap,
+                          from: LatLonPoint,
+                          to: LatLonPoint,
+                          private val passbyPointList: List<LatLonPoint>,
+                          private val drivePath: DrivePath) : RouteOverlay(map, from.toLatLng(), to.toLatLng()) {
+    private val passbyPointMarkerList = ArrayList<Marker>()
+    private var passbyPointMarkerVisible = true
     /**
-     * 设置路线宽度
-     *
-     * @_routePlanParam mWidth 路线宽度，取值范围：大于0
+     * 交通拥堵信息
+     */
+    private var tmcs: MutableList<TMC> = mutableListOf()
+    private var polylineOptions: PolylineOptions? = null
+    private var polylineOptionsColor: PolylineOptions? = null
+    var isColorfulLine = true
+
+    /**
+     * 设置路线宽度 路线宽度，取值范围：大于0
      */
     override var routeWidth = 25f
-    private var mLatLngsOfPath: MutableList<LatLng>? = null
+    private var latLngsOfPath: MutableList<LatLng> = mutableListOf()
 
     override val latLngBounds: LatLngBounds
         get() {
             val b = LatLngBounds.builder()
-            b.include(LatLng(startPoint!!.latitude, startPoint!!.longitude))
-            b.include(LatLng(endPoint!!.latitude, endPoint!!.longitude))
-            if (this.throughPointList != null && this.throughPointList.isNotEmpty()) {
-                for (i in this.throughPointList.indices) {
-                    b.include(LatLng(
-                            this.throughPointList[i].latitude,
-                            this.throughPointList[i].longitude))
-                }
-            }
+            b.include(from)
+            passbyPointList.forEach { b.include(it.toLatLng()) }
+            b.include(to)
             return b.build()
         }
 
-    private val throughPointBitDes: BitmapDescriptor
+    private val passbyPointBitDes: BitmapDescriptor
         get() = BitmapDescriptorFactory.fromResource(R.drawable.amap_through)
-
-    fun setIsColorfulline(iscolorfulline: Boolean) {
-        this.isColorfulline = iscolorfulline
-    }
-
-    init {
-        mAMap = amap
-        startPoint = AMapUtil.convertToLatLng(start)
-        endPoint = AMapUtil.convertToLatLng(end)
-    }
 
     /**
      * 添加驾车路线添加到地图上显示。
@@ -73,39 +58,36 @@ class DrivingRouteOverlay
     fun addToMap() {
         initPolylineOptions()
         try {
-            if (mAMap == null) {
+            if (routeWidth == 0f) {
                 return
             }
 
-            if (routeWidth == 0f || drivePath == null) {
-                return
-            }
-            mLatLngsOfPath = ArrayList()
+            latLngsOfPath = ArrayList()
             tmcs = ArrayList()
             val drivePaths = drivePath.steps
-            mPolylineOptions!!.add(startPoint)
+            polylineOptions!!.add(from)
             for (step in drivePaths) {
                 val latlonPoints = step.polyline
                 val tmclist = step.tmCs
-                tmcs!!.addAll(tmclist)
+                tmcs.addAll(tmclist)
                 addDrivingStationMarkers(step, convertToLatLng(latlonPoints[0]))
                 for (latlonpoint in latlonPoints) {
-                    mPolylineOptions!!.add(convertToLatLng(latlonpoint))
-                    mLatLngsOfPath!!.add(convertToLatLng(latlonpoint))
+                    polylineOptions!!.add(convertToLatLng(latlonpoint))
+                    latLngsOfPath.add(convertToLatLng(latlonpoint))
                 }
             }
-            mPolylineOptions!!.add(endPoint)
-            if (startMarker != null) {
-                startMarker!!.remove()
-                startMarker = null
+            polylineOptions!!.add(to)
+            if (fromMarker != null) {
+                fromMarker!!.remove()
+                fromMarker = null
             }
-            if (endMarker != null) {
-                endMarker!!.remove()
-                endMarker = null
+            if (toMarker != null) {
+                toMarker!!.remove()
+                toMarker = null
             }
-            addStartAndEndMarker()
-            addThroughPointMarker()
-            if (isColorfulline && tmcs!!.size > 0) {
+            addFromAndToMarker()
+            addPassbyMarker()
+            if (isColorfulLine && tmcs.size > 0) {
                 colorWayUpdate(tmcs)
                 showColorPolyline()
             } else {
@@ -122,65 +104,60 @@ class DrivingRouteOverlay
      * 初始化线段属性
      */
     private fun initPolylineOptions() {
+        polylineOptions = null
 
-        mPolylineOptions = null
-
-        mPolylineOptions = PolylineOptions()
-        mPolylineOptions!!.color(driveColor).width(routeWidth)
+        polylineOptions = PolylineOptions()
+        polylineOptions!!.color(driveColor).width(routeWidth)
     }
 
     private fun showPolyline() {
-        addPolyLine(mPolylineOptions)
+        addPolyLine(polylineOptions!!)
     }
 
     private fun showColorPolyline() {
-        addPolyLine(mPolylineOptionscolor)
-
+        addPolyLine(polylineOptionsColor!!)
     }
 
     /**
      * 根据不同的路段拥堵情况展示不同的颜色
      *
-     * @_routePlanParam tmcSection
+     * @routePlanParam tmcSection
      */
     private fun colorWayUpdate(tmcSection: List<TMC>?) {
-        if (mAMap == null) {
-            return
-        }
         if (tmcSection == null || tmcSection.isEmpty()) {
             return
         }
         var segmentTrafficStatus: TMC
-        mPolylineOptionscolor = null
-        mPolylineOptionscolor = PolylineOptions()
-        mPolylineOptionscolor!!.width(routeWidth)
-        mPolylineOptionscolor!!.color(driveColor)
-        mPolylineOptionscolor!!.add(startPoint)
+        polylineOptionsColor = null
+        polylineOptionsColor = PolylineOptions()
+        polylineOptionsColor!!.width(routeWidth)
+        polylineOptionsColor!!.color(driveColor)
+        polylineOptionsColor!!.add(from)
 
-        mPolylineOptionscolor!!.add(AMapUtil.convertToLatLng(tmcSection[0].polyline[0]))
+        polylineOptionsColor!!.add(tmcSection[0].polyline[0].toLatLng())
         for (i in tmcSection.indices) {
             segmentTrafficStatus = tmcSection[i]
             val color = getColor(segmentTrafficStatus.status)
-            val mployline = segmentTrafficStatus.polyline
-            mPolylineOptionscolor!!.color(color)
+            val ployline = segmentTrafficStatus.polyline
+            polylineOptionsColor!!.color(color)
             var lastLanLng: LatLng? = null
-            for (j in 1 until mployline.size) {
-                lastLanLng = AMapUtil.convertToLatLng(mployline[j])
-                mPolylineOptionscolor!!.add(lastLanLng)
+            for (j in 1 until ployline.size) {
+                lastLanLng = ployline[j].toLatLng()
+                polylineOptionsColor!!.add(lastLanLng)
             }
-            mAMap!!.addPolyline(mPolylineOptionscolor)
+            map.addPolyline(polylineOptionsColor)
 
             // 准备下一次绘制
-            mPolylineOptionscolor = PolylineOptions()
-            mPolylineOptionscolor!!.width(routeWidth)
-            mPolylineOptionscolor!!.color(driveColor)
+            polylineOptionsColor = PolylineOptions()
+            polylineOptionsColor!!.width(routeWidth)
+            polylineOptionsColor!!.color(driveColor)
             if (lastLanLng != null) {
-                mPolylineOptionscolor!!.add(lastLanLng)
+                polylineOptionsColor!!.add(lastLanLng)
             }
         }
-        mPolylineOptionscolor!!.add(endPoint)
+        polylineOptionsColor!!.add(to)
 
-        mAMap!!.addPolyline(mPolylineOptionscolor)
+        map.addPolyline(polylineOptionsColor)
     }
 
     private fun getColor(status: String): Int {
@@ -198,8 +175,8 @@ class DrivingRouteOverlay
     }
 
     /**
-     * @_routePlanParam driveStep
-     * @_routePlanParam latLng
+     * @param driveStep
+     * @param latLng
      */
     private fun addDrivingStationMarkers(driveStep: DriveStep, latLng: LatLng) {
         addStationMarker(MarkerOptions()
@@ -210,33 +187,19 @@ class DrivingRouteOverlay
                 .anchor(0.5f, 0.5f).icon(driveBitmapDescriptor))
     }
 
-    fun setThroughPointIconVisibility(visible: Boolean) {
-        try {
-            throughPointMarkerVisible = visible
-            if (this.throughPointMarkerList.size > 0) {
-                for (i in this.throughPointMarkerList.indices) {
-                    this.throughPointMarkerList[i].isVisible = visible
-                }
-            }
-        } catch (e: Throwable) {
-            e.printStackTrace()
-        }
-
-    }
-
-    private fun addThroughPointMarker() {
-        if (this.throughPointList != null && this.throughPointList.isNotEmpty()) {
+    private fun addPassbyMarker() {
+        if (passbyPointList.isNotEmpty()) {
             var latLonPoint: LatLonPoint?
-            for (i in this.throughPointList.indices) {
-                latLonPoint = this.throughPointList[i]
-                throughPointMarkerList.add(mAMap!!
+            for (i in passbyPointList.indices) {
+                latLonPoint = passbyPointList[i]
+                passbyPointMarkerList.add(map
                         .addMarker(MarkerOptions()
                                 .position(
                                         LatLng(latLonPoint
                                                 .latitude, latLonPoint
                                                 .longitude))
-                                .visible(throughPointMarkerVisible)
-                                .icon(throughPointBitDes)
+                                .visible(passbyPointMarkerVisible)
+                                .icon(passbyPointBitDes)
                                 .title("\u9014\u7ECF\u70B9")))
             }
         }
@@ -248,68 +211,15 @@ class DrivingRouteOverlay
     override fun removeFromMap() {
         try {
             super.removeFromMap()
-            if (this.throughPointMarkerList.size > 0) {
-                for (i in this.throughPointMarkerList.indices) {
-                    this.throughPointMarkerList[i].remove()
+            if (this.passbyPointMarkerList.size > 0) {
+                for (i in this.passbyPointMarkerList.indices) {
+                    this.passbyPointMarkerList[i].remove()
                 }
-                this.throughPointMarkerList.clear()
+                this.passbyPointMarkerList.clear()
             }
         } catch (e: Throwable) {
             e.printStackTrace()
         }
 
-    }
-
-    companion object {
-
-        /**
-         * 获取两点间距离
-         *
-         * @_routePlanParam start
-         * @_routePlanParam end
-         * @return
-         */
-        private fun calculateDistance(start: LatLng, end: LatLng): Int {
-            val x1 = start.longitude
-            val y1 = start.latitude
-            val x2 = end.longitude
-            val y2 = end.latitude
-            return calculateDistance(x1, y1, x2, y2)
-        }
-
-        private fun calculateDistance(x1: Double, y1: Double, x2: Double, y2: Double): Int {
-            var x1 = x1
-            var y1 = y1
-            var x2 = x2
-            var y2 = y2
-            val NF_pi = 0.01745329251994329 // 弧度 PI/180
-            x1 *= NF_pi
-            y1 *= NF_pi
-            x2 *= NF_pi
-            y2 *= NF_pi
-            val sinx1 = Math.sin(x1)
-            val siny1 = Math.sin(y1)
-            val cosx1 = Math.cos(x1)
-            val cosy1 = Math.cos(y1)
-            val sinx2 = Math.sin(x2)
-            val siny2 = Math.sin(y2)
-            val cosx2 = Math.cos(x2)
-            val cosy2 = Math.cos(y2)
-            val v1 = DoubleArray(3)
-            v1[0] = cosy1 * cosx1 - cosy2 * cosx2
-            v1[1] = cosy1 * sinx1 - cosy2 * sinx2
-            v1[2] = siny1 - siny2
-            val dist = Math.sqrt(v1[0] * v1[0] + v1[1] * v1[1] + v1[2] * v1[2])
-
-            return (Math.asin(dist / 2) * 12742001.5798544).toInt()
-        }
-
-
-        //获取指定两点之间固定距离点
-        fun getPointForDis(sPt: LatLng, ePt: LatLng, dis: Double): LatLng {
-            val lSegLength = calculateDistance(sPt, ePt).toDouble()
-            val preResult = dis / lSegLength
-            return LatLng((ePt.latitude - sPt.latitude) * preResult + sPt.latitude, (ePt.longitude - sPt.longitude) * preResult + sPt.longitude)
-        }
     }
 }

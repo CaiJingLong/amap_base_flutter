@@ -97,10 +97,9 @@ class AMapView(private val context: Context,
                                 result.error("没有规划出合适的路线", null, null)
                             } else {
                                 map.clear()
-                                DrivingRouteOverlay(context, map, r.paths[0], r.startPos, r.targetPos, null)
+                                DrivingRouteOverlay(map, r.startPos, r.targetPos, listOf(), r.paths[0])
                                         .apply {
-                                            setNodeIconVisibility(false)//设置节点marker是否显示
-                                            setIsColorfulline(true)//是否用颜色展示交通拥堵情况，默认true
+                                            nodeIconVisible = false//设置节点marker是否显示
                                             removeFromMap()
                                             addToMap()
                                             zoomToSpan()
