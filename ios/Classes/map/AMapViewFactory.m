@@ -15,6 +15,7 @@
 #import "MANaviAnnotation.h"
 #import "MANaviRoute.h"
 #import "CommonUtility.h"
+#import "UnifiedAssets.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 
@@ -162,6 +163,7 @@ static NSString *mapChannelName = @"me.yohom/map";
 }
 
 #pragma AMapSearchDelegate
+
 /* 路径规划搜索回调. */
 - (void)onRouteSearchDone:(AMapRouteSearchBaseRequest *)request response:(AMapRouteSearchResponse *)response {
     if (response.route.paths.count == 0) {
@@ -205,6 +207,7 @@ static NSString *mapChannelName = @"me.yohom/map";
 }
 
 #pragma MAMapViewDelegate
+
 /// 渲染overlay回调
 - (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay {
     if ([overlay isKindOfClass:[LineDashPolyline class]]) {
@@ -238,6 +241,55 @@ static NSString *mapChannelName = @"me.yohom/map";
         polylineRenderer.strokeColors = [_overlay.multiPolylineColors copy];
 
         return polylineRenderer;
+    }
+
+    return nil;
+}
+
+/// 渲染annotation, 就是Android中的marker
+- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id <MAAnnotation>)annotation {
+    if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
+        static NSString *routePlanningCellIdentifier = @"RoutePlanningCellIdentifier";
+
+        MAAnnotationView *poiAnnotationView = [_mapView dequeueReusableAnnotationViewWithIdentifier:routePlanningCellIdentifier];
+        if (poiAnnotationView == nil) {
+            poiAnnotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
+                                                             reuseIdentifier:routePlanningCellIdentifier];
+        }
+
+        poiAnnotationView.canShowCallout = YES;
+        poiAnnotationView.image = nil;
+
+        if ([annotation isKindOfClass:[MANaviAnnotation class]]) {
+            switch (((MANaviAnnotation *) annotation).type) {
+                case MANaviAnnotationTypeRailway:
+                    poiAnnotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/railway_station.png"]];
+                    break;
+                case MANaviAnnotationTypeBus:
+                    poiAnnotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/bus.png"]];
+                    break;
+                case MANaviAnnotationTypeDrive:
+                    poiAnnotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/car.png"]];
+                    break;
+                case MANaviAnnotationTypeWalking:
+                    poiAnnotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/man.png"]];
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            if ([[annotation title] isEqualToString:@"起点"]) {
+                NSString *imagePath = [UnifiedAssets getAssetPath:@"images/amap_start.png"];
+                poiAnnotationView.image = [UIImage imageWithContentsOfFile:imagePath];
+            } else if ([[annotation title] isEqualToString:@"终点"]) {
+                NSString *imagePath = [UnifiedAssets getAssetPath:@"images/amap_end.png"];
+                poiAnnotationView.image = [UIImage imageWithContentsOfFile:imagePath];
+            }
+            CGPoint origin = poiAnnotationView.imageView.frame.origin;
+            poiAnnotationView.imageView.frame = CGRectMake(origin.x + 24, origin.y + 4, 48, 48);
+        }
+
+        return poiAnnotationView;
     }
 
     return nil;
