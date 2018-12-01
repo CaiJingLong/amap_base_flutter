@@ -140,6 +140,13 @@ class AMapView(private val context: Context,
 
                 map.showIndoorMap(enabled)
             }
+            "map#setMapType" -> {
+                val mapType = call.argument<Int>("mapType") ?: 1
+
+                log("方法map#setMapType android端参数: mapType -> $mapType")
+
+                map.mapType = mapType
+            }
             else -> result.notImplemented()
         }
     }
