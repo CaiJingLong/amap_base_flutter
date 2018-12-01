@@ -1,6 +1,6 @@
 name: amap_base
 description: 高德地图&导航.
-version: 0.0.3
+version: 0.0.4
 author: yohom <382146139@qq.com>
 homepage: https://github.com/yohom/amap_base_flutter
 
@@ -21,9 +21,12 @@ flutter:
     pluginClass: AMapBasePlugin
 
   # To add assets to your plugin package, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
+  assets:
+    - images/amap_start.png
+    - images/amap_end.png
+    - images/amap_through.png
+    - images/bus.png
+    - images/car.png
   #
   # For details regarding assets in packages, see
   # https://flutter.io/assets-and-images/#from-packages

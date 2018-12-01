@@ -1,5 +1,6 @@
 import 'package:amap_base_example/map/control_interaction.screen.dart';
 import 'package:amap_base_example/map/create_map.screen.dart';
+import 'package:amap_base_example/map/draw_point.screen.dart';
 import 'package:amap_base_example/map/driving_route_plan.screen.dart';
 import 'package:amap_base_example/navi/navi.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +75,27 @@ class MapsDemo extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (_) => DrivingRoutPlanScreen(),
                       ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('在地图上绘制', style: Theme.of(context).textTheme.headline),
+                FlatButton(
+                  child: Text(
+                    '绘制点标记',
+                    style: Theme.of(context).textTheme.subhead,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => DrawPointScreen()),
                     );
                   },
                 ),

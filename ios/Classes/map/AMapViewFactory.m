@@ -15,6 +15,10 @@
 #import "MANaviAnnotation.h"
 #import "MANaviRoute.h"
 #import "CommonUtility.h"
+#import "UnifiedAssets.h"
+#import "UnifiedMarkerOptions.h"
+#import "MarkerAnnotation.h"
+#import "MarkerAnnotation.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 
@@ -92,6 +96,7 @@ static NSString *mapChannelName = @"me.yohom/map";
         logoPosition = CGPointMake(_mapView.bounds.size.width, _mapView.bounds.size.height);
     }
     _mapView.logoCenter = logoPosition;
+    _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     //endregion
 
     _channel = [FlutterMethodChannel methodChannelWithName:[NSString stringWithFormat:@"%@%lld", mapChannelName, _viewId]
@@ -107,6 +112,10 @@ static NSString *mapChannelName = @"me.yohom/map";
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *paramDic = call.arguments;
+
+    // 设置delegate, 渲染overlay和annotation的时候需要
+    _mapView.delegate = self;
+
     if ([@"map#setMyLocationStyle" isEqualToString:call.method]) {
         NSString *styleJson = (NSString *) paramDic[@"myLocationStyle"];
 
@@ -131,9 +140,6 @@ static NSString *mapChannelName = @"me.yohom/map";
         _routePlanParam = [[RoutePlanParam alloc] initWithString:routePlanParamJson error:&error];
         NSLog(@"JSONModelError: %@", error.description);
 
-        // 设置delegate, 渲染overlay和annotation的时候需要
-        _mapView.delegate = self;
-
         // 开始搜索路线
         _search = [[AMapSearchAPI alloc] init];
         _search.delegate = self;
@@ -156,12 +162,56 @@ static NSString *mapChannelName = @"me.yohom/map";
 
         NSLog(@"AMapDrivingRouteSearchRequest: %@", routeQuery.formattedDescription);
         [_search AMapDrivingRouteSearch:routeQuery];
+    } else if ([@"marker#addMarker" isEqualToString:call.method]) {
+        NSString *optionsJson = (NSString *) paramDic[@"markerOptions"];
+
+        NSLog(@"方法marker#addMarker ios端参数: optionsJson -> %@", optionsJson);
+        JSONModelError *error;
+        UnifiedMarkerOptions *markerOptions = [[UnifiedMarkerOptions alloc] initWithString:optionsJson error:&error];
+        NSLog(@"JSONModelError: %@", error.description);
+
+        MarkerAnnotation *annotation = [[MarkerAnnotation alloc] init];
+        annotation.coordinate = [markerOptions.position toCLLocationCoordinate2D];
+        annotation.title = markerOptions.title;
+        annotation.subtitle = markerOptions.snippet;
+        annotation.markerOptions = markerOptions;
+
+        [_mapView addAnnotation:annotation];
+    } else if ([@"marker#addMarkers" isEqualToString:call.method]) {
+        NSString *moveToCenter = (NSString *) paramDic[@"moveToCenter"];
+        NSString *optionsListJson = (NSString *) paramDic[@"markerOptionsList"];
+
+        NSLog(@"方法marker#addMarkers ios端参数: optionsListJson -> %@", optionsListJson);
+        NSArray *rawOptionsList = [NSJSONSerialization JSONObjectWithData:[optionsListJson dataUsingEncoding:NSUTF8StringEncoding]
+                                                                  options:kNilOptions
+                                                                    error:nil];
+        NSMutableArray<MarkerAnnotation *> *optionList = [NSMutableArray array];
+
+        for (NSUInteger i = 0; i < rawOptionsList.count; ++i) {
+            JSONModelError *error;
+
+            UnifiedMarkerOptions *options = [[UnifiedMarkerOptions alloc] initWithDictionary:rawOptionsList[i] error:&error];
+            MarkerAnnotation *annotation = [[MarkerAnnotation alloc] init];
+            annotation.coordinate = [options.position toCLLocationCoordinate2D];
+            annotation.title = options.title;
+            annotation.subtitle = options.snippet;
+            annotation.markerOptions = options;
+
+            NSLog(@"JSONModelError: %@", error.description);
+            [optionList addObject:annotation];
+        }
+
+        [_mapView addAnnotations:optionList];
+        if (moveToCenter) {
+            [_mapView showAnnotations:optionList animated:YES];
+        }
     } else {
         result(FlutterMethodNotImplemented);
     }
 }
 
 #pragma AMapSearchDelegate
+
 /* 路径规划搜索回调. */
 - (void)onRouteSearchDone:(AMapRouteSearchBaseRequest *)request response:(AMapRouteSearchResponse *)response {
     if (response.route.paths.count == 0) {
@@ -200,11 +250,12 @@ static NSString *mapChannelName = @"me.yohom/map";
 /// 路线规划失败回调
 - (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error {
     if (_result != nil) {
-        _result([NSString stringWithFormat:@"路线规划失败, 错误码: %d", error.code]);
+        _result([NSString stringWithFormat:@"路线规划失败, 错误码: %ld", (long) error.code]);
     }
 }
 
 #pragma MAMapViewDelegate
+
 /// 渲染overlay回调
 - (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay {
     if ([overlay isKindOfClass:[LineDashPolyline class]]) {
@@ -248,56 +299,59 @@ static NSString *mapChannelName = @"me.yohom/map";
     if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
         static NSString *routePlanningCellIdentifier = @"RoutePlanningCellIdentifier";
 
-        MAAnnotationView *poiAnnotationView = [_mapView dequeueReusableAnnotationViewWithIdentifier:routePlanningCellIdentifier];
-        if (poiAnnotationView == nil) {
-            poiAnnotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
-                                                             reuseIdentifier:routePlanningCellIdentifier];
+        MAAnnotationView *annotationView = [_mapView dequeueReusableAnnotationViewWithIdentifier:routePlanningCellIdentifier];
+        if (annotationView == nil) {
+            annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
+                                                          reuseIdentifier:routePlanningCellIdentifier];
         }
 
-        poiAnnotationView.canShowCallout = YES;
-        poiAnnotationView.image = nil;
+        annotationView.canShowCallout = YES;
+        annotationView.image = nil;
 
-        NSBundle *podBundle = [NSBundle bundleForClass:[self class]];
-
-        NSURL *path = [podBundle URLForResource:@"amap_base" withExtension:@"bundle"];
-
-        NSBundle *bundle = [NSBundle bundleWithURL:path];
         if ([annotation isKindOfClass:[MANaviAnnotation class]]) {
             switch (((MANaviAnnotation *) annotation).type) {
                 case MANaviAnnotationTypeRailway:
-                    poiAnnotationView.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"railway_station"
-                                                                                                ofType:@"png"]];
+                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/railway_station.png"]];
                     break;
                 case MANaviAnnotationTypeBus:
-                    poiAnnotationView.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"bus"
-                                                                                                ofType:@"png"]];
+                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/bus.png"]];
                     break;
                 case MANaviAnnotationTypeDrive:
-                    poiAnnotationView.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"car"
-                                                                                                ofType:@"png"]];
+                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/car.png"]];
                     break;
                 case MANaviAnnotationTypeWalking:
-                    poiAnnotationView.image = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"man"
-                                                                                                ofType:@"png"]];
+                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/man.png"]];
                     break;
                 default:
                     break;
             }
-        } else {
-            /* 起点. */
-            if ([[annotation title] isEqualToString:@"起点"]) {
-                NSString *imagePath = [bundle pathForResource:@"startPoint" ofType:@"png"];
-                poiAnnotationView.image = [UIImage imageWithContentsOfFile:imagePath];
+        } else if ([annotation isKindOfClass:[MarkerAnnotation class]]) {
+            UnifiedMarkerOptions *options = ((MarkerAnnotation *) annotation).markerOptions;
+            annotationView.zIndex = (NSInteger) options.zIndex;
+            if (options.icon != nil) {
+                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:options.icon]];
             }
-                /* 终点. */
-            else if ([[annotation title] isEqualToString:@"终点"]) {
-                NSString *imagePath = [bundle pathForResource:@"endPoint" ofType:@"png"];
-                poiAnnotationView.image = [UIImage imageWithContentsOfFile:imagePath];
-            }
+            annotationView.centerOffset = CGPointMake(options.anchorU, options.anchorV);
+            annotationView.calloutOffset = CGPointMake(options.infoWindowOffsetX, options.infoWindowOffsetY);
+            annotationView.draggable = options.draggable;
+            annotationView.canShowCallout = options.infoWindowEnable;
+            annotationView.enabled = options.enabled;
+            annotationView.highlighted = options.highlighted;
+            annotationView.selected = options.selected;
 
+            CGPoint origin = annotationView.imageView.frame.origin;
+            annotationView.imageView.bounds = CGRectMake(origin.x + 24, origin.y + 4, 48, 48);
+        } else {
+            if ([[annotation title] isEqualToString:@"起点"]) {
+                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/amap_end.png"]];
+            } else if ([[annotation title] isEqualToString:@"终点"]) {
+                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/amap_end.png"]];
+            }
+            CGPoint origin = annotationView.imageView.frame.origin;
+            annotationView.imageView.bounds = CGRectMake(origin.x + 24, origin.y + 4, 48, 48);
         }
 
-        return poiAnnotationView;
+        return annotationView;
     }
 
     return nil;

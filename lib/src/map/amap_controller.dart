@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:amap_base/amap_base.dart';
+import 'package:amap_base/src/map/model/marker_options.dart';
 import 'package:amap_base/src/map/model/my_location_style.dart';
 import 'package:amap_base/src/map/model/route_plan_param.dart';
 import 'package:amap_base/src/map/model/ui_settings.dart';
@@ -40,6 +41,28 @@ class AMapController {
     return _mapChannel.invokeMethod(
       'map#calculateDriveRoute',
       {'routePlanParam': _routePlanParam},
+    );
+  }
+
+  void addMarker(MarkerOptions options) {
+    final _optionsJson = options.toJsonString();
+    L.p('方法addMarker dart端参数: _optionsJson -> $_optionsJson');
+    _mapChannel.invokeMethod(
+      'marker#addMarker',
+      {'markerOptions': _optionsJson},
+    );
+  }
+
+  void addMarkers(List<MarkerOptions> optionsList, {bool moveToCenter = true}) {
+    final _optionsListJson =
+        jsonEncode(optionsList.map((it) => it.toJson()).toList());
+    L.p('方法addMarkers dart端参数: _optionsListJson -> $_optionsListJson');
+    _mapChannel.invokeMethod(
+      'marker#addMarkers',
+      {
+        'moveToCenter': moveToCenter,
+        'markerOptionsList': _optionsListJson,
+      },
     );
   }
 }

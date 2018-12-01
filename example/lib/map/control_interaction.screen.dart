@@ -3,6 +3,11 @@ import 'package:amap_base_example/widgets/setting.widget.dart';
 import 'package:flutter/material.dart';
 
 class ControlInteractionScreen extends StatefulWidget {
+  ControlInteractionScreen();
+
+  factory ControlInteractionScreen.forDesignTime() =>
+      ControlInteractionScreen();
+
   @override
   _ControlInteractionScreenState createState() =>
       _ControlInteractionScreenState();

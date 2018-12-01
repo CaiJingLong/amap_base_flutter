@@ -6,3 +6,7 @@ import com.amap.api.services.core.LatLonPoint
 fun LatLng.toLatLonPoint(): LatLonPoint {
     return LatLonPoint(latitude, longitude)
 }
+
+fun LatLonPoint.toLatLng(): LatLng {
+    return LatLng(latitude, longitude)
+}
