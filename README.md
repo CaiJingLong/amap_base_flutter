@@ -1,4 +1,4 @@
-# 高德地图&导航Flutter插件
+# 高德地图Flutter插件
 
 ## 安装
 在你的`pubspec.yaml`文件的dependencies节点下添加:
