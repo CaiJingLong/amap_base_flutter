@@ -33,6 +33,12 @@ class DrawPointScreen extends StatelessWidget {
                     ))
                 .toList(),
           );
+//          controller.addMarker(MarkerOptions(
+//            icon: icon,
+//            position: LatLng(39.992520, 116.336170),
+//            title: '哈哈',
+//            snippet: '呵呵',
+//          ));
         },
         amapOptions: AMapOptions(),
       ),

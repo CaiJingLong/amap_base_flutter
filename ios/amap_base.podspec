@@ -20,12 +20,6 @@ A new Flutter plugin.
   s.dependency 'AMapSearch'
   s.dependency 'JSONModel'
 
-  s.resource_bundles = {
-      'amap_base' => [
-        'amap_base/Assets/*'
-      ]
-  }
-
   s.ios.deployment_target = '8.0'
 end
 
