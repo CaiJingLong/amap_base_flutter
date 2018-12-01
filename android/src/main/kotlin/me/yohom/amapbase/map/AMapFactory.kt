@@ -147,6 +147,13 @@ class AMapView(private val context: Context,
 
                 map.mapType = mapType
             }
+            "map#setLanguage" -> {
+                val language = call.argument<String>("language") ?: "0"
+
+                log("方法map#setLanguage android端参数: language -> $language")
+
+                map.setMapLanguage(language)
+            }
             else -> result.notImplemented()
         }
     }

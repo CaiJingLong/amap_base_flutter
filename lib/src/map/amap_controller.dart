@@ -79,4 +79,11 @@ class AMapController {
       {'mapType': mapType},
     );
   }
+
+  void setLanguage(int language) {
+    _mapChannel.invokeMethod(
+      'map#setLanguage',
+      {'language': language},
+    );
+  }
 }

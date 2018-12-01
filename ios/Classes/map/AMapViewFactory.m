@@ -218,6 +218,13 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"方法map#setMapType ios端参数: mapType -> %d", mapType);
 
         [_mapView setMapType:mapType];
+    } else if ([@"map#setLanguage" isEqualToString:call.method]) {
+        // 由于iOS端是从0开始算的, 所以这里减去1
+        NSString *language = (NSString *) paramDic[@"language"];
+
+        NSLog(@"方法map#setLanguage ios端参数: language -> %@", language);
+
+        [_mapView performSelector:NSSelectorFromString(@"setMapLanguage:") withObject:language];
     } else {
         result(FlutterMethodNotImplemented);
     }
