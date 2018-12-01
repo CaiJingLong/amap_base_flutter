@@ -5,7 +5,7 @@ import android.graphics.Color
 import com.amap.api.maps.AMap
 import com.amap.api.maps.CameraUpdateFactory
 import com.amap.api.maps.model.*
-import me.yohom.amapbase.R
+import me.yohom.amapbase.utils.UnifiedAssets
 
 open class RouteOverlay(val map: AMap,
                         val from: LatLng,
@@ -30,19 +30,15 @@ open class RouteOverlay(val map: AMap,
 
     /**
      * 给起点Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
-     * @return 更换的Marker图片。
-     * @since V2.1.0
      */
-    private val startBitmapDescriptor: BitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.amap_start)
+    private val startBitmapDescriptor: BitmapDescriptor = UnifiedAssets.getBitmapDescriptor("images/amap_start.png")
 
     /**
      * 给终点Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
-     * @return 更换的Marker图片。
-     * @since V2.1.0
      */
-    private val endBitmapDescriptor: BitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.amap_end)
+    private val endBitmapDescriptor: BitmapDescriptor = UnifiedAssets.getBitmapDescriptor("images/amap_end.png")
 
-    protected val driveBitmapDescriptor: BitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.amap_car)
+    protected val driveBitmapDescriptor: BitmapDescriptor = UnifiedAssets.getBitmapDescriptor("images/car.png")
 
     protected open val latLngBounds: LatLngBounds
         get() {

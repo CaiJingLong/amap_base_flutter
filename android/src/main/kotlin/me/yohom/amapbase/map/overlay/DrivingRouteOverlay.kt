@@ -7,7 +7,7 @@ import com.amap.api.services.core.LatLonPoint
 import com.amap.api.services.route.DrivePath
 import com.amap.api.services.route.DriveStep
 import com.amap.api.services.route.TMC
-import me.yohom.amapbase.R
+import me.yohom.amapbase.utils.UnifiedAssets
 import me.yohom.amapbase.utils.toLatLng
 import java.util.*
 
@@ -49,8 +49,7 @@ class DrivingRouteOverlay(map: AMap,
             return b.build()
         }
 
-    private val passbyPointBitDes: BitmapDescriptor
-        get() = BitmapDescriptorFactory.fromResource(R.drawable.amap_through)
+    private val passbyPointBitDes: BitmapDescriptor = UnifiedAssets.getBitmapDescriptor("images/amap_through.png")
 
     /**
      * 添加驾车路线添加到地图上显示。
