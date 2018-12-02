@@ -2,17 +2,11 @@ PODS:
   - AMap3DMap (6.3.1):
     - AMapFoundation (~> 1.5)
   - amap_base (0.0.1):
-    - AMapLocation
-    - AMapNavi
+    - AMap3DMap
     - AMapSearch
     - Flutter
     - JSONModel
   - AMapFoundation (1.5.3)
-  - AMapLocation (2.6.1):
-    - AMapFoundation (~> 1.4)
-  - AMapNavi (6.2.0):
-    - AMap3DMap (~> 6.2)
-    - AMapFoundation (~> 1.5)
   - AMapSearch (6.5.0):
     - AMapFoundation (~> 1.4)
   - Flutter (1.0.0)
@@ -26,8 +20,6 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AMap3DMap
     - AMapFoundation
-    - AMapLocation
-    - AMapNavi
     - AMapSearch
     - JSONModel
 
@@ -39,10 +31,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AMap3DMap: 7e1b2f2a1628a584f085d7f158d7c9835837e8c2
-  amap_base: 2280d91c66a267f2fd22331d99c7cceac16de775
+  amap_base: 458f622d114bb241a0aefe727ca341e43f7c79e2
   AMapFoundation: 58f883c80754c659cf626deb3150936bfe8f1772
-  AMapLocation: cf024b53dc03663efb4ea4bcce27d4cce58bb97a
-  AMapNavi: bb43c7ac8f85197c562e89b39af22e7c85182d95
   AMapSearch: c22d8c98e04aad30615834e567781ec1367c4f36
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
   JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d

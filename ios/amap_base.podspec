@@ -15,8 +15,7 @@ A new Flutter plugin.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'AMapNavi'
-  s.dependency 'AMapLocation'
+  s.dependency 'AMap3DMap'
   s.dependency 'AMapSearch'
   s.dependency 'JSONModel'
 
