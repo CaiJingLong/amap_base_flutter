@@ -72,4 +72,18 @@ class AMapController {
       {'showIndoorMap': enable},
     );
   }
+
+  void setMapType(int mapType) {
+    _mapChannel.invokeMethod(
+      'map#setMapType',
+      {'mapType': mapType},
+    );
+  }
+
+  void setLanguage(int language) {
+    _mapChannel.invokeMethod(
+      'map#setLanguage',
+      {'language': language},
+    );
+  }
 }

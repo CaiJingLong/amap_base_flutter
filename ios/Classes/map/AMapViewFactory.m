@@ -211,6 +211,20 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"方法map#showIndoorMap android端参数: enabled -> %d", enabled);
 
         _mapView.showsIndoorMap = enabled;
+    } else if ([@"map#setMapType" isEqualToString:call.method]) {
+        // 由于iOS端是从0开始算的, 所以这里减去1
+        NSInteger mapType = (NSInteger) paramDic[@"mapType"] - 1;
+
+        NSLog(@"方法map#setMapType ios端参数: mapType -> %d", mapType);
+
+        [_mapView setMapType:mapType];
+    } else if ([@"map#setLanguage" isEqualToString:call.method]) {
+        // 由于iOS端是从0开始算的, 所以这里减去1
+        NSString *language = (NSString *) paramDic[@"language"];
+
+        NSLog(@"方法map#setLanguage ios端参数: language -> %@", language);
+
+        [_mapView performSelector:NSSelectorFromString(@"setMapLanguage:") withObject:language];
     } else {
         result(FlutterMethodNotImplemented);
     }
