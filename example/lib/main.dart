@@ -4,9 +4,12 @@ import 'package:amap_base_example/map/draw_point.screen.dart';
 import 'package:amap_base_example/map/driving_route_plan.screen.dart';
 import 'package:amap_base_example/map/gesture_interaction.screen.dart';
 import 'package:amap_base_example/map/show_indoor_map.dart';
+import 'package:amap_base_example/navi/navi.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
+  final result = await AMapNavi.setKey('27d67839721288be2ddd87b4fd868822');
+  print('设置key的结果: $result');
   runApp(MaterialApp(home: MapsDemo()));
 }
 

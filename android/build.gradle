@@ -41,8 +41,9 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.amap.api:navi-3dmap:6.5.0_3dmap6.5.0'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.amap.api:location:4.4.0'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.2.71'
     implementation 'com.amap.api:search:6.5.0.1'
-    implementation 'com.amap.api:navi-3dmap:6.5.0_3dmap6.5.0'
 }
