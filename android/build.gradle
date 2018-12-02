@@ -44,5 +44,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.2.71'
     implementation 'com.amap.api:search:6.5.0.1'
-    api 'com.amap.api:3dmap:6.5.0'
+    implementation 'com.amap.api:navi-3dmap:6.5.0_3dmap6.5.0'
 }
