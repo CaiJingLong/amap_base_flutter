@@ -17,6 +17,10 @@
     // todo 设置logo的位置
     map.showsCompass = self.isCompassEnabled;
     map.showsScale = self.isScaleControlsEnabled;
+    map.zoomEnabled = self.isZoomGesturesEnabled;
+    map.rotateEnabled = self.isRotateGesturesEnabled;
+    map.scrollEnabled = self.isScrollGesturesEnabled;
+    map.rotateCameraEnabled = self.isTiltGesturesEnabled;
 }
 
 @end

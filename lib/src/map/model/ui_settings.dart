@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:amap_base/amap_base.dart';
+
 class UiSettings {
   /// 是否允许显示缩放按钮 [Android]
   final bool isZoomControlsEnabled;
@@ -19,13 +21,29 @@ class UiSettings {
   /// 地图Logo [Android, iOS暂未实现]
   final int logoPosition;
 
+  /// 缩放手势 [Android, iOS]
+  final bool isZoomGesturesEnabled;
+
+  /// 滑动手势 [Android, iOS]
+  final bool isScrollGesturesEnabled;
+
+  /// 旋转手势 [Android, iOS]
+  final bool isRotateGesturesEnabled;
+
+  /// 倾斜手势 [Android, iOS]
+  final bool isTiltGesturesEnabled;
+
   UiSettings({
-    this.isZoomControlsEnabled,
-    this.zoomPosition,
-    this.isCompassEnabled,
-    this.isMyLocationButtonEnabled,
-    this.isScaleControlsEnabled,
-    this.logoPosition,
+    this.isZoomControlsEnabled = true,
+    this.zoomPosition = ZOOM_POSITION_RIGHT_BUTTOM,
+    this.isCompassEnabled = false,
+    this.isMyLocationButtonEnabled = false,
+    this.isScaleControlsEnabled = true,
+    this.logoPosition = LOGO_POSITION_BOTTOM_LEFT,
+    this.isZoomGesturesEnabled = true,
+    this.isScrollGesturesEnabled = true,
+    this.isRotateGesturesEnabled = true,
+    this.isTiltGesturesEnabled = true,
   });
 
   Map<String, Object> toJson() {
@@ -35,7 +53,11 @@ class UiSettings {
       'isCompassEnabled': isCompassEnabled,
       'isMyLocationButtonEnabled': isMyLocationButtonEnabled,
       'isScaleControlsEnabled': isScaleControlsEnabled,
-      'logoPosition': logoPosition
+      'logoPosition': logoPosition,
+      'isZoomGesturesEnabled': isZoomGesturesEnabled,
+      'isScrollGesturesEnabled': isScrollGesturesEnabled,
+      'isRotateGesturesEnabled': isRotateGesturesEnabled,
+      'isTiltGesturesEnabled': isTiltGesturesEnabled,
     };
   }
 
@@ -48,6 +70,10 @@ class UiSettings {
     bool isMyLocationButtonEnabled,
     bool isScaleControlsEnabled,
     int logoPosition,
+    bool isZoomGesturesEnabled,
+    bool isScrollGesturesEnabled,
+    bool isRotateGesturesEnabled,
+    bool isTiltGesturesEnabled,
   }) {
     return UiSettings(
       isZoomControlsEnabled:
@@ -59,6 +85,14 @@ class UiSettings {
       isScaleControlsEnabled:
           isScaleControlsEnabled ?? this.isScaleControlsEnabled,
       logoPosition: logoPosition ?? this.logoPosition,
+      isZoomGesturesEnabled:
+          isZoomGesturesEnabled ?? this.isZoomGesturesEnabled,
+      isScrollGesturesEnabled:
+          isScrollGesturesEnabled ?? this.isScrollGesturesEnabled,
+      isRotateGesturesEnabled:
+          isRotateGesturesEnabled ?? this.isRotateGesturesEnabled,
+      isTiltGesturesEnabled:
+          isTiltGesturesEnabled ?? this.isTiltGesturesEnabled,
     );
   }
 
@@ -72,7 +106,11 @@ class UiSettings {
           isCompassEnabled == other.isCompassEnabled &&
           isMyLocationButtonEnabled == other.isMyLocationButtonEnabled &&
           isScaleControlsEnabled == other.isScaleControlsEnabled &&
-          logoPosition == other.logoPosition;
+          logoPosition == other.logoPosition &&
+          isZoomGesturesEnabled == other.isZoomGesturesEnabled &&
+          isScrollGesturesEnabled == other.isScrollGesturesEnabled &&
+          isRotateGesturesEnabled == other.isRotateGesturesEnabled &&
+          isTiltGesturesEnabled == other.isTiltGesturesEnabled;
 
   @override
   int get hashCode =>
@@ -81,10 +119,14 @@ class UiSettings {
       isCompassEnabled.hashCode ^
       isMyLocationButtonEnabled.hashCode ^
       isScaleControlsEnabled.hashCode ^
-      logoPosition.hashCode;
+      logoPosition.hashCode ^
+      isZoomGesturesEnabled.hashCode ^
+      isScrollGesturesEnabled.hashCode ^
+      isRotateGesturesEnabled.hashCode ^
+      isTiltGesturesEnabled.hashCode;
 
   @override
   String toString() {
-    return 'UiSettings{isZoomControlsEnabled: $isZoomControlsEnabled, zoomPosition: $zoomPosition, isCompassEnabled: $isCompassEnabled, isMyLocationButtonEnabled: $isMyLocationButtonEnabled, isScaleControlsEnabled: $isScaleControlsEnabled, isLogoPosition: $logoPosition}';
+    return 'UiSettings{isZoomControlsEnabled: $isZoomControlsEnabled, zoomPosition: $zoomPosition, isCompassEnabled: $isCompassEnabled, isMyLocationButtonEnabled: $isMyLocationButtonEnabled, isScaleControlsEnabled: $isScaleControlsEnabled, logoPosition: $logoPosition, isZoomGesturesEnabled: $isZoomGesturesEnabled, isScrollGesturesEnabled: $isScrollGesturesEnabled, isRotateGesturesEnabled: $isRotateGesturesEnabled, isTiltGesturesEnabled: $isTiltGesturesEnabled}';
   }
 }

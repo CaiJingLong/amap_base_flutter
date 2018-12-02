@@ -23,6 +23,18 @@
 /// 地图Logo
 @property(nonatomic) NSInteger logoPosition;
 
+/// 缩放手势
+@property(nonatomic) BOOL isZoomGesturesEnabled;
+
+/// 滑动手势
+@property(nonatomic) BOOL isScrollGesturesEnabled;
+
+/// 旋转手势
+@property(nonatomic) BOOL isRotateGesturesEnabled;
+
+/// 倾斜手势
+@property(nonatomic) BOOL isTiltGesturesEnabled;
+
 - (void) applyTo: (MAMapView*) map;
 
 @end
