@@ -9,3 +9,4 @@ export 'src/map/model/marker_options.dart';
 export 'src/map/model/my_location_style.dart';
 export 'src/map/model/route_plan_param.dart';
 export 'src/map/model/ui_settings.dart';
+export 'src/navi/amap_navi.dart';
