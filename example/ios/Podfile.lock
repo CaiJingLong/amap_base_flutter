@@ -1,10 +1,14 @@
 PODS:
   - amap_base (0.0.1):
     - AMapLocation
+    - AMap3DMap
+    - AMapSearch
     - Flutter
     - JSONModel
   - AMapFoundation (1.5.3)
   - AMapLocation (2.6.1):
+    - AMapFoundation (~> 1.4)
+  - AMapSearch (6.5.0):
     - AMapFoundation (~> 1.4)
   - Flutter (1.0.0)
   - JSONModel (1.7.0)
@@ -17,6 +21,7 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AMapFoundation
     - AMapLocation
+    - AMapSearch
     - JSONModel
 
 EXTERNAL SOURCES:
@@ -27,8 +32,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   amap_base: 017ce59c1ab8c7b07483c0f905d98d6edfd059f0
+  AMap3DMap: 7e1b2f2a1628a584f085d7f158d7c9835837e8c2
+  amap_base: 458f622d114bb241a0aefe727ca341e43f7c79e2
   AMapFoundation: 58f883c80754c659cf626deb3150936bfe8f1772
   AMapLocation: cf024b53dc03663efb4ea4bcce27d4cce58bb97a
+  AMapSearch: c22d8c98e04aad30615834e567781ec1367c4f36
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
   JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
 
