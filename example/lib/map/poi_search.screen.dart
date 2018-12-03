@@ -71,7 +71,8 @@ class _PoiSearchScreenState extends State<PoiSearchScreen> {
                               .toList()
                               .map(
                                 (position) => MarkerOptions(
-                                    icon: 'images/amap_start.png',
+                                    icon:
+                                        'images/${MediaQuery.of(context).devicePixelRatio.floor()}x/amap_start.png',
                                     position: position),
                               )
                               .toList());

@@ -349,9 +349,6 @@ static NSString *mapChannelName = @"me.yohom/map";
                                                           reuseIdentifier:routePlanningCellIdentifier];
         }
 
-        annotationView.canShowCallout = YES;
-        annotationView.image = nil;
-
         if ([annotation isKindOfClass:[MANaviAnnotation class]]) {
             switch (((MANaviAnnotation *) annotation).type) {
                 case MANaviAnnotationTypeRailway:
@@ -382,17 +379,18 @@ static NSString *mapChannelName = @"me.yohom/map";
             annotationView.enabled = options.enabled;
             annotationView.highlighted = options.highlighted;
             annotationView.selected = options.selected;
-
-            CGPoint origin = annotationView.imageView.frame.origin;
-            annotationView.imageView.bounds = CGRectMake(origin.x + 24, origin.y + 4, 48, 48);
         } else {
             if ([[annotation title] isEqualToString:@"起点"]) {
-                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/amap_end.png"]];
+                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/amap_start.png"]];
             } else if ([[annotation title] isEqualToString:@"终点"]) {
                 annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/amap_end.png"]];
             }
-            CGPoint origin = annotationView.imageView.frame.origin;
-            annotationView.imageView.bounds = CGRectMake(origin.x + 24, origin.y + 4, 48, 48);
+        }
+
+        if (annotationView.imageView != nil) {
+            CGSize size = annotationView.imageView.frame.size;
+            annotationView.frame = CGRectMake(annotationView.center.x + size.width / 2, annotationView.center.y, 36, 36);
+            annotationView.centerOffset = CGPointMake(0, -18);
         }
 
         return annotationView;
