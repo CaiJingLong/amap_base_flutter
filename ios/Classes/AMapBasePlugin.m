@@ -12,7 +12,7 @@ static NSObject <FlutterPluginRegistrar> *_registrar;
     _registrar = registrar;
 
     [_registrar setupNaviChannel];
-    [registrar registerViewFactory:[[AMapViewFactory alloc] init]
+    [_registrar registerViewFactory:[[AMapViewFactory alloc] init]
                             withId:@"me.yohom/AMapView"];
 }
 

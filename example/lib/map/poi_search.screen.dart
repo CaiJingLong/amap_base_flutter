@@ -12,8 +12,8 @@ class PoiSearchScreen extends StatefulWidget {
 
 class _PoiSearchScreenState extends State<PoiSearchScreen> {
   AMapController _controller;
-  TextEditingController _queryController = TextEditingController();
-  TextEditingController _cityController = TextEditingController();
+  TextEditingController _queryController = TextEditingController(text: '肯德基');
+  TextEditingController _cityController = TextEditingController(text: '兰溪');
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +69,11 @@ class _PoiSearchScreenState extends State<PoiSearchScreen> {
                           _controller.addMarkers(poiResult.pois
                               .map((it) => it.latLonPoint)
                               .toList()
-                              .map((position) =>
-                                  MarkerOptions(position: position))
+                              .map(
+                                (position) => MarkerOptions(
+                                    icon: 'images/amap_start.png',
+                                    position: position),
+                              )
                               .toList());
                         },
                         child: Text('开始搜索'),

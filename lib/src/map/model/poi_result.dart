@@ -1,11 +1,22 @@
 import 'package:amap_base/amap_base.dart';
 
 class PoiResult {
+  /// 返回的POI数目 [Android, iOS]
   int pageCount;
+
+  /// 搜索边界 [Android]
   SearchBound bound;
+
+  /// POI结果，AMapPOI 数组 [Android, iOS]
   List<PoiItem> pois;
+
+  /// 请求参数 [Android]
   Query query;
+
+  /// 城市建议列表 [Android, iOS]
   List<SuggestionCity> searchSuggestionCitys;
+
+  /// 关键字建议列表 [Android, iOS]
   List<String> searchSuggestionKeywords;
 
   PoiResult({
@@ -112,6 +123,7 @@ class PoiResult {
   }
 }
 
+/// [Android]
 class SearchBound {
   LatLng lowerLeft;
   LatLng upperRight;
@@ -194,32 +206,92 @@ class SearchBound {
 }
 
 class PoiItem {
-  String adCode;
-  String adName;
-  String businessArea;
-  String cityCode;
-  String cityName;
-  String direction;
-  int distance;
-  String email;
-  IndoorData indoorData;
-  bool isIndoorMap;
-  LatLng latLonPoint;
-  String parkingType;
-  List<Photos> photos;
-  PoiExtension poiExtension;
+  /// POI全局唯一ID [Android, iOS]
   String poiId;
+
+  /// 区域编码 [Android, iOS]
+  String adCode;
+
+  /// 区域名称 [Android, iOS]
+  String adName;
+
+  /// 所在商圈 [Android, iOS]
+  String businessArea;
+
+  /// 城市编码 [Android, iOS]
+  String cityCode;
+
+  /// 城市名称 [Android, iOS]
+  String cityName;
+
+  /// 方向 [Android, iOS]
+  String direction;
+
+  /// 距中心点的距离，单位米。在周边搜索时有效 [Android, iOS]
+  int distance;
+
+  /// 电子邮件 [Android, iOS]
+  String email;
+
+  /// 室内信息 [Android, iOS]
+  IndoorData indoorData;
+
+  /// 是否有室内地图 [Android, iOS]
+  bool isIndoorMap;
+
+  /// 经纬度 [Android, iOS]
+  LatLng latLonPoint;
+
+  /// 入口经纬度 [Android, iOS]
+  LatLng enter;
+
+  /// 出口经纬度 [Android, iOS]
+  LatLng exit;
+
+  /// 停车场类型，地上、地下、路边 [Android, iOS]
+  String parkingType;
+
+  /// 图片列表 [Android, iOS]
+  List<Photo> photos;
+
+  /// 扩展信息 只有在ID查询时有效 [Android, iOS]
+  PoiExtension poiExtension;
+
+  /// 邮编 [Android, iOS]
   String postcode;
+
+  /// 省编码 [Android, iOS]
   String provinceCode;
+
+  /// 省 [Android, iOS]
   String provinceName;
+
+  /// 商铺id [Android, iOS]
   String shopID;
+
+  /// 地址 [Android, iOS]
   String snippet;
+
+  /// 子POI列表 [Android, iOS]
   List<SubPoiItem> subPois;
+
+  /// 电话 [Android, iOS]
   String tel;
+
+  /// 名称 [Android, iOS]
   String title;
+
+  /// 类型编码 [Android, iOS]
   String typeCode;
+
+  /// 兴趣点类型 [Android, iOS]
   String typeDes;
+
+  /// 网址 [Android, iOS]
   String website;
+
+  /// 地理格ID [iOS]
+  String gridCode;
 
   PoiItem({
     this.adCode,
@@ -233,6 +305,8 @@ class PoiItem {
     this.indoorData,
     this.isIndoorMap,
     this.latLonPoint,
+    this.enter,
+    this.exit,
     this.parkingType,
     this.photos,
     this.poiExtension,
@@ -248,6 +322,7 @@ class PoiItem {
     this.typeCode,
     this.typeDes,
     this.website,
+    this.gridCode,
   });
 
   PoiItem.fromJson(Map<String, dynamic> json) {
@@ -266,11 +341,13 @@ class PoiItem {
     latLonPoint = json['latLonPoint'] != null
         ? LatLng.fromJson(json['latLonPoint'])
         : null;
+    enter = json['enter'] != null ? LatLng.fromJson(json['enter']) : null;
+    exit = json['exit'] != null ? LatLng.fromJson(json['exit']) : null;
     parkingType = json['parkingType'] as String;
     if (json['photos'] != null) {
-      photos = List<Photos>();
+      photos = List<Photo>();
       json['photos'].forEach((v) {
-        photos.add(Photos.fromJson(v as Map<String, dynamic>));
+        photos.add(Photo.fromJson(v as Map<String, dynamic>));
       });
     }
     poiExtension = json['poiExtension'] != null
@@ -293,6 +370,7 @@ class PoiItem {
     typeCode = json['typeCode'] as String;
     typeDes = json['typeDes'] as String;
     website = json['website'] as String;
+    gridCode = json['gridCode'] as String;
   }
 
   Map<String, dynamic> toJson() {
@@ -311,6 +389,12 @@ class PoiItem {
     data['isIndoorMap'] = this.isIndoorMap;
     if (this.latLonPoint != null) {
       data['latLonPoint'] = this.latLonPoint.toJson();
+    }
+    if (this.enter != null) {
+      data['enter'] = this.enter.toJson();
+    }
+    if (this.exit != null) {
+      data['exit'] = this.exit.toJson();
     }
     data['parkingType'] = this.parkingType;
     if (this.photos != null) {
@@ -333,6 +417,7 @@ class PoiItem {
     data['typeCode'] = this.typeCode;
     data['typeDes'] = this.typeDes;
     data['website'] = this.website;
+    data['gridCode'] = this.gridCode;
     return data;
   }
 
@@ -348,6 +433,8 @@ class PoiItem {
     IndoorData indoorData,
     bool isIndoorMap,
     LatLng latLonPoint,
+    LatLng enter,
+    LatLng exit,
     String parkingType,
     List photos,
     PoiExtension poiExtension,
@@ -363,6 +450,7 @@ class PoiItem {
     String typeCode,
     String typeDes,
     String website,
+    String gridCode,
   }) {
     return PoiItem(
       adCode: adCode ?? this.adCode,
@@ -376,6 +464,8 @@ class PoiItem {
       indoorData: indoorData ?? this.indoorData,
       isIndoorMap: isIndoorMap ?? this.isIndoorMap,
       latLonPoint: latLonPoint ?? this.latLonPoint,
+      enter: enter ?? this.enter,
+      exit: exit ?? this.exit,
       parkingType: parkingType ?? this.parkingType,
       photos: photos ?? this.photos,
       poiExtension: poiExtension ?? this.poiExtension,
@@ -391,105 +481,24 @@ class PoiItem {
       typeCode: typeCode ?? this.typeCode,
       typeDes: typeDes ?? this.typeDes,
       website: website ?? this.website,
+      gridCode: gridCode ?? this.gridCode,
     );
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PoiItem &&
-          runtimeType == other.runtimeType &&
-          adCode == other.adCode &&
-          adName == other.adName &&
-          businessArea == other.businessArea &&
-          cityCode == other.cityCode &&
-          cityName == other.cityName &&
-          direction == other.direction &&
-          distance == other.distance &&
-          email == other.email &&
-          indoorData == other.indoorData &&
-          isIndoorMap == other.isIndoorMap &&
-          latLonPoint == other.latLonPoint &&
-          parkingType == other.parkingType &&
-          photos == other.photos &&
-          poiExtension == other.poiExtension &&
-          poiId == other.poiId &&
-          postcode == other.postcode &&
-          provinceCode == other.provinceCode &&
-          provinceName == other.provinceName &&
-          shopID == other.shopID &&
-          snippet == other.snippet &&
-          subPois == other.subPois &&
-          tel == other.tel &&
-          title == other.title &&
-          typeCode == other.typeCode &&
-          typeDes == other.typeDes &&
-          website == other.website;
-
-  @override
-  int get hashCode =>
-      adCode.hashCode ^
-      adName.hashCode ^
-      businessArea.hashCode ^
-      cityCode.hashCode ^
-      cityName.hashCode ^
-      direction.hashCode ^
-      distance.hashCode ^
-      email.hashCode ^
-      indoorData.hashCode ^
-      isIndoorMap.hashCode ^
-      latLonPoint.hashCode ^
-      parkingType.hashCode ^
-      photos.hashCode ^
-      poiExtension.hashCode ^
-      poiId.hashCode ^
-      postcode.hashCode ^
-      provinceCode.hashCode ^
-      provinceName.hashCode ^
-      shopID.hashCode ^
-      snippet.hashCode ^
-      subPois.hashCode ^
-      tel.hashCode ^
-      title.hashCode ^
-      typeCode.hashCode ^
-      typeDes.hashCode ^
-      website.hashCode;
-
-  @override
   String toString() {
-    return '''Pois{
-		adCode: $adCode,
-		adName: $adName,
-		businessArea: $businessArea,
-		cityCode: $cityCode,
-		cityName: $cityName,
-		direction: $direction,
-		distance: $distance,
-		email: $email,
-		indoorData: $indoorData,
-		isIndoorMap: $isIndoorMap,
-		latLonPoint: $latLonPoint,
-		parkingType: $parkingType,
-		photos: $photos,
-		poiExtension: $poiExtension,
-		poiId: $poiId,
-		postcode: $postcode,
-		provinceCode: $provinceCode,
-		provinceName: $provinceName,
-		shopID: $shopID,
-		snippet: $snippet,
-		subPois: $subPois,
-		tel: $tel,
-		title: $title,
-		typeCode: $typeCode,
-		typeDes: $typeDes,
-		website: $website}''';
+    return 'PoiItem{poiId: $poiId, adCode: $adCode, adName: $adName, businessArea: $businessArea, cityCode: $cityCode, cityName: $cityName, direction: $direction, distance: $distance, email: $email, indoorData: $indoorData, isIndoorMap: $isIndoorMap, latLonPoint: $latLonPoint, enter: $enter, exit: $exit, parkingType: $parkingType, photos: $photos, poiExtension: $poiExtension, postcode: $postcode, provinceCode: $provinceCode, provinceName: $provinceName, shopID: $shopID, snippet: $snippet, subPois: $subPois, tel: $tel, title: $title, typeCode: $typeCode, typeDes: $typeDes, website: $website, gridCode: $gridCode}';
   }
 }
 
 class IndoorData {
+  /// 楼层，为0时为POI本身 [Android, iOS]
   int floor;
+
+  /// 楼层名称 [Android, iOS]
   String floorName;
+
+  /// 建筑物ID [Android, iOS]
   String poiId;
 
   IndoorData({
@@ -525,18 +534,6 @@ class IndoorData {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is IndoorData &&
-          runtimeType == other.runtimeType &&
-          floor == other.floor &&
-          floorName == other.floorName &&
-          poiId == other.poiId;
-
-  @override
-  int get hashCode => floor.hashCode ^ floorName.hashCode ^ poiId.hashCode;
-
-  @override
   String toString() {
     return '''IndoorData{
 		floor: $floor,
@@ -545,16 +542,19 @@ class IndoorData {
   }
 }
 
-class Photos {
+class Photo {
+  /// 标题 [Android, iOS]
   String title;
+
+  /// url [Android, iOS]
   String url;
 
-  Photos({
+  Photo({
     this.title,
     this.url,
   });
 
-  Photos.fromJson(Map<String, dynamic> json) {
+  Photo.fromJson(Map<String, dynamic> json) {
     title = json['title'] as String;
     url = json['url'] as String;
   }
@@ -566,11 +566,11 @@ class Photos {
     return data;
   }
 
-  Photos copyWith({
+  Photo copyWith({
     String title,
     String url,
   }) {
-    return Photos(
+    return Photo(
       title: title ?? this.title,
       url: url ?? this.url,
     );
@@ -579,7 +579,7 @@ class Photos {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Photos &&
+      other is Photo &&
           runtimeType == other.runtimeType &&
           title == other.title &&
           url == other.url;
@@ -596,62 +596,73 @@ class Photos {
 }
 
 class PoiExtension {
+  /// 营业时间 [Android, iOS]
   String opentime;
+
+  /// 评分 [Android, iOS]
   String rating;
+
+  /// 人均消费 [iOS]
+  num cost;
 
   PoiExtension({
     this.opentime,
     this.rating,
+    this.cost,
   });
 
   PoiExtension.fromJson(Map<String, dynamic> json) {
     opentime = json['opentime'] as String;
     rating = json['rating'] as String;
+    cost = json['cost'] as num;
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['opentime'] = this.opentime;
     data['rating'] = this.rating;
+    data['cost'] = this.cost;
     return data;
   }
 
   PoiExtension copyWith({
     String opentime,
     String rating,
+    double cost,
   }) {
     return PoiExtension(
       opentime: opentime ?? this.opentime,
       rating: rating ?? this.rating,
+      cost: cost ?? this.cost,
     );
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PoiExtension &&
-          runtimeType == other.runtimeType &&
-          opentime == other.opentime &&
-          rating == other.rating;
-
-  @override
-  int get hashCode => opentime.hashCode ^ rating.hashCode;
-
-  @override
   String toString() {
-    return '''PoiExtension{
-		opentime: $opentime,
-		rating: $rating}''';
+    return 'PoiExtension{opentime: $opentime, rating: $rating, cost: $cost}';
   }
 }
 
 class SubPoiItem {
+  /// POI全局唯一ID [Android, iOS]
   String poiId;
+
+  /// POI全称，如“北京大学(西2门)” [Android, iOS]
   String title;
+
+  /// 子POI的子名称，如“西2门” [Android, iOS]
   String subName;
+
+  /// 距中心点距离 [Android, iOS]
   int distance;
+
+  /// 经纬度 [Android, iOS]
   LatLng latLonPoint;
+
+  /// 地址 [Android, iOS]
   String snippet;
+
+  /// 子POI类型 [Android, iOS]
   String subTypeDes;
 
   SubPoiItem.fromJson(Map<String, dynamic> json) {
@@ -677,45 +688,33 @@ class SubPoiItem {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is SubPoiItem &&
-          runtimeType == other.runtimeType &&
-          poiId == other.poiId &&
-          title == other.title &&
-          subName == other.subName &&
-          distance == other.distance &&
-          latLonPoint == other.latLonPoint &&
-          snippet == other.snippet &&
-          subTypeDes == other.subTypeDes;
-
-  @override
-  int get hashCode =>
-      poiId.hashCode ^
-      title.hashCode ^
-      subName.hashCode ^
-      distance.hashCode ^
-      latLonPoint.hashCode ^
-      snippet.hashCode ^
-      subTypeDes.hashCode;
-
-  @override
   String toString() {
     return 'SubPoiItem{poiId: $poiId, title: $title, subName: $subName, distance: $distance, latLonPoint: $latLonPoint, snippet: $snippet, subTypeDes: $subTypeDes}';
   }
 }
 
 class SuggestionCity {
+  /// 城市名称 [Android, iOS]
   String cityName;
+
+  /// 城市编码 [Android, iOS]
   String cityCode;
+
+  /// 城市区域编码 [Android, iOS]
   String adCode;
+
+  /// 此区域的建议结果数目 [Android, iOS]
   int suggestionNum;
+
+  /// 途径区域 [iOS暂未实现]
+  Object districts;
 
   SuggestionCity({
     this.cityName,
     this.cityCode,
     this.adCode,
     this.suggestionNum,
+    this.districts,
   });
 
   SuggestionCity.fromJson(Map<String, Object> json) {
@@ -723,6 +722,7 @@ class SuggestionCity {
     cityCode = json['cityCode'] as String;
     adCode = json['adCode'] as String;
     suggestionNum = json['suggestionNum'] as int;
+    districts = json['districts'];
   }
 
   Map<String, dynamic> toJson() {
@@ -731,32 +731,17 @@ class SuggestionCity {
     data['cityCode'] = this.cityCode;
     data['adCode'] = this.adCode;
     data['suggestionNum'] = this.suggestionNum;
+    data['districts'] = this.districts;
     return data;
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is SuggestionCity &&
-          runtimeType == other.runtimeType &&
-          cityName == other.cityName &&
-          cityCode == other.cityCode &&
-          adCode == other.adCode &&
-          suggestionNum == other.suggestionNum;
-
-  @override
-  int get hashCode =>
-      cityName.hashCode ^
-      cityCode.hashCode ^
-      adCode.hashCode ^
-      suggestionNum.hashCode;
-
-  @override
   String toString() {
-    return 'SuggestionCity{cityName: $cityName, cityCode: $cityCode, adCode: $adCode, suggestionNum: $suggestionNum}';
+    return 'SuggestionCity{cityName: $cityName, cityCode: $cityCode, adCode: $adCode, suggestionNum: $suggestionNum, districts: $districts}';
   }
 }
 
+/// [Android]
 class Query {
   String a;
   String c;

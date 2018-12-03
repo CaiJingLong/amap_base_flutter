@@ -19,6 +19,8 @@
 #import "UnifiedMarkerOptions.h"
 #import "MarkerAnnotation.h"
 #import "MarkerAnnotation.h"
+#import "UnifiedAMapPOIKeywordsSearchRequest.h"
+#import "UnifiedPoiResult.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 
@@ -103,11 +105,15 @@ static NSString *mapChannelName = @"me.yohom/map";
                                            binaryMessenger:[AMapBasePlugin registrar].messenger];
     __weak __typeof__(self) weakSelf = self;
     [_channel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
-        _result = result;
+        self->_result = result;
         if (weakSelf) {
             [weakSelf handleMethodCall:call result:result];
         }
     }];
+
+    // 搜索api回调设置
+    _search = [[AMapSearchAPI alloc] init];
+    _search.delegate = self;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -139,10 +145,6 @@ static NSString *mapChannelName = @"me.yohom/map";
         JSONModelError *error;
         _routePlanParam = [[RoutePlanParam alloc] initWithString:routePlanParamJson error:&error];
         NSLog(@"JSONModelError: %@", error.description);
-
-        // 开始搜索路线
-        _search = [[AMapSearchAPI alloc] init];
-        _search.delegate = self;
 
         // 路线请求参数构造
         AMapDrivingRouteSearchRequest *routeQuery = [[AMapDrivingRouteSearchRequest alloc] init];
@@ -225,6 +227,16 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"方法map#setLanguage ios端参数: language -> %@", language);
 
         [_mapView performSelector:NSSelectorFromString(@"setMapLanguage:") withObject:language];
+    } else if ([@"map#searchPoi" isEqualToString:call.method]) {
+        NSString *query = (NSString *) paramDic[@"query"];
+
+        NSLog(@"方法map#searchPoi ios端参数: query -> %@", query);
+
+        JSONModelError *error;
+        UnifiedAMapPOIKeywordsSearchRequest *request = [[UnifiedAMapPOIKeywordsSearchRequest alloc] initWithString:query error:&error];
+        NSLog(@"JSONModelError: %@", error.description);
+
+        [_search AMapPOIKeywordsSearch:[request toAMapPOIKeywordsSearchRequest]];
     } else {
         result(FlutterMethodNotImplemented);
     }
@@ -272,6 +284,18 @@ static NSString *mapChannelName = @"me.yohom/map";
     if (_result != nil) {
         _result([NSString stringWithFormat:@"路线规划失败, 错误码: %ld", (long) error.code]);
     }
+}
+
+/// poi搜索回调
+- (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response {
+    if (response.pois.count == 0) {
+        return;
+    }
+
+    UnifiedPoiResult *resultPoi = [[UnifiedPoiResult alloc] initWithPoiResult:response];
+    NSString *resultString = [resultPoi toJSONString];
+    NSLog(@"RESULT: %@", resultString);
+    _result([[[UnifiedPoiResult alloc] initWithPoiResult:response] toJSONString]);
 }
 
 #pragma MAMapViewDelegate
