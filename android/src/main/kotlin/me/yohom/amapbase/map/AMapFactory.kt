@@ -5,6 +5,9 @@ import android.view.View
 import com.amap.api.maps.AMapOptions
 import com.amap.api.maps.TextureMapView
 import com.amap.api.services.core.AMapException
+import com.amap.api.services.core.PoiItem
+import com.amap.api.services.poisearch.PoiResult
+import com.amap.api.services.poisearch.PoiSearch
 import com.amap.api.services.route.*
 import com.google.gson.Gson
 import io.flutter.plugin.common.MethodCall
@@ -15,9 +18,7 @@ import io.flutter.plugin.platform.PlatformViewFactory
 import me.yohom.amapbase.AMapBasePlugin
 import me.yohom.amapbase.map.model.*
 import me.yohom.amapbase.map.overlay.DrivingRouteOverlay
-import me.yohom.amapbase.utils.log
-import me.yohom.amapbase.utils.parseJson
-import me.yohom.amapbase.utils.toLatLonPoint
+import me.yohom.amapbase.utils.*
 import java.util.*
 
 
@@ -56,18 +57,18 @@ class AMapView(private val context: Context,
         }
     }
 
-    private fun handleMethodCall(call: MethodCall, result: MethodChannel.Result) {
+    private fun handleMethodCall(methodCall: MethodCall, methodResult: MethodChannel.Result) {
         val map = mapView.map
-        when (call.method) {
+        when (methodCall.method) {
             "map#setMyLocationStyle" -> {
-                val styleJson = call.argument<String>("myLocationStyle") ?: "{}"
+                val styleJson = methodCall.argument<String>("myLocationStyle") ?: "{}"
 
                 log("方法setMyLocationEnabled android端参数: styleJson -> $styleJson")
 
                 styleJson.parseJson<UnifiedMyLocationStyle>().applyTo(map)
             }
             "map#setUiSettings" -> {
-                val uiSettingsJson = call.argument<String>("uiSettings") ?: "{}"
+                val uiSettingsJson = methodCall.argument<String>("uiSettings") ?: "{}"
 
                 log("方法setUiSettings android端参数: uiSettingsJson -> $uiSettingsJson")
 
@@ -75,7 +76,7 @@ class AMapView(private val context: Context,
             }
             "map#calculateDriveRoute" -> {
                 // 规划参数
-                val param = call.argument<String>("routePlanParam")!!.parseJson<RoutePlanParam>()
+                val param = methodCall.argument<String>("routePlanParam")!!.parseJson<RoutePlanParam>()
 
                 log("方法setUiSettings android端参数: routePlanParam -> $param")
 
@@ -90,9 +91,9 @@ class AMapView(private val context: Context,
                     setRouteSearchListener(object : RouteSearch.OnRouteSearchListener {
                         override fun onDriveRouteSearched(r: DriveRouteResult?, errorCode: Int) {
                             if (errorCode != AMapException.CODE_AMAP_SUCCESS || r == null) {
-                                result.error("路线规划失败, 错误码: $errorCode", null, null)
+                                methodResult.error("路线规划失败, 错误码: $errorCode", null, null)
                             } else if (r.paths.isEmpty()) {
-                                result.error("没有规划出合适的路线", null, null)
+                                methodResult.error("没有规划出合适的路线", null, null)
                             } else {
                                 map.clear()
                                 DrivingRouteOverlay(map, r.startPos, r.targetPos, listOf(), r.paths[0])
@@ -118,15 +119,15 @@ class AMapView(private val context: Context,
                 }
             }
             "marker#addMarker" -> {
-                val optionsJson = call.argument<String>("markerOptions") ?: "{}"
+                val optionsJson = methodCall.argument<String>("markerOptions") ?: "{}"
 
                 log("方法marker#addMarker android端参数: optionsJson -> $optionsJson")
 
                 optionsJson.parseJson<UnifiedMarkerOptions>().applyTo(map)
             }
             "marker#addMarkers" -> {
-                val moveToCenter = call.argument<Boolean>("moveToCenter") ?: true
-                val optionsListJson = call.argument<String>("markerOptionsList") ?: "[]"
+                val moveToCenter = methodCall.argument<Boolean>("moveToCenter") ?: true
+                val optionsListJson = methodCall.argument<String>("markerOptionsList") ?: "[]"
 
                 log("方法marker#addMarkers android端参数: optionsListJson -> $optionsListJson")
 
@@ -134,27 +135,54 @@ class AMapView(private val context: Context,
                 map.addMarkers(optionsList, moveToCenter)
             }
             "map#showIndoorMap" -> {
-                val enabled = call.argument<Boolean>("showIndoorMap") ?: false
+                val enabled = methodCall.argument<Boolean>("showIndoorMap") ?: false
 
                 log("方法map#showIndoorMap android端参数: enabled -> $enabled")
 
                 map.showIndoorMap(enabled)
             }
             "map#setMapType" -> {
-                val mapType = call.argument<Int>("mapType") ?: 1
+                val mapType = methodCall.argument<Int>("mapType") ?: 1
 
                 log("方法map#setMapType android端参数: mapType -> $mapType")
 
                 map.mapType = mapType
             }
             "map#setLanguage" -> {
-                val language = call.argument<String>("language") ?: "0"
+                val language = methodCall.argument<String>("language") ?: "0"
 
                 log("方法map#setLanguage android端参数: language -> $language")
 
                 map.setMapLanguage(language)
             }
-            else -> result.notImplemented()
+            "map#searchPoi" -> {
+                val query = methodCall.argument<String>("query") ?: "{}"
+
+                log("方法map#searchPoi android端参数: query -> $query")
+
+                query.parseJson<UnifiedPoiSearchQuery>()
+                        .toPoiSearch(context)
+                        .apply {
+                            setOnPoiSearchListener(object : PoiSearch.OnPoiSearchListener {
+                                override fun onPoiItemSearched(result: PoiItem?, rCode: Int) {}
+
+                                override fun onPoiSearched(result: PoiResult?, rCode: Int) {
+                                    if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+                                        if (result != null) {
+                                            methodResult.success(UnifiedPoiResult(result).toJson())
+                                        } else {
+                                            methodResult.error(rCode.toAMapError(), null, null)
+                                        }
+                                    } else {
+                                        methodResult.error(rCode.toAMapError(), null, null)
+                                    }
+                                }
+                            })
+                        }.searchPOIAsyn()
+
+
+            }
+            else -> methodResult.notImplemented()
         }
     }
 }

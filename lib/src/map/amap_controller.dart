@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:amap_base/amap_base.dart';
 import 'package:amap_base/src/map/model/marker_options.dart';
 import 'package:amap_base/src/map/model/my_location_style.dart';
+import 'package:amap_base/src/map/model/poi_result.dart';
+import 'package:amap_base/src/map/model/poi_search_query.dart';
 import 'package:amap_base/src/map/model/route_plan_param.dart';
 import 'package:amap_base/src/map/model/ui_settings.dart';
 import 'package:amap_base/src/utils/log.dart';
@@ -85,5 +87,18 @@ class AMapController {
       'map#setLanguage',
       {'language': language},
     );
+  }
+
+  Future<PoiResult> searchPoi(PoiSearchQuery query) {
+    L.p('方法searchPoi dart端参数: query.toJsonString() -> ${query.toJsonString()}');
+
+    return _mapChannel
+        .invokeMethod(
+          'map#searchPoi',
+          {'query': query.toJsonString()},
+        )
+        .then((result) => result as String)
+        .then((resultJsonString) =>
+            PoiResult.fromJson(jsonDecode(resultJsonString)));
   }
 }

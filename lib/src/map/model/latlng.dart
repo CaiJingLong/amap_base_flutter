@@ -15,6 +15,20 @@ class LatLng {
 
   String toJsonString() => jsonEncode(toJson());
 
+  LatLng.fromJson(Map<String, dynamic> json)
+      : latitude = json['latitude'] as double,
+        longitude = json['longitude'] as double;
+
+  LatLng copyWith({
+    double latitude,
+    double longitude,
+  }) {
+    return LatLng(
+      latitude ?? this.latitude,
+      longitude ?? this.longitude,
+    );
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

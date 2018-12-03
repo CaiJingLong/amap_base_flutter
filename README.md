@@ -13,6 +13,10 @@ amap_base:
     url: https://github.com/yohom/amap_base_flutter.git
     ref: 0.0.1/branch/commit
 ```
+导入:
+```
+import 'package:amap_base/amap_base.dart';
+```
 
 ## 关于高德的Android SDK和iOS SDK
 - 由于Android和iOS端的实现完全不一样, Android端照抄了Google Map的api设计, 而iOS

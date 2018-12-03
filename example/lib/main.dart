@@ -3,7 +3,8 @@ import 'package:amap_base_example/map/create_map.screen.dart';
 import 'package:amap_base_example/map/draw_point.screen.dart';
 import 'package:amap_base_example/map/driving_route_plan.screen.dart';
 import 'package:amap_base_example/map/gesture_interaction.screen.dart';
-import 'package:amap_base_example/map/show_indoor_map.dart';
+import 'package:amap_base_example/map/poi_search.screen.dart';
+import 'package:amap_base_example/map/show_indoor_map.screen.dart';
 import 'package:amap_base_example/navi/navi.dart';
 import 'package:flutter/material.dart';
 
@@ -122,6 +123,27 @@ class MapsDemo extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => DrawPointScreen()),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('获取地图数据', style: Theme.of(context).textTheme.headline),
+                FlatButton(
+                  child: Text(
+                    '获取POI数据',
+                    style: Theme.of(context).textTheme.subhead,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => PoiSearchScreen()),
                     );
                   },
                 ),
