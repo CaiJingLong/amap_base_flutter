@@ -128,12 +128,15 @@ class AMapView(private val context: Context,
             "marker#addMarkers" -> {
                 val moveToCenter = methodCall.argument<Boolean>("moveToCenter") ?: true
                 val optionsListJson = methodCall.argument<String>("markerOptionsList") ?: "[]"
+                val clear = methodCall.argument<Boolean>("clear") ?: false
 
                 log("方法marker#addMarkers android端参数: optionsListJson -> $optionsListJson")
 
                 val optionsList = ArrayList(optionsListJson.parseJson<List<UnifiedMarkerOptions>>().map { it.toMarkerOption() })
+                if (clear) map.mapScreenMarkers.forEach { it.remove() }
                 map.addMarkers(optionsList, moveToCenter)
             }
+            "marker#clear" -> map.mapScreenMarkers.forEach { it.remove() }
             "map#showIndoorMap" -> {
                 val enabled = methodCall.argument<Boolean>("showIndoorMap") ?: false
 
@@ -155,6 +158,7 @@ class AMapView(private val context: Context,
 
                 map.setMapLanguage(language)
             }
+            "map#clear" -> map.clear()
             "map#searchPoi" -> {
                 val query = methodCall.argument<String>("query") ?: "{}"
 

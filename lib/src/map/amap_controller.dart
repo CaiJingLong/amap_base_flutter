@@ -55,7 +55,8 @@ class AMapController {
     );
   }
 
-  void addMarkers(List<MarkerOptions> optionsList, {bool moveToCenter = true}) {
+  void addMarkers(List<MarkerOptions> optionsList,
+      {bool moveToCenter = true, bool clear = true}) {
     final _optionsListJson =
         jsonEncode(optionsList.map((it) => it.toJson()).toList());
     L.p('方法addMarkers dart端参数: _optionsListJson -> $_optionsListJson');
@@ -64,6 +65,7 @@ class AMapController {
       {
         'moveToCenter': moveToCenter,
         'markerOptionsList': _optionsListJson,
+        'clear': clear,
       },
     );
   }
@@ -87,6 +89,14 @@ class AMapController {
       'map#setLanguage',
       {'language': language},
     );
+  }
+
+  void clearMarkers() {
+    _mapChannel.invokeMethod('marker#clear');
+  }
+
+  void clearMap() {
+    _mapChannel.invokeMethod('map#clear');
   }
 
   Future<PoiResult> searchPoi(PoiSearchQuery query) {

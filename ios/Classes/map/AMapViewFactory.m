@@ -182,8 +182,11 @@ static NSString *mapChannelName = @"me.yohom/map";
     } else if ([@"marker#addMarkers" isEqualToString:call.method]) {
         NSString *moveToCenter = (NSString *) paramDic[@"moveToCenter"];
         NSString *optionsListJson = (NSString *) paramDic[@"markerOptionsList"];
+        NSString *clear = (BOOL) paramDic[@"clear"];
 
         NSLog(@"方法marker#addMarkers ios端参数: optionsListJson -> %@", optionsListJson);
+        if (clear) [_mapView removeAnnotations:_mapView.annotations];
+
         NSArray *rawOptionsList = [NSJSONSerialization JSONObjectWithData:[optionsListJson dataUsingEncoding:NSUTF8StringEncoding]
                                                                   options:kNilOptions
                                                                     error:nil];
@@ -237,6 +240,11 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"JSONModelError: %@", error.description);
 
         [_search AMapPOIKeywordsSearch:[request toAMapPOIKeywordsSearchRequest]];
+    } else if ([@"marker#clear" isEqualToString:call.method]) {
+        [_mapView removeAnnotations:_mapView.annotations];
+    } else if ([@"map#clear" isEqualToString:call.method]) {
+        [_mapView removeOverlays:_mapView.overlays];
+        [_mapView removeAnnotations:_mapView.annotations];
     } else {
         result(FlutterMethodNotImplemented);
     }
