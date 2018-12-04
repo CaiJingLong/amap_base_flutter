@@ -240,6 +240,29 @@ class AMapView(private val context: Context,
 
 
             }
+            "map#searchPoiId" -> {
+                val id = methodCall.argument<String>("id") ?: ""
+
+                log("方法map#searchPoiId android端参数: id -> $id")
+
+                PoiSearch(context, null).apply {
+                    setOnPoiSearchListener(object : PoiSearch.OnPoiSearchListener {
+                        override fun onPoiItemSearched(result: PoiItem?, rCode: Int) {
+                            if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+                                if (result != null) {
+                                    methodResult.success(UnifiedPoiItem(result).toJson())
+                                } else {
+                                    methodResult.error(rCode.toAMapError(), null, null)
+                                }
+                            } else {
+                                methodResult.error(rCode.toAMapError(), null, null)
+                            }
+                        }
+
+                        override fun onPoiSearched(result: PoiResult?, rCode: Int) {}
+                    })
+                }.searchPOIIdAsyn(id)
+            }
             else -> methodResult.notImplemented()
         }
     }

@@ -140,4 +140,18 @@ class AMapController {
         .then((resultJsonString) =>
             PoiResult.fromJson(jsonDecode(resultJsonString)));
   }
+
+  /// 按id搜索poi
+  Future<PoiItem> searchPoiId(String id) {
+    L.p('searchPoiId dart端参数: id -> $id');
+
+    return _mapChannel
+        .invokeMethod(
+          'map#searchPoiId',
+          {'id': id},
+        )
+        .then((result) => result as String)
+        .then((resultJsonString) =>
+            PoiItem.fromJson(jsonDecode(resultJsonString)));
+  }
 }

@@ -260,6 +260,15 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"JSONModelError: %@", error.description);
 
         [_search AMapPOIPolygonSearch:[request toAMapPOIPolygonSearchRequest]];
+    } else if ([@"map#searchPoiId" isEqualToString:call.method]) {
+        NSString *id = (NSString *) paramDic[@"id"];
+
+        NSLog(@"方法map#searchPoiId ios端参数: id -> %@", id);
+
+        AMapPOIIDSearchRequest *request = [[AMapPOIIDSearchRequest alloc] init];
+        request.uid = id;
+        request.requireExtension = YES;
+        [_search AMapPOIIDSearch:request];
     } else if ([@"marker#clear" isEqualToString:call.method]) {
         [_mapView removeAnnotations:_mapView.annotations];
     } else if ([@"map#clear" isEqualToString:call.method]) {
@@ -272,7 +281,7 @@ static NSString *mapChannelName = @"me.yohom/map";
 
 #pragma AMapSearchDelegate
 
-/* 路径规划搜索回调. */
+/// 路径规划搜索回调.
 - (void)onRouteSearchDone:(AMapRouteSearchBaseRequest *)request response:(AMapRouteSearchResponse *)response {
     if (response.route.paths.count == 0) {
         return _result(@"没有规划出合适的路线");
