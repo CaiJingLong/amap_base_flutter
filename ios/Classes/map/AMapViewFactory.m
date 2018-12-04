@@ -240,6 +240,26 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"JSONModelError: %@", error.description);
 
         [_search AMapPOIKeywordsSearch:[request toAMapPOIKeywordsSearchRequest]];
+    } else if ([@"map#searchPoiBound" isEqualToString:call.method]) {
+        NSString *query = (NSString *) paramDic[@"query"];
+
+        NSLog(@"方法map#searchPoiBound ios端参数: query -> %@", query);
+
+        JSONModelError *error;
+        UnifiedAMapPOISearchRequest *request = [[UnifiedAMapPOISearchRequest alloc] initWithString:query error:&error];
+        NSLog(@"JSONModelError: %@", error.description);
+
+        [_search AMapPOIAroundSearch:[request toAMapPOIAroundSearchRequest]];
+    } else if ([@"map#searchPoiPolygon" isEqualToString:call.method]) {
+        NSString *query = (NSString *) paramDic[@"query"];
+
+        NSLog(@"方法map#searchPoiPolygon ios端参数: query -> %@", query);
+
+        JSONModelError *error;
+        UnifiedAMapPOISearchRequest *request = [[UnifiedAMapPOISearchRequest alloc] initWithString:query error:&error];
+        NSLog(@"JSONModelError: %@", error.description);
+
+        [_search AMapPOIPolygonSearch:[request toAMapPOIPolygonSearchRequest]];
     } else if ([@"marker#clear" isEqualToString:call.method]) {
         [_mapView removeAnnotations:_mapView.annotations];
     } else if ([@"map#clear" isEqualToString:call.method]) {

@@ -112,4 +112,32 @@ class AMapController {
         .then((resultJsonString) =>
             PoiResult.fromJson(jsonDecode(resultJsonString)));
   }
+
+  /// 搜索poi 周边搜索
+  Future<PoiResult> searchPoiBound(PoiSearchQuery query) {
+    L.p('searchPoiBound dart端参数: query.toJsonString() -> ${query.toJsonString()}');
+
+    return _mapChannel
+        .invokeMethod(
+          'map#searchPoiBound',
+          {'query': query.toJsonString()},
+        )
+        .then((result) => result as String)
+        .then((resultJsonString) =>
+            PoiResult.fromJson(jsonDecode(resultJsonString)));
+  }
+
+  /// 搜索poi 多边形搜索
+  Future<PoiResult> searchPoiPolygon(PoiSearchQuery query) {
+    L.p('searchPoiPolygon dart端参数: query.toJsonString() -> ${query.toJsonString()}');
+
+    return _mapChannel
+        .invokeMethod(
+          'map#searchPoiPolygon',
+          {'query': query.toJsonString()},
+        )
+        .then((result) => result as String)
+        .then((resultJsonString) =>
+            PoiResult.fromJson(jsonDecode(resultJsonString)));
+  }
 }

@@ -186,6 +186,60 @@ class AMapView(private val context: Context,
 
 
             }
+            "map#searchPoiBound" -> {
+                val query = methodCall.argument<String>("query") ?: "{}"
+
+                log("方法map#searchPoi android端参数: query -> $query")
+
+                query.parseJson<UnifiedPoiSearchQuery>()
+                        .toPoiSearchBound(context)
+                        .apply {
+                            setOnPoiSearchListener(object : PoiSearch.OnPoiSearchListener {
+                                override fun onPoiItemSearched(result: PoiItem?, rCode: Int) {}
+
+                                override fun onPoiSearched(result: PoiResult?, rCode: Int) {
+                                    if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+                                        if (result != null) {
+                                            methodResult.success(UnifiedPoiResult(result).toJson())
+                                        } else {
+                                            methodResult.error(rCode.toAMapError(), null, null)
+                                        }
+                                    } else {
+                                        methodResult.error(rCode.toAMapError(), null, null)
+                                    }
+                                }
+                            })
+                        }.searchPOIAsyn()
+
+
+            }
+            "map#searchPoiPolygon" -> {
+                val query = methodCall.argument<String>("query") ?: "{}"
+
+                log("方法map#searchPoi android端参数: query -> $query")
+
+                query.parseJson<UnifiedPoiSearchQuery>()
+                        .toPoiSearchPolygon(context)
+                        .apply {
+                            setOnPoiSearchListener(object : PoiSearch.OnPoiSearchListener {
+                                override fun onPoiItemSearched(result: PoiItem?, rCode: Int) {}
+
+                                override fun onPoiSearched(result: PoiResult?, rCode: Int) {
+                                    if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+                                        if (result != null) {
+                                            methodResult.success(UnifiedPoiResult(result).toJson())
+                                        } else {
+                                            methodResult.error(rCode.toAMapError(), null, null)
+                                        }
+                                    } else {
+                                        methodResult.error(rCode.toAMapError(), null, null)
+                                    }
+                                }
+                            })
+                        }.searchPOIAsyn()
+
+
+            }
             else -> methodResult.notImplemented()
         }
     }

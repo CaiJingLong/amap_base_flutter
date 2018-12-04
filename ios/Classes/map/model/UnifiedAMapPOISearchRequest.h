@@ -8,8 +8,9 @@
 @class AMapPOIKeywordsSearchRequest;
 
 @class LatLng;
+@class UnifiedSearchBound;
 
-
+/// 搜索请求参数 Android是合并在一个类里的, iOS分裂成了多个类, 在这里也并在一起, 然后提供各自的生成方法
 @interface UnifiedAMapPOISearchRequest : JSONModel
 
 /// 查询字符串，多个关键字用“|”分割
@@ -45,6 +46,16 @@
 /// 设置的经纬度
 @property(nonatomic) LatLng <Optional> *location;
 
+/// 搜索边界
+@property(nonatomic) UnifiedSearchBound <Optional> *searchBound;
+
+/// 转换为关键字搜索对象
 - (AMapPOIKeywordsSearchRequest *)toAMapPOIKeywordsSearchRequest;
+
+/// 转换为周边搜索对象
+- (AMapPOIAroundSearchRequest *)toAMapPOIAroundSearchRequest;
+
+/// 转换为周边搜索对象
+- (AMapPOIPolygonSearchRequest *)toAMapPOIPolygonSearchRequest;
 
 @end
