@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:amap_base/amap_base.dart';
+import 'package:amap_base/src/map/model/search_bound.dart';
 import 'package:meta/meta.dart';
 
 class PoiSearchQuery {
@@ -37,6 +38,9 @@ class PoiSearchQuery {
   /// 设置的经纬度 [iOS]
   final bool requireExtension;
 
+  /// 搜索边界, 周边搜索用 [Android, iOS]
+  final SearchBound searchBound;
+
   PoiSearchQuery({
     @required this.query,
     @required this.city,
@@ -49,6 +53,7 @@ class PoiSearchQuery {
     this.distanceSort = true,
     this.location,
     this.requireExtension = false,
+    this.searchBound,
   });
 
   Map<String, Object> toJson() {
@@ -62,46 +67,16 @@ class PoiSearchQuery {
       'cityLimit': cityLimit,
       'requireSubPois': requireSubPois,
       'distanceSort': distanceSort,
-      'location': location,
+      'location': location.toJson(),
       'requireExtension': requireExtension,
+      'searchBound': searchBound.toJson(),
     };
   }
 
   String toJsonString() => jsonEncode(toJson());
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PoiSearchQuery &&
-          runtimeType == other.runtimeType &&
-          query == other.query &&
-          building == other.building &&
-          category == other.category &&
-          city == other.city &&
-          pageNum == other.pageNum &&
-          pageSize == other.pageSize &&
-          cityLimit == other.cityLimit &&
-          requireSubPois == other.requireSubPois &&
-          distanceSort == other.distanceSort &&
-          location == other.location &&
-          requireExtension == other.requireExtension;
-
-  @override
-  int get hashCode =>
-      query.hashCode ^
-      building.hashCode ^
-      category.hashCode ^
-      city.hashCode ^
-      pageNum.hashCode ^
-      pageSize.hashCode ^
-      cityLimit.hashCode ^
-      requireSubPois.hashCode ^
-      distanceSort.hashCode ^
-      location.hashCode ^
-      requireExtension.hashCode;
-
-  @override
   String toString() {
-    return 'PoiSearchQuery{query: $query, building: $building, category: $category, city: $city, pageNum: $pageNum, pageSize: $pageSize, cityLimit: $cityLimit, requireSubPois: $requireSubPois, distanceSort: $distanceSort, location: $location, requireExtension: $requireExtension}';
+    return 'PoiSearchQuery{query: $query, building: $building, category: $category, city: $city, pageNum: $pageNum, pageSize: $pageSize, cityLimit: $cityLimit, requireSubPois: $requireSubPois, distanceSort: $distanceSort, location: $location, requireExtension: $requireExtension, searchBound: $searchBound}';
   }
 }

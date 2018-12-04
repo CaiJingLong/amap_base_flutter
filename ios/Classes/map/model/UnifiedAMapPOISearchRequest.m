@@ -7,7 +7,7 @@
 #import "UnifiedAMapOptions.h"
 
 
-@implementation UnifiedAMapPOIKeywordsSearchRequest {
+@implementation UnifiedAMapPOISearchRequest {
 
 }
 - (AMapPOIKeywordsSearchRequest *)toAMapPOIKeywordsSearchRequest {

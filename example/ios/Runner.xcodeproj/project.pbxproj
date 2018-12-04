@@ -462,7 +462,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.yohom.amapBaseExample1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/**";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -487,7 +487,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.yohom.amapBaseExample1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/**";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

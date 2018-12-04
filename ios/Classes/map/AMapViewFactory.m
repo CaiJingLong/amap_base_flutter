@@ -19,7 +19,7 @@
 #import "UnifiedMarkerOptions.h"
 #import "MarkerAnnotation.h"
 #import "MarkerAnnotation.h"
-#import "UnifiedAMapPOIKeywordsSearchRequest.h"
+#import "UnifiedAMapPOISearchRequest.h"
 #import "UnifiedPoiResult.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
@@ -236,7 +236,7 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"方法map#searchPoi ios端参数: query -> %@", query);
 
         JSONModelError *error;
-        UnifiedAMapPOIKeywordsSearchRequest *request = [[UnifiedAMapPOIKeywordsSearchRequest alloc] initWithString:query error:&error];
+        UnifiedAMapPOISearchRequest *request = [[UnifiedAMapPOISearchRequest alloc] initWithString:query error:&error];
         NSLog(@"JSONModelError: %@", error.description);
 
         [_search AMapPOIKeywordsSearch:[request toAMapPOIKeywordsSearchRequest]];

@@ -34,8 +34,14 @@ class UnifiedPoiSearchQuery(
         private val distanceSort: Boolean,
 
         /// 设置的经纬度
-        private val location: LatLng?
+        private val location: LatLng?,
+
+        /// 搜索边界, 周边检索使用
+        private val searchBound: UnifiedSearchBound?
 ) {
+    /**
+     * 关键字搜索
+     */
     fun toPoiSearch(context: Context): PoiSearch {
         return PoiSearch(context, PoiSearch.Query(query, category, city).apply {
             building = this@UnifiedPoiSearchQuery.building
@@ -46,5 +52,35 @@ class UnifiedPoiSearchQuery(
             isDistanceSort = this@UnifiedPoiSearchQuery.distanceSort
             location = this@UnifiedPoiSearchQuery.location?.toLatLonPoint()
         })
+    }
+
+    /**
+     * 周边检索
+     */
+    fun toPoiSearchBound(context: Context): PoiSearch {
+        return PoiSearch(context, PoiSearch.Query(query, category, city).apply {
+            building = this@UnifiedPoiSearchQuery.building
+            pageNum = this@UnifiedPoiSearchQuery.pageNum
+            pageSize = this@UnifiedPoiSearchQuery.pageSize
+            cityLimit = this@UnifiedPoiSearchQuery.cityLimit
+            requireSubPois(requireSubPois)
+            isDistanceSort = this@UnifiedPoiSearchQuery.distanceSort
+            location = this@UnifiedPoiSearchQuery.location?.toLatLonPoint()
+        }).apply { bound = searchBound?.toSearchBoundCenterRange() }
+    }
+
+    /**
+     * 多边形内检索
+     */
+    fun toPoiSearchPolygon(context: Context): PoiSearch {
+        return PoiSearch(context, PoiSearch.Query(query, category, city).apply {
+            building = this@UnifiedPoiSearchQuery.building
+            pageNum = this@UnifiedPoiSearchQuery.pageNum
+            pageSize = this@UnifiedPoiSearchQuery.pageSize
+            cityLimit = this@UnifiedPoiSearchQuery.cityLimit
+            requireSubPois(requireSubPois)
+            isDistanceSort = this@UnifiedPoiSearchQuery.distanceSort
+            location = this@UnifiedPoiSearchQuery.location?.toLatLonPoint()
+        }).apply { bound = searchBound?.toSearchBoundPolygon() }
     }
 }

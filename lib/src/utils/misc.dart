@@ -1,0 +1,1 @@
+double devicePixelRatio = 1;

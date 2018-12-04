@@ -10,7 +10,7 @@
 @class LatLng;
 
 
-@interface UnifiedAMapPOIKeywordsSearchRequest : JSONModel
+@interface UnifiedAMapPOISearchRequest : JSONModel
 
 /// 查询字符串，多个关键字用“|”分割
 @property(nonatomic) NSString *query;

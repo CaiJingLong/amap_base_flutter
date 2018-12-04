@@ -15,19 +15,10 @@ class UnifiedPoiResult(poiResult: PoiResult) {
     val query: PoiSearch.Query = poiResult.query
     private val bound: UnifiedSearchBound? = if (poiResult.bound != null) UnifiedSearchBound(poiResult.bound) else null
     private val pois: List<UnifiedPoiItem> = poiResult.pois?.map { UnifiedPoiItem(it) } ?: listOf()
-    val searchSuggestionKeywords: List<String> = poiResult.searchSuggestionKeywords ?: listOf()
+    private val searchSuggestionKeywords: List<String> = poiResult.searchSuggestionKeywords
+            ?: listOf()
     private val searchSuggestionCitys: List<UnifiedSuggestionCity> = poiResult.searchSuggestionCitys?.map { UnifiedSuggestionCity(it) }
             ?: listOf()
-}
-
-private class UnifiedSearchBound(searchBound: PoiSearch.SearchBound) {
-    val lowerLeft: LatLng? = searchBound.lowerLeft?.toLatLng()
-    val upperRight: LatLng? = searchBound.upperRight?.toLatLng()
-    val center: LatLng? = searchBound.center?.toLatLng()
-    val range: Int? = searchBound.range
-    val shape: String? = searchBound.shape
-    val isDistanceSort: Boolean? = searchBound.isDistanceSort
-    val polyGonList: List<LatLng> = searchBound.polyGonList?.map { it.toLatLng() } ?: listOf()
 }
 
 private class UnifiedPoiItem(poiItem: PoiItem) {

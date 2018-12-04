@@ -99,6 +99,7 @@ class AMapController {
     _mapChannel.invokeMethod('map#clear');
   }
 
+  /// 搜索poi
   Future<PoiResult> searchPoi(PoiSearchQuery query) {
     L.p('方法searchPoi dart端参数: query.toJsonString() -> ${query.toJsonString()}');
 
