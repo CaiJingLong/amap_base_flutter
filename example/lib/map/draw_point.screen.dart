@@ -1,7 +1,6 @@
 import 'package:amap_base/amap_base.dart';
 import 'package:flutter/material.dart';
 
-const icon = 'images/amap_start.png';
 const markerList = const [
   LatLng(39.992520, 116.336170),
   LatLng(39.992520, 116.336170),
@@ -30,19 +29,12 @@ class DrawPointScreen extends StatelessWidget {
           controller.addMarkers(
             markerList
                 .map((latLng) => MarkerOptions(
-                      icon: icon,
                       position: latLng,
                       title: '哈哈',
                       snippet: '呵呵',
                     ))
                 .toList(),
           );
-//          controller.addMarker(MarkerOptions(
-//            icon: icon,
-//            position: LatLng(39.992520, 116.336170),
-//            title: '哈哈',
-//            snippet: '呵呵',
-//          ));
         },
         amapOptions: AMapOptions(),
       ),
