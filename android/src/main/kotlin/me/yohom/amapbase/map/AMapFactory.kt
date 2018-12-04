@@ -102,7 +102,6 @@ class AMapView(private val context: Context,
                                             removeFromMap()
                                             addToMap()
                                             zoomToSpan()
-                                            addToMap()
                                         }
 
                             }

@@ -1,7 +1,6 @@
 package me.yohom.amapbase.map.model
 
 import com.amap.api.maps.AMap
-import com.amap.api.maps.model.BitmapDescriptor
 import com.amap.api.maps.model.LatLng
 import com.amap.api.maps.model.MarkerOptions
 import me.yohom.amapbase.utils.UnifiedAssets
@@ -72,35 +71,10 @@ class UnifiedMarkerOptions(
         private val belowMaskLayer: Boolean
 ) {
     fun applyTo(map: AMap) {
-        map.addMarker(MarkerOptions()
-                .icon(if (icon != null) UnifiedAssets.getBitmapDescriptor(icon) else null)
-                .alpha(alpha)
-                .anchor(anchorU, anchorV)
-                .draggable(draggable)
-                .infoWindowEnable(infoWindowEnable)
-                .period(period)
-                .position(position)
-                .rotateAngle(rotateAngle)
-                .setFlat(isFlat)
-                .setGps(isGps)
-                .setInfoWindowOffset(infoWindowOffsetX, infoWindowOffsetY)
-                .snippet(snippet)
-                .title(title)
-                .visible(visible)
-                .autoOverturnInfoWindow(autoOverturnInfoWindow)
-                .zIndex(zIndex)
-                .displayLevel(displayLevel)
-                .belowMaskLayer(belowMaskLayer)
-                .apply {
-                    if (this@UnifiedMarkerOptions.icons.isNotEmpty()) {
-                        icons(this@UnifiedMarkerOptions.icons.map { UnifiedAssets.getBitmapDescriptor(it) } as ArrayList<BitmapDescriptor>)
-                    }
-                }
-        )
+        map.addMarker(toMarkerOption())
     }
 
     fun toMarkerOption(): MarkerOptions = MarkerOptions()
-            .icon(if (icon != null) UnifiedAssets.getBitmapDescriptor(icon) else null)
             .alpha(alpha)
             .anchor(anchorU, anchorV)
             .draggable(draggable)
@@ -119,8 +93,12 @@ class UnifiedMarkerOptions(
             .displayLevel(displayLevel)
             .belowMaskLayer(belowMaskLayer)
             .apply {
+                if (this@UnifiedMarkerOptions.icon != null) {
+                    icon(UnifiedAssets.getBitmapDescriptor(this@UnifiedMarkerOptions.icon))
+                }
+
                 if (this@UnifiedMarkerOptions.icons.isNotEmpty()) {
-                    icons(this@UnifiedMarkerOptions.icons.map { UnifiedAssets.getBitmapDescriptor(it) } as ArrayList<BitmapDescriptor>)
+                    icons(ArrayList(this@UnifiedMarkerOptions.icons.map { UnifiedAssets.getBitmapDescriptor(it) }))
                 }
             }
 }

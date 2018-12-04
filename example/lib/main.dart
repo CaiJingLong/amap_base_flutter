@@ -21,137 +21,88 @@ class MapsDemo extends StatelessWidget {
       appBar: AppBar(title: const Text('AMaps examples')),
       body: ListView(
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('创建地图', style: Theme.of(context).textTheme.headline),
-                FlatButton(
-                  child:
-                      Text('显示地图', style: Theme.of(context).textTheme.subhead),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => CreateMapScreen()),
-                    );
-                  },
-                ),
-                FlatButton(
-                  child: Text(
-                    '显示室内地图',
-                    style: Theme.of(context).textTheme.subhead,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => ShowsIndoorMapScreen()),
-                    );
-                  },
-                )
-              ],
-            ),
+          _FunctionGroup(
+            headLabel: '创建地图',
+            children: <Widget>[
+              _FunctionItem(label: '显示地图', target: CreateMapScreen()),
+              _FunctionItem(label: '显示室内地图', target: ShowsIndoorMapScreen()),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('与地图交互', style: Theme.of(context).textTheme.headline),
-                FlatButton(
-                  child:
-                      Text('控件交互', style: Theme.of(context).textTheme.subhead),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => ControlInteractionScreen(),
-                      ),
-                    );
-                  },
-                ),
-                FlatButton(
-                  child:
-                      Text('手势交互', style: Theme.of(context).textTheme.subhead),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => GestureInteractionScreen(),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+          _FunctionGroup(
+            headLabel: '与地图交互',
+            children: <Widget>[
+              _FunctionItem(label: '控件交互', target: ControlInteractionScreen()),
+              _FunctionItem(label: '手势交互', target: GestureInteractionScreen()),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('出行路线规划', style: Theme.of(context).textTheme.headline),
-                FlatButton(
-                  child: Text(
-                    '驾车出行路线规划',
-                    style: Theme.of(context).textTheme.subhead,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => DrivingRoutPlanScreen(),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+          _FunctionGroup(
+            headLabel: '出行路线规划',
+            children: <Widget>[
+              _FunctionItem(label: '驾车出行路线规划', target: DrivingRoutPlanScreen()),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('在地图上绘制', style: Theme.of(context).textTheme.headline),
-                FlatButton(
-                  child: Text(
-                    '绘制点标记',
-                    style: Theme.of(context).textTheme.subhead,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => DrawPointScreen()),
-                    );
-                  },
-                ),
-              ],
-            ),
+          _FunctionGroup(
+            headLabel: '在地图上绘制',
+            children: <Widget>[
+              _FunctionItem(label: '绘制点标记', target: DrawPointScreen()),
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('获取地图数据', style: Theme.of(context).textTheme.headline),
-                FlatButton(
-                  child: Text(
-                    '获取POI数据',
-                    style: Theme.of(context).textTheme.subhead,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => PoiSearchScreen()),
-                    );
-                  },
-                ),
-              ],
-            ),
+          _FunctionGroup(
+            headLabel: '获取地图数据',
+            children: <Widget>[
+              _FunctionItem(label: '获取POI数据', target: PoiSearchScreen()),
+            ],
           ),
         ],
       ),
+    );
+  }
+}
+
+class _FunctionGroup extends StatelessWidget {
+  const _FunctionGroup({
+    Key key,
+    @required this.headLabel,
+    this.children = const [],
+  }) : super(key: key);
+
+  final String headLabel;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(headLabel, style: Theme.of(context).textTheme.headline),
+        ]..addAll(children),
+      ),
+    );
+  }
+}
+
+class _FunctionItem extends StatelessWidget {
+  const _FunctionItem({
+    Key key,
+    @required this.label,
+    @required this.target,
+  }) : super(key: key);
+
+  final String label;
+  final Widget target;
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      child: Text(label, style: Theme.of(context).textTheme.subhead),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => target),
+        );
+      },
     );
   }
 }
