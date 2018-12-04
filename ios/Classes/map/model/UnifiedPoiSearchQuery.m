@@ -3,10 +3,10 @@
 //
 
 #import <AMapSearch/AMapSearchKit/AMapSearchObj.h>
-#import "UnifiedAMapPOISearchRequest.h"
 #import "UnifiedAMapOptions.h"
 #import "UnifiedSearchBound.h"
 #import "NSArray+Rx.h"
+#import "UnifiedPoiSearchQuery.h"
 
 
 @implementation UnifiedPoiSearchQuery {

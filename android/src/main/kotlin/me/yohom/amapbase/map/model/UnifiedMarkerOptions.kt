@@ -95,6 +95,8 @@ class UnifiedMarkerOptions(
             .apply {
                 if (this@UnifiedMarkerOptions.icon != null) {
                     icon(UnifiedAssets.getBitmapDescriptor(this@UnifiedMarkerOptions.icon))
+                } else {
+                    icon(UnifiedAssets.getDefaultBitmapDescriptor("images/default_marker.png"))
                 }
 
                 if (this@UnifiedMarkerOptions.icons.isNotEmpty()) {

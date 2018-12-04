@@ -49,7 +49,7 @@ class DrivingRouteOverlay(map: AMap,
             return b.build()
         }
 
-    private val passbyPointBitDes: BitmapDescriptor = UnifiedAssets.getAMapBitmapDescriptor("images/amap_through.png")
+    private val passbyPointBitDes: BitmapDescriptor = UnifiedAssets.getDefaultBitmapDescriptor("images/amap_through.png")
 
     /**
      * 添加驾车路线添加到地图上显示。

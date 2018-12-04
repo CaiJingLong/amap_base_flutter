@@ -7,4 +7,6 @@
 
 @interface UnifiedAssets : NSObject
 + (NSString *)getAssetPath: (NSString *)asset;
+
++ (NSString *)getDefaultAssetPath: (NSString *)asset;
 @end

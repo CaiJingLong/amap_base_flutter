@@ -3,6 +3,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 #import "JSONModel.h"
 
 @class LatLng;
@@ -17,6 +18,13 @@
 @protocol SuggestionCity;
 @protocol SubPoiItem;
 @protocol Photo;
+@class AMapCity;
+@class AMapPOISearchResponse;
+@class AMapPOI;
+@class AMapIndoorData;
+@class AMapImage;
+@class AMapPOIExtension;
+@class AMapSubPOI;
 
 @interface UnifiedPoiResult : JSONModel
 

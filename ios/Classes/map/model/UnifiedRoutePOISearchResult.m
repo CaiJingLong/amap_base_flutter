@@ -3,6 +3,7 @@
 //
 
 #import <AMapSearch/AMapSearchKit/AMapSearchObj.h>
+#import <AMapSearch/AMapSearchKit/AMapCommonObj.h>
 #import "UnifiedRoutePOISearchResult.h"
 #import "UnifiedAMapOptions.h"
 #import "NSArray+Rx.h"

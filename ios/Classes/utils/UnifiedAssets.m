@@ -5,14 +5,18 @@
 #import "UnifiedAssets.h"
 #import "AMapBasePlugin.h"
 
-static const NSString *PACKAGE = @"packages/amap_base/";
-
 @implementation UnifiedAssets {
 
 }
 + (NSString *)getAssetPath:(NSString *)asset {
-    NSString *key = [AMapBasePlugin.registrar lookupKeyForAsset:[NSString stringWithFormat:@"%@%@", PACKAGE, asset]];
+    NSString *key = [AMapBasePlugin.registrar lookupKeyForAsset:asset];
     return [[NSBundle mainBundle] pathForResource:key ofType:nil];
 }
+
++ (NSString *)getDefaultAssetPath:(NSString *)asset {
+    NSString *key = [AMapBasePlugin.registrar lookupKeyForAsset:asset fromPackage:@"amap_base"];
+    return [[NSBundle mainBundle] pathForResource:key ofType:nil];
+}
+
 
 @end

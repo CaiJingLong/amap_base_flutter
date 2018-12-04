@@ -19,15 +19,7 @@ object UnifiedAssets {
     /**
      * 获取plugin自带的图片
      */
-    fun getAMapBitmapDescriptor(asset: String): BitmapDescriptor {
-        val assetFileDescriptor = assetManager.openFd(AMapBasePlugin.registrar.lookupKeyForAsset(asset, "amap_base"))
-        return BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeStream(
-                assetFileDescriptor.createInputStream(),
-                null,
-                BitmapFactory.Options().apply {
-                    outHeight = 36
-                    outWidth = 36
-                }
-        ))
+    fun getDefaultBitmapDescriptor(asset: String): BitmapDescriptor {
+        return BitmapDescriptorFactory.fromAsset(AMapBasePlugin.registrar.lookupKeyForAsset(asset, "amap_base"))
     }
 }

@@ -7,6 +7,7 @@
 
 @class UnifiedRoutePOIItem;
 @class LatLng;
+@class AMapPOI;
 
 
 @interface UnifiedRoutePOISearchResult : JSONModel

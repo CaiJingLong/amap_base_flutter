@@ -420,16 +420,16 @@ static NSString *mapChannelName = @"me.yohom/map";
         if ([annotation isKindOfClass:[MANaviAnnotation class]]) {
             switch (((MANaviAnnotation *) annotation).type) {
                 case MANaviAnnotationTypeRailway:
-                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/railway_station.png"]];
+                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/railway_station.png"]];
                     break;
                 case MANaviAnnotationTypeBus:
-                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/bus.png"]];
+                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/bus.png"]];
                     break;
                 case MANaviAnnotationTypeDrive:
-                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/car.png"]];
+                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/car.png"]];
                     break;
                 case MANaviAnnotationTypeWalking:
-                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/man.png"]];
+                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/man.png"]];
                     break;
                 default:
                     break;
@@ -439,6 +439,8 @@ static NSString *mapChannelName = @"me.yohom/map";
             annotationView.zIndex = (NSInteger) options.zIndex;
             if (options.icon != nil) {
                 annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:options.icon]];
+            } else {
+                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/default_marker.png"]];
             }
             annotationView.centerOffset = CGPointMake(options.anchorU, options.anchorV);
             annotationView.calloutOffset = CGPointMake(options.infoWindowOffsetX, options.infoWindowOffsetY);
@@ -449,16 +451,16 @@ static NSString *mapChannelName = @"me.yohom/map";
             annotationView.selected = options.selected;
         } else {
             if ([[annotation title] isEqualToString:@"起点"]) {
-                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/amap_start.png"]];
+                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/amap_start.png"]];
             } else if ([[annotation title] isEqualToString:@"终点"]) {
-                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/amap_end.png"]];
+                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/amap_end.png"]];
             }
         }
 
-        if (annotationView.imageView != nil) {
+        if (annotationView.image != nil) {
             CGSize size = annotationView.imageView.frame.size;
-            annotationView.frame = CGRectMake(annotationView.center.x + size.width / 2, annotationView.center.y, 36, 36);
-            annotationView.centerOffset = CGPointMake(0, -18);
+            annotationView.frame = CGRectMake(annotationView.center.x + size.width / 2, annotationView.center.y, 24, 24);
+            annotationView.centerOffset = CGPointMake(0, -12);
         }
 
         return annotationView;
