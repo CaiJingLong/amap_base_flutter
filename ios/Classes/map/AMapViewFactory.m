@@ -19,8 +19,13 @@
 #import "UnifiedMarkerOptions.h"
 #import "MarkerAnnotation.h"
 #import "MarkerAnnotation.h"
+#import "UnifiedPoiSearchQuery.h"
+#import "UnifiedPoiResult.h"
+#import "UnifiedRoutePoiSearchQuery.h"
+#import "UnifiedRoutePOISearchResult.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
+static NSString *success = @"调用成功";
 
 @implementation AMapViewFactory {
 }
@@ -103,11 +108,15 @@ static NSString *mapChannelName = @"me.yohom/map";
                                            binaryMessenger:[AMapBasePlugin registrar].messenger];
     __weak __typeof__(self) weakSelf = self;
     [_channel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
-        _result = result;
+        self->_result = result;
         if (weakSelf) {
             [weakSelf handleMethodCall:call result:result];
         }
     }];
+
+    // 搜索api回调设置
+    _search = [[AMapSearchAPI alloc] init];
+    _search.delegate = self;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -124,6 +133,8 @@ static NSString *mapChannelName = @"me.yohom/map";
         [[[UnifiedMyLocationStyle alloc] initWithString:styleJson error:&error] applyTo:_mapView];
 
         NSLog(@"JSONModelError: %@", error.description);
+
+        result(success);
     } else if ([@"map#setUiSettings" isEqualToString:call.method]) {
         NSString *uiSettingsJson = (NSString *) paramDic[@"uiSettings"];
 
@@ -132,6 +143,8 @@ static NSString *mapChannelName = @"me.yohom/map";
         [[[UnifiedUiSettings alloc] initWithString:uiSettingsJson error:&error] applyTo:_mapView];
 
         NSLog(@"JSONModelError: %@", error.description);
+
+        result(success);
     } else if ([@"map#calculateDriveRoute" isEqualToString:call.method]) {
         NSString *routePlanParamJson = (NSString *) paramDic[@"routePlanParam"];
 
@@ -139,10 +152,6 @@ static NSString *mapChannelName = @"me.yohom/map";
         JSONModelError *error;
         _routePlanParam = [[RoutePlanParam alloc] initWithString:routePlanParamJson error:&error];
         NSLog(@"JSONModelError: %@", error.description);
-
-        // 开始搜索路线
-        _search = [[AMapSearchAPI alloc] init];
-        _search.delegate = self;
 
         // 路线请求参数构造
         AMapDrivingRouteSearchRequest *routeQuery = [[AMapDrivingRouteSearchRequest alloc] init];
@@ -177,11 +186,16 @@ static NSString *mapChannelName = @"me.yohom/map";
         annotation.markerOptions = markerOptions;
 
         [_mapView addAnnotation:annotation];
+
+        result(success);
     } else if ([@"marker#addMarkers" isEqualToString:call.method]) {
         NSString *moveToCenter = (NSString *) paramDic[@"moveToCenter"];
         NSString *optionsListJson = (NSString *) paramDic[@"markerOptionsList"];
+        BOOL clear = (BOOL) paramDic[@"clear"];
 
         NSLog(@"方法marker#addMarkers ios端参数: optionsListJson -> %@", optionsListJson);
+        if (clear) [_mapView removeAnnotations:_mapView.annotations];
+
         NSArray *rawOptionsList = [NSJSONSerialization JSONObjectWithData:[optionsListJson dataUsingEncoding:NSUTF8StringEncoding]
                                                                   options:kNilOptions
                                                                     error:nil];
@@ -205,12 +219,16 @@ static NSString *mapChannelName = @"me.yohom/map";
         if (moveToCenter) {
             [_mapView showAnnotations:optionList animated:YES];
         }
+
+        result(success);
     } else if ([@"map#showIndoorMap" isEqualToString:call.method]) {
         BOOL enabled = (BOOL) paramDic[@"showIndoorMap"];
 
         NSLog(@"方法map#showIndoorMap android端参数: enabled -> %d", enabled);
 
         _mapView.showsIndoorMap = enabled;
+
+        result(success);
     } else if ([@"map#setMapType" isEqualToString:call.method]) {
         // 由于iOS端是从0开始算的, 所以这里减去1
         NSInteger mapType = (NSInteger) paramDic[@"mapType"] - 1;
@@ -218,6 +236,8 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"方法map#setMapType ios端参数: mapType -> %d", mapType);
 
         [_mapView setMapType:mapType];
+
+        result(success);
     } else if ([@"map#setLanguage" isEqualToString:call.method]) {
         // 由于iOS端是从0开始算的, 所以这里减去1
         NSString *language = (NSString *) paramDic[@"language"];
@@ -225,6 +245,82 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"方法map#setLanguage ios端参数: language -> %@", language);
 
         [_mapView performSelector:NSSelectorFromString(@"setMapLanguage:") withObject:language];
+
+        result(success);
+    } else if ([@"map#searchPoi" isEqualToString:call.method]) {
+        NSString *query = (NSString *) paramDic[@"query"];
+
+        NSLog(@"方法map#searchPoi ios端参数: query -> %@", query);
+
+        JSONModelError *error;
+        UnifiedPoiSearchQuery *request = [[UnifiedPoiSearchQuery alloc] initWithString:query error:&error];
+        NSLog(@"JSONModelError: %@", error.description);
+
+        [_search AMapPOIKeywordsSearch:[request toAMapPOIKeywordsSearchRequest]];
+    } else if ([@"map#searchPoiBound" isEqualToString:call.method]) {
+        NSString *query = (NSString *) paramDic[@"query"];
+
+        NSLog(@"方法map#searchPoiBound ios端参数: query -> %@", query);
+
+        JSONModelError *error;
+        UnifiedPoiSearchQuery *request = [[UnifiedPoiSearchQuery alloc] initWithString:query error:&error];
+        NSLog(@"JSONModelError: %@", error.description);
+
+        [_search AMapPOIAroundSearch:[request toAMapPOIAroundSearchRequest]];
+    } else if ([@"map#searchPoiPolygon" isEqualToString:call.method]) {
+        NSString *query = (NSString *) paramDic[@"query"];
+
+        NSLog(@"方法map#searchPoiPolygon ios端参数: query -> %@", query);
+
+        JSONModelError *error;
+        UnifiedPoiSearchQuery *request = [[UnifiedPoiSearchQuery alloc] initWithString:query error:&error];
+        NSLog(@"JSONModelError: %@", error.description);
+
+        [_search AMapPOIPolygonSearch:[request toAMapPOIPolygonSearchRequest]];
+    } else if ([@"map#searchPoiId" isEqualToString:call.method]) {
+        NSString *id = (NSString *) paramDic[@"id"];
+
+        NSLog(@"方法map#searchPoiId ios端参数: id -> %@", id);
+
+        AMapPOIIDSearchRequest *request = [[AMapPOIIDSearchRequest alloc] init];
+        request.uid = id;
+        request.requireExtension = YES;
+        [_search AMapPOIIDSearch:request];
+    } else if ([@"map#searchRoutePoiLine" isEqualToString:call.method]) {
+        NSString *query = (NSString *) paramDic[@"query"];
+
+        NSLog(@"方法map#searchRoutePoiLine ios端参数: query -> %@", query);
+
+        JSONModelError *error;
+        UnifiedRoutePoiSearchQuery *request = [[UnifiedRoutePoiSearchQuery alloc] initWithString:query error:&error];
+        NSLog(@"JSONModelError: %@", error.description);
+
+        [_search AMapRoutePOISearch:[request toAMapRoutePOISearchRequestLine]];
+    } else if ([@"map#searchRoutePoiPolygon" isEqualToString:call.method]) {
+        NSString *query = (NSString *) paramDic[@"query"];
+
+        NSLog(@"方法map#searchRoutePoiLine ios端参数: query -> %@", query);
+
+        JSONModelError *error;
+        UnifiedRoutePoiSearchQuery *request = [[UnifiedRoutePoiSearchQuery alloc] initWithString:query error:&error];
+        NSLog(@"JSONModelError: %@", error.description);
+
+        [_search AMapRoutePOISearch:[request toAMapRoutePOISearchRequestPolygon]];
+    } else if ([@"marker#clear" isEqualToString:call.method]) {
+        [_mapView removeAnnotations:_mapView.annotations];
+
+        result(success);
+    } else if ([@"map#clear" isEqualToString:call.method]) {
+        [_mapView removeOverlays:_mapView.overlays];
+        [_mapView removeAnnotations:_mapView.annotations];
+
+        result(success);
+    }  else if ([@"map#setZoomLevel" isEqualToString:call.method]) {
+        CGFloat zoomLevel = [paramDic[@"zoomLevel"] floatValue];
+
+        _mapView.zoomLevel = zoomLevel;
+
+        result(success);
     } else {
         result(FlutterMethodNotImplemented);
     }
@@ -232,7 +328,7 @@ static NSString *mapChannelName = @"me.yohom/map";
 
 #pragma AMapSearchDelegate
 
-/* 路径规划搜索回调. */
+/// 路径规划搜索回调.
 - (void)onRouteSearchDone:(AMapRouteSearchBaseRequest *)request response:(AMapRouteSearchResponse *)response {
     if (response.route.paths.count == 0) {
         return _result(@"没有规划出合适的路线");
@@ -265,6 +361,8 @@ static NSString *mapChannelName = @"me.yohom/map";
     [_mapView setVisibleMapRect:[CommonUtility mapRectForOverlays:_overlay.routePolylines]
                     edgePadding:UIEdgeInsetsMake(20, 20, 20, 20)
                        animated:YES];
+
+    _result(success);
 }
 
 /// 路线规划失败回调
@@ -272,6 +370,27 @@ static NSString *mapChannelName = @"me.yohom/map";
     if (_result != nil) {
         _result([NSString stringWithFormat:@"路线规划失败, 错误码: %ld", (long) error.code]);
     }
+}
+
+/// poi搜索回调
+- (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response {
+    if (response.pois.count == 0) {
+        return;
+    }
+
+    _result([[[UnifiedPoiResult alloc] initWithPoiResult:response] toJSONString]);
+}
+
+/// 沿途搜索回调
+- (void)onRoutePOISearchDone:(AMapRoutePOISearchRequest *)request response:(AMapRoutePOISearchResponse *)response {
+    if (response.pois.count == 0) {
+        return;
+    }
+
+//    UnifiedRoutePOISearchResult *result = [[UnifiedRoutePOISearchResult alloc] initWithAMapRoutePOISearchResponse:response];
+//    NSString *resultString = [result toJSONString];
+//    NSLog(@"RESULT: %@", resultString);
+    _result([[[UnifiedRoutePOISearchResult alloc] initWithAMapRoutePOISearchResponse:response] toJSONString]);
 }
 
 #pragma MAMapViewDelegate
@@ -316,6 +435,10 @@ static NSString *mapChannelName = @"me.yohom/map";
 
 /// 渲染annotation, 就是Android中的marker
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id <MAAnnotation>)annotation {
+    if ([annotation isKindOfClass:[MAUserLocation class]]) {
+        return nil;
+    }
+    
     if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
         static NSString *routePlanningCellIdentifier = @"RoutePlanningCellIdentifier";
 
@@ -325,22 +448,19 @@ static NSString *mapChannelName = @"me.yohom/map";
                                                           reuseIdentifier:routePlanningCellIdentifier];
         }
 
-        annotationView.canShowCallout = YES;
-        annotationView.image = nil;
-
         if ([annotation isKindOfClass:[MANaviAnnotation class]]) {
             switch (((MANaviAnnotation *) annotation).type) {
                 case MANaviAnnotationTypeRailway:
-                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/railway_station.png"]];
+                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/railway_station.png"]];
                     break;
                 case MANaviAnnotationTypeBus:
-                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/bus.png"]];
+                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/bus.png"]];
                     break;
                 case MANaviAnnotationTypeDrive:
-                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/car.png"]];
+                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/car.png"]];
                     break;
                 case MANaviAnnotationTypeWalking:
-                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/man.png"]];
+                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/man.png"]];
                     break;
                 default:
                     break;
@@ -350,6 +470,8 @@ static NSString *mapChannelName = @"me.yohom/map";
             annotationView.zIndex = (NSInteger) options.zIndex;
             if (options.icon != nil) {
                 annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:options.icon]];
+            } else {
+                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/default_marker.png"]];
             }
             annotationView.centerOffset = CGPointMake(options.anchorU, options.anchorV);
             annotationView.calloutOffset = CGPointMake(options.infoWindowOffsetX, options.infoWindowOffsetY);
@@ -358,17 +480,18 @@ static NSString *mapChannelName = @"me.yohom/map";
             annotationView.enabled = options.enabled;
             annotationView.highlighted = options.highlighted;
             annotationView.selected = options.selected;
-
-            CGPoint origin = annotationView.imageView.frame.origin;
-            annotationView.imageView.bounds = CGRectMake(origin.x + 24, origin.y + 4, 48, 48);
         } else {
             if ([[annotation title] isEqualToString:@"起点"]) {
-                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/amap_end.png"]];
+                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/amap_start.png"]];
             } else if ([[annotation title] isEqualToString:@"终点"]) {
-                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getAssetPath:@"images/amap_end.png"]];
+                annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/amap_end.png"]];
             }
-            CGPoint origin = annotationView.imageView.frame.origin;
-            annotationView.imageView.bounds = CGRectMake(origin.x + 24, origin.y + 4, 48, 48);
+        }
+
+        if (annotationView.image != nil) {
+            CGSize size = annotationView.imageView.frame.size;
+            annotationView.frame = CGRectMake(annotationView.center.x + size.width / 2, annotationView.center.y, 24, 24);
+            annotationView.centerOffset = CGPointMake(0, -12);
         }
 
         return annotationView;

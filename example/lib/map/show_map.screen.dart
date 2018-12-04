@@ -2,23 +2,27 @@ import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/widgets/setting.widget.dart';
 import 'package:flutter/material.dart';
 
-class CreateMapScreen extends StatefulWidget {
-  CreateMapScreen();
+class ShowMapScreen extends StatefulWidget {
+  ShowMapScreen();
 
-  factory CreateMapScreen.forDesignTime() => CreateMapScreen();
+  factory ShowMapScreen.forDesignTime() => ShowMapScreen();
 
   @override
-  _CreateMapScreenState createState() => _CreateMapScreenState();
+  _ShowMapScreenState createState() => _ShowMapScreenState();
 }
 
-class _CreateMapScreenState extends State<CreateMapScreen> {
+class _ShowMapScreenState extends State<ShowMapScreen> {
   AMapController _controller;
   MyLocationStyle _myLocationStyle = MyLocationStyle();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('显示地图')),
+      appBar: AppBar(
+        title: const Text('显示地图'),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+      ),
       body: Column(
         children: <Widget>[
           Flexible(
@@ -34,6 +38,7 @@ class _CreateMapScreenState extends State<CreateMapScreen> {
               children: <Widget>[
                 BooleanSetting(
                   head: '显示自己的位置 [Android, iOS]',
+                  selected: _myLocationStyle.showMyLocation,
                   onSelected: (value) {
                     _updateMyLocationStyle(showMyLocation: value);
                   },
@@ -130,13 +135,14 @@ class _CreateMapScreenState extends State<CreateMapScreen> {
                 ),
                 BooleanSetting(
                   head: '精度圈是否显示 [iOS]',
-                  selected: true,
+                  selected: _myLocationStyle.showsAccuracyRing,
                   onSelected: (value) {
                     _updateMyLocationStyle(showsAccuracyRing: value);
                   },
                 ),
                 BooleanSetting(
                   head: '是否显示方向指示 [iOS]',
+                  selected: _myLocationStyle.showsHeadingIndicator,
                   onSelected: (value) {
                     _updateMyLocationStyle(showsHeadingIndicator: value);
                   },
@@ -154,8 +160,8 @@ class _CreateMapScreenState extends State<CreateMapScreen> {
                   },
                 ),
                 BooleanSetting(
-                  head: '定位图标, 与蓝色原点互斥 [iOS]',
-                  selected: true,
+                  head: '内部蓝色圆点是否使用律动效果, 默认YES [iOS]',
+                  selected: _myLocationStyle.enablePulseAnnimation,
                   onSelected: (value) {
                     _updateMyLocationStyle(enablePulseAnnimation: value);
                   },

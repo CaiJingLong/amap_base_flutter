@@ -84,7 +84,7 @@ class MyLocationStyle {
     this.interval = 2000,
     this.showMyLocation = true,
     this.showsAccuracyRing = true,
-    this.showsHeadingIndicator = true,
+    this.showsHeadingIndicator = false,
     this.locationDotBgColor = Colors.white,
     this.locationDotFillColor = Colors.blue,
     this.enablePulseAnnimation = true,

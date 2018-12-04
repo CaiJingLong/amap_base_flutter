@@ -13,13 +13,19 @@ amap_base:
     url: https://github.com/yohom/amap_base_flutter.git
     ref: 0.0.1/branch/commit
 ```
+导入:
+```
+import 'package:amap_base/amap_base.dart';
+```
+iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要手动打开开关, 在info.plist文件中新增一行`io.flutter.embedded_views_preview`为`true`. 参考[iOS view embedding support has landed on master](https://github.com/flutter/flutter/issues/19030#issuecomment-437534853)
 
 ## 关于高德的Android SDK和iOS SDK
 - 由于Android和iOS端的实现完全不一样, Android端照抄了Google Map的api设计, 而iOS
 端又没有去抄Google Map的设计, 导致需要额外的工作去兼容两个平台的功能. 这个库的目标是尽可能的统一双端的api设置, 采用取各自平台api的**并集**, 然后在文档中指出针对哪个平台有效的策略来实现api统一.
 
 ## 关于包的大小
-- 目前主分支的计划是实现全功能的高德地图, 然后开单独的分支实现高德的单独的功能, 这样包会小一点.
+- ~~目前主分支的计划是实现全功能的高德地图, 然后开单独的分支实现高德的单独的功能, 这样包会小一点.~~
+- 这个库依赖了高德导航库(包含了3dMap库), 以及搜索库.
 
 ## FAQ:
 1. 定位到非洲去了

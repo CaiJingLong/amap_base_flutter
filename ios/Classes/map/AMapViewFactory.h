@@ -11,7 +11,7 @@
 @interface AMapViewFactory : NSObject <FlutterPlatformViewFactory>
 @end
 
-@interface AMapView : NSObject <FlutterPlatformView, AMapSearchDelegate, MAMapViewDelegate>
+@interface AMapView : NSObject <FlutterPlatformView, AMapSearchDelegate, MAMapViewDelegate, AMapSearchDelegate>
 - (instancetype)initWithFrame:(CGRect)frame
                       options:(UnifiedAMapOptions *)options
                viewIdentifier:(int64_t)viewId;

@@ -160,7 +160,7 @@
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				9E2011A5602C302830EE9B9C /* [CP] Embed Pods Frameworks */,
-				566CA462A7CB244CC50A7C8F /* [CP] Copy Pods Resources */,
+				0F5D198F00DC61D180C9F0C2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -221,21 +221,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Thin Binary";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" thin";
-		};
-		566CA462A7CB244CC50A7C8F /* [CP] Copy Pods Resources */ = {
+		0F5D198F00DC61D180C9F0C2 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -254,6 +240,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Thin Binary";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" thin";
 		};
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -462,7 +462,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.yohom.amapBaseExample1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/**";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -487,7 +487,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.yohom.amapBaseExample1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/** \"${PROJECT_DIR}/..\"/**";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

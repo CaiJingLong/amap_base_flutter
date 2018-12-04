@@ -2,6 +2,8 @@
 // Created by Yohom Bao on 2018/11/25.
 //
 
+#import <AMapNavi/AMapNaviKit/AMapNaviCompositeUserConfig.h>
+#import <AMapNavi/AMapNaviKit/AMapNaviCompositeManager.h>
 #import "NSObject+Navi.h"
 
 NSString *naviChannelName = @"me.yohom/amap_navi";

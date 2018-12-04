@@ -121,13 +121,13 @@ class ColorSetting extends StatelessWidget {
         Color color;
         switch (value) {
           case '绿色':
-            color = Colors.green;
+            color = Colors.green.withOpacity(0.6);
             break;
           case '红色':
-            color = Colors.red;
+            color = Colors.red.withOpacity(0.6);
             break;
           case '黄色':
-            color = Colors.yellow;
+            color = Colors.yellow.withOpacity(0.6);
             break;
         }
 

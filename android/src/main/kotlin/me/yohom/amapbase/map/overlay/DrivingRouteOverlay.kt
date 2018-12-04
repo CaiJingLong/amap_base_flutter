@@ -24,14 +24,14 @@ class DrivingRouteOverlay(map: AMap,
                           to: LatLonPoint,
                           private val passbyPointList: List<LatLonPoint>,
                           private val drivePath: DrivePath) : RouteOverlay(map, from.toLatLng(), to.toLatLng()) {
-    private val passbyPointMarkerList = ArrayList<Marker>()
-    private var passbyPointMarkerVisible = true
+    private val passbyMarkerList = arrayListOf<Marker>()
+    private var passbyMarkerVisible = true
     /**
      * 交通拥堵信息
      */
     private var tmcs: MutableList<TMC> = mutableListOf()
-    private var polylineOptions: PolylineOptions? = null
-    private var polylineOptionsColor: PolylineOptions? = null
+    private var polylineOptions: PolylineOptions = PolylineOptions()
+    private var polylineOptionsColor: PolylineOptions = PolylineOptions()
     var isColorfulLine = true
 
     /**
@@ -49,72 +49,59 @@ class DrivingRouteOverlay(map: AMap,
             return b.build()
         }
 
-    private val passbyPointBitDes: BitmapDescriptor = UnifiedAssets.getBitmapDescriptor("images/amap_through.png")
+    private val passbyPointBitDes: BitmapDescriptor = UnifiedAssets.getDefaultBitmapDescriptor("images/amap_through.png")
 
     /**
      * 添加驾车路线添加到地图上显示。
      */
     fun addToMap() {
         initPolylineOptions()
-        try {
-            if (routeWidth == 0f) {
-                return
-            }
+        if (routeWidth == 0f) return
 
-            latLngsOfPath = ArrayList()
-            tmcs = ArrayList()
-            val drivePaths = drivePath.steps
-            polylineOptions!!.add(from)
-            for (step in drivePaths) {
-                val latlonPoints = step.polyline
-                val tmclist = step.tmCs
-                tmcs.addAll(tmclist)
-                addDrivingStationMarkers(step, convertToLatLng(latlonPoints[0]))
-                for (latlonpoint in latlonPoints) {
-                    polylineOptions!!.add(convertToLatLng(latlonpoint))
-                    latLngsOfPath.add(convertToLatLng(latlonpoint))
-                }
-            }
-            polylineOptions!!.add(to)
-            if (fromMarker != null) {
-                fromMarker!!.remove()
-                fromMarker = null
-            }
-            if (toMarker != null) {
-                toMarker!!.remove()
-                toMarker = null
-            }
-            addFromAndToMarker()
-            addPassbyMarker()
-            if (isColorfulLine && tmcs.size > 0) {
-                colorWayUpdate(tmcs)
-                showColorPolyline()
-            } else {
-                showPolyline()
-            }
+        latLngsOfPath = ArrayList()
+        tmcs = ArrayList()
+        val drivePaths = drivePath.steps
+        polylineOptions.add(from)
+        for (step in drivePaths) {
+            val latlonPoints = step.polyline
 
-        } catch (e: Throwable) {
-            e.printStackTrace()
+            tmcs.addAll(step.tmCs)
+
+            addDrivingStationMarkers(step, latlonPoints[0].toLatLng())
+
+            latlonPoints.forEach {
+                polylineOptions.add(it.toLatLng())
+                latLngsOfPath.add(it.toLatLng())
+            }
         }
+        polylineOptions.add(to)
 
+        fromMarker?.remove()
+        toMarker?.remove()
+
+        addFromAndToMarker()
+        addPassbyMarker()
+        if (isColorfulLine && tmcs.size > 0) {
+            colorWayUpdate(tmcs)
+            showColorPolyline()
+        } else {
+            showPolyline()
+        }
     }
 
     /**
      * 初始化线段属性
      */
     private fun initPolylineOptions() {
-        polylineOptions = null
-
-        polylineOptions = PolylineOptions()
-        polylineOptions!!.color(driveColor).width(routeWidth)
+        polylineOptions.color(driveColor).width(routeWidth)
     }
 
     private fun showPolyline() {
-        addPolyLine(polylineOptions!!)
+        addPolyLine(polylineOptions)
     }
 
     private fun showColorPolyline() {
-        addPolyLine(polylineOptionsColor!!)
+        addPolyLine(polylineOptionsColor)
     }
 
     /**
@@ -127,34 +114,33 @@ class DrivingRouteOverlay(map: AMap,
             return
         }
         var segmentTrafficStatus: TMC
-        polylineOptionsColor = null
         polylineOptionsColor = PolylineOptions()
-        polylineOptionsColor!!.width(routeWidth)
-        polylineOptionsColor!!.color(driveColor)
-        polylineOptionsColor!!.add(from)
+        polylineOptionsColor.width(routeWidth)
+        polylineOptionsColor.color(driveColor)
+        polylineOptionsColor.add(from)
 
-        polylineOptionsColor!!.add(tmcSection[0].polyline[0].toLatLng())
+        polylineOptionsColor.add(tmcSection[0].polyline[0].toLatLng())
         for (i in tmcSection.indices) {
             segmentTrafficStatus = tmcSection[i]
             val color = getColor(segmentTrafficStatus.status)
             val ployline = segmentTrafficStatus.polyline
-            polylineOptionsColor!!.color(color)
+            polylineOptionsColor.color(color)
             var lastLanLng: LatLng? = null
             for (j in 1 until ployline.size) {
                 lastLanLng = ployline[j].toLatLng()
-                polylineOptionsColor!!.add(lastLanLng)
+                polylineOptionsColor.add(lastLanLng)
             }
             map.addPolyline(polylineOptionsColor)
 
             // 准备下一次绘制
             polylineOptionsColor = PolylineOptions()
-            polylineOptionsColor!!.width(routeWidth)
-            polylineOptionsColor!!.color(driveColor)
+            polylineOptionsColor.width(routeWidth)
+            polylineOptionsColor.color(driveColor)
             if (lastLanLng != null) {
-                polylineOptionsColor!!.add(lastLanLng)
+                polylineOptionsColor.add(lastLanLng)
             }
         }
-        polylineOptionsColor!!.add(to)
+        polylineOptionsColor.add(to)
 
         map.addPolyline(polylineOptionsColor)
     }
@@ -191,13 +177,13 @@ class DrivingRouteOverlay(map: AMap,
             var latLonPoint: LatLonPoint?
             for (i in passbyPointList.indices) {
                 latLonPoint = passbyPointList[i]
-                passbyPointMarkerList.add(map
+                passbyMarkerList.add(map
                         .addMarker(MarkerOptions()
                                 .position(
                                         LatLng(latLonPoint
                                                 .latitude, latLonPoint
                                                 .longitude))
-                                .visible(passbyPointMarkerVisible)
+                                .visible(passbyMarkerVisible)
                                 .icon(passbyPointBitDes)
                                 .title("\u9014\u7ECF\u70B9")))
             }
@@ -210,11 +196,11 @@ class DrivingRouteOverlay(map: AMap,
     override fun removeFromMap() {
         try {
             super.removeFromMap()
-            if (this.passbyPointMarkerList.size > 0) {
-                for (i in this.passbyPointMarkerList.indices) {
-                    this.passbyPointMarkerList[i].remove()
+            if (passbyMarkerList.size > 0) {
+                for (i in passbyMarkerList.indices) {
+                    passbyMarkerList[i].remove()
                 }
-                this.passbyPointMarkerList.clear()
+                passbyMarkerList.clear()
             }
         } catch (e: Throwable) {
             e.printStackTrace()

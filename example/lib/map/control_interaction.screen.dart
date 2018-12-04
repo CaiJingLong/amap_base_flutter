@@ -20,7 +20,11 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('控件交互')),
+      appBar: AppBar(
+        title: const Text('控件交互'),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+      ),
       body: Column(
         children: <Widget>[
           Flexible(
@@ -43,7 +47,7 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
                 ),
                 BooleanSetting(
                   head: '缩放按钮 [Android]',
-                  selected: true,
+                  selected: _uiSettings.isZoomControlsEnabled,
                   onSelected: (value) {
                     _controller?.setUiSettings(
                         _uiSettings.copyWith(isZoomControlsEnabled: value));
@@ -68,7 +72,7 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
                 ),
                 BooleanSetting(
                   head: '指南针 [Android, iOS]',
-                  selected: false,
+                  selected: _uiSettings.isCompassEnabled,
                   onSelected: (value) {
                     _controller?.setUiSettings(
                         _uiSettings.copyWith(isCompassEnabled: value));
@@ -76,7 +80,7 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
                 ),
                 BooleanSetting(
                   head: '定位按钮 [Android]',
-                  selected: false,
+                  selected: _uiSettings.isMyLocationButtonEnabled,
                   onSelected: (value) {
                     _controller?.setUiSettings(
                         _uiSettings.copyWith(isMyLocationButtonEnabled: value));
@@ -84,7 +88,7 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
                 ),
                 BooleanSetting(
                   head: '比例尺控件 [Android, iOS]',
-                  selected: false,
+                  selected: _uiSettings.isScaleControlsEnabled,
                   onSelected: (value) {
                     _controller?.setUiSettings(
                         _uiSettings.copyWith(isScaleControlsEnabled: value));

@@ -26,21 +26,25 @@
     return description;
 }
 
-- (void)applyTo: (MAMapView *) mapView {
+- (void)applyTo:(MAMapView *)mapView {
     MAUserLocationRepresentation *r = [[MAUserLocationRepresentation alloc] init];
 
-    r.showsAccuracyRing = self.showsAccuracyRing;
-    r.showsHeadingIndicator = self.showsHeadingIndicator;
-    r.fillColor = [self hexStringToColor:self.radiusFillColor];
-    r.strokeColor = [self hexStringToColor:self.strokeColor];
-    r.lineWidth = self.strokeWidth;
-    r.enablePulseAnnimation = self.enablePulseAnnimation;
-    r.locationDotBgColor = [self hexStringToColor:self.locationDotBgColor];
-    r.locationDotFillColor = [self hexStringToColor:self.locationDotFillColor];
-    r.image = nil;
+    r.showsAccuracyRing = _showsAccuracyRing;
+    r.showsHeadingIndicator = _showsHeadingIndicator;
+    r.fillColor = [self hexStringToColor:_radiusFillColor];
+    r.strokeColor = [self hexStringToColor:_strokeColor];
+    r.lineWidth = _strokeWidth;
+    r.enablePulseAnnimation = _enablePulseAnnimation;
+    r.locationDotBgColor = [self hexStringToColor:_locationDotBgColor];
+    r.locationDotFillColor = [self hexStringToColor:_locationDotFillColor];
+//    r.image = nil;
 
-    mapView.showsUserLocation = self.showMyLocation;
-    if (mapView.showsUserLocation) {
+    mapView.showsUserLocation = _showMyLocation;
+
+    // 如果要跟踪方向, 那么就设置为userTrackingMode
+    if (_showsHeadingIndicator) {
+        mapView.userTrackingMode = MAUserTrackingModeFollowWithHeading;
+    } else if (_showMyLocation) {
         mapView.userTrackingMode = MAUserTrackingModeFollow;
     }
     [mapView updateUserLocationRepresentation:r];

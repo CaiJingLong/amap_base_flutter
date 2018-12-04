@@ -9,10 +9,15 @@ class ShowsIndoorMapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('显示室内地图')),
+      appBar: AppBar(
+        title: const Text('显示室内地图'),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+      ),
       body: AMapView(
-        onAMapViewCreated: (controller) {
-          controller.showIndoorMap(true);
+        onAMapViewCreated: (controller) async {
+          await controller.showIndoorMap(true);
+          await controller.setZoomLevel(19);
         },
         amapOptions: AMapOptions(),
       ),
