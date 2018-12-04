@@ -408,6 +408,10 @@ static NSString *mapChannelName = @"me.yohom/map";
 
 /// 渲染annotation, 就是Android中的marker
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id <MAAnnotation>)annotation {
+    if ([annotation isKindOfClass:[MAUserLocation class]]) {
+        return nil;
+    }
+    
     if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
         static NSString *routePlanningCellIdentifier = @"RoutePlanningCellIdentifier";
 

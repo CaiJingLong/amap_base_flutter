@@ -16,7 +16,11 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('驾车出行路线规划')),
+      appBar: AppBar(
+        title: const Text('驾车出行路线规划'),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+      ),
       body: Column(
         children: <Widget>[
           Flexible(

@@ -1,5 +1,5 @@
 import 'package:amap_base_example/map/control_interaction.screen.dart';
-import 'package:amap_base_example/map/create_map.screen.dart';
+import 'package:amap_base_example/map/show_map.screen.dart';
 import 'package:amap_base_example/map/draw_point.screen.dart';
 import 'package:amap_base_example/map/driving_route_plan.screen.dart';
 import 'package:amap_base_example/map/gesture_interaction.screen.dart';
@@ -33,7 +33,7 @@ class MapsDemo extends StatelessWidget {
               _FunctionItem(
                 label: '显示地图',
                 sublabel: 'CreateMapScreen',
-                target: CreateMapScreen(),
+                target: ShowMapScreen(),
               ),
               _FunctionItem(
                 label: '显示室内地图',

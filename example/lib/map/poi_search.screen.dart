@@ -18,7 +18,11 @@ class _PoiSearchScreenState extends State<PoiSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('获取POI数据')),
+      appBar: AppBar(
+        title: const Text('获取POI数据'),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+      ),
       body: Column(
         children: <Widget>[
           Flexible(

@@ -20,7 +20,11 @@ class _GestureInteractionScreenState extends State<GestureInteractionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('手势交互')),
+      appBar: AppBar(
+        title: const Text('手势交互'),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+      ),
       body: Column(
         children: <Widget>[
           Flexible(
