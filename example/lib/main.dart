@@ -1,3 +1,4 @@
+import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/map/control_interaction.screen.dart';
 import 'package:amap_base_example/map/show_map.screen.dart';
 import 'package:amap_base_example/map/draw_point.screen.dart';
@@ -10,7 +11,7 @@ import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
-  final result = await AMapNavi.setKey('27d67839721288be2ddd87b4fd868822');
+  final result = await AMap.setKey('27d67839721288be2ddd87b4fd868822');
   print('设置key的结果: $result');
   runApp(MaterialApp(home: MapsDemo()));
 }

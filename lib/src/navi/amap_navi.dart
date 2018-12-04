@@ -18,6 +18,7 @@ class AmapNavi {
     });
   }
 
+  @Deprecated('使用AMap.setKey代替')
   static Future setIOSKey(String key) async {
     try {
       if (Platform.isAndroid) {
