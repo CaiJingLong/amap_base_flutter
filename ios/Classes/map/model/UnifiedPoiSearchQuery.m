@@ -9,7 +9,7 @@
 #import "NSArray+Rx.h"
 
 
-@implementation UnifiedAMapPOISearchRequest {
+@implementation UnifiedPoiSearchQuery {
 
 }
 - (AMapPOIKeywordsSearchRequest *)toAMapPOIKeywordsSearchRequest {

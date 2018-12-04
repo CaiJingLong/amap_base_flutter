@@ -12,7 +12,6 @@ class UnifiedRoutePOISearchResult(routePOISearchResult: RoutePOISearchResult) {
     private val query: RoutePOISearchQuery = routePOISearchResult.query
 }
 
-
 class UnifiedRoutePOIItem(poiItem: RoutePOIItem) {
     val id: String = poiItem.id
     val title: String = poiItem.title

@@ -19,8 +19,10 @@
 #import "UnifiedMarkerOptions.h"
 #import "MarkerAnnotation.h"
 #import "MarkerAnnotation.h"
-#import "UnifiedAMapPOISearchRequest.h"
+#import "UnifiedPoiSearchQuery.h"
 #import "UnifiedPoiResult.h"
+#import "UnifiedRoutePoiSearchQuery.h"
+#import "UnifiedRoutePOISearchResult.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 
@@ -236,7 +238,7 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"方法map#searchPoi ios端参数: query -> %@", query);
 
         JSONModelError *error;
-        UnifiedAMapPOISearchRequest *request = [[UnifiedAMapPOISearchRequest alloc] initWithString:query error:&error];
+        UnifiedPoiSearchQuery *request = [[UnifiedPoiSearchQuery alloc] initWithString:query error:&error];
         NSLog(@"JSONModelError: %@", error.description);
 
         [_search AMapPOIKeywordsSearch:[request toAMapPOIKeywordsSearchRequest]];
@@ -246,7 +248,7 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"方法map#searchPoiBound ios端参数: query -> %@", query);
 
         JSONModelError *error;
-        UnifiedAMapPOISearchRequest *request = [[UnifiedAMapPOISearchRequest alloc] initWithString:query error:&error];
+        UnifiedPoiSearchQuery *request = [[UnifiedPoiSearchQuery alloc] initWithString:query error:&error];
         NSLog(@"JSONModelError: %@", error.description);
 
         [_search AMapPOIAroundSearch:[request toAMapPOIAroundSearchRequest]];
@@ -256,7 +258,7 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"方法map#searchPoiPolygon ios端参数: query -> %@", query);
 
         JSONModelError *error;
-        UnifiedAMapPOISearchRequest *request = [[UnifiedAMapPOISearchRequest alloc] initWithString:query error:&error];
+        UnifiedPoiSearchQuery *request = [[UnifiedPoiSearchQuery alloc] initWithString:query error:&error];
         NSLog(@"JSONModelError: %@", error.description);
 
         [_search AMapPOIPolygonSearch:[request toAMapPOIPolygonSearchRequest]];
@@ -269,6 +271,26 @@ static NSString *mapChannelName = @"me.yohom/map";
         request.uid = id;
         request.requireExtension = YES;
         [_search AMapPOIIDSearch:request];
+    } else if ([@"map#searchRoutePoiLine" isEqualToString:call.method]) {
+        NSString *query = (NSString *) paramDic[@"query"];
+
+        NSLog(@"方法map#searchRoutePoiLine ios端参数: query -> %@", query);
+
+        JSONModelError *error;
+        UnifiedRoutePoiSearchQuery *request = [[UnifiedRoutePoiSearchQuery alloc] initWithString:query error:&error];
+        NSLog(@"JSONModelError: %@", error.description);
+
+        [_search AMapRoutePOISearch:[request toAMapRoutePOISearchRequestLine]];
+    } else if ([@"map#searchRoutePoiPolygon" isEqualToString:call.method]) {
+        NSString *query = (NSString *) paramDic[@"query"];
+
+        NSLog(@"方法map#searchRoutePoiLine ios端参数: query -> %@", query);
+
+        JSONModelError *error;
+        UnifiedRoutePoiSearchQuery *request = [[UnifiedRoutePoiSearchQuery alloc] initWithString:query error:&error];
+        NSLog(@"JSONModelError: %@", error.description);
+
+        [_search AMapRoutePOISearch:[request toAMapRoutePOISearchRequestPolygon]];
     } else if ([@"marker#clear" isEqualToString:call.method]) {
         [_mapView removeAnnotations:_mapView.annotations];
     } else if ([@"map#clear" isEqualToString:call.method]) {
@@ -329,10 +351,19 @@ static NSString *mapChannelName = @"me.yohom/map";
         return;
     }
 
-    UnifiedPoiResult *resultPoi = [[UnifiedPoiResult alloc] initWithPoiResult:response];
-    NSString *resultString = [resultPoi toJSONString];
-    NSLog(@"RESULT: %@", resultString);
     _result([[[UnifiedPoiResult alloc] initWithPoiResult:response] toJSONString]);
+}
+
+/// 沿途搜索回调
+- (void)onRoutePOISearchDone:(AMapRoutePOISearchRequest *)request response:(AMapRoutePOISearchResponse *)response {
+    if (response.pois.count == 0) {
+        return;
+    }
+
+//    UnifiedRoutePOISearchResult *result = [[UnifiedRoutePOISearchResult alloc] initWithAMapRoutePOISearchResponse:response];
+//    NSString *resultString = [result toJSONString];
+//    NSLog(@"RESULT: %@", resultString);
+    _result([[[UnifiedRoutePOISearchResult alloc] initWithAMapRoutePOISearchResponse:response] toJSONString]);
 }
 
 #pragma MAMapViewDelegate
