@@ -15,8 +15,9 @@ class ShowsIndoorMapScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: AMapView(
-        onAMapViewCreated: (controller) {
-          controller.showIndoorMap(true);
+        onAMapViewCreated: (controller) async {
+          await controller.showIndoorMap(true);
+          await controller.setZoomLevel(19);
         },
         amapOptions: AMapOptions(),
       ),

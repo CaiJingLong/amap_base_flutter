@@ -3,6 +3,7 @@ package me.yohom.amapbase.map
 import android.content.Context
 import android.view.View
 import com.amap.api.maps.AMapOptions
+import com.amap.api.maps.CameraUpdateFactory
 import com.amap.api.maps.TextureMapView
 import com.amap.api.services.core.AMapException
 import com.amap.api.services.core.PoiItem
@@ -23,6 +24,7 @@ import java.util.*
 
 
 const val mapChannelName = "me.yohom/map"
+const val success = "调用成功"
 
 class AMapFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
 
@@ -66,6 +68,8 @@ class AMapView(private val context: Context,
                 log("方法setMyLocationEnabled android端参数: styleJson -> $styleJson")
 
                 styleJson.parseJson<UnifiedMyLocationStyle>().applyTo(map)
+
+                methodResult.success(success)
             }
             "map#setUiSettings" -> {
                 val uiSettingsJson = methodCall.argument<String>("uiSettings") ?: "{}"
@@ -73,6 +77,8 @@ class AMapView(private val context: Context,
                 log("方法setUiSettings android端参数: uiSettingsJson -> $uiSettingsJson")
 
                 uiSettingsJson.parseJson<UnifiedUiSettings>().applyTo(map)
+
+                methodResult.success(success)
             }
             "map#calculateDriveRoute" -> {
                 // 规划参数
@@ -104,6 +110,7 @@ class AMapView(private val context: Context,
                                             zoomToSpan()
                                         }
 
+                                methodResult.success(success)
                             }
                         }
 
@@ -123,6 +130,8 @@ class AMapView(private val context: Context,
                 log("方法marker#addMarker android端参数: optionsJson -> $optionsJson")
 
                 optionsJson.parseJson<UnifiedMarkerOptions>().applyTo(map)
+
+                methodResult.success(success)
             }
             "marker#addMarkers" -> {
                 val moveToCenter = methodCall.argument<Boolean>("moveToCenter") ?: true
@@ -134,14 +143,22 @@ class AMapView(private val context: Context,
                 val optionsList = ArrayList(optionsListJson.parseJson<List<UnifiedMarkerOptions>>().map { it.toMarkerOption() })
                 if (clear) map.mapScreenMarkers.forEach { it.remove() }
                 map.addMarkers(optionsList, moveToCenter)
+
+                methodResult.success(success)
             }
-            "marker#clear" -> map.mapScreenMarkers.forEach { it.remove() }
+            "marker#clear" -> {
+                map.mapScreenMarkers.forEach { it.remove() }
+
+                methodResult.success(success)
+            }
             "map#showIndoorMap" -> {
                 val enabled = methodCall.argument<Boolean>("showIndoorMap") ?: false
 
                 log("方法map#showIndoorMap android端参数: enabled -> $enabled")
 
                 map.showIndoorMap(enabled)
+
+                methodResult.success(success)
             }
             "map#setMapType" -> {
                 val mapType = methodCall.argument<Int>("mapType") ?: 1
@@ -149,6 +166,8 @@ class AMapView(private val context: Context,
                 log("方法map#setMapType android端参数: mapType -> $mapType")
 
                 map.mapType = mapType
+
+                methodResult.success(success)
             }
             "map#setLanguage" -> {
                 val language = methodCall.argument<String>("language") ?: "0"
@@ -156,8 +175,14 @@ class AMapView(private val context: Context,
                 log("方法map#setLanguage android端参数: language -> $language")
 
                 map.setMapLanguage(language)
+
+                methodResult.success(success)
             }
-            "map#clear" -> map.clear()
+            "map#clear" -> {
+                map.clear()
+
+                methodResult.success(success)
+            }
             "map#searchPoi" -> {
                 val query = methodCall.argument<String>("query") ?: "{}"
 
@@ -182,8 +207,6 @@ class AMapView(private val context: Context,
                                 }
                             })
                         }.searchPOIAsyn()
-
-
             }
             "map#searchPoiBound" -> {
                 val query = methodCall.argument<String>("query") ?: "{}"
@@ -209,8 +232,6 @@ class AMapView(private val context: Context,
                                 }
                             })
                         }.searchPOIAsyn()
-
-
             }
             "map#searchPoiPolygon" -> {
                 val query = methodCall.argument<String>("query") ?: "{}"
@@ -236,8 +257,6 @@ class AMapView(private val context: Context,
                                 }
                             })
                         }.searchPOIAsyn()
-
-
             }
             "map#searchPoiId" -> {
                 val id = methodCall.argument<String>("id") ?: ""
@@ -303,6 +322,13 @@ class AMapView(private val context: Context,
                                 }
                             }
                         }.searchRoutePOIAsyn()
+            }
+            "map#setZoomLevel" -> {
+                val zoomLevel = methodCall.argument<Int>("zoomLevel") ?: 15
+
+                map.moveCamera(CameraUpdateFactory.zoomTo(zoomLevel.toFloat()))
+
+                methodResult.success(success)
             }
             else -> methodResult.notImplemented()
         }

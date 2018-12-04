@@ -25,6 +25,7 @@
 #import "UnifiedRoutePOISearchResult.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
+static NSString *success = @"调用成功";
 
 @implementation AMapViewFactory {
 }
@@ -132,6 +133,8 @@ static NSString *mapChannelName = @"me.yohom/map";
         [[[UnifiedMyLocationStyle alloc] initWithString:styleJson error:&error] applyTo:_mapView];
 
         NSLog(@"JSONModelError: %@", error.description);
+
+        result(success);
     } else if ([@"map#setUiSettings" isEqualToString:call.method]) {
         NSString *uiSettingsJson = (NSString *) paramDic[@"uiSettings"];
 
@@ -140,6 +143,8 @@ static NSString *mapChannelName = @"me.yohom/map";
         [[[UnifiedUiSettings alloc] initWithString:uiSettingsJson error:&error] applyTo:_mapView];
 
         NSLog(@"JSONModelError: %@", error.description);
+
+        result(success);
     } else if ([@"map#calculateDriveRoute" isEqualToString:call.method]) {
         NSString *routePlanParamJson = (NSString *) paramDic[@"routePlanParam"];
 
@@ -181,6 +186,8 @@ static NSString *mapChannelName = @"me.yohom/map";
         annotation.markerOptions = markerOptions;
 
         [_mapView addAnnotation:annotation];
+
+        result(success);
     } else if ([@"marker#addMarkers" isEqualToString:call.method]) {
         NSString *moveToCenter = (NSString *) paramDic[@"moveToCenter"];
         NSString *optionsListJson = (NSString *) paramDic[@"markerOptionsList"];
@@ -212,12 +219,16 @@ static NSString *mapChannelName = @"me.yohom/map";
         if (moveToCenter) {
             [_mapView showAnnotations:optionList animated:YES];
         }
+
+        result(success);
     } else if ([@"map#showIndoorMap" isEqualToString:call.method]) {
         BOOL enabled = (BOOL) paramDic[@"showIndoorMap"];
 
         NSLog(@"方法map#showIndoorMap android端参数: enabled -> %d", enabled);
 
         _mapView.showsIndoorMap = enabled;
+
+        result(success);
     } else if ([@"map#setMapType" isEqualToString:call.method]) {
         // 由于iOS端是从0开始算的, 所以这里减去1
         NSInteger mapType = (NSInteger) paramDic[@"mapType"] - 1;
@@ -225,6 +236,8 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"方法map#setMapType ios端参数: mapType -> %d", mapType);
 
         [_mapView setMapType:mapType];
+
+        result(success);
     } else if ([@"map#setLanguage" isEqualToString:call.method]) {
         // 由于iOS端是从0开始算的, 所以这里减去1
         NSString *language = (NSString *) paramDic[@"language"];
@@ -232,6 +245,8 @@ static NSString *mapChannelName = @"me.yohom/map";
         NSLog(@"方法map#setLanguage ios端参数: language -> %@", language);
 
         [_mapView performSelector:NSSelectorFromString(@"setMapLanguage:") withObject:language];
+
+        result(success);
     } else if ([@"map#searchPoi" isEqualToString:call.method]) {
         NSString *query = (NSString *) paramDic[@"query"];
 
@@ -293,9 +308,19 @@ static NSString *mapChannelName = @"me.yohom/map";
         [_search AMapRoutePOISearch:[request toAMapRoutePOISearchRequestPolygon]];
     } else if ([@"marker#clear" isEqualToString:call.method]) {
         [_mapView removeAnnotations:_mapView.annotations];
+
+        result(success);
     } else if ([@"map#clear" isEqualToString:call.method]) {
         [_mapView removeOverlays:_mapView.overlays];
         [_mapView removeAnnotations:_mapView.annotations];
+
+        result(success);
+    }  else if ([@"map#setZoomLevel" isEqualToString:call.method]) {
+        CGFloat zoomLevel = [paramDic[@"zoomLevel"] floatValue];
+
+        _mapView.zoomLevel = zoomLevel;
+
+        result(success);
     } else {
         result(FlutterMethodNotImplemented);
     }
@@ -336,6 +361,8 @@ static NSString *mapChannelName = @"me.yohom/map";
     [_mapView setVisibleMapRect:[CommonUtility mapRectForOverlays:_overlay.routePolylines]
                     edgePadding:UIEdgeInsetsMake(20, 20, 20, 20)
                        animated:YES];
+
+    _result(success);
 }
 
 /// 路线规划失败回调

@@ -17,22 +17,22 @@ class AMapController {
   AMapController.withId(int id)
       : _mapChannel = MethodChannel('me.yohom/map$id');
 
-  void setMyLocationStyle(MyLocationStyle style) {
+  Future setMyLocationStyle(MyLocationStyle style) {
     final _styleJson =
         jsonEncode(style?.toJson() ?? MyLocationStyle().toJson());
 
     L.p('方法setMyLocationStyle dart端参数: styleJson -> $_styleJson');
-    _mapChannel.invokeMethod(
+    return _mapChannel.invokeMethod(
       'map#setMyLocationStyle',
       {'myLocationStyle': _styleJson},
     );
   }
 
-  void setUiSettings(UiSettings uiSettings) {
+  Future setUiSettings(UiSettings uiSettings) {
     final _uiSettings = jsonEncode(uiSettings.toJson());
 
     L.p('方法setUiSettings dart端参数: _uiSettings -> $_uiSettings');
-    _mapChannel.invokeMethod(
+    return _mapChannel.invokeMethod(
       'map#setUiSettings',
       {'uiSettings': _uiSettings},
     );
@@ -47,21 +47,21 @@ class AMapController {
     );
   }
 
-  void addMarker(MarkerOptions options) {
+  Future addMarker(MarkerOptions options) {
     final _optionsJson = options.toJsonString();
     L.p('方法addMarker dart端参数: _optionsJson -> $_optionsJson');
-    _mapChannel.invokeMethod(
+    return _mapChannel.invokeMethod(
       'marker#addMarker',
       {'markerOptions': _optionsJson},
     );
   }
 
-  void addMarkers(List<MarkerOptions> optionsList,
+  Future addMarkers(List<MarkerOptions> optionsList,
       {bool moveToCenter = true, bool clear = true}) {
     final _optionsListJson =
         jsonEncode(optionsList.map((it) => it.toJson()).toList());
     L.p('方法addMarkers dart端参数: _optionsListJson -> $_optionsListJson');
-    _mapChannel.invokeMethod(
+    return _mapChannel.invokeMethod(
       'marker#addMarkers',
       {
         'moveToCenter': moveToCenter,
@@ -71,33 +71,33 @@ class AMapController {
     );
   }
 
-  void showIndoorMap(bool enable) {
-    _mapChannel.invokeMethod(
+  Future showIndoorMap(bool enable) {
+    return _mapChannel.invokeMethod(
       'map#showIndoorMap',
       {'showIndoorMap': enable},
     );
   }
 
-  void setMapType(int mapType) {
-    _mapChannel.invokeMethod(
+  Future setMapType(int mapType) {
+    return _mapChannel.invokeMethod(
       'map#setMapType',
       {'mapType': mapType},
     );
   }
 
-  void setLanguage(int language) {
-    _mapChannel.invokeMethod(
+  Future setLanguage(int language) {
+    return _mapChannel.invokeMethod(
       'map#setLanguage',
       {'language': language},
     );
   }
 
-  void clearMarkers() {
-    _mapChannel.invokeMethod('marker#clear');
+  Future clearMarkers() {
+    return _mapChannel.invokeMethod('marker#clear');
   }
 
-  void clearMap() {
-    _mapChannel.invokeMethod('map#clear');
+  Future clearMap() {
+    return _mapChannel.invokeMethod('map#clear');
   }
 
   /// 搜索poi
@@ -182,5 +182,15 @@ class AMapController {
         .then((result) => result as String)
         .then((resultJsonString) =>
             RoutePoiResult.fromJson(jsonDecode(resultJsonString)));
+  }
+
+  /// 设置缩放等级
+  Future setZoomLevel(int level) {
+    L.p('setZoomLevel dart端参数: level -> $level');
+
+    return _mapChannel.invokeMethod(
+      'map#setZoomLevel',
+      {'zoomLevel': level},
+    );
   }
 }
