@@ -263,6 +263,48 @@ class AMapView(private val context: Context,
                     })
                 }.searchPOIIdAsyn(id)
             }
+            "map#searchRoutePoiLine" -> {
+                val query = methodCall.argument<String>("query") ?: "{}"
+
+                log("方法map#searchRoutePoiLine android端参数: query -> $query")
+
+                query.parseJson<UnifiedRoutePoiSearchQuery>()
+                        .toRoutePoiSearchLine(context)
+                        .apply {
+                            setPoiSearchListener { result, rCode ->
+                                if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+                                    if (result != null) {
+                                        methodResult.success(UnifiedRoutePOISearchResult(result).toJson())
+                                    } else {
+                                        methodResult.error(rCode.toAMapError(), null, null)
+                                    }
+                                } else {
+                                    methodResult.error(rCode.toAMapError(), null, null)
+                                }
+                            }
+                        }.searchRoutePOIAsyn()
+            }
+            "map#searchRoutePoiPolygon" -> {
+                val query = methodCall.argument<String>("query") ?: "{}"
+
+                log("方法map#searchRoutePoiPolygon android端参数: query -> $query")
+
+                query.parseJson<UnifiedRoutePoiSearchQuery>()
+                        .toRoutePoiSearchPolygon(context)
+                        .apply {
+                            setPoiSearchListener { result, rCode ->
+                                if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+                                    if (result != null) {
+                                        methodResult.success(UnifiedRoutePOISearchResult(result).toJson())
+                                    } else {
+                                        methodResult.error(rCode.toAMapError(), null, null)
+                                    }
+                                } else {
+                                    methodResult.error(rCode.toAMapError(), null, null)
+                                }
+                            }
+                        }.searchRoutePOIAsyn()
+            }
             else -> methodResult.notImplemented()
         }
     }

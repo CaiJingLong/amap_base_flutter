@@ -6,6 +6,7 @@ import 'package:amap_base/src/map/model/my_location_style.dart';
 import 'package:amap_base/src/map/model/poi_result.dart';
 import 'package:amap_base/src/map/model/poi_search_query.dart';
 import 'package:amap_base/src/map/model/route_plan_param.dart';
+import 'package:amap_base/src/map/model/route_poi_result.dart';
 import 'package:amap_base/src/map/model/ui_settings.dart';
 import 'package:amap_base/src/utils/log.dart';
 import 'package:flutter/services.dart';
@@ -153,5 +154,33 @@ class AMapController {
         .then((result) => result as String)
         .then((resultJsonString) =>
             PoiItem.fromJson(jsonDecode(resultJsonString)));
+  }
+
+  /// 道路沿途直线检索POI
+  Future<RoutePoiResult> searchRoutePoiLine(RoutePoiSearchQuery query) {
+    L.p('searchRoutePoiLine dart端参数: query.toJsonString() -> ${query.toJsonString()}');
+
+    return _mapChannel
+        .invokeMethod(
+          'map#searchRoutePoiLine',
+          {'query': query.toJsonString()},
+        )
+        .then((result) => result as String)
+        .then((resultJsonString) =>
+            RoutePoiResult.fromJson(jsonDecode(resultJsonString)));
+  }
+
+  /// 道路沿途多边形检索POI
+  Future<RoutePoiResult> searchRoutePoiPolygon(RoutePoiSearchQuery query) {
+    L.p('searchRoutePoiPolygon dart端参数: query.toJsonString() -> ${query.toJsonString()}');
+
+    return _mapChannel
+        .invokeMethod(
+          'map#searchRoutePoiPolygon',
+          {'query': query.toJsonString()},
+        )
+        .then((result) => result as String)
+        .then((resultJsonString) =>
+            RoutePoiResult.fromJson(jsonDecode(resultJsonString)));
   }
 }

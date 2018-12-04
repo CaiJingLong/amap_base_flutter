@@ -72,7 +72,7 @@ class _PoiSearchScreenState extends State<PoiSearchScreen> {
                               .map(
                                 (position) => MarkerOptions(
                                     icon:
-                                        'images/${MediaQuery.of(context).devicePixelRatio.floor()}x/amap_start.png',
+                                        'images/${MediaQuery.of(context).devicePixelRatio.round()}x/home_map_icon_positioning_nor.png',
                                     position: position),
                               )
                               .toList());

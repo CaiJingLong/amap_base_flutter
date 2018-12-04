@@ -182,7 +182,7 @@ static NSString *mapChannelName = @"me.yohom/map";
     } else if ([@"marker#addMarkers" isEqualToString:call.method]) {
         NSString *moveToCenter = (NSString *) paramDic[@"moveToCenter"];
         NSString *optionsListJson = (NSString *) paramDic[@"markerOptionsList"];
-        NSString *clear = (BOOL) paramDic[@"clear"];
+        BOOL clear = (BOOL) paramDic[@"clear"];
 
         NSLog(@"方法marker#addMarkers ios端参数: optionsListJson -> %@", optionsListJson);
         if (clear) [_mapView removeAnnotations:_mapView.annotations];

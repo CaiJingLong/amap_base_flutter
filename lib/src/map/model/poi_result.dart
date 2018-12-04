@@ -279,7 +279,7 @@ class PoiItem {
     shopID = json['shopID'] as String;
     snippet = json['snippet'] as String;
     if (json['subPois'] != null) {
-      subPois = List<Null>();
+      subPois = List<SubPoiItem>();
       json['subPois'].forEach((v) {
         subPois.add(SubPoiItem.fromJson(v as Map<String, dynamic>));
       });

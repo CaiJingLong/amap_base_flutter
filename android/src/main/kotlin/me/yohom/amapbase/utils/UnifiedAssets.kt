@@ -11,7 +11,7 @@ object UnifiedAssets {
     private val assetManager = AMapBasePlugin.registrar.context().assets
 
     fun getBitmapDescriptor(asset: String): BitmapDescriptor {
-        val assetFileDescriptor = assetManager.openFd(AMapBasePlugin.registrar.lookupKeyForAsset("$PACKAGE$asset"))
+        val assetFileDescriptor = assetManager.openFd(AMapBasePlugin.registrar.lookupKeyForAsset(asset, PACKAGE))
         return BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeStream(assetFileDescriptor.createInputStream()))
     }
 }

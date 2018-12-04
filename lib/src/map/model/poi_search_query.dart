@@ -67,9 +67,9 @@ class PoiSearchQuery {
       'cityLimit': cityLimit,
       'requireSubPois': requireSubPois,
       'distanceSort': distanceSort,
-      'location': location.toJson(),
+      'location': location?.toJson(),
       'requireExtension': requireExtension,
-      'searchBound': searchBound.toJson(),
+      'searchBound': searchBound?.toJson(),
     };
   }
 
