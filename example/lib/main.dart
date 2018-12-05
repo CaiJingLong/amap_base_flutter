@@ -2,6 +2,7 @@ import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/map/get_map_data/bound_poi_search.screen.dart';
 import 'package:amap_base_example/map/get_map_data/id_poi_search.screen.dart';
 import 'package:amap_base_example/map/get_map_data/polygon_poi_search.screen.dart';
+import 'package:amap_base_example/map/get_map_data/route_poi_search.screen.dart';
 import 'package:amap_base_example/map/paint_on_map/draw_point.screen.dart';
 import 'package:amap_base_example/map/going_out_plan/driving_route_plan.screen.dart';
 import 'package:amap_base_example/map/interact_with_map/control_interaction.screen.dart';
@@ -106,6 +107,11 @@ class MapsDemo extends StatelessWidget {
                 label: 'ID检索POI',
                 sublabel: 'IdPoiSearchScreen',
                 target: IdPoiSearchScreen(),
+              ),
+              _FunctionItem(
+                label: '道路沿途检索POI',
+                sublabel: 'RoutePoiSearchScreen',
+                target: RoutePoiSearchScreen(),
               ),
             ],
           ),

@@ -2,7 +2,7 @@ import 'package:amap_base/amap_base.dart';
 
 class RoutePoiResult {
   List<RoutePoiItem> routePoiList;
-  String query;
+  Map query;
 
   RoutePoiResult.fromJson(Map<String, dynamic> json) {
     if (json['routePoiList'] != null) {
@@ -11,7 +11,7 @@ class RoutePoiResult {
         routePoiList.add(RoutePoiItem.fromJson(v as Map<String, dynamic>));
       });
     }
-    query = json['query'] as String;
+    query = json['query'] as Map;
   }
 
   Map<String, dynamic> toJson() {

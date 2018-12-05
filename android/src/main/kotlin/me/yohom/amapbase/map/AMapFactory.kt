@@ -5,7 +5,6 @@ import android.view.View
 import com.amap.api.maps.AMapOptions
 import com.amap.api.maps.CameraUpdateFactory
 import com.amap.api.maps.TextureMapView
-import com.amap.api.maps.model.LatLngBounds
 import com.amap.api.services.core.AMapException
 import com.amap.api.services.core.PoiItem
 import com.amap.api.services.poisearch.PoiResult
