@@ -1,5 +1,6 @@
 import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/map/get_map_data/bound_poi_search.screen.dart';
+import 'package:amap_base_example/map/get_map_data/id_poi_search.screen.dart';
 import 'package:amap_base_example/map/get_map_data/polygon_poi_search.screen.dart';
 import 'package:amap_base_example/map/paint_on_map/draw_point.screen.dart';
 import 'package:amap_base_example/map/going_out_plan/driving_route_plan.screen.dart';
@@ -100,6 +101,11 @@ class MapsDemo extends StatelessWidget {
                 label: '多边形内检索的POI',
                 sublabel: 'PolygonPoiSearchScreen',
                 target: PolygonPoiSearchScreen(),
+              ),
+              _FunctionItem(
+                label: 'ID检索POI',
+                sublabel: 'IdPoiSearchScreen',
+                target: IdPoiSearchScreen(),
               ),
             ],
           ),
