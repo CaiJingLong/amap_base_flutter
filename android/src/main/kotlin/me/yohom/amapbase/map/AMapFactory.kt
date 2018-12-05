@@ -2,7 +2,6 @@ package me.yohom.amapbase.map
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.View
 import com.amap.api.maps.AMapOptions
 import com.amap.api.maps.CameraUpdateFactory
@@ -19,7 +18,6 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
-import io.reactivex.subjects.PublishSubject
 import me.yohom.amapbase.AMapBasePlugin
 import me.yohom.amapbase.map.model.*
 import me.yohom.amapbase.map.overlay.DrivingRouteOverlay
@@ -48,7 +46,7 @@ class AMapView(private val context: Context,
                amapOptions: AMapOptions) : PlatformView {
 
     private val mapView = TextureMapView(context, amapOptions)
-    private val markerClickedSubject = PublishSubject.create<String>()
+    private var eventSink: EventChannel.EventSink? = null
 
     override fun getView(): View = mapView
 
@@ -68,18 +66,13 @@ class AMapView(private val context: Context,
         val markerClickedEventChannel = EventChannel(AMapBasePlugin.registrar.messenger(), "$markerClickedChannelName$id")
         markerClickedEventChannel.setStreamHandler(object : EventChannel.StreamHandler {
             override fun onListen(p0: Any?, sink: EventChannel.EventSink?) {
-                markerClickedSubject.subscribe(
-                        { sink?.success(it) },
-                        { sink?.error("错误", null, null) },
-                        { sink?.endOfStream(); Log.d("stream", "stream closed") }
-                )
+                eventSink = sink
             }
 
             override fun onCancel(p0: Any?) {}
         })
         mapView.map.setOnMarkerClickListener {
-            log(UnifiedMarkerOptions(it.options).toJson())
-            markerClickedSubject.onNext(UnifiedMarkerOptions(it.options).toJson())
+            eventSink?.success(UnifiedMarkerOptions(it.options).toJson())
             true
         }
     }

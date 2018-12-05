@@ -11,13 +11,13 @@ class MarkerOptions {
   List<String> icons;
 
   /// Marker覆盖物的透明度 [Android]
-  double alpha;
+  num alpha;
 
   /// Marker覆盖物锚点在水平范围的比例 [Android, iOS]
-  double anchorU;
+  num anchorU;
 
   /// Marker覆盖物锚点垂直范围的比例 [Android, iOS]
-  double anchorV;
+  num anchorV;
 
   /// Marker覆盖物是否可拖拽 [Android, iOS]
   bool draggable;
@@ -26,13 +26,13 @@ class MarkerOptions {
   bool infoWindowEnable;
 
   /// 设置多少帧刷新一次图片资源，Marker动画的间隔时间，值越小动画越快 [Android]
-  int period;
+  num period;
 
   /// Marker覆盖物的位置坐标 [Android, iOS]
   LatLng position;
 
   /// Marker覆盖物的图片旋转角度，从正北开始，逆时针计算 [Android]
-  double rotateAngle;
+  num rotateAngle;
 
   /// Marker覆盖物是否平贴地图 [Android]
   bool isFlat;
@@ -41,10 +41,10 @@ class MarkerOptions {
   bool isGps;
 
   /// Marker覆盖物的水平偏移距离 [Android, iOS]
-  int infoWindowOffsetX;
+  num infoWindowOffsetX;
 
   /// Marker覆盖物的垂直偏移距离 [Android, iOS]
-  int infoWindowOffsetY;
+  num infoWindowOffsetY;
 
   /// 设置 Marker覆盖物的文字描述 [Android, iOS]
   String snippet;
@@ -59,10 +59,10 @@ class MarkerOptions {
   bool autoOverturnInfoWindow;
 
   /// Marker覆盖物 zIndex [Android]
-  double zIndex;
+  num zIndex;
 
   /// 显示等级 缺少文档 [Android]
-  int displayLevel;
+  num displayLevel;
 
   /// 是否在掩层下 缺少文档 [Android]
   bool belowMaskLayer;
@@ -71,10 +71,10 @@ class MarkerOptions {
   bool lockedToScreen;
 
   /// 固定屏幕点的坐标 [iOS暂未实现]
-  Object lockedScreenPoint;
+  String lockedScreenPoint;
 
   /// 自定制弹出框view, 用于替换默认弹出框. [iOS暂未实现]
-  Object customCalloutView;
+  String customCalloutView;
 
   /// 默认为YES,当为NO时view忽略触摸事件 [iOS]
   bool enabled;
@@ -86,10 +86,10 @@ class MarkerOptions {
   bool selected;
 
   /// 显示在默认弹出框左侧的view [iOS暂未实现]
-  Object leftCalloutAccessoryView;
+  String leftCalloutAccessoryView;
 
   /// 显示在默认弹出框右侧的view [iOS暂未实现]
-  Object rightCalloutAccessoryView;
+  String rightCalloutAccessoryView;
 
   MarkerOptions({
     @required this.position,
@@ -114,7 +114,7 @@ class MarkerOptions {
     this.displayLevel = 0,
     this.belowMaskLayer = false,
     this.lockedToScreen = false,
-    this.lockedScreenPoint = false,
+    this.lockedScreenPoint,
     this.customCalloutView,
     this.enabled = true,
     this.highlighted = false,
@@ -124,28 +124,28 @@ class MarkerOptions {
   });
 
   MarkerOptions.fromJson(Map<String, dynamic> json) {
-    alpha = json['alpha'] as double;
-    anchorU = json['anchorU'] as double;
-    anchorV = json['anchorV'] as double;
+    alpha = json['alpha'] as num;
+    anchorU = json['anchorU'] as num;
+    anchorV = json['anchorV'] as num;
     autoOverturnInfoWindow = json['autoOverturnInfoWindow'] as bool;
     belowMaskLayer = json['belowMaskLayer'] as bool;
-    displayLevel = json['displayLevel'] as int;
+    displayLevel = json['displayLevel'] as num;
     draggable = json['draggable'] as bool;
     icon = json['icon'] as String;
-    icons = json['icons'].cast<String>();
+    icons = json['icons'] as List;
     infoWindowEnable = json['infoWindowEnable'] as bool;
-    infoWindowOffsetX = json['infoWindowOffsetX'] as int;
-    infoWindowOffsetY = json['infoWindowOffsetY'] as int;
+    infoWindowOffsetX = json['infoWindowOffsetX'] as num;
+    infoWindowOffsetY = json['infoWindowOffsetY'] as num;
     isFlat = json['isFlat'] as bool;
     isGps = json['isGps'] as bool;
-    period = json['period'] as int;
+    period = json['period'] as num;
     position =
         json['position'] != null ? LatLng.fromJson(json['position']) : null;
-    rotateAngle = json['rotateAngle'] as double;
+    rotateAngle = json['rotateAngle'] as num;
     snippet = json['snippet'] as String;
     title = json['title'] as String;
     visible = json['visible'] as bool;
-    zIndex = json['zIndex'] as double;
+    zIndex = json['zIndex'] as num;
   }
 
   Map<String, Object> toJson() {

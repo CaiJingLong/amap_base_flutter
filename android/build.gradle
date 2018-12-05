@@ -45,5 +45,4 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.2.71'
     implementation 'com.amap.api:search:6.5.0.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.4'
 }

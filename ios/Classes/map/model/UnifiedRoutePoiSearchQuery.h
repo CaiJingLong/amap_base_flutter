@@ -6,7 +6,8 @@
 #import "JSONModel.h"
 
 @protocol LatLng;
-@class LatLng;@class AMapRoutePOISearchRequest;
+@class LatLng;
+@class AMapRoutePOISearchRequest;
 
 @interface UnifiedRoutePoiSearchQuery : JSONModel
 @property(nonatomic) LatLng *from;
