@@ -1,9 +1,10 @@
 import 'package:amap_base/amap_base.dart';
+import 'package:amap_base_example/map/get_map_data/bound_poi_search.screen.dart';
 import 'package:amap_base_example/map/paint_on_map/draw_point.screen.dart';
 import 'package:amap_base_example/map/going_out_plan/driving_route_plan.screen.dart';
 import 'package:amap_base_example/map/interact_with_map/control_interaction.screen.dart';
 import 'package:amap_base_example/map/interact_with_map/gesture_interaction.screen.dart';
-import 'package:amap_base_example/map/get_map_data/poi_search.screen.dart';
+import 'package:amap_base_example/map/get_map_data/keyword_poi_search.screen.dart';
 import 'package:amap_base_example/map/create_map/show_indoor_map.screen.dart';
 import 'package:amap_base_example/map/create_map/show_map.screen.dart';
 import 'package:amap_base_example/widgets/dimens.dart';
@@ -85,9 +86,14 @@ class MapsDemo extends StatelessWidget {
             headLabel: '获取地图数据',
             children: <Widget>[
               _FunctionItem(
-                label: '获取POI数据',
-                sublabel: 'PoiSearchScreen',
-                target: PoiSearchScreen(),
+                label: '关键字检索POI',
+                sublabel: 'KeywordPoiSearchScreen',
+                target: KeywordPoiSearchScreen(),
+              ),
+              _FunctionItem(
+                label: '周边检索POI',
+                sublabel: 'BoundPoiSearchScreen',
+                target: BoundPoiSearchScreen(),
               ),
             ],
           ),

@@ -4,25 +4,27 @@ import 'package:amap_base_example/widgets/button.widget.dart';
 import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
 
-class PoiSearchScreen extends StatefulWidget {
-  PoiSearchScreen();
+class BoundPoiSearchScreen extends StatefulWidget {
+  BoundPoiSearchScreen();
 
-  factory PoiSearchScreen.forDesignTime() => PoiSearchScreen();
+  factory BoundPoiSearchScreen.forDesignTime() => BoundPoiSearchScreen();
 
   @override
-  _PoiSearchScreenState createState() => _PoiSearchScreenState();
+  _BoundPoiSearchScreenState createState() => _BoundPoiSearchScreenState();
 }
 
-class _PoiSearchScreenState extends State<PoiSearchScreen> {
+class _BoundPoiSearchScreenState extends State<BoundPoiSearchScreen> {
   AMapController _controller;
-  TextEditingController _queryController = TextEditingController(text: '肯德基');
-  TextEditingController _cityController = TextEditingController(text: '杭州');
+
+  TextEditingController _centerController = TextEditingController(text: '天安门');
+  TextEditingController _keywordController = TextEditingController(text: '厕所');
+  TextEditingController _rangeController = TextEditingController(text: '1000');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('获取POI数据'),
+        title: const Text('周边检索POI'),
         backgroundColor: Colors.black,
         centerTitle: true,
       ),
@@ -42,13 +44,28 @@ class _PoiSearchScreenState extends State<PoiSearchScreen> {
             child: ListView(
               padding: const EdgeInsets.all(8.0),
               shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
               children: <Widget>[
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: '输入中心',
+                    border: OutlineInputBorder(),
+                  ),
+                  enabled: false,
+                  controller: _centerController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return '请输入中心';
+                    }
+                  },
+                ),
+                SPACE_NORMAL,
                 TextFormField(
                   decoration: InputDecoration(
                     hintText: '输入关键字',
                     border: OutlineInputBorder(),
                   ),
-                  controller: _queryController,
+                  controller: _keywordController,
                   validator: (value) {
                     if (value.isEmpty) {
                       return '请输入关键字';
@@ -58,13 +75,16 @@ class _PoiSearchScreenState extends State<PoiSearchScreen> {
                 SPACE_NORMAL,
                 TextFormField(
                   decoration: InputDecoration(
-                    hintText: '输入城市',
+                    hintText: '输入半径/米',
                     border: OutlineInputBorder(),
                   ),
-                  controller: _cityController,
+                  keyboardType: TextInputType.number,
+                  controller: _rangeController,
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return '请输入城市';
+                    try {
+                      int.parse(value);
+                    } catch (e) {
+                      return '请输入数字';
                     }
                   },
                 ),
@@ -78,10 +98,13 @@ class _PoiSearchScreenState extends State<PoiSearchScreen> {
 
                     loading(
                       context,
-                      _controller.searchPoi(
+                      _controller.searchPoiBound(
                         PoiSearchQuery(
-                          query: _queryController.text,
-                          city: _cityController.text,
+                          query: _keywordController.text,
+                          searchBound: SearchBound(
+                            center: LatLng(39.909604, 116.397228),
+                            range: int.parse(_rangeController.text),
+                          ),
                         ),
                       ),
                     ).then((poiResult) {
