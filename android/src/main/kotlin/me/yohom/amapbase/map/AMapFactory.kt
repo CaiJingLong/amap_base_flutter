@@ -83,6 +83,8 @@ class AMapView(private val context: Context,
             "map#calculateDriveRoute" -> {
                 // 规划参数
                 val param = methodCall.argument<String>("routePlanParam")!!.parseJson<RoutePlanParam>()
+                val showRouteImmediately = methodCall.argument<Boolean>("showRouteImmediately")
+                        ?: true
 
                 log("方法setUiSettings android端参数: routePlanParam -> $param")
 
@@ -100,7 +102,7 @@ class AMapView(private val context: Context,
                                 methodResult.error("路线规划失败, 错误码: $errorCode", null, null)
                             } else if (r.paths.isEmpty()) {
                                 methodResult.error("没有规划出合适的路线", null, null)
-                            } else {
+                            } else if (showRouteImmediately) {
                                 map.clear()
                                 DrivingRouteOverlay(map, r.startPos, r.targetPos, listOf(), r.paths[0])
                                         .apply {
