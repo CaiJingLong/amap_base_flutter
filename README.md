@@ -1,6 +1,6 @@
 # 高德地图Flutter插件
 
-[![pub package](https://img.shields.io/pub/v/android_alarm_manager.svg)](https://pub.flutter-io.cn/packages/amap_base)
+[![pub package](https://img.shields.io/pub/v/amap_base.svg)](https://pub.flutter-io.cn/packages/amap_base)
 
 ## 安装
 在你的`pubspec.yaml`文件的dependencies节点下添加:
