@@ -1,12 +1,11 @@
 import 'package:amap_base/amap_base.dart';
-import 'package:amap_base_example/map/control_interaction.screen.dart';
-import 'package:amap_base_example/map/show_map.screen.dart';
-import 'package:amap_base_example/map/draw_point.screen.dart';
-import 'package:amap_base_example/map/driving_route_plan.screen.dart';
-import 'package:amap_base_example/map/gesture_interaction.screen.dart';
-import 'package:amap_base_example/map/poi_search.screen.dart';
-import 'package:amap_base_example/map/show_indoor_map.screen.dart';
-import 'package:amap_base_example/navi/navi.dart';
+import 'package:amap_base_example/map/paint_on_map/draw_point.screen.dart';
+import 'package:amap_base_example/map/going_out_plan/driving_route_plan.screen.dart';
+import 'package:amap_base_example/map/interact_with_map/control_interaction.screen.dart';
+import 'package:amap_base_example/map/interact_with_map/gesture_interaction.screen.dart';
+import 'package:amap_base_example/map/get_map_data/poi_search.screen.dart';
+import 'package:amap_base_example/map/create_map/show_indoor_map.screen.dart';
+import 'package:amap_base_example/map/create_map/show_map.screen.dart';
 import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
 
