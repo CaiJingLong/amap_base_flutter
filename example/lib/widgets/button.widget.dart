@@ -8,14 +8,14 @@ class Button extends StatelessWidget {
   }) : super(key: key);
 
   final String label;
-  final VoidCallback onPressed;
+  final ValueChanged<BuildContext> onPressed;
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
       padding: EdgeInsets.symmetric(vertical: 16),
       color: Colors.black,
-      onPressed: onPressed,
+      onPressed: () => onPressed(context),
       shape: StadiumBorder(),
       child: Text(
         label,

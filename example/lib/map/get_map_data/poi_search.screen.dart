@@ -1,4 +1,7 @@
 import 'package:amap_base/amap_base.dart';
+import 'package:amap_base_example/utils/misc.dart';
+import 'package:amap_base_example/widgets/button.widget.dart';
+import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
 
 class PoiSearchScreen extends StatefulWidget {
@@ -13,7 +16,7 @@ class PoiSearchScreen extends StatefulWidget {
 class _PoiSearchScreenState extends State<PoiSearchScreen> {
   AMapController _controller;
   TextEditingController _queryController = TextEditingController(text: '肯德基');
-  TextEditingController _cityController = TextEditingController(text: '兰溪');
+  TextEditingController _cityController = TextEditingController(text: '杭州');
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +26,11 @@ class _PoiSearchScreenState extends State<PoiSearchScreen> {
         backgroundColor: Colors.black,
         centerTitle: true,
       ),
-      body: Column(
+      body: ListView(
+        shrinkWrap: true,
         children: <Widget>[
-          Flexible(
+          Container(
+            height: MediaQuery.of(context).size.height / 2,
             child: AMapView(
               onAMapViewCreated: (controller) {
                 setState(() => _controller = controller);
@@ -33,57 +38,62 @@ class _PoiSearchScreenState extends State<PoiSearchScreen> {
               amapOptions: AMapOptions(),
             ),
           ),
-          Flexible(
-            child: Form(
-              child: ListView(
-                padding: const EdgeInsets.all(8.0),
-                shrinkWrap: true,
-                children: <Widget>[
-                  TextFormField(
-                    decoration: InputDecoration(hintText: '输入关键字'),
-                    controller: _queryController,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return '请输入关键字';
-                      }
-                    },
+          Form(
+            child: ListView(
+              padding: const EdgeInsets.all(8.0),
+              shrinkWrap: true,
+              children: <Widget>[
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: '输入关键字',
+                    border: OutlineInputBorder(),
                   ),
-                  TextFormField(
-                    decoration: InputDecoration(hintText: '输入城市'),
-                    controller: _cityController,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return '请输入城市';
-                      }
-                    },
+                  controller: _queryController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return '请输入关键字';
+                    }
+                  },
+                ),
+                SPACE_NORMAL,
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: '输入城市',
+                    border: OutlineInputBorder(),
                   ),
-                  Builder(
-                    builder: (context) {
-                      return RaisedButton(
-                        onPressed: () async {
-                          if (!Form.of(context).validate()) {
-                            return;
-                          }
+                  controller: _cityController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return '请输入城市';
+                    }
+                  },
+                ),
+                SPACE_NORMAL,
+                Button(
+                  label: '开始搜索',
+                  onPressed: (context) async {
+                    if (!Form.of(context).validate()) {
+                      return;
+                    }
 
-                          final poiResult =
-                              await _controller.searchPoi(PoiSearchQuery(
-                            query: _queryController.text,
-                            city: _cityController.text,
-                          ));
-                          _controller.addMarkers(poiResult.pois
-                              .map((it) => it.latLonPoint)
-                              .toList()
-                              .map(
-                                (position) => MarkerOptions(position: position),
-                              )
-                              .toList());
-                        },
-                        child: Text('开始搜索'),
-                      );
-                    },
-                  ),
-                ],
-              ),
+                    loading(
+                      context,
+                      _controller.searchPoi(
+                        PoiSearchQuery(
+                          query: _queryController.text,
+                          city: _cityController.text,
+                        ),
+                      ),
+                    ).then((poiResult) {
+                      _controller.addMarkers(poiResult.pois
+                          .map((it) => it.latLonPoint)
+                          .toList()
+                          .map((position) => MarkerOptions(position: position))
+                          .toList());
+                    });
+                  },
+                ),
+              ],
             ),
           ),
         ],

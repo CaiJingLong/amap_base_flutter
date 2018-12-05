@@ -1,4 +1,5 @@
 import 'package:amap_base/amap_base.dart';
+import 'package:amap_base_example/utils/misc.dart';
 import 'package:amap_base_example/widgets/button.widget.dart';
 import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
@@ -43,11 +44,16 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
                 SPACE_NORMAL,
                 Button(
                   label: '开始规划',
-                  onPressed: () {
-                    _controller.calculateDriveRoute(RoutePlanParam(
-                      from: LatLng(39.993291, 116.473188),
-                      to: LatLng(39.940474, 116.355426),
-                    ));
+                  onPressed: (_) {
+                    loading(
+                      context,
+                      _controller.calculateDriveRoute(
+                        RoutePlanParam(
+                          from: LatLng(39.993291, 116.473188),
+                          to: LatLng(39.940474, 116.355426),
+                        ),
+                      ),
+                    );
                   },
                 ),
               ],
