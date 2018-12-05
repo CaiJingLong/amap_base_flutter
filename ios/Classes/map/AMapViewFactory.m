@@ -4,6 +4,7 @@
 
 #import <AMapSearch/AMapSearchKit/AMapSearchObj.h>
 #import <AMapSearch/AMapSearchKit/AMapSearchAPI.h>
+#import <Foundation/Foundation.h>
 #import "AMapViewFactory.h"
 #import "MAMapView.h"
 #import "UnifiedAMapOptions.h"
@@ -25,6 +26,7 @@
 #import "UnifiedRoutePOISearchResult.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
+static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
 static NSString *success = @"调用成功";
 
 @implementation AMapViewFactory {
@@ -53,7 +55,9 @@ static NSString *success = @"调用成功";
     CGRect _frame;
     int64_t _viewId;
     UnifiedAMapOptions *_options;
-    FlutterMethodChannel *_channel;
+    FlutterMethodChannel *_methodChannel;
+    FlutterEventChannel *_markerClickedEventChannel;
+    FlutterEventSink _sink;
     MAMapView *_mapView;
     FlutterResult _result;
     AMapSearchAPI *_search;
@@ -104,15 +108,19 @@ static NSString *success = @"调用成功";
     _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     //endregion
 
-    _channel = [FlutterMethodChannel methodChannelWithName:[NSString stringWithFormat:@"%@%lld", mapChannelName, _viewId]
-                                           binaryMessenger:[AMapBasePlugin registrar].messenger];
+    _methodChannel = [FlutterMethodChannel methodChannelWithName:[NSString stringWithFormat:@"%@%lld", mapChannelName, _viewId]
+                                                 binaryMessenger:[AMapBasePlugin registrar].messenger];
     __weak __typeof__(self) weakSelf = self;
-    [_channel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
+    [_methodChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
         self->_result = result;
         if (weakSelf) {
             [weakSelf handleMethodCall:call result:result];
         }
     }];
+
+    _markerClickedEventChannel = [FlutterEventChannel eventChannelWithName:[NSString stringWithFormat:@"%@%lld", markerClickedChannelName, _viewId]
+                                                           binaryMessenger:[AMapBasePlugin registrar].messenger];
+    [_markerClickedEventChannel setStreamHandler:self];
 
     // 搜索api回调设置
     _search = [[AMapSearchAPI alloc] init];
@@ -315,7 +323,7 @@ static NSString *success = @"调用成功";
         [_mapView removeAnnotations:_mapView.annotations];
 
         result(success);
-    }  else if ([@"map#setZoomLevel" isEqualToString:call.method]) {
+    } else if ([@"map#setZoomLevel" isEqualToString:call.method]) {
         CGFloat zoomLevel = [paramDic[@"zoomLevel"] floatValue];
 
         _mapView.zoomLevel = zoomLevel;
@@ -395,6 +403,14 @@ static NSString *success = @"调用成功";
 
 #pragma MAMapViewDelegate
 
+/// 点击annotation回调
+- (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view {
+    if ([view.annotation isKindOfClass:[MarkerAnnotation class]]) {
+        MarkerAnnotation *annotation = (MarkerAnnotation *) view.annotation;
+        _sink([annotation.markerOptions toJSONString]);
+    }
+}
+
 /// 渲染overlay回调
 - (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay {
     if ([overlay isKindOfClass:[LineDashPolyline class]]) {
@@ -438,7 +454,7 @@ static NSString *success = @"调用成功";
     if ([annotation isKindOfClass:[MAUserLocation class]]) {
         return nil;
     }
-    
+
     if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
         static NSString *routePlanningCellIdentifier = @"RoutePlanningCellIdentifier";
 
@@ -499,5 +515,17 @@ static NSString *success = @"调用成功";
 
     return nil;
 }
+
+#pragma FlutterStreamHandler
+
+- (FlutterError *_Nullable)onListenWithArguments:(id _Nullable)arguments eventSink:(FlutterEventSink)events {
+    _sink = events;
+    return nil;
+}
+
+- (FlutterError *_Nullable)onCancelWithArguments:(id _Nullable)arguments {
+    return nil;
+}
+
 
 @end

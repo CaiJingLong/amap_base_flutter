@@ -210,4 +210,10 @@ class _ShowMapScreenState extends State<ShowMapScreen> {
     );
     _controller.setMyLocationStyle(_myLocationStyle);
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

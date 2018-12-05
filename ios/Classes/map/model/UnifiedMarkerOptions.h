@@ -4,8 +4,8 @@
 
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
+#import "UnifiedAMapOptions.h"
 
-@class LatLng;
 @class MAPointAnnotation;
 
 @interface UnifiedMarkerOptions : JSONModel
@@ -46,10 +46,10 @@
 @property(nonatomic) BOOL lockedToScreen;
 
 /// 固定屏幕点的坐标 [iOS暂未实现]
-@property(nonatomic) NSObject <Optional> *lockedScreenPoint;
+@property(nonatomic) NSString <Optional> *lockedScreenPoint;
 
 /// 自定制弹出框view, 用于替换默认弹出框. [暂未实现]
-@property(nonatomic) NSObject <Optional> *customCalloutView;
+@property(nonatomic) NSString <Optional> *customCalloutView;
 
 /// 默认为YES,当为NO时view忽略触摸事件
 @property(nonatomic) BOOL enabled;
@@ -61,10 +61,10 @@
 @property(nonatomic) BOOL selected;
 
 /// 显示在默认弹出框左侧的view [暂未实现]
-@property(nonatomic) NSObject <Optional> *leftCalloutAccessoryView;
+@property(nonatomic) NSString <Optional> *leftCalloutAccessoryView;
 
 /// 显示在默认弹出框右侧的view [暂未实现]
-@property(nonatomic) NSObject <Optional> *rightCalloutAccessoryView;
+@property(nonatomic) NSString <Optional> *rightCalloutAccessoryView;
 
 - (NSString *)description;
 

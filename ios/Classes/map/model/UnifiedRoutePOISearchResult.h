@@ -11,6 +11,7 @@
 
 
 @interface UnifiedRoutePOISearchResult : JSONModel
+
 - (instancetype)initWithAMapRoutePOISearchResponse:(AMapRoutePOISearchResponse *)result;
 
 @property(nonatomic) NSArray <UnifiedRoutePOIItem *> *routePoiList;

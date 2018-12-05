@@ -100,4 +100,10 @@ class _KeywordPoiSearchScreenState extends State<KeywordPoiSearchScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

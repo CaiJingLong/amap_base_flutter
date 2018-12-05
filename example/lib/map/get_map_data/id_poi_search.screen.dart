@@ -17,8 +17,6 @@ class IdPoiSearchScreen extends StatefulWidget {
 class _IdPoiSearchScreenState extends State<IdPoiSearchScreen> {
   AMapController _controller;
 
-  TextEditingController _keywordController = TextEditingController(text: '厕所');
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,5 +68,11 @@ class _IdPoiSearchScreenState extends State<IdPoiSearchScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

@@ -79,4 +79,10 @@ class _RoutePoiSearchScreenState extends State<RoutePoiSearchScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

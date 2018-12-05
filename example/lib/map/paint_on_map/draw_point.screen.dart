@@ -11,10 +11,17 @@ const markerList = const [
   LatLng(39.998439, 116.360201),
 ];
 
-class DrawPointScreen extends StatelessWidget {
+class DrawPointScreen extends StatefulWidget {
   DrawPointScreen();
 
   factory DrawPointScreen.forDesignTime() => DrawPointScreen();
+
+  @override
+  DrawPointScreenState createState() => DrawPointScreenState();
+}
+
+class DrawPointScreenState extends State<DrawPointScreen> {
+  AMapController _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +33,8 @@ class DrawPointScreen extends StatelessWidget {
       ),
       body: AMapView(
         onAMapViewCreated: (controller) {
+          _controller = controller;
+          _controller.markerClickedEvent.listen(print);
           controller.addMarkers(
             markerList
                 .map((latLng) => MarkerOptions(
@@ -39,5 +48,11 @@ class DrawPointScreen extends StatelessWidget {
         amapOptions: AMapOptions(),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

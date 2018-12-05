@@ -123,4 +123,10 @@ class _BoundPoiSearchScreenState extends State<BoundPoiSearchScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }
