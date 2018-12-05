@@ -72,6 +72,30 @@ class UnifiedMarkerOptions(
         /// 是否在掩层下 缺少文档
         private val belowMaskLayer: Boolean
 ) {
+    constructor(options: MarkerOptions) : this(
+            icon = options.icon.toString(),
+            icons = options.icons.map { it.toString() },
+            alpha =  options.alpha,
+            anchorU = options.anchorU,
+            anchorV = options.anchorV,
+            draggable = options.isDraggable,
+            infoWindowEnable = options.isInfoWindowEnable,
+            period = options.period,
+            position = options.position,
+            rotateAngle = options.rotateAngle,
+            isFlat = options.isFlat,
+            isGps = options.isGps,
+            infoWindowOffsetX = options.infoWindowOffsetX,
+            infoWindowOffsetY = options.infoWindowOffsetY,
+            snippet = options.snippet,
+            title = options.title,
+            visible = options.isVisible,
+            autoOverturnInfoWindow = options.isInfoWindowAutoOverturn,
+            zIndex = options.zIndex,
+            displayLevel = options.displayLevel,
+            belowMaskLayer = options.isBelowMaskLayer
+    )
+
     fun applyTo(map: AMap) {
         map.addMarker(toMarkerOption())
 

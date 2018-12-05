@@ -121,4 +121,10 @@ class _ControlInteractionScreenState extends State<ControlInteractionScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

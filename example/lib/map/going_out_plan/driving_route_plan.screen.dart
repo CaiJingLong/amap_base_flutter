@@ -63,4 +63,10 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

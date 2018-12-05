@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:amap_base/amap_base.dart';
@@ -13,10 +14,15 @@ import 'package:flutter/services.dart';
 
 class AMapController {
   final MethodChannel _mapChannel;
+  final EventChannel _markerClickedEventChannel;
 
   AMapController.withId(int id)
-      : _mapChannel = MethodChannel('me.yohom/map$id');
+      : _mapChannel = MethodChannel('me.yohom/map$id'),
+        _markerClickedEventChannel = EventChannel('me.yohom/marker_clicked$id');
 
+  void dispose() {}
+
+  //region dart -> native
   Future setMyLocationStyle(MyLocationStyle style) {
     final _styleJson =
         jsonEncode(style?.toJson() ?? MyLocationStyle().toJson());
@@ -199,4 +205,10 @@ class AMapController {
       {'zoomLevel': level},
     );
   }
+
+  //endregion
+
+  Stream<MarkerOptions> get markerClickedEvent => _markerClickedEventChannel
+      .receiveBroadcastStream()
+      .map((data) => MarkerOptions.fromJson(jsonDecode(data)));
 }

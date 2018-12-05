@@ -1,6 +1,8 @@
 package me.yohom.amapbase.map
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.View
 import com.amap.api.maps.AMapOptions
 import com.amap.api.maps.CameraUpdateFactory
@@ -11,19 +13,21 @@ import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
 import com.amap.api.services.route.*
 import com.google.gson.Gson
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
+import io.reactivex.subjects.PublishSubject
 import me.yohom.amapbase.AMapBasePlugin
 import me.yohom.amapbase.map.model.*
 import me.yohom.amapbase.map.overlay.DrivingRouteOverlay
 import me.yohom.amapbase.utils.*
 import java.util.*
 
-
 const val mapChannelName = "me.yohom/map"
+const val markerClickedChannelName = "me.yohom/marker_clicked"
 const val success = "调用成功"
 
 class AMapFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
@@ -38,11 +42,13 @@ class AMapFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
     }
 }
 
+@SuppressLint("CheckResult")
 class AMapView(private val context: Context,
                private val id: Int,
                amapOptions: AMapOptions) : PlatformView {
 
     private val mapView = TextureMapView(context, amapOptions)
+    private val markerClickedSubject = PublishSubject.create<String>()
 
     override fun getView(): View = mapView
 
@@ -53,9 +59,28 @@ class AMapView(private val context: Context,
 
     fun setup() {
         mapView.onCreate(null)
+
         val mapChannel = MethodChannel(AMapBasePlugin.registrar.messenger(), "$mapChannelName$id")
         mapChannel.setMethodCallHandler { call, result ->
             handleMethodCall(call, result)
+        }
+
+        val markerClickedEventChannel = EventChannel(AMapBasePlugin.registrar.messenger(), "$markerClickedChannelName$id")
+        markerClickedEventChannel.setStreamHandler(object : EventChannel.StreamHandler {
+            override fun onListen(p0: Any?, sink: EventChannel.EventSink?) {
+                markerClickedSubject.subscribe(
+                        { sink?.success(it) },
+                        { sink?.error("错误", null, null) },
+                        { sink?.endOfStream(); Log.d("stream", "stream closed") }
+                )
+            }
+
+            override fun onCancel(p0: Any?) {}
+        })
+        mapView.map.setOnMarkerClickListener {
+            log(UnifiedMarkerOptions(it.options).toJson())
+            markerClickedSubject.onNext(UnifiedMarkerOptions(it.options).toJson())
+            true
         }
     }
 

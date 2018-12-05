@@ -81,4 +81,10 @@ class _GestureInteractionScreenState extends State<GestureInteractionScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

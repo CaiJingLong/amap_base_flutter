@@ -100,4 +100,10 @@ class _PolygonPoiSearchScreenState extends State<PolygonPoiSearchScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

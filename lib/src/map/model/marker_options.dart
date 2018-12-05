@@ -5,91 +5,91 @@ import 'package:meta/meta.dart';
 
 class MarkerOptions {
   /// Marker覆盖物的图标 [Android, iOS]
-  final String icon;
+  String icon;
 
   /// Marker覆盖物的动画帧图标列表，动画的描点和大小以第一帧为准，建议图片大小保持一致 [Android]
-  final List<String> icons;
+  List<String> icons;
 
   /// Marker覆盖物的透明度 [Android]
-  final double alpha;
+  double alpha;
 
   /// Marker覆盖物锚点在水平范围的比例 [Android, iOS]
-  final double anchorU;
+  double anchorU;
 
   /// Marker覆盖物锚点垂直范围的比例 [Android, iOS]
-  final double anchorV;
+  double anchorV;
 
   /// Marker覆盖物是否可拖拽 [Android, iOS]
-  final bool draggable;
+  bool draggable;
 
   /// Marker覆盖物的InfoWindow是否允许显示, 可以通过 MarkerOptions.infoWindowEnable(boolean) 进行设置 [Android, iOS]
-  final bool infoWindowEnable;
+  bool infoWindowEnable;
 
   /// 设置多少帧刷新一次图片资源，Marker动画的间隔时间，值越小动画越快 [Android]
-  final int period;
+  int period;
 
   /// Marker覆盖物的位置坐标 [Android, iOS]
-  final LatLng position;
+  LatLng position;
 
   /// Marker覆盖物的图片旋转角度，从正北开始，逆时针计算 [Android]
-  final double rotateAngle;
+  double rotateAngle;
 
   /// Marker覆盖物是否平贴地图 [Android]
-  final bool isFlat;
+  bool isFlat;
 
   /// Marker覆盖物的坐标是否是Gps，默认为false [Android]
-  final bool isGps;
+  bool isGps;
 
   /// Marker覆盖物的水平偏移距离 [Android, iOS]
-  final int infoWindowOffsetX;
+  int infoWindowOffsetX;
 
   /// Marker覆盖物的垂直偏移距离 [Android, iOS]
-  final int infoWindowOffsetY;
+  int infoWindowOffsetY;
 
   /// 设置 Marker覆盖物的文字描述 [Android, iOS]
-  final String snippet;
+  String snippet;
 
   /// Marker覆盖物的标题 [Android, iOS]
-  final String title;
+  String title;
 
   /// Marker覆盖物是否可见 [Android]
-  final bool visible;
+  bool visible;
 
   /// todo 缺少文档 [Android]
-  final bool autoOverturnInfoWindow;
+  bool autoOverturnInfoWindow;
 
   /// Marker覆盖物 zIndex [Android]
-  final double zIndex;
+  double zIndex;
 
   /// 显示等级 缺少文档 [Android]
-  final int displayLevel;
+  int displayLevel;
 
   /// 是否在掩层下 缺少文档 [Android]
-  final bool belowMaskLayer;
+  bool belowMaskLayer;
 
   /// 是否固定在屏幕一点, 注意，拖动或者手动改变经纬度，都会导致设置失效 [iOS暂未实现]
-  final bool lockedToScreen;
+  bool lockedToScreen;
 
   /// 固定屏幕点的坐标 [iOS暂未实现]
-  final Object lockedScreenPoint;
+  Object lockedScreenPoint;
 
   /// 自定制弹出框view, 用于替换默认弹出框. [iOS暂未实现]
-  final Object customCalloutView;
+  Object customCalloutView;
 
   /// 默认为YES,当为NO时view忽略触摸事件 [iOS]
-  final bool enabled;
+  bool enabled;
 
   /// 是否高亮 [iOS]
-  final bool highlighted;
+  bool highlighted;
 
   /// 设置是否处于选中状态, 外部如果要选中请使用mapView的selectAnnotation方法 [iOS]
-  final bool selected;
+  bool selected;
 
   /// 显示在默认弹出框左侧的view [iOS暂未实现]
-  final Object leftCalloutAccessoryView;
+  Object leftCalloutAccessoryView;
 
   /// 显示在默认弹出框右侧的view [iOS暂未实现]
-  final Object rightCalloutAccessoryView;
+  Object rightCalloutAccessoryView;
 
   MarkerOptions({
     @required this.position,
@@ -122,6 +122,31 @@ class MarkerOptions {
     this.leftCalloutAccessoryView,
     this.rightCalloutAccessoryView,
   });
+
+  MarkerOptions.fromJson(Map<String, dynamic> json) {
+    alpha = json['alpha'] as double;
+    anchorU = json['anchorU'] as double;
+    anchorV = json['anchorV'] as double;
+    autoOverturnInfoWindow = json['autoOverturnInfoWindow'] as bool;
+    belowMaskLayer = json['belowMaskLayer'] as bool;
+    displayLevel = json['displayLevel'] as int;
+    draggable = json['draggable'] as bool;
+    icon = json['icon'] as String;
+    icons = json['icons'].cast<String>();
+    infoWindowEnable = json['infoWindowEnable'] as bool;
+    infoWindowOffsetX = json['infoWindowOffsetX'] as int;
+    infoWindowOffsetY = json['infoWindowOffsetY'] as int;
+    isFlat = json['isFlat'] as bool;
+    isGps = json['isGps'] as bool;
+    period = json['period'] as int;
+    position =
+        json['position'] != null ? LatLng.fromJson(json['position']) : null;
+    rotateAngle = json['rotateAngle'] as double;
+    snippet = json['snippet'] as String;
+    title = json['title'] as String;
+    visible = json['visible'] as bool;
+    zIndex = json['zIndex'] as double;
+  }
 
   Map<String, Object> toJson() {
     return {
