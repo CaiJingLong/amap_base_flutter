@@ -1,12 +1,15 @@
 import 'package:amap_base/amap_base.dart';
-import 'package:amap_base_example/map/control_interaction.screen.dart';
-import 'package:amap_base_example/map/show_map.screen.dart';
-import 'package:amap_base_example/map/draw_point.screen.dart';
-import 'package:amap_base_example/map/driving_route_plan.screen.dart';
-import 'package:amap_base_example/map/gesture_interaction.screen.dart';
-import 'package:amap_base_example/map/poi_search.screen.dart';
-import 'package:amap_base_example/map/show_indoor_map.screen.dart';
-import 'package:amap_base_example/navi/navi.dart';
+import 'package:amap_base_example/map/get_map_data/bound_poi_search.screen.dart';
+import 'package:amap_base_example/map/get_map_data/id_poi_search.screen.dart';
+import 'package:amap_base_example/map/get_map_data/polygon_poi_search.screen.dart';
+import 'package:amap_base_example/map/get_map_data/route_poi_search.screen.dart';
+import 'package:amap_base_example/map/paint_on_map/draw_point.screen.dart';
+import 'package:amap_base_example/map/going_out_plan/driving_route_plan.screen.dart';
+import 'package:amap_base_example/map/interact_with_map/control_interaction.screen.dart';
+import 'package:amap_base_example/map/interact_with_map/gesture_interaction.screen.dart';
+import 'package:amap_base_example/map/get_map_data/keyword_poi_search.screen.dart';
+import 'package:amap_base_example/map/create_map/show_indoor_map.screen.dart';
+import 'package:amap_base_example/map/create_map/show_map.screen.dart';
 import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
 
@@ -86,9 +89,29 @@ class MapsDemo extends StatelessWidget {
             headLabel: '获取地图数据',
             children: <Widget>[
               _FunctionItem(
-                label: '获取POI数据',
-                sublabel: 'PoiSearchScreen',
-                target: PoiSearchScreen(),
+                label: '关键字检索POI',
+                sublabel: 'KeywordPoiSearchScreen',
+                target: KeywordPoiSearchScreen(),
+              ),
+              _FunctionItem(
+                label: '周边检索POI',
+                sublabel: 'BoundPoiSearchScreen',
+                target: BoundPoiSearchScreen(),
+              ),
+              _FunctionItem(
+                label: '多边形内检索的POI',
+                sublabel: 'PolygonPoiSearchScreen',
+                target: PolygonPoiSearchScreen(),
+              ),
+              _FunctionItem(
+                label: 'ID检索POI',
+                sublabel: 'IdPoiSearchScreen',
+                target: IdPoiSearchScreen(),
+              ),
+              _FunctionItem(
+                label: '道路沿途检索POI',
+                sublabel: 'RoutePoiSearchScreen',
+                target: RoutePoiSearchScreen(),
               ),
             ],
           ),

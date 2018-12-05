@@ -1,4 +1,7 @@
 import 'package:amap_base/amap_base.dart';
+import 'package:amap_base_example/utils/misc.dart';
+import 'package:amap_base_example/widgets/button.widget.dart';
+import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
 
 class DrivingRoutPlanScreen extends StatefulWidget {
@@ -38,14 +41,20 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
               children: <Widget>[
                 Text('起点: 39.993291, 116.473188'),
                 Text('终点: 39.940474, 116.355426'),
-                RaisedButton(
-                  onPressed: () {
-                    _controller.calculateDriveRoute(RoutePlanParam(
-                      from: LatLng(39.993291, 116.473188),
-                      to: LatLng(39.940474, 116.355426),
-                    ));
+                SPACE_NORMAL,
+                Button(
+                  label: '开始规划',
+                  onPressed: (_) {
+                    loading(
+                      context,
+                      _controller.calculateDriveRoute(
+                        RoutePlanParam(
+                          from: LatLng(39.993291, 116.473188),
+                          to: LatLng(39.940474, 116.355426),
+                        ),
+                      ),
+                    );
                   },
-                  child: Text('开始规划'),
                 ),
               ],
             ),

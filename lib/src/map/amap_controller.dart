@@ -38,12 +38,18 @@ class AMapController {
     );
   }
 
-  Future calculateDriveRoute(RoutePlanParam param) {
+  Future calculateDriveRoute(
+    RoutePlanParam param, {
+    bool showRouteImmediately = true,
+  }) {
     final _routePlanParam = param.toJsonString();
     L.p('方法calculateDriveRoute dart端参数: _routePlanParam -> $_routePlanParam');
     return _mapChannel.invokeMethod(
       'map#calculateDriveRoute',
-      {'routePlanParam': _routePlanParam},
+      {
+        'routePlanParam': _routePlanParam,
+        'showRouteImmediately': showRouteImmediately,
+      },
     );
   }
 

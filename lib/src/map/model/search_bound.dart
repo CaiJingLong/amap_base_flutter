@@ -61,7 +61,8 @@ class SearchBound {
     data['range'] = this.range;
     data['shape'] = this.shape;
     data['isDistanceSort'] = this.isDistanceSort;
-    data['polyGonList'] = this.polyGonList?.map((it) => it.toJson());
+    data['polyGonList'] =
+        this.polyGonList?.map((it) => it.toJson())?.toList() ?? [];
     return data;
   }
 

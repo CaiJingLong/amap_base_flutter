@@ -42,8 +42,8 @@ class PoiSearchQuery {
   final SearchBound searchBound;
 
   PoiSearchQuery({
-    @required this.query,
-    @required this.city,
+    this.query,
+    this.city,
     this.category,
     this.building,
     this.pageNum = 1,

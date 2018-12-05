@@ -1,7 +1,9 @@
 package me.yohom.amapbase.map.model
 
 import com.amap.api.maps.AMap
+import com.amap.api.maps.CameraUpdateFactory
 import com.amap.api.maps.model.LatLng
+import com.amap.api.maps.model.LatLngBounds
 import com.amap.api.maps.model.MarkerOptions
 import me.yohom.amapbase.utils.UnifiedAssets
 import java.util.*
@@ -72,6 +74,8 @@ class UnifiedMarkerOptions(
 ) {
     fun applyTo(map: AMap) {
         map.addMarker(toMarkerOption())
+
+        map.animateCamera(CameraUpdateFactory.newLatLngBounds(LatLngBounds.builder().include(position).build(), 100))
     }
 
     fun toMarkerOption(): MarkerOptions = MarkerOptions()
