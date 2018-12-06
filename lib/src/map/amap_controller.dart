@@ -230,27 +230,31 @@ class AMapController {
 
   /// 限制地图的显示范围
   Future setMapStatusLimits({
-    /// 西南角
+    /// 西南角 [Android]
     @required LatLng swLatLng,
 
-    /// 东北角
+    /// 东北角 [Android]
     @required LatLng neLatLng,
+
+    /// 中心 [iOS]
+    @required LatLng center,
+
+    /// 纬度delta [iOS]
+    @required double deltaLat,
+
+    /// 经度delta [iOS]
+    @required double deltaLng,
   }) {
-    L.p('setPosition dart端参数: swLatLng -> $swLatLng, neLatLng -> $neLatLng');
-
-    if (isEmpty(swLatLng)) {
-      return Future.error('西南角坐标不能为空');
-    }
-
-    if (isEmpty(neLatLng)) {
-      return Future.error('东北角坐标不能为空');
-    }
+    L.p('setPosition dart端参数: swLatLng -> $swLatLng, neLatLng -> $neLatLng, center -> $center, deltaLat -> $deltaLat, deltaLng -> $deltaLng');
 
     return _mapChannel.invokeMethod(
       'map#setMapStatusLimits',
       {
         'swLatLng': swLatLng.toJsonString(),
         'neLatLng': neLatLng.toJsonString(),
+        'center': center.toJsonString(),
+        'deltaLat': deltaLat,
+        'deltaLng': deltaLng,
       },
     );
   }

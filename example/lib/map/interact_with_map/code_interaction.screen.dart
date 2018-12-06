@@ -70,11 +70,9 @@ class _CodeInteractionScreenState extends State<CodeInteractionScreen> {
                       _controller.setMapStatusLimits(
                         swLatLng: LatLng(33.789925, 104.838326),
                         neLatLng: LatLng(38.740688, 114.647472),
-                      );
-                    } else {
-                      _controller.setMapStatusLimits(
-                        swLatLng: null,
-                        neLatLng: null,
+                        center: beijing,
+                        deltaLat: 2,
+                        deltaLng: 2,
                       );
                     }
                   },

@@ -335,6 +335,35 @@ static NSString *success = @"调用成功";
         _mapView.zoomLevel = zoomLevel;
 
         result(success);
+    } else if ([@"map#setPosition" isEqualToString:call.method]) {
+        NSString *target = (NSString *) paramDic[@"target"];
+        CGFloat zoom = [paramDic[@"zoom"] floatValue];
+        CGFloat tilt = [paramDic[@"tilt"] floatValue];
+
+        JSONModelError *error;
+        LatLng *position = [[LatLng alloc] initWithString:target error:&error];
+
+        [_mapView setCenterCoordinate:[position toCLLocationCoordinate2D] animated:true];
+        _mapView.zoomLevel = zoom;
+        _mapView.rotationDegree = tilt;
+
+        result(success);
+    } else if ([@"map#setMapStatusLimits" isEqualToString:call.method]) {
+        NSString *center = (NSString *) paramDic[@"center"];
+        CGFloat deltaLat = [paramDic[@"deltaLat"] floatValue];
+        CGFloat deltaLng = [paramDic[@"deltaLng"] floatValue];
+
+        NSLog(@"方法map#setMapStatusLimits ios端参数: center -> %@, deltaLat -> %f, deltaLng -> %f", center, deltaLat, deltaLng);
+
+        JSONModelError *error;
+        LatLng *centerPosition = [[LatLng alloc] initWithString:center error:&error];
+
+        [_mapView setLimitRegion:MACoordinateRegionMake(
+                [centerPosition toCLLocationCoordinate2D],
+                MACoordinateSpanMake(deltaLat, deltaLng))
+        ];
+
+        result(success);
     } else {
         result(FlutterMethodNotImplemented);
     }
