@@ -11,10 +11,12 @@ import 'package:amap_base_example/map/interact_with_map/gesture_interaction.scre
 import 'package:amap_base_example/map/get_map_data/keyword_poi_search.screen.dart';
 import 'package:amap_base_example/map/create_map/show_indoor_map.screen.dart';
 import 'package:amap_base_example/map/create_map/show_map.screen.dart';
+import 'package:amap_base_example/map/tools/coordinate_transformation_screen.dart';
 import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
+  // final result = await AMap.setKey('27d67839721288be2ddd87b4fd868822');
   final result = await AMap.setKey('27d67839721288be2ddd87b4fd868822');
   print('设置key的结果: $result');
   runApp(MaterialApp(home: MapsDemo()));
@@ -121,6 +123,17 @@ class MapsDemo extends StatelessWidget {
               ),
             ],
           ),
+          SPACE_BIG,
+          _FunctionGroup(
+            headLabel: "工具",
+            children: <Widget>[
+              _FunctionItem(
+                label: "坐标转换",
+                sublabel: "CoordinateTransformationScreen",
+                target: CoordinateTransformationScreen(),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -148,10 +161,8 @@ class _FunctionGroup extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text(headLabel,
-                    style: Theme.of(context).textTheme.headline),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text(headLabel, style: Theme.of(context).textTheme.headline),
               ),
               Divider(height: 1, indent: 16),
             ],

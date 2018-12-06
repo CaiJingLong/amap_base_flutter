@@ -7,6 +7,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import me.yohom.amapbase.map.AMapFactory
 import me.yohom.amapbase.navi.setupNaviChannel
+import me.yohom.amapbase.tools.setupToolsChannel
 import java.util.concurrent.atomic.AtomicInteger
 
 private const val setKey = "setKey"
@@ -27,7 +28,7 @@ class AMapBasePlugin {
         fun registerWith(registrar: Registrar) {
             // 由于registrar用到的地方比较多, 这里直接放到全局变量里去好了
             AMapBasePlugin.registrar = registrar
-            registrarActivityHashCode = registrar.activity().hashCode();
+            registrarActivityHashCode = registrar.activity().hashCode()
 
             // 注册生命周期回调, 保证地图初始化的时候对应的是正确的activity状态
             registrar.activity().application.registerActivityLifecycleCallbacks(this)
@@ -42,6 +43,8 @@ class AMapBasePlugin {
 
             // 导航相关插件
             registrar.setupNaviChannel()
+
+            registrar.setupToolsChannel()
 
             // MapView
             registrar

@@ -1,15 +1,14 @@
 #include "AppDelegate.h"
-#include "GeneratedPluginRegistrant.h"
 #import "AMapServices.h"
+#include "GeneratedPluginRegistrant.h"
 
 @implementation AppDelegate
 
-- (BOOL)          application:(UIApplication *)application
-didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [GeneratedPluginRegistrant registerWithRegistry:self];
-    [AMapServices sharedServices].apiKey =@"9154ddba741dc1e383716405f1ba1c5c";
+- (BOOL)application:(UIApplication *)application
+    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  [GeneratedPluginRegistrant registerWithRegistry:self];
 
-    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+  return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 @end
