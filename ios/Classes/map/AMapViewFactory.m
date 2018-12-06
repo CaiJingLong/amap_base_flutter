@@ -24,6 +24,7 @@
 #import "UnifiedPoiResult.h"
 #import "UnifiedRoutePoiSearchQuery.h"
 #import "UnifiedRoutePOISearchResult.h"
+#import "NSObject+Permission.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
@@ -39,6 +40,9 @@ static NSString *success = @"调用成功";
 - (NSObject <FlutterPlatformView> *)createWithFrame:(CGRect)frame
                                      viewIdentifier:(int64_t)viewId
                                           arguments:(id _Nullable)args {
+    // 发现加了也只会在第一次才会请求, 后续就不会再请求了, 就用系统的请求对话框吧
+//    [self checkPermission];
+
     JSONModelError *error;
     UnifiedAMapOptions *options = [[UnifiedAMapOptions alloc] initWithString:(NSString *) args error:&error];
 
@@ -128,6 +132,8 @@ static NSString *success = @"调用成功";
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
+//    [self checkPermission];
+
     NSDictionary *paramDic = call.arguments;
 
     // 设置delegate, 渲染overlay和annotation的时候需要
