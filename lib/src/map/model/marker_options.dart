@@ -8,7 +8,7 @@ class MarkerOptions {
   String icon;
 
   /// Marker覆盖物的动画帧图标列表，动画的描点和大小以第一帧为准，建议图片大小保持一致 [Android]
-  List<String> icons;
+  List icons;
 
   /// Marker覆盖物的透明度 [Android]
   num alpha;
@@ -123,7 +123,7 @@ class MarkerOptions {
     this.rightCalloutAccessoryView,
   });
 
-  MarkerOptions.fromJson(Map<String, dynamic> json) {
+  MarkerOptions.fromJson(Map<String, Object> json) {
     alpha = json['alpha'] as num;
     anchorU = json['anchorU'] as num;
     anchorV = json['anchorV'] as num;
