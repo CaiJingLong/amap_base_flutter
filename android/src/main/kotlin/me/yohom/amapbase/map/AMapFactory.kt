@@ -9,6 +9,9 @@ import android.view.View
 import com.amap.api.maps.AMapOptions
 import com.amap.api.maps.CameraUpdateFactory
 import com.amap.api.maps.TextureMapView
+import com.amap.api.maps.model.CameraPosition
+import com.amap.api.maps.model.LatLng
+import com.amap.api.maps.model.LatLngBounds
 import com.amap.api.services.core.AMapException
 import com.amap.api.services.core.PoiItem
 import com.amap.api.services.poisearch.PoiResult
@@ -52,7 +55,7 @@ class AMapFactory(private val activityState: AtomicInteger)
 class AMapView(private val context: Context,
                private val id: Int,
                private val activityState: AtomicInteger,
-               amapOptions: AMapOptions) : PlatformView , Application.ActivityLifecycleCallbacks{
+               amapOptions: AMapOptions) : PlatformView, Application.ActivityLifecycleCallbacks {
 
     private val mapView = TextureMapView(context, amapOptions)
     private var disposed = false
@@ -384,6 +387,25 @@ class AMapView(private val context: Context,
                 val zoomLevel = methodCall.argument<Int>("zoomLevel") ?: 15
 
                 map.moveCamera(CameraUpdateFactory.zoomTo(zoomLevel.toFloat()))
+
+                methodResult.success(success)
+            }
+            "map#setPosition" -> {
+                val target: LatLng = methodCall.argument<String>("target")?.parseJson()
+                        ?: beijingLatLng
+                val zoom: Double = methodCall.argument<Double>("zoom") ?: 10.0
+                val tilt: Double = methodCall.argument<Double>("tilt") ?: 0.0
+                val bearing: Double = methodCall.argument<Double>("bearing") ?: 0.0
+
+                map.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition(target, zoom.toFloat(), tilt.toFloat(), bearing.toFloat())))
+
+                methodResult.success(success)
+            }
+            "map#setMapStatusLimits" -> {
+                val swLatLng: LatLng? = methodCall.argument<String>("swLatLng")?.parseJson()
+                val neLatLng: LatLng? = methodCall.argument<String>("neLatLng")?.parseJson()
+
+                map.setMapStatusLimits(LatLngBounds(swLatLng, neLatLng))
 
                 methodResult.success(success)
             }

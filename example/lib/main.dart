@@ -3,6 +3,7 @@ import 'package:amap_base_example/map/get_map_data/bound_poi_search.screen.dart'
 import 'package:amap_base_example/map/get_map_data/id_poi_search.screen.dart';
 import 'package:amap_base_example/map/get_map_data/polygon_poi_search.screen.dart';
 import 'package:amap_base_example/map/get_map_data/route_poi_search.screen.dart';
+import 'package:amap_base_example/map/interact_with_map/code_interaction.screen.dart';
 import 'package:amap_base_example/map/paint_on_map/draw_point.screen.dart';
 import 'package:amap_base_example/map/going_out_plan/driving_route_plan.screen.dart';
 import 'package:amap_base_example/map/interact_with_map/control_interaction.screen.dart';
@@ -59,6 +60,11 @@ class MapsDemo extends StatelessWidget {
                 label: '手势交互',
                 sublabel: 'GestureInteractionScreen',
                 target: GestureInteractionScreen(),
+              ),
+              _FunctionItem(
+                label: '调用方法交互',
+                sublabel: 'CodeInteractionScreen',
+                target: CodeInteractionScreen(),
               ),
             ],
           ),

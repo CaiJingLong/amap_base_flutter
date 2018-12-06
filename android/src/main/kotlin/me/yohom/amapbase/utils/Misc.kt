@@ -5,6 +5,8 @@ import com.amap.api.services.core.LatLonPoint
 import com.amap.api.services.core.PoiItem
 import com.amap.api.services.poisearch.*
 
+val beijingLatLng = LatLng(39.941711, 116.382248)
+
 fun LatLng.toLatLonPoint(): LatLonPoint {
     return LatLonPoint(latitude, longitude)
 }

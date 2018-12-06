@@ -10,7 +10,9 @@ import 'package:amap_base/src/map/model/route_plan_param.dart';
 import 'package:amap_base/src/map/model/route_poi_result.dart';
 import 'package:amap_base/src/map/model/ui_settings.dart';
 import 'package:amap_base/src/utils/log.dart';
+import 'package:amap_base/src/utils/misc.dart';
 import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 
 class AMapController {
   final MethodChannel _mapChannel;
@@ -206,8 +208,56 @@ class AMapController {
     );
   }
 
+  /// 设置地图中心点
+  Future setPosition({
+    @required LatLng target,
+    double zoom = 10,
+    double tilt = 0,
+    double bearing = 0,
+  }) {
+    L.p('setPosition dart端参数: target -> $target, zoom -> $zoom, tilt -> $tilt, bearing -> $bearing');
+
+    return _mapChannel.invokeMethod(
+      'map#setPosition',
+      {
+        'target': target.toJsonString(),
+        'zoom': zoom,
+        'tilt': tilt,
+        'bearing': bearing,
+      },
+    );
+  }
+
+  /// 限制地图的显示范围
+  Future setMapStatusLimits({
+    /// 西南角
+    @required LatLng swLatLng,
+
+    /// 东北角
+    @required LatLng neLatLng,
+  }) {
+    L.p('setPosition dart端参数: swLatLng -> $swLatLng, neLatLng -> $neLatLng');
+
+    if (isEmpty(swLatLng)) {
+      return Future.error('西南角坐标不能为空');
+    }
+
+    if (isEmpty(neLatLng)) {
+      return Future.error('东北角坐标不能为空');
+    }
+
+    return _mapChannel.invokeMethod(
+      'map#setMapStatusLimits',
+      {
+        'swLatLng': swLatLng.toJsonString(),
+        'neLatLng': neLatLng.toJsonString(),
+      },
+    );
+  }
+
   //endregion
 
+  /// marker点击事件流
   Stream<MarkerOptions> get markerClickedEvent => _markerClickedEventChannel
       .receiveBroadcastStream()
       .map((data) => MarkerOptions.fromJson(jsonDecode(data)));
