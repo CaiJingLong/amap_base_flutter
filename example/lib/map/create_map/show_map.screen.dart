@@ -38,7 +38,7 @@ class _ShowMapScreenState extends State<ShowMapScreen> {
               children: <Widget>[
                 BooleanSetting(
                   head: '显示自己的位置 [Android, iOS]',
-                  selected: _myLocationStyle.showMyLocation,
+                  selected: false,
                   onSelected: (value) {
                     _updateMyLocationStyle(showMyLocation: value);
                   },

@@ -31,6 +31,8 @@ const val success = "调用成功"
 class AMapFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
 
     override fun create(context: Context, id: Int, params: Any?): PlatformView {
+        checkPermission()
+
         val options = Gson()
                 .fromJson(params as String, UnifiedAMapOptions::class.java)
 
@@ -78,6 +80,8 @@ class AMapView(private val context: Context,
     }
 
     private fun handleMethodCall(methodCall: MethodCall, methodResult: MethodChannel.Result) {
+        checkPermission()
+
         val map = mapView.map
         when (methodCall.method) {
             "map#setMyLocationStyle" -> {
