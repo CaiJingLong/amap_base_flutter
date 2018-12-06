@@ -15,6 +15,7 @@ import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
+  // final result = await AMap.setKey('27d67839721288be2ddd87b4fd868822');
   final result = await AMap.setKey('27d67839721288be2ddd87b4fd868822');
   print('设置key的结果: $result');
   runApp(MaterialApp(home: MapsDemo()));
@@ -122,7 +123,7 @@ class MapsDemo extends StatelessWidget {
             children: <Widget>[
               _FunctionItem(
                 label: "坐标转换",
-                sublabel: "coordinate-transformation",
+                sublabel: "CoordinateTransformationScreen",
                 target: CoordinateTransformationScreen(),
               ),
             ],

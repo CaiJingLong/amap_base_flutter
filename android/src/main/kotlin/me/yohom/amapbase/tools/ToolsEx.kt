@@ -26,7 +26,7 @@ fun PluginRegistry.Registrar.setupToolsChannel() {
                         .coord(LatLng(lat, lon,false))
                         .convert()
 
-                result.success("${convertedLatlng.latitude}|${convertedLatlng.longitude}")
+                result.success("""{"latitude":${convertedLatlng.latitude},"longitude":${convertedLatlng.longitude}}""")
             }
             else -> result.notImplemented()
         }

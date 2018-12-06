@@ -43,7 +43,7 @@ static NSString *convert = @"convert";
             int intType = [paramDic[@"type"] intValue];
             AMapCoordinateType type = [self convertTypeWithInt:intType];
             CLLocationCoordinate2D coordinate2D = AMapCoordinateConvert(CLLocationCoordinate2DMake(lat, lon), type);
-            NSString *r = [NSString stringWithFormat:@"%f|%f", coordinate2D.latitude, coordinate2D.longitude];
+            NSString *r = [NSString stringWithFormat:@"{\"latitude\":%f,\"longitude\":%f}", coordinate2D.latitude, coordinate2D.longitude];
             result(r);
         } else {
             result(FlutterMethodNotImplemented);

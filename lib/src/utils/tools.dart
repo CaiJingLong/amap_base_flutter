@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
@@ -30,14 +32,7 @@ class AMapTools {
       return null;
     }
 
-    List<String> resultList = result.split("|");
-
-    if (resultList.length != 2) {
-      return null;
-    }
-
-    return LatLng(double.tryParse(resultList[0]) ?? 0.0,
-        double.tryParse(resultList[1]) ?? 0.0);
+    return LatLng.fromJson(json.decode(result));
   }
 }
 
