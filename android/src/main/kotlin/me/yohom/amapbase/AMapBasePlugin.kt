@@ -4,6 +4,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import me.yohom.amapbase.map.AMapFactory
 import me.yohom.amapbase.navi.setupNaviChannel
+import me.yohom.amapbase.tools.setupToolsChannel
 
 private const val setKey = "setKey"
 
@@ -27,6 +28,9 @@ class AMapBasePlugin {
             registrar
                     .platformViewRegistry()
                     .registerViewFactory("me.yohom/AMapView", AMapFactory())
+
+            registrar.setupToolsChannel()
         }
     }
 }
+

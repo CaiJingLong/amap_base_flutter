@@ -17,6 +17,7 @@ export 'src/map/model/route_poi_search_query.dart';
 export 'src/map/model/search_bound.dart';
 export 'src/map/model/ui_settings.dart';
 export 'src/navi/amap_navi.dart';
+export 'src/utils/tools.dart';
 
 class AMap {
   static final _channel = MethodChannel('me.yohom/amap_base');
