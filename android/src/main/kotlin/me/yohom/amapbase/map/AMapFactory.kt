@@ -71,7 +71,7 @@ class AMapView(private val context: Context,
 
             override fun onCancel(p0: Any?) {}
         })
-        mapView.map.setOnMarkerClickListener {"latitude"
+        mapView.map.setOnMarkerClickListener {
             eventSink?.success(UnifiedMarkerOptions(it.options).toJson())
             true
         }
