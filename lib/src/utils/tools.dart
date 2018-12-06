@@ -15,12 +15,12 @@ class AMapTools {
   /// [lon] 经度
   ///
   /// [type] 原坐标类型, 这部分请查阅高德地图官方文档
-  static Future<LatLng> convertLatlng({
+  static Future<LatLng> convertLatLng({
     @required double lat,
     @required double lon,
-    @required LatlngType type,
+    @required LatLngType type,
   }) async {
-    int intType = LatlngType.values.indexOf(type);
+    int intType = LatLngType.values.indexOf(type);
 
     String result = await _channel.invokeMethod(_convert, {
       'lat': lat,
@@ -36,7 +36,7 @@ class AMapTools {
   }
 }
 
-enum LatlngType {
+enum LatLngType {
   gps,
   baidu,
   mapBar,

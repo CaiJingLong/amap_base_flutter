@@ -12,7 +12,7 @@ class _CoordinateTransformationStateScreen
   TextEditingController lat;
   TextEditingController lng;
 
-  LatlngType type = LatlngType.baidu;
+  LatLngType type = LatLngType.baidu;
 
   LatLng current = LatLng(0, 0);
 
@@ -29,7 +29,7 @@ class _CoordinateTransformationStateScreen
     var lat = double.tryParse(this.lat.text) ?? 0;
     var lng = double.tryParse(this.lng.text) ?? 0;
 
-    AMapTools.convertLatlng(lat: lat, lon: lng, type: type).then((latlng) {
+    AMapTools.convertLatLng(lat: lat, lon: lng, type: type).then((latlng) {
       setState(() {
         this.current = latlng;
       });
@@ -76,11 +76,11 @@ class _CoordinateTransformationStateScreen
     );
   }
 
-  List<DropdownMenuItem<LatlngType>> _buildTypeItem() {
-    return LatlngType.values.map((type) => _buildItem(type)).toList();
+  List<DropdownMenuItem<LatLngType>> _buildTypeItem() {
+    return LatLngType.values.map((type) => _buildItem(type)).toList();
   }
 
-  DropdownMenuItem<LatlngType> _buildItem(LatlngType type) {
+  DropdownMenuItem<LatLngType> _buildItem(LatLngType type) {
     return DropdownMenuItem(
       child: Text(type.toString()),
       value: type,

@@ -5,8 +5,7 @@
 ## 安装
 在你的`pubspec.yaml`文件的dependencies节点下添加:
 ```
-amap_base:
-  git: https://github.com/yohom/amap_base_flutter.git
+amap_base: x.x.x
 ```
 如果你想要指定某个版本/分支/提交, 那么:
 ```
