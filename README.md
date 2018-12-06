@@ -1,4 +1,6 @@
-# 高德地图Flutter插件
+# 高德地图Flutter插件 基于AndroidView和UiKitView
+
+[![pub package](https://img.shields.io/pub/v/amap_base.svg)](https://pub.flutter-io.cn/packages/amap_base)
 
 ## 安装
 在你的`pubspec.yaml`文件的dependencies节点下添加:
@@ -16,6 +18,19 @@ amap_base:
 导入:
 ```
 import 'package:amap_base/amap_base.dart';
+```
+Android端设置key:
+```
+<application>
+    ...
+    <meta-data
+        android:name="com.amap.api.v2.apikey"
+        android:value="您的Key"/>
+</application>
+```
+iOS端设置key:
+```
+AMap.setKey('您的key'); // 这个方法在Android端无效
 ```
 iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要手动打开开关, 在info.plist文件中新增一行`io.flutter.embedded_views_preview`为`true`. 参考[iOS view embedding support has landed on master](https://github.com/flutter/flutter/issues/19030#issuecomment-437534853)
 
