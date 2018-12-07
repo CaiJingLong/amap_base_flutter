@@ -23,7 +23,7 @@
 @property(nonatomic) NSString <Optional> *category;
 
 /// 待查城市（地区）的电话区号
-@property(nonatomic) NSString *city;
+@property(nonatomic) NSString <Optional> *city;
 
 /// 设置查询的是第几页，从0开始
 @property(nonatomic) NSInteger pageNum;

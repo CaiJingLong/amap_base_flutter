@@ -11,7 +11,7 @@
 @protocol MapMethodHandler <NSObject>
 
 @required
-- (NSObject <MapMethodHandler> *)with:(MAMapView *)mapView;
+- (NSObject <MapMethodHandler> *)initWith:(MAMapView *)mapView;
 @required
 - (void)onMethodCall:(FlutterMethodCall *)call :(FlutterResult)result;
 

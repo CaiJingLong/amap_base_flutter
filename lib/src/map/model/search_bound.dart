@@ -28,8 +28,8 @@ class SearchBound {
     this.center,
     this.range,
     this.shape,
-    this.isDistanceSort,
-    this.polyGonList,
+    this.isDistanceSort = true,
+    this.polyGonList = const [],
   });
 
   SearchBound.fromJson(Map<String, dynamic> json)

@@ -10,9 +10,9 @@ import io.flutter.plugin.common.MethodChannel
 import me.yohom.amapbase.AMapBasePlugin.Companion.registrar
 import me.yohom.amapbase.map.MapMethodHandler
 import me.yohom.amapbase.map.model.UnifiedPoiItem
-import me.yohom.amapbase.utils.log
-import me.yohom.amapbase.utils.toAMapError
-import me.yohom.amapbase.utils.toJson
+import me.yohom.amapbase.common.log
+import me.yohom.amapbase.common.toAMapError
+import me.yohom.amapbase.common.toJson
 
 object SearchPoiId : MapMethodHandler {
 

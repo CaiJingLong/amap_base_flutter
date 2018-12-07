@@ -13,7 +13,7 @@
     AMapSearchAPI *_search;
     FlutterResult _result;
 }
-- (NSObject <MapMethodHandler> *)with:(MAMapView *)mapView {
+- (NSObject <MapMethodHandler> *)initWith:(MAMapView *)mapView {
     _mapView = mapView;
     // 搜索api回调设置
     _search = [[AMapSearchAPI alloc] init];
@@ -37,11 +37,17 @@
 
 /// poi搜索回调
 - (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response {
+    NSLog(@"poi搜索回调 SearchPoiPolygon");
     if (response.pois.count == 0) {
+        _result(@"没有找到POI");
         return;
     }
 
     _result([[[UnifiedPoiResult alloc] initWithPoiResult:response] toJSONString]);
+}
+
+- (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error {
+    _result(error);
 }
 
 @end

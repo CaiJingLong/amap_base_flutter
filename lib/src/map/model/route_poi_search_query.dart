@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:amap_base/amap_base.dart';
+import 'package:meta/meta.dart';
 
 class RoutePoiSearchQuery {
   LatLng from;
@@ -11,17 +12,17 @@ class RoutePoiSearchQuery {
   List<LatLng> polylines;
 
   RoutePoiSearchQuery.line({
-    this.from,
-    this.to,
-    this.mode,
-    this.searchType,
+    @required this.from,
+    @required this.to,
+    @required this.searchType,
+    this.mode = 0,
     this.range = 250,
   });
 
   RoutePoiSearchQuery.polygon({
-    this.searchType,
+    @required this.searchType,
+    @required this.polylines,
     this.range = 250,
-    this.polylines,
   });
 
   Map<String, Object> toJson() {

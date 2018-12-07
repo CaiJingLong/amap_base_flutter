@@ -10,8 +10,8 @@
 @class AMapRoutePOISearchRequest;
 
 @interface UnifiedRoutePoiSearchQuery : JSONModel
-@property(nonatomic) LatLng *from;
-@property(nonatomic) LatLng *to;
+@property(nonatomic) LatLng <Optional>*from;
+@property(nonatomic) LatLng <Optional>*to;
 @property(nonatomic) NSInteger mode;
 @property(nonatomic) NSInteger searchType;
 @property(nonatomic) NSInteger range;

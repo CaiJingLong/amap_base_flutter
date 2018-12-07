@@ -13,7 +13,7 @@
     AMapSearchAPI *_search;
     FlutterResult _result;
 }
-- (NSObject <MapMethodHandler> *)with:(MAMapView *)mapView {
+- (NSObject <MapMethodHandler> *)initWith:(MAMapView *)mapView {
     _mapView = mapView;
 
     // 搜索api回调设置
@@ -41,6 +41,7 @@
 /// 沿途搜索回调
 - (void)onRoutePOISearchDone:(AMapRoutePOISearchRequest *)request response:(AMapRoutePOISearchResponse *)response {
     if (response.pois.count == 0) {
+        _result(@"没有找到POI");
         return;
     }
 
@@ -48,6 +49,10 @@
 //    NSString *resultString = [result toJSONString];
 //    NSLog(@"RESULT: %@", resultString);
     _result([[[UnifiedRoutePOISearchResult alloc] initWithAMapRoutePOISearchResponse:response] toJSONString]);
+}
+
+- (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error {
+    _result(error);
 }
 
 @end

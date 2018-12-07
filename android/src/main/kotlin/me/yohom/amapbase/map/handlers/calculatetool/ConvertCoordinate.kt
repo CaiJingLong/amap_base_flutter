@@ -7,7 +7,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import me.yohom.amapbase.AMapBasePlugin.Companion.registrar
 import me.yohom.amapbase.map.MapMethodHandler
-import me.yohom.amapbase.utils.toJson
+import me.yohom.amapbase.common.toJson
 
 private val types = arrayListOf(
         CoordinateConverter.CoordType.GPS,

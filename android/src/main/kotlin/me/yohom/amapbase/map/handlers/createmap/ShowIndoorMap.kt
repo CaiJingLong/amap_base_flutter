@@ -5,7 +5,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import me.yohom.amapbase.map.MapMethodHandler
 import me.yohom.amapbase.map.success
-import me.yohom.amapbase.utils.log
+import me.yohom.amapbase.common.log
 
 object ShowIndoorMap : MapMethodHandler {
 

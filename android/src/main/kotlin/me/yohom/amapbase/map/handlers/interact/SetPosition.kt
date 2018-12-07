@@ -8,8 +8,8 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import me.yohom.amapbase.map.MapMethodHandler
 import me.yohom.amapbase.map.success
-import me.yohom.amapbase.utils.beijingLatLng
-import me.yohom.amapbase.utils.parseJson
+import me.yohom.amapbase.common.beijingLatLng
+import me.yohom.amapbase.common.parseJson
 
 object SetPosition : MapMethodHandler {
 

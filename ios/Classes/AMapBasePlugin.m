@@ -2,7 +2,6 @@
 #import "AMapSearchKit.h"
 #import "NSObject+Navi.h"
 #import "AMapViewFactory.h"
-#import "NSObject+NSObject_Tools.h"
 
 static NSObject <FlutterPluginRegistrar> *_registrar;
 
@@ -27,7 +26,6 @@ static NSObject <FlutterPluginRegistrar> *_registrar;
     }];
 
     [_registrar setupNaviChannel];
-    [_registrar setupToolsChannel];
 
     [_registrar registerViewFactory:[[AMapViewFactory alloc] init]
                              withId:@"me.yohom/AMapView"];

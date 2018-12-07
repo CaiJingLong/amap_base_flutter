@@ -5,6 +5,7 @@
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"@class AMapRoutePOISearchResponse;
 
+@protocol UnifiedRoutePOIItem;
 @class UnifiedRoutePOIItem;
 @class LatLng;
 @class AMapPOI;
@@ -14,7 +15,7 @@
 
 - (instancetype)initWithAMapRoutePOISearchResponse:(AMapRoutePOISearchResponse *)result;
 
-@property(nonatomic) NSArray <UnifiedRoutePOIItem *> *routePoiList;
+@property(nonatomic) NSArray <UnifiedRoutePOIItem> *routePoiList;
 @property(nonatomic) NSString *query;
 @end
 

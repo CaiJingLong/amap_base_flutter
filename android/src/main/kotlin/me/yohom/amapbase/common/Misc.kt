@@ -1,4 +1,4 @@
-package me.yohom.amapbase.utils
+package me.yohom.amapbase.common
 
 import com.amap.api.maps.model.LatLng
 import com.amap.api.services.core.LatLonPoint

@@ -10,7 +10,7 @@
 @implementation ClearMap {
     MAMapView *_mapView;
 }
-- (NSObject <MapMethodHandler> *)with:(MAMapView *)mapView {
+- (NSObject <MapMethodHandler> *)initWith:(MAMapView *)mapView {
     _mapView = mapView;
     return self;
 }

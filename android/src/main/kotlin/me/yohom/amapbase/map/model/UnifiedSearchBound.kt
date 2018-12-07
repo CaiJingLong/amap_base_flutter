@@ -2,8 +2,8 @@ package me.yohom.amapbase.map.model
 
 import com.amap.api.maps.model.LatLng
 import com.amap.api.services.poisearch.PoiSearch
-import me.yohom.amapbase.utils.toLatLng
-import me.yohom.amapbase.utils.toLatLonPoint
+import me.yohom.amapbase.common.toLatLng
+import me.yohom.amapbase.common.toLatLonPoint
 
 class UnifiedSearchBound(searchBound: PoiSearch.SearchBound) {
     val lowerLeft: LatLng? = searchBound.lowerLeft?.toLatLng()

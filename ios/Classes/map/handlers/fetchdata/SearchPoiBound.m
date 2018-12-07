@@ -9,12 +9,10 @@
 
 
 @implementation SearchPoiBound {
-    MAMapView *_mapView;
     AMapSearchAPI *_search;
     FlutterResult _result;
 }
-- (NSObject <MapMethodHandler> *)with:(MAMapView *)mapView {
-    _mapView = mapView;
+- (NSObject <MapMethodHandler> *)initWith:(MAMapView *)mapView {
     // 搜索api回调设置
     _search = [[AMapSearchAPI alloc] init];
     _search.delegate = self;
@@ -39,11 +37,16 @@
 
 /// poi搜索回调
 - (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response {
+    NSLog(@"poi搜索回调 SearchPoiBound");
     if (response.pois.count == 0) {
+        _result(@"没有找到POI");
         return;
     }
 
     _result([[[UnifiedPoiResult alloc] initWithPoiResult:response] toJSONString]);
 }
 
+- (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error {
+    _result(error);
+}
 @end

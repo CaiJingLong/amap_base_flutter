@@ -60,6 +60,7 @@ class _RoutePoiSearchScreenState extends State<RoutePoiSearchScreen> {
                         RoutePoiSearchQuery.line(
                           from: LatLng(39.993291, 116.473188),
                           to: LatLng(39.940474, 116.355426),
+                          searchType: 0,
                         ),
                       ),
                     ).then((routePoiResult) {

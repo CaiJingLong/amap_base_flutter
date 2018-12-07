@@ -24,7 +24,7 @@
     MANaviRoute *_overlay;
 }
 
-- (NSObject <MapMethodHandler> *)with:(MAMapView *)mapView {
+- (NSObject <MapMethodHandler> *)initWith:(MAMapView *)mapView {
     _mapView = mapView;
 
     // 搜索api回调设置
@@ -34,6 +34,8 @@
 }
 
 - (void)onMethodCall:(FlutterMethodCall *)call :(FlutterResult)result {
+    _result = result;
+
     NSDictionary *paramDic = call.arguments;
 
     NSString *routePlanParamJson = (NSString *) paramDic[@"routePlanParam"];

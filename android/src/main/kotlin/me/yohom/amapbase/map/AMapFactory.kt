@@ -28,8 +28,8 @@ import me.yohom.amapbase.map.handlers.interact.SetZoomLevel
 import me.yohom.amapbase.map.handlers.routeplan.CalculateDriveRoute
 import me.yohom.amapbase.map.model.UnifiedAMapOptions
 import me.yohom.amapbase.map.model.UnifiedMarkerOptions
-import me.yohom.amapbase.utils.checkPermission
-import me.yohom.amapbase.utils.toJson
+import me.yohom.amapbase.common.checkPermission
+import me.yohom.amapbase.common.toJson
 import java.util.concurrent.atomic.AtomicInteger
 
 const val mapChannelName = "me.yohom/map"

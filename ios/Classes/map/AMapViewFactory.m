@@ -43,6 +43,7 @@
 #import "SetZoomLevel.h"
 #import "SetPosition.h"
 #import "SetMapStatusLimits.h"
+#import "SetUiSettings.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
@@ -59,28 +60,26 @@ NSDictionary<NSString *, NSObject <MapMethodHandler> *> *MAP_METHOD_HANDLER;
 - (NSObject <FlutterPlatformView> *)createWithFrame:(CGRect)frame
                                      viewIdentifier:(int64_t)viewId
                                           arguments:(id _Nullable)args {
-    // 发现加了也只会在第一次才会请求, 后续就不会再请求了, 就用系统的请求对话框吧
-//    [self checkPermission];
-
     MAP_METHOD_HANDLER = @{
-            @"map#clear": [[ClearMap alloc] init],
-            @"map#setMyLocationStyle": [[SetMyLocationStyle alloc] init],
-            @"map#calculateDriveRoute": [[CalculateDriveRoute alloc] init],
-            @"marker#addMarker": [[AddMarker alloc] init],
-            @"marker#addMarkers": [[AddMarkers alloc] init],
-            @"map#showIndoorMap": [[ShowIndoorMap alloc] init],
-            @"map#setMapType": [[SetMapType alloc] init],
-            @"map#setLanguage": [[SetLanguage alloc] init],
-            @"map#searchPoi": [[SearchPoi alloc] init],
-            @"map#searchPoiBound": [[SearchPoiBound alloc] init],
-            @"map#searchPoiPolygon": [[SearchPoiPolygon alloc] init],
-            @"map#searchPoiId": [[SearchPoiId alloc] init],
-            @"map#searchRoutePoiLine": [[SearchRoutePoiLine alloc] init],
-            @"map#searchRoutePoiPolygon": [[SearchRoutePoiPolygon alloc] init],
-            @"marker#clear": [[ClearMarker alloc] init],
-            @"map#setZoomLevel": [[SetZoomLevel alloc] init],
-            @"map#setPosition": [[SetPosition alloc] init],
-            @"map#setMapStatusLimits": [[SetMapStatusLimits alloc] init],
+            @"map#clear": [ClearMap alloc],
+            @"map#setMyLocationStyle": [SetMyLocationStyle alloc],
+            @"map#setUiSettings": [SetUiSettings alloc],
+            @"map#calculateDriveRoute": [CalculateDriveRoute alloc],
+            @"marker#addMarker": [AddMarker alloc],
+            @"marker#addMarkers": [AddMarkers alloc],
+            @"map#showIndoorMap": [ShowIndoorMap alloc],
+            @"map#setMapType": [SetMapType alloc],
+            @"map#setLanguage": [SetLanguage alloc],
+            @"map#searchPoi": [SearchPoi alloc],
+            @"map#searchPoiBound": [SearchPoiBound alloc],
+            @"map#searchPoiPolygon": [SearchPoiPolygon alloc],
+            @"map#searchPoiId": [SearchPoiId alloc],
+            @"map#searchRoutePoiLine": [SearchRoutePoiLine alloc],
+            @"map#searchRoutePoiPolygon": [SearchRoutePoiPolygon alloc],
+            @"marker#clear": [ClearMarker alloc],
+            @"map#setZoomLevel": [SetZoomLevel alloc],
+            @"map#setPosition": [SetPosition alloc],
+            @"map#setMapStatusLimits": [SetMapStatusLimits alloc],
     };
 
     JSONModelError *error;
@@ -103,10 +102,7 @@ NSDictionary<NSString *, NSObject <MapMethodHandler> *> *MAP_METHOD_HANDLER;
     FlutterEventChannel *_markerClickedEventChannel;
     FlutterEventSink _sink;
     MAMapView *_mapView;
-    FlutterResult _result;
-    AMapSearchAPI *_search;
     MANaviRoute *_overlay;
-    RoutePlanParam *_routePlanParam;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -126,6 +122,8 @@ NSDictionary<NSString *, NSObject <MapMethodHandler> *> *MAP_METHOD_HANDLER;
 }
 
 - (void)setup {
+    // 设置delegate, 渲染overlay和annotation的时候需要
+    _mapView.delegate = self;
 
     //region 初始化地图配置, 跟android一样, 不能在view方法里设置, 不然地图会卡住不动, android端是直接把AMapOptions赋值到MapView就可以了
     // 尽可能地统一android端的api了, ios这边的配置选项多很多, 后期再观察吧
@@ -154,100 +152,18 @@ NSDictionary<NSString *, NSObject <MapMethodHandler> *> *MAP_METHOD_HANDLER;
 
     _methodChannel = [FlutterMethodChannel methodChannelWithName:[NSString stringWithFormat:@"%@%lld", mapChannelName, _viewId]
                                                  binaryMessenger:[AMapBasePlugin registrar].messenger];
-    __weak __typeof__(self) weakSelf = self;
     [_methodChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
-        self->_result = result;
-        if (weakSelf) {
-            [weakSelf handleMethodCall:call result:result];
+        NSObject <MapMethodHandler> *handler = MAP_METHOD_HANDLER[call.method];
+        if (handler) {
+            [[handler initWith:_mapView] onMethodCall:call :result];
+        } else {
+            result(FlutterMethodNotImplemented);
         }
     }];
 
     _markerClickedEventChannel = [FlutterEventChannel eventChannelWithName:[NSString stringWithFormat:@"%@%lld", markerClickedChannelName, _viewId]
                                                            binaryMessenger:[AMapBasePlugin registrar].messenger];
     [_markerClickedEventChannel setStreamHandler:self];
-
-    // 搜索api回调设置
-    _search = [[AMapSearchAPI alloc] init];
-    _search.delegate = self;
-}
-
-- (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-    // 设置delegate, 渲染overlay和annotation的时候需要
-    _mapView.delegate = self;
-
-    NSObject <MapMethodHandler> *handler = MAP_METHOD_HANDLER[call.method];
-    if (handler) {
-        [[handler with:_mapView] onMethodCall:call :result];
-    } else {
-        result(FlutterMethodNotImplemented);
-    }
-}
-
-#pragma AMapSearchDelegate
-
-/// 路径规划搜索回调.
-- (void)onRouteSearchDone:(AMapRouteSearchBaseRequest *)request response:(AMapRouteSearchResponse *)response {
-    if (response.route.paths.count == 0) {
-        return _result(@"没有规划出合适的路线");
-    }
-
-    // 添加起终点
-    MAPointAnnotation *startAnnotation = [[MAPointAnnotation alloc] init];
-    startAnnotation.coordinate = [_routePlanParam.from toCLLocationCoordinate2D];
-    startAnnotation.title = @"起点";
-
-    MAPointAnnotation *destinationAnnotation = [[MAPointAnnotation alloc] init];
-    destinationAnnotation.coordinate = [_routePlanParam.to toCLLocationCoordinate2D];
-    destinationAnnotation.title = @"终点";
-
-    [_mapView addAnnotation:startAnnotation];
-    [_mapView addAnnotation:destinationAnnotation];
-
-    // 添加中间的路径
-    AMapPath *path = response.route.paths[0];
-    _overlay = [MANaviRoute naviRouteForPath:path
-                                withNaviType:MANaviAnnotationTypeDrive
-                                 showTraffic:YES
-                                  startPoint:[AMapGeoPoint locationWithLatitude:_routePlanParam.from.latitude
-                                                                      longitude:_routePlanParam.from.longitude]
-                                    endPoint:[AMapGeoPoint locationWithLatitude:_routePlanParam.to.latitude
-                                                                      longitude:_routePlanParam.to.longitude]];
-    [_overlay addToMapView:_mapView];
-
-    // 收缩地图到路径范围
-    [_mapView setVisibleMapRect:[CommonUtility mapRectForOverlays:_overlay.routePolylines]
-                    edgePadding:UIEdgeInsetsMake(20, 20, 20, 20)
-                       animated:YES];
-
-    _result(success);
-}
-
-/// 路线规划失败回调
-- (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error {
-    if (_result != nil) {
-        _result([NSString stringWithFormat:@"路线规划失败, 错误码: %ld", (long) error.code]);
-    }
-}
-
-/// poi搜索回调
-- (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response {
-    if (response.pois.count == 0) {
-        return;
-    }
-
-    _result([[[UnifiedPoiResult alloc] initWithPoiResult:response] toJSONString]);
-}
-
-/// 沿途搜索回调
-- (void)onRoutePOISearchDone:(AMapRoutePOISearchRequest *)request response:(AMapRoutePOISearchResponse *)response {
-    if (response.pois.count == 0) {
-        return;
-    }
-
-//    UnifiedRoutePOISearchResult *result = [[UnifiedRoutePOISearchResult alloc] initWithAMapRoutePOISearchResponse:response];
-//    NSString *resultString = [result toJSONString];
-//    NSLog(@"RESULT: %@", resultString);
-    _result([[[UnifiedRoutePOISearchResult alloc] initWithAMapRoutePOISearchResponse:response] toJSONString]);
 }
 
 #pragma MAMapViewDelegate

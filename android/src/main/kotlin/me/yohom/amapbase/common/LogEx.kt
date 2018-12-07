@@ -1,4 +1,4 @@
-package me.yohom.amapbase.utils
+package me.yohom.amapbase.common
 
 import android.util.Log
 import me.yohom.amapbase.BuildConfig

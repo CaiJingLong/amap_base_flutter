@@ -3,7 +3,7 @@ package me.yohom.amapbase.map.model
 import com.amap.api.maps.model.LatLng
 import com.amap.api.services.core.SuggestionCity
 import com.amap.api.services.poisearch.*
-import me.yohom.amapbase.utils.toLatLng
+import me.yohom.amapbase.common.toLatLng
 
 
 class UnifiedPoiResult(poiResult: PoiResult) {

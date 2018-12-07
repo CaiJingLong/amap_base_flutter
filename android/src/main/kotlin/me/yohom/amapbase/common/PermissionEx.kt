@@ -1,4 +1,4 @@
-package me.yohom.amapbase.utils
+package me.yohom.amapbase.common
 
 import android.Manifest
 import android.support.v4.app.ActivityCompat
