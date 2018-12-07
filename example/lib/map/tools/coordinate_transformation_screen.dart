@@ -29,7 +29,9 @@ class _CoordinateTransformationStateScreen
     var lat = double.tryParse(this.lat.text) ?? 0;
     var lng = double.tryParse(this.lng.text) ?? 0;
 
-    AMapTools.convertLatLng(lat: lat, lon: lng, type: type).then((latlng) {
+    CalculateTools.convertCoordinate(lat: lat, lon: lng, type: type)
+        .then((latlng) {
+      print('latlng: $latlng');
       setState(() {
         this.current = latlng;
       });

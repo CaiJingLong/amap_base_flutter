@@ -7,7 +7,6 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import me.yohom.amapbase.map.AMapFactory
 import me.yohom.amapbase.navi.setupNaviChannel
-import me.yohom.amapbase.tools.setupToolsChannel
 import java.util.concurrent.atomic.AtomicInteger
 
 private const val setKey = "setKey"
@@ -43,8 +42,6 @@ class AMapBasePlugin {
 
             // 导航相关插件
             registrar.setupNaviChannel()
-
-            registrar.setupToolsChannel()
 
             // MapView
             registrar
