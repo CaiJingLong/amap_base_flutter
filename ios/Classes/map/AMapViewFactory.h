@@ -6,6 +6,8 @@
 #import <Flutter/Flutter.h>
 #import "MAMapKit.h"
 
+static NSString *success = @"调用成功";
+
 @class UnifiedAMapOptions;
 
 @interface AMapViewFactory : NSObject <FlutterPlatformViewFactory>

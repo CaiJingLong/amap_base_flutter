@@ -25,10 +25,29 @@
 #import "UnifiedRoutePoiSearchQuery.h"
 #import "UnifiedRoutePOISearchResult.h"
 #import "NSObject+Permission.h"
+#import "ClearMap.h"
+#import "SetMyLocationStyle.h"
+#import "CalculateDriveRoute.h"
+#import "AddMarker.h"
+#import "AddMarkers.h"
+#import "ShowIndoorMap.h"
+#import "SetMapType.h"
+#import "SetLanguage.h"
+#import "SearchPoi.h"
+#import "SearchPoiBound.h"
+#import "SearchPoiPolygon.h"
+#import "SearchPoiId.h"
+#import "SearchRoutePoiLine.h"
+#import "SearchRoutePoiPolygon.h"
+#import "ClearMarker.h"
+#import "SetZoomLevel.h"
+#import "SetPosition.h"
+#import "SetMapStatusLimits.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
-static NSString *success = @"调用成功";
+
+NSDictionary<NSString *, NSObject <MapMethodHandler> *> *MAP_METHOD_HANDLER;
 
 @implementation AMapViewFactory {
 }
@@ -42,6 +61,27 @@ static NSString *success = @"调用成功";
                                           arguments:(id _Nullable)args {
     // 发现加了也只会在第一次才会请求, 后续就不会再请求了, 就用系统的请求对话框吧
 //    [self checkPermission];
+
+    MAP_METHOD_HANDLER = @{
+            @"map#clear": [[ClearMap alloc] init],
+            @"map#setMyLocationStyle": [[SetMyLocationStyle alloc] init],
+            @"map#calculateDriveRoute": [[CalculateDriveRoute alloc] init],
+            @"marker#addMarker": [[AddMarker alloc] init],
+            @"marker#addMarkers": [[AddMarkers alloc] init],
+            @"map#showIndoorMap": [[ShowIndoorMap alloc] init],
+            @"map#setMapType": [[SetMapType alloc] init],
+            @"map#setLanguage": [[SetLanguage alloc] init],
+            @"map#searchPoi": [[SearchPoi alloc] init],
+            @"map#searchPoiBound": [[SearchPoiBound alloc] init],
+            @"map#searchPoiPolygon": [[SearchPoiPolygon alloc] init],
+            @"map#searchPoiId": [[SearchPoiId alloc] init],
+            @"map#searchRoutePoiLine": [[SearchRoutePoiLine alloc] init],
+            @"map#searchRoutePoiPolygon": [[SearchRoutePoiPolygon alloc] init],
+            @"marker#clear": [[ClearMarker alloc] init],
+            @"map#setZoomLevel": [[SetZoomLevel alloc] init],
+            @"map#setPosition": [[SetPosition alloc] init],
+            @"map#setMapStatusLimits": [[SetMapStatusLimits alloc] init],
+    };
 
     JSONModelError *error;
     UnifiedAMapOptions *options = [[UnifiedAMapOptions alloc] initWithString:(NSString *) args error:&error];
@@ -132,238 +172,12 @@ static NSString *success = @"调用成功";
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-//    [self checkPermission];
-
-    NSDictionary *paramDic = call.arguments;
-
     // 设置delegate, 渲染overlay和annotation的时候需要
     _mapView.delegate = self;
 
-    if ([@"map#setMyLocationStyle" isEqualToString:call.method]) {
-        NSString *styleJson = (NSString *) paramDic[@"myLocationStyle"];
-
-        NSLog(@"方法setMyLocationStyle ios端参数: styleJson -> %@", styleJson);
-        JSONModelError *error;
-        [[[UnifiedMyLocationStyle alloc] initWithString:styleJson error:&error] applyTo:_mapView];
-
-        NSLog(@"JSONModelError: %@", error.description);
-
-        result(success);
-    } else if ([@"map#setUiSettings" isEqualToString:call.method]) {
-        NSString *uiSettingsJson = (NSString *) paramDic[@"uiSettings"];
-
-        NSLog(@"方法setUiSettings ios端参数: uiSettingsJson -> %@", uiSettingsJson);
-        JSONModelError *error;
-        [[[UnifiedUiSettings alloc] initWithString:uiSettingsJson error:&error] applyTo:_mapView];
-
-        NSLog(@"JSONModelError: %@", error.description);
-
-        result(success);
-    } else if ([@"map#calculateDriveRoute" isEqualToString:call.method]) {
-        NSString *routePlanParamJson = (NSString *) paramDic[@"routePlanParam"];
-
-        NSLog(@"方法calculateDriveRoute ios端参数: routePlanParamJson -> %@", routePlanParamJson);
-        JSONModelError *error;
-        _routePlanParam = [[RoutePlanParam alloc] initWithString:routePlanParamJson error:&error];
-        NSLog(@"JSONModelError: %@", error.description);
-
-        // 路线请求参数构造
-        AMapDrivingRouteSearchRequest *routeQuery = [[AMapDrivingRouteSearchRequest alloc] init];
-        routeQuery.origin = [_routePlanParam.from toAMapGeoPoint];
-        routeQuery.destination = [_routePlanParam.to toAMapGeoPoint];
-        routeQuery.strategy = _routePlanParam.mode;
-        routeQuery.waypoints = [_routePlanParam.passedByPoints map:^(id it) {
-            return [it toAMapGeoPoint];
-        }];
-        routeQuery.avoidpolygons = [_routePlanParam.avoidPolygons map:^(id list) {
-            return [list map:^(id it) {
-                return [it toAMapGeoPoint];
-            }];
-        }];
-        routeQuery.avoidroad = _routePlanParam.avoidRoad;
-        routeQuery.requireExtension = YES;
-
-        NSLog(@"AMapDrivingRouteSearchRequest: %@", routeQuery.formattedDescription);
-        [_search AMapDrivingRouteSearch:routeQuery];
-    } else if ([@"marker#addMarker" isEqualToString:call.method]) {
-        NSString *optionsJson = (NSString *) paramDic[@"markerOptions"];
-
-        NSLog(@"方法marker#addMarker ios端参数: optionsJson -> %@", optionsJson);
-        JSONModelError *error;
-        UnifiedMarkerOptions *markerOptions = [[UnifiedMarkerOptions alloc] initWithString:optionsJson error:&error];
-        NSLog(@"JSONModelError: %@", error.description);
-
-        MarkerAnnotation *annotation = [[MarkerAnnotation alloc] init];
-        annotation.coordinate = [markerOptions.position toCLLocationCoordinate2D];
-        annotation.title = markerOptions.title;
-        annotation.subtitle = markerOptions.snippet;
-        annotation.markerOptions = markerOptions;
-
-        [_mapView addAnnotation:annotation];
-
-        result(success);
-    } else if ([@"marker#addMarkers" isEqualToString:call.method]) {
-        NSString *moveToCenter = (NSString *) paramDic[@"moveToCenter"];
-        NSString *optionsListJson = (NSString *) paramDic[@"markerOptionsList"];
-        BOOL clear = (BOOL) paramDic[@"clear"];
-
-        NSLog(@"方法marker#addMarkers ios端参数: optionsListJson -> %@", optionsListJson);
-        if (clear) [_mapView removeAnnotations:_mapView.annotations];
-
-        NSArray *rawOptionsList = [NSJSONSerialization JSONObjectWithData:[optionsListJson dataUsingEncoding:NSUTF8StringEncoding]
-                                                                  options:kNilOptions
-                                                                    error:nil];
-        NSMutableArray<MarkerAnnotation *> *optionList = [NSMutableArray array];
-
-        for (NSUInteger i = 0; i < rawOptionsList.count; ++i) {
-            JSONModelError *error;
-
-            UnifiedMarkerOptions *options = [[UnifiedMarkerOptions alloc] initWithDictionary:rawOptionsList[i] error:&error];
-            MarkerAnnotation *annotation = [[MarkerAnnotation alloc] init];
-            annotation.coordinate = [options.position toCLLocationCoordinate2D];
-            annotation.title = options.title;
-            annotation.subtitle = options.snippet;
-            annotation.markerOptions = options;
-
-            NSLog(@"JSONModelError: %@", error.description);
-            [optionList addObject:annotation];
-        }
-
-        [_mapView addAnnotations:optionList];
-        if (moveToCenter) {
-            [_mapView showAnnotations:optionList animated:YES];
-        }
-
-        result(success);
-    } else if ([@"map#showIndoorMap" isEqualToString:call.method]) {
-        BOOL enabled = (BOOL) paramDic[@"showIndoorMap"];
-
-        NSLog(@"方法map#showIndoorMap android端参数: enabled -> %d", enabled);
-
-        _mapView.showsIndoorMap = enabled;
-
-        result(success);
-    } else if ([@"map#setMapType" isEqualToString:call.method]) {
-        // 由于iOS端是从0开始算的, 所以这里减去1
-        NSInteger mapType = (NSInteger) paramDic[@"mapType"] - 1;
-
-        NSLog(@"方法map#setMapType ios端参数: mapType -> %d", mapType);
-
-        [_mapView setMapType:mapType];
-
-        result(success);
-    } else if ([@"map#setLanguage" isEqualToString:call.method]) {
-        // 由于iOS端是从0开始算的, 所以这里减去1
-        NSString *language = (NSString *) paramDic[@"language"];
-
-        NSLog(@"方法map#setLanguage ios端参数: language -> %@", language);
-
-        [_mapView performSelector:NSSelectorFromString(@"setMapLanguage:") withObject:language];
-
-        result(success);
-    } else if ([@"map#searchPoi" isEqualToString:call.method]) {
-        NSString *query = (NSString *) paramDic[@"query"];
-
-        NSLog(@"方法map#searchPoi ios端参数: query -> %@", query);
-
-        JSONModelError *error;
-        UnifiedPoiSearchQuery *request = [[UnifiedPoiSearchQuery alloc] initWithString:query error:&error];
-        NSLog(@"JSONModelError: %@", error.description);
-
-        [_search AMapPOIKeywordsSearch:[request toAMapPOIKeywordsSearchRequest]];
-    } else if ([@"map#searchPoiBound" isEqualToString:call.method]) {
-        NSString *query = (NSString *) paramDic[@"query"];
-
-        NSLog(@"方法map#searchPoiBound ios端参数: query -> %@", query);
-
-        JSONModelError *error;
-        UnifiedPoiSearchQuery *request = [[UnifiedPoiSearchQuery alloc] initWithString:query error:&error];
-        NSLog(@"JSONModelError: %@", error.description);
-
-        [_search AMapPOIAroundSearch:[request toAMapPOIAroundSearchRequest]];
-    } else if ([@"map#searchPoiPolygon" isEqualToString:call.method]) {
-        NSString *query = (NSString *) paramDic[@"query"];
-
-        NSLog(@"方法map#searchPoiPolygon ios端参数: query -> %@", query);
-
-        JSONModelError *error;
-        UnifiedPoiSearchQuery *request = [[UnifiedPoiSearchQuery alloc] initWithString:query error:&error];
-        NSLog(@"JSONModelError: %@", error.description);
-
-        [_search AMapPOIPolygonSearch:[request toAMapPOIPolygonSearchRequest]];
-    } else if ([@"map#searchPoiId" isEqualToString:call.method]) {
-        NSString *id = (NSString *) paramDic[@"id"];
-
-        NSLog(@"方法map#searchPoiId ios端参数: id -> %@", id);
-
-        AMapPOIIDSearchRequest *request = [[AMapPOIIDSearchRequest alloc] init];
-        request.uid = id;
-        request.requireExtension = YES;
-        [_search AMapPOIIDSearch:request];
-    } else if ([@"map#searchRoutePoiLine" isEqualToString:call.method]) {
-        NSString *query = (NSString *) paramDic[@"query"];
-
-        NSLog(@"方法map#searchRoutePoiLine ios端参数: query -> %@", query);
-
-        JSONModelError *error;
-        UnifiedRoutePoiSearchQuery *request = [[UnifiedRoutePoiSearchQuery alloc] initWithString:query error:&error];
-        NSLog(@"JSONModelError: %@", error.description);
-
-        [_search AMapRoutePOISearch:[request toAMapRoutePOISearchRequestLine]];
-    } else if ([@"map#searchRoutePoiPolygon" isEqualToString:call.method]) {
-        NSString *query = (NSString *) paramDic[@"query"];
-
-        NSLog(@"方法map#searchRoutePoiLine ios端参数: query -> %@", query);
-
-        JSONModelError *error;
-        UnifiedRoutePoiSearchQuery *request = [[UnifiedRoutePoiSearchQuery alloc] initWithString:query error:&error];
-        NSLog(@"JSONModelError: %@", error.description);
-
-        [_search AMapRoutePOISearch:[request toAMapRoutePOISearchRequestPolygon]];
-    } else if ([@"marker#clear" isEqualToString:call.method]) {
-        [_mapView removeAnnotations:_mapView.annotations];
-
-        result(success);
-    } else if ([@"map#clear" isEqualToString:call.method]) {
-        [_mapView removeOverlays:_mapView.overlays];
-        [_mapView removeAnnotations:_mapView.annotations];
-
-        result(success);
-    } else if ([@"map#setZoomLevel" isEqualToString:call.method]) {
-        CGFloat zoomLevel = [paramDic[@"zoomLevel"] floatValue];
-
-        _mapView.zoomLevel = zoomLevel;
-
-        result(success);
-    } else if ([@"map#setPosition" isEqualToString:call.method]) {
-        NSString *target = (NSString *) paramDic[@"target"];
-        CGFloat zoom = [paramDic[@"zoom"] floatValue];
-        CGFloat tilt = [paramDic[@"tilt"] floatValue];
-
-        JSONModelError *error;
-        LatLng *position = [[LatLng alloc] initWithString:target error:&error];
-
-        [_mapView setCenterCoordinate:[position toCLLocationCoordinate2D] animated:true];
-        _mapView.zoomLevel = zoom;
-        _mapView.rotationDegree = tilt;
-
-        result(success);
-    } else if ([@"map#setMapStatusLimits" isEqualToString:call.method]) {
-        NSString *center = (NSString *) paramDic[@"center"];
-        CGFloat deltaLat = [paramDic[@"deltaLat"] floatValue];
-        CGFloat deltaLng = [paramDic[@"deltaLng"] floatValue];
-
-        NSLog(@"方法map#setMapStatusLimits ios端参数: center -> %@, deltaLat -> %f, deltaLng -> %f", center, deltaLat, deltaLng);
-
-        JSONModelError *error;
-        LatLng *centerPosition = [[LatLng alloc] initWithString:center error:&error];
-
-        [_mapView setLimitRegion:MACoordinateRegionMake(
-                [centerPosition toCLLocationCoordinate2D],
-                MACoordinateSpanMake(deltaLat, deltaLng))
-        ];
-
-        result(success);
+    NSObject <MapMethodHandler> *handler = MAP_METHOD_HANDLER[call.method];
+    if (handler) {
+        [[handler with:_mapView] onMethodCall:call :result];
     } else {
         result(FlutterMethodNotImplemented);
     }

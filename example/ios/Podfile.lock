@@ -17,7 +17,7 @@ PODS:
 
 DEPENDENCIES:
   - amap_base (from `.symlinks/plugins/amap_base/ios`)
-  - Flutter (from `.symlinks/flutter/ios-release`)
+  - Flutter (from `.symlinks/flutter/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -31,7 +31,7 @@ EXTERNAL SOURCES:
   amap_base:
     :path: ".symlinks/plugins/amap_base/ios"
   Flutter:
-    :path: ".symlinks/flutter/ios-release"
+    :path: ".symlinks/flutter/ios"
 
 SPEC CHECKSUMS:
   AMap3DMap: cbe10cc4302ac3f2817ef4221e1259d7e18d1c2f
