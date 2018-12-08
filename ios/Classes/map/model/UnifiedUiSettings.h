@@ -6,10 +6,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JSONModel.h"
 #import <MAMapKit/MAMapKit.h>
 
-@interface UnifiedUiSettings : JSONModel
+@interface UnifiedUiSettings: NSObject
 
 /// 设置缩放按钮的位置
 @property(nonatomic) NSInteger zoomPosition;
@@ -35,6 +34,6 @@
 /// 倾斜手势
 @property(nonatomic) BOOL isTiltGesturesEnabled;
 
-- (void) applyTo: (MAMapView*) map;
+- (void)applyTo:(MAMapView *)map;
 
 @end

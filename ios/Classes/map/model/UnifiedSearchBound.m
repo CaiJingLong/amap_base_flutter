@@ -4,7 +4,6 @@
 
 #import "UnifiedSearchBound.h"
 #import "UnifiedAMapOptions.h"
-#import "JSONModel.h"
 
 
 @implementation UnifiedSearchBound {

@@ -40,8 +40,6 @@
 
 + (double)distanceToPoint:(MAMapPoint)p fromLineSegmentBetween:(MAMapPoint)l1 and:(MAMapPoint)l2;
 
-+ (void)handlerArgumentError:(JSONModelError *)error result:(FlutterResult)result;
-
 +(NSString* ) toAMapErrorDesc:(NSInteger) errorCode;
 
 @end

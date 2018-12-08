@@ -3,28 +3,24 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JSONModel.h"
 
 @class LatLng;
-@protocol LatLng;
-@protocol Optional;
 
-
-@interface UnifiedSearchBound : JSONModel
+@interface UnifiedSearchBound : NSObject
 
 /// 左下
-@property(nonatomic) LatLng <Optional> *lowerLeft;
+@property(nonatomic) LatLng *lowerLeft;
 /// 右上
-@property(nonatomic) LatLng <Optional> *upperRight;
+@property(nonatomic) LatLng *upperRight;
 /// 中心点
 @property(nonatomic) LatLng *center;
 /// 半径范围
 @property(nonatomic) NSInteger range;
 /// 形状
-@property(nonatomic) NSString <Optional> *shape;
+@property(nonatomic) NSString *shape;
 /// 按距离排序
 @property(nonatomic) BOOL isDistanceSort;
 /// 多边形的顶点坐标
-@property(nonatomic) NSArray <LatLng> *polyGonList;
+@property(nonatomic) NSArray <LatLng *> *polyGonList;
 
 @end

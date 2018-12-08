@@ -4,11 +4,11 @@
 
 #import <AMap3DMap/MAMapKit/MAMapView.h>
 #import "SetMapStatusLimits.h"
-#import "JSONModelError.h"
 #import "UnifiedAMapOptions.h"
 #import "MAGeometry.h"
 #import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
+#import "MJExtension.h"
 
 
 @implementation SetMapStatusLimits {
@@ -28,8 +28,8 @@
 
     NSLog(@"方法map#setMapStatusLimits ios端参数: center -> %@, deltaLat -> %f, deltaLng -> %f", center, deltaLat, deltaLng);
 
-    JSONModelError *error;
-    LatLng *centerPosition = [[LatLng alloc] initWithString:center error:&error];
+
+    LatLng *centerPosition = [LatLng mj_objectWithKeyValues:center];
 
     [_mapView setLimitRegion:MACoordinateRegionMake(
             [centerPosition toCLLocationCoordinate2D],

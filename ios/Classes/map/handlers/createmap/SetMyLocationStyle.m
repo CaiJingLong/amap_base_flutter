@@ -3,12 +3,11 @@
 //
 
 #import "SetMyLocationStyle.h"
-#import "JSONModelError.h"
 #import "UnifiedMyLocationStyle.h"
 #import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
 #import "Misc.h"
-
+#import "MJExtension.h"
 
 @implementation SetMyLocationStyle {
     MAMapView *_mapView;
@@ -25,10 +24,7 @@
     NSString *styleJson = (NSString *) paramDic[@"myLocationStyle"];
 
     NSLog(@"方法setMyLocationStyle ios端参数: styleJson -> %@", styleJson);
-    JSONModelError *error;
-    [[[UnifiedMyLocationStyle alloc] initWithString:styleJson error:&error] applyTo:_mapView];
-
-    [Misc handlerArgumentError:error result:result];
+    [[UnifiedMyLocationStyle mj_objectWithKeyValues:styleJson] applyTo:_mapView];
 
     result(success);
 }

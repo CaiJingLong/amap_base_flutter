@@ -16,10 +16,10 @@
 - (instancetype)initWithPoiResult:(AMapPOISearchResponse *)result {
     if ([super init]) {
         _pageCount = result.count;
-        _pois = (NSArray <PoiItem> *) [result.pois map:^(AMapPOI *poi) {
+        _pois = [result.pois map:^(AMapPOI *poi) {
             return [[PoiItem alloc] initWithAMapPOI:poi];
         }];
-        _searchSuggestionCitys = (NSArray <SuggestionCity> *) [result.suggestion.cities map:^(AMapCity *amapCity) {
+        _searchSuggestionCitys = [result.suggestion.cities map:^(AMapCity *amapCity) {
             return [[SuggestionCity alloc] initWithAMapSuggestion:amapCity];
         }];
         _searchSuggestionKeywords = result.suggestion.keywords;
@@ -49,7 +49,7 @@
         _enter = [aMapPOI.enterLocation toLatLng];
         _exit = [aMapPOI.exitLocation toLatLng];
         _parkingType = aMapPOI.parkingType;
-        _photos = (NSArray <Photo> *) [aMapPOI.images map:^(AMapImage *image) {
+        _photos = [aMapPOI.images map:^(AMapImage *image) {
             return [[Photo alloc] initWithAMapImage:image];
         }];
         _poiExtension = [[PoiExtension alloc] initWithAMapPOIExtension:aMapPOI.extensionInfo];
@@ -58,7 +58,7 @@
         _provinceName = aMapPOI.province;
         _shopID = aMapPOI.shopID;
         _snippet = aMapPOI.address;
-        _subPois = (NSArray <SubPoiItem> *) [aMapPOI.subPOIs map:^(AMapSubPOI *subPOI) {
+        _subPois = [aMapPOI.subPOIs map:^(AMapSubPOI *subPOI) {
             return [[SubPoiItem alloc] initWithSubPoi:subPOI];
         }];
         _tel = aMapPOI.tel;

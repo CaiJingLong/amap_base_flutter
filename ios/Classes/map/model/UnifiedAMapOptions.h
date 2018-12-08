@@ -4,13 +4,12 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
-#import "JSONModel.h"
 
 @class LatLng;
 @class CameraPosition;
 @class AMapGeoPoint;
 
-@interface UnifiedAMapOptions : JSONModel
+@interface UnifiedAMapOptions : NSObject
 /// “高德地图”Logo的位置
 @property(nonatomic) NSInteger logoPosition;
 @property(nonatomic) BOOL zOrderOnTop;
@@ -46,7 +45,7 @@
 
 @end
 
-@interface CameraPosition : JSONModel
+@interface CameraPosition : NSObject
 /// 目标位置的屏幕中心点经纬度坐标。默认北京
 @property(nonatomic) LatLng *target;
 
@@ -62,7 +61,7 @@
 - (NSString *)description;
 @end
 
-@interface LatLng : JSONModel
+@interface LatLng : NSObject
 
 @property(nonatomic) CGFloat latitude;
 @property(nonatomic) CGFloat longitude;

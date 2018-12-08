@@ -45,6 +45,7 @@
 #import "SetMapStatusLimits.h"
 #import "SetUiSettings.h"
 #import "MapFunctionRegistry.h"
+#import "MJExtension.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
@@ -59,8 +60,7 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
 - (NSObject <FlutterPlatformView> *)createWithFrame:(CGRect)frame
                                      viewIdentifier:(int64_t)viewId
                                           arguments:(id _Nullable)args {
-    JSONModelError *error;
-    UnifiedAMapOptions *options = [[UnifiedAMapOptions alloc] initWithString:(NSString *) args error:&error];
+    UnifiedAMapOptions *options = [UnifiedAMapOptions mj_objectWithKeyValues:(NSString *) args];
 
     AMapView *view = [[AMapView alloc] initWithFrame:frame
                                              options:options
@@ -150,7 +150,7 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view {
     if ([view.annotation isKindOfClass:[MarkerAnnotation class]]) {
         MarkerAnnotation *annotation = (MarkerAnnotation *) view.annotation;
-        _sink([annotation.markerOptions toJSONString]);
+        _sink([annotation.markerOptions mj_JSONString]);
     }
 }
 

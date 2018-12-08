@@ -4,10 +4,10 @@
 
 #import <AMap3DMap/MAMapKit/MAMapView.h>
 #import "SetPosition.h"
-#import "JSONModelError.h"
 #import "UnifiedAMapOptions.h"
 #import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
+#import "MJExtension.h"
 
 
 @implementation SetPosition {
@@ -25,8 +25,7 @@
     CGFloat zoom = [paramDic[@"zoom"] floatValue];
     CGFloat tilt = [paramDic[@"tilt"] floatValue];
 
-    JSONModelError *error;
-    LatLng *position = [[LatLng alloc] initWithString:target error:&error];
+    LatLng *position = [LatLng mj_objectWithKeyValues:target];
 
     [_mapView setCenterCoordinate:[position toCLLocationCoordinate2D] animated:true];
     _mapView.zoomLevel = zoom;

@@ -17,7 +17,6 @@ A new Flutter plugin.
   s.dependency 'Flutter'
   s.dependency 'AMapNavi'
   s.dependency 'AMapSearch'
-  s.dependency 'JSONModel'
   s.dependency 'MJExtension'
 
   s.ios.deployment_target = '8.0'

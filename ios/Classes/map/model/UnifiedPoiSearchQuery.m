@@ -7,6 +7,7 @@
 #import "UnifiedSearchBound.h"
 #import "NSArray+Rx.h"
 #import "UnifiedPoiSearchQuery.h"
+#import "MJExtension.h"
 
 
 @implementation UnifiedPoiSearchQuery {
@@ -67,8 +68,8 @@
     request.requireSubPOIs = _requireSubPois;
     request.keywords = _query;
 
-    NSArray *polygonList = [_searchBound.polyGonList map:^(LatLng *location) {
-        return [location toAMapGeoPoint];
+    NSArray <AMapGeoPoint *> *polygonList = [_searchBound.polyGonList map:^(NSDictionary *location) {
+        return [[LatLng mj_objectWithKeyValues:location] toAMapGeoPoint];
     }];
     request.polygon = [AMapGeoPolygon polygonWithPoints:polygonList];
     return request;

@@ -6,6 +6,7 @@
 #import "UnifiedAMapOptions.h"
 #import "NSArray+Rx.h"
 #import "../../../../example/ios/.symlinks/plugins/amap_base/ios/Classes/map/model/UnifiedRoutePoiSearchQuery.h"
+#import "MJExtension.h"
 
 
 @implementation UnifiedRoutePoiSearchQuery {
@@ -28,8 +29,8 @@
     result.strategy = _mode;
     result.searchType = _searchType;
     result.range = _range;
-    result.polyline = [_polylines map:^(LatLng *location) {
-        return [location toAMapGeoPoint];
+    result.polyline = [_polylines map:^(NSDictionary *location) {
+        return [[LatLng mj_objectWithKeyValues:location] toAMapGeoPoint];
     }];
     return result;
 }

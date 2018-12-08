@@ -5,11 +5,11 @@
 #import <AMap3DMap/MAMapKit/MAMapView.h>
 #import "AddMarkers.h"
 #import "MarkerAnnotation.h"
-#import "JSONModelError.h"
 #import "UnifiedMarkerOptions.h"
 #import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
 #import "Misc.h"
+#import "MJExtension.h"
 
 
 @implementation AddMarkers {
@@ -36,16 +36,13 @@
     NSMutableArray<MarkerAnnotation *> *optionList = [NSMutableArray array];
 
     for (NSUInteger i = 0; i < rawOptionsList.count; ++i) {
-        JSONModelError *error;
-
-        UnifiedMarkerOptions *options = [[UnifiedMarkerOptions alloc] initWithDictionary:rawOptionsList[i] error:&error];
+        UnifiedMarkerOptions *options = [UnifiedMarkerOptions mj_objectWithKeyValues:rawOptionsList[i]];
         MarkerAnnotation *annotation = [[MarkerAnnotation alloc] init];
         annotation.coordinate = [options.position toCLLocationCoordinate2D];
         annotation.title = options.title;
         annotation.subtitle = options.snippet;
         annotation.markerOptions = options;
 
-        [Misc handlerArgumentError:error result:result];
         [optionList addObject:annotation];
     }
 

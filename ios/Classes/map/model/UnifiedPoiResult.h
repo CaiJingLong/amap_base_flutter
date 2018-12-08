@@ -4,7 +4,6 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
-#import "JSONModel.h"
 
 @class LatLng;
 @class IndoorData;
@@ -14,10 +13,6 @@
 @class SuggestionCity;
 @class PoiExtension;
 
-@protocol PoiItem;
-@protocol SuggestionCity;
-@protocol SubPoiItem;
-@protocol Photo;
 @class AMapCity;
 @class AMapPOISearchResponse;
 @class AMapPOI;
@@ -26,22 +21,22 @@
 @class AMapPOIExtension;
 @class AMapSubPOI;
 
-@interface UnifiedPoiResult : JSONModel
+@interface UnifiedPoiResult : NSObject
 
 - (instancetype)initWithPoiResult:(AMapPOISearchResponse *)result;
 
 /// 返回的POI数目
 @property NSInteger pageCount;
 /// POI结果，AMapPOI 数组
-@property(nonatomic) NSArray <PoiItem> *pois;
+@property(nonatomic) NSArray <PoiItem *> *pois;
 /// 城市建议列表
-@property(nonatomic) NSArray <SuggestionCity> *searchSuggestionCitys;
+@property(nonatomic) NSArray <SuggestionCity *> *searchSuggestionCitys;
 /// 关键字建议列表
 @property(nonatomic) NSArray<NSString *> *searchSuggestionKeywords;
 
 @end
 
-@interface PoiItem : JSONModel
+@interface PoiItem : NSObject
 
 - (instancetype)initWithAMapPOI:(AMapPOI *)aMapPOI;
 
@@ -76,7 +71,7 @@
 /// 停车场类型，地上、地下、路边
 @property(nonatomic) NSString *parkingType;
 /// 图片列表
-@property(nonatomic) NSArray <Photo> *photos;
+@property(nonatomic) NSArray <Photo *> *photos;
 /// 扩展信息 只有在ID查询时有效
 @property(nonatomic) PoiExtension *poiExtension;
 /// 邮编
@@ -90,7 +85,7 @@
 /// 地址
 @property(nonatomic) NSString *snippet;
 /// 子POI列表
-@property(nonatomic) NSArray <SubPoiItem> *subPois;
+@property(nonatomic) NSArray <SubPoiItem *> *subPois;
 /// 电话
 @property(nonatomic) NSString *tel;
 /// 名称
@@ -106,7 +101,7 @@
 
 @end
 
-@interface SuggestionCity : JSONModel
+@interface SuggestionCity : NSObject
 
 - (instancetype)initWithAMapSuggestion:(AMapCity *)suggestion;
 
@@ -123,7 +118,7 @@
 
 @end
 
-@interface SubPoiItem : JSONModel
+@interface SubPoiItem : NSObject
 
 - (instancetype)initWithSubPoi:(AMapSubPOI *)subPOI;
 
@@ -144,20 +139,20 @@
 
 @end
 
-@interface PoiExtension : JSONModel
+@interface PoiExtension : NSObject
 
 - (instancetype)initWithAMapPOIExtension:(AMapPOIExtension *)poiExtension;
 
 /// 营业时间
 @property(nonatomic) NSString *opentime;
 /// 评分
-@property NSString * rating;
+@property NSString *rating;
 /// 人均消费
 @property CGFloat cost;
 
 @end
 
-@interface Photo : JSONModel
+@interface Photo : NSObject
 
 - (instancetype)initWithAMapImage:(AMapImage *)image;
 
@@ -168,7 +163,7 @@
 
 @end
 
-@interface IndoorData : JSONModel
+@interface IndoorData : NSObject
 
 - (instancetype)initWithAMapIndoorData:(AMapIndoorData *)indoorData;
 

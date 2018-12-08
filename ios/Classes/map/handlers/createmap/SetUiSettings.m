@@ -3,11 +3,11 @@
 //
 
 #import "SetUiSettings.h"
-#import "JSONModelError.h"
 #import "UnifiedUiSettings.h"
 #import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
 #import "Misc.h"
+#import "MJExtension.h"
 
 
 @implementation SetUiSettings {
@@ -24,10 +24,7 @@
     NSString *uiSettingsJson = (NSString *) paramDic[@"uiSettings"];
 
     NSLog(@"方法setUiSettings ios端参数: uiSettingsJson -> %@", uiSettingsJson);
-    JSONModelError *error;
-    [[[UnifiedUiSettings alloc] initWithString:uiSettingsJson error:&error] applyTo:_mapView];
-
-    [Misc handlerArgumentError:error result:result];
+    [[UnifiedUiSettings mj_objectWithKeyValues:uiSettingsJson] applyTo:_mapView];
 
     result(success);
 

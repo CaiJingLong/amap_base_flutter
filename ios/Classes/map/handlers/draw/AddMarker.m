@@ -2,7 +2,6 @@
 // Created by Yohom Bao on 2018-12-07.
 //
 
-#import <JSONModel/JSONModelError.h>
 #import <AMap3DMap/MAMapKit/MAMapView.h>
 #import "AddMarker.h"
 #import "UnifiedMarkerOptions.h"
@@ -10,6 +9,7 @@
 #import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
 #import "Misc.h"
+#import "MJExtension.h"
 
 
 @implementation AddMarker {
@@ -26,9 +26,7 @@
     NSString *optionsJson = (NSString *) paramDic[@"markerOptions"];
 
     NSLog(@"方法marker#addMarker ios端参数: optionsJson -> %@", optionsJson);
-    JSONModelError *error;
-    UnifiedMarkerOptions *markerOptions = [[UnifiedMarkerOptions alloc] initWithString:optionsJson error:&error];
-    [Misc handlerArgumentError:error result:result];
+    UnifiedMarkerOptions *markerOptions = [UnifiedMarkerOptions mj_objectWithKeyValues:optionsJson];
 
     MarkerAnnotation *annotation = [[MarkerAnnotation alloc] init];
     annotation.coordinate = [markerOptions.position toCLLocationCoordinate2D];

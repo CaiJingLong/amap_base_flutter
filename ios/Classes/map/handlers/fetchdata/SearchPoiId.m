@@ -3,10 +3,9 @@
 //
 
 #import "SearchPoiId.h"
-#import "JSONModelError.h"
-#import "UnifiedPoiSearchQuery.h"
 #import "UnifiedPoiResult.h"
 #import "Misc.h"
+#import "MJExtension.h"
 
 
 @implementation SearchPoiId {
@@ -44,7 +43,7 @@
 /// poi搜索回调
 - (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response {
     NSLog(@"poi搜索回调");
-    _result([[[UnifiedPoiResult alloc] initWithPoiResult:response] toJSONString]);
+    _result([[[UnifiedPoiResult alloc] initWithPoiResult:response] mj_JSONString]);
 }
 
 /// 搜索失败回调

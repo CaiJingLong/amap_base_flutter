@@ -3,10 +3,10 @@
 //
 
 #import "SearchRoutePoiPolygon.h"
-#import "JSONModelError.h"
 #import "UnifiedRoutePoiSearchQuery.h"
 #import "UnifiedRoutePOISearchResult.h"
 #import "Misc.h"
+#import "MJExtension.h"
 
 
 @implementation SearchRoutePoiPolygon {
@@ -37,15 +37,7 @@
 
     NSLog(@"方法map#searchRoutePoiLine ios端参数: query -> %@", query);
 
-    JSONModelError *error;
-    UnifiedRoutePoiSearchQuery *request = [[UnifiedRoutePoiSearchQuery alloc] initWithString:query error:&error];
-    [Misc handlerArgumentError:error result:result];
-
-    if (error) {
-        _result([FlutterError errorWithCode:[NSString stringWithFormat:@"%d", error.code]
-                                    message:error.domain
-                                    details:nil]);
-    }
+    UnifiedRoutePoiSearchQuery *request = [UnifiedRoutePoiSearchQuery mj_objectWithKeyValues:query];
 
     [_search AMapRoutePOISearch:[request toAMapRoutePOISearchRequestPolygon]];
 }
@@ -53,7 +45,7 @@
 /// 沿途搜索回调
 - (void)onRoutePOISearchDone:(AMapRoutePOISearchRequest *)request response:(AMapRoutePOISearchResponse *)response {
     NSLog(@"poi搜索回调");
-    _result([[[UnifiedRoutePOISearchResult alloc] initWithAMapRoutePOISearchResponse:response] toJSONString]);
+    _result([[[UnifiedRoutePOISearchResult alloc] initWithAMapRoutePOISearchResponse:response] mj_JSONString]);
 }
 
 /// 搜索失败回调

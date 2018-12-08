@@ -2,7 +2,6 @@
 // Created by Yohom Bao on 2018-12-07.
 //
 
-#import <JSONModel/JSONModelError.h>
 #import <AMapSearch/AMapSearchKit/AMapSearchObj.h>
 #import <AMapSearch/AMapSearchKit/AMapSearchAPI.h>
 #import <AMap3DMap/MAMapKit/MAMapView.h>
@@ -14,6 +13,7 @@
 #import "MANaviRoute.h"
 #import "Misc.h"
 #import "AMapViewFactory.h"
+#import "MJExtension.h"
 
 
 @implementation CalculateDriveRoute {
@@ -41,9 +41,8 @@
     NSString *routePlanParamJson = (NSString *) paramDic[@"routePlanParam"];
 
     NSLog(@"方法calculateDriveRoute ios端参数: routePlanParamJson -> %@", routePlanParamJson);
-    JSONModelError *error;
-    _routePlanParam = [[RoutePlanParam alloc] initWithString:routePlanParamJson error:&error];
-    NSLog(@"JSONModelError: %@", error.description);
+
+    _routePlanParam = [RoutePlanParam mj_objectWithKeyValues:routePlanParamJson];
 
     // 路线请求参数构造
     AMapDrivingRouteSearchRequest *routeQuery = [[AMapDrivingRouteSearchRequest alloc] init];

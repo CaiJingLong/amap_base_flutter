@@ -3,10 +3,10 @@
 //
 
 #import "SearchPoiBound.h"
-#import "JSONModelError.h"
 #import "UnifiedPoiSearchQuery.h"
 #import "UnifiedPoiResult.h"
 #import "Misc.h"
+#import "MJExtension.h"
 
 
 @implementation SearchPoiBound {
@@ -33,9 +33,7 @@
 
     NSLog(@"方法map#searchPoiBound ios端参数: query -> %@", query);
 
-    JSONModelError *error;
-    UnifiedPoiSearchQuery *request = [[UnifiedPoiSearchQuery alloc] initWithString:query error:&error];
-    [Misc handlerArgumentError:error result:result];
+    UnifiedPoiSearchQuery *request = [UnifiedPoiSearchQuery mj_objectWithKeyValues:query];
 
     [_search AMapPOIAroundSearch:[request toAMapPOIAroundSearchRequest]];
 }
@@ -43,7 +41,7 @@
 /// poi搜索回调
 - (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response {
     NSLog(@"poi搜索回调");
-    _result([[[UnifiedPoiResult alloc] initWithPoiResult:response] toJSONString]);
+    _result([[[UnifiedPoiResult alloc] initWithPoiResult:response] mj_JSONString]);
 }
 
 /// 搜索失败回调

@@ -8,8 +8,6 @@
 
 #import <Flutter/Flutter.h>
 #import "Misc.h"
-#import "JSONModelError.h"
-//#import "LineDashPolyline.h"
 
 @implementation Misc
 
@@ -213,15 +211,6 @@
     }
 
     return MAMetersBetweenMapPoints(p, MAMapPointMake(xx, yy));
-}
-
-+ (void)handlerArgumentError:(JSONModelError *)error result:(FlutterResult)result {
-    NSLog(@"JSONModelError: %@", error.description);
-    if (error) {
-        result([FlutterError errorWithCode:[NSString stringWithFormat:@"%d", error.code]
-                                   message:error.domain
-                                   details:nil]);
-    }
 }
 
 + (NSString *)toAMapErrorDesc:(NSInteger)errorCode {
