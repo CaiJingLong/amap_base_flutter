@@ -50,6 +50,7 @@
 - (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error {
     NSLog(@"搜索失败回调");
     _result([FlutterError errorWithCode:[NSString stringWithFormat:@"%d", error.code]
-                                message:error.domain
-                                details:nil]);}
+                                message:[Misc toAMapErrorDesc:error.code]
+                                details:nil]);
+}
 @end

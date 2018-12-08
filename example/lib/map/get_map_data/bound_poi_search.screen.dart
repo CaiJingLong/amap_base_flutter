@@ -102,10 +102,11 @@ class _BoundPoiSearchScreenState extends State<BoundPoiSearchScreen> {
                       _controller.searchPoiBound(
                         PoiSearchQuery(
                           query: _keywordController.text,
+                          location: LatLng(39.909604, 116.397228), // iOS必须
                           searchBound: SearchBound(
                             center: LatLng(39.909604, 116.397228),
                             range: int.parse(_rangeController.text),
-                          ),
+                          ), // Android必须
                         ),
                       ),
                     ).then((poiResult) {
@@ -114,7 +115,7 @@ class _BoundPoiSearchScreenState extends State<BoundPoiSearchScreen> {
                           .toList()
                           .map((position) => MarkerOptions(position: position))
                           .toList());
-                    }).catchError((e) => showError(context, e));
+                    }).catchError((e) => showError(context, e.toString()));
                   },
                 ),
               ],

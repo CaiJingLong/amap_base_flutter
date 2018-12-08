@@ -32,13 +32,13 @@ class PoiSearchQuery {
   /// 是否按照距离排序 [Android, iOS]
   final bool distanceSort;
 
-  /// 设置的经纬度 [Android, iOS]
+  /// 设置的经纬度 [iOS]
   final LatLng location;
 
-  /// 设置的经纬度 [iOS]
+  /// 是否需要扩展信息 [iOS]
   final bool requireExtension;
 
-  /// 搜索边界, 周边搜索用 [Android, iOS]
+  /// 搜索边界, 周边搜索用 [Android]
   final SearchBound searchBound;
 
   PoiSearchQuery({
