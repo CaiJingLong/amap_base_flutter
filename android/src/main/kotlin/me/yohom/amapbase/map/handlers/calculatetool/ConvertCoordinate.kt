@@ -6,8 +6,8 @@ import com.amap.api.maps.model.LatLng
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import me.yohom.amapbase.AMapBasePlugin.Companion.registrar
-import me.yohom.amapbase.map.MapMethodHandler
 import me.yohom.amapbase.common.toJson
+import me.yohom.amapbase.map.MapMethodHandler
 
 private val types = arrayListOf(
         CoordinateConverter.CoordType.GPS,
@@ -31,13 +31,12 @@ object ConvertCoordinate : MapMethodHandler {
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         val lat = call.argument<Double>("lat")!!
         val lon = call.argument<Double>("lon")!!
-        val intType = call.argument<Int>("type")!!
-        val type = types[intType]
-        val convertedLatLng = CoordinateConverter(registrar.context())
-                .from(type)
+        val typeIndex = call.argument<Int>("type")!!
+        val amapCoordinate = CoordinateConverter(registrar.context())
+                .from(types[typeIndex])
                 .coord(LatLng(lat, lon, false))
                 .convert()
 
-        result.success(convertedLatLng.toJson())
+        result.success(amapCoordinate.toJson())
     }
 }

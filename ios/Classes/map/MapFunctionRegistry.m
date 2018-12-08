@@ -24,6 +24,7 @@
 #import "SetZoomLevel.h"
 #import "SetPosition.h"
 #import "SetMapStatusLimits.h"
+#import "ConvertCoordinate.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_map;
 
@@ -52,6 +53,7 @@ static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_map;
                 @"map#setZoomLevel": [SetZoomLevel alloc],
                 @"map#setPosition": [SetPosition alloc],
                 @"map#setMapStatusLimits": [SetMapStatusLimits alloc],
+                @"tool#convertCoordinate": [ConvertCoordinate alloc],
         };
     }
     return _map;

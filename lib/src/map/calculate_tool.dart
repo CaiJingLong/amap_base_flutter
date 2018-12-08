@@ -34,7 +34,7 @@ class CalculateTools {
       return null;
     }
 
-    return LatLng.fromJson(json.decode(result));
+    return LatLng.fromJson(jsonDecode(result));
   }
 }
 
