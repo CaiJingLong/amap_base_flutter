@@ -44,11 +44,10 @@
 #import "SetPosition.h"
 #import "SetMapStatusLimits.h"
 #import "SetUiSettings.h"
+#import "MapFunctionRegistry.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
-
-NSDictionary<NSString *, NSObject <MapMethodHandler> *> *MAP_METHOD_HANDLER;
 
 @implementation AMapViewFactory {
 }
@@ -60,28 +59,6 @@ NSDictionary<NSString *, NSObject <MapMethodHandler> *> *MAP_METHOD_HANDLER;
 - (NSObject <FlutterPlatformView> *)createWithFrame:(CGRect)frame
                                      viewIdentifier:(int64_t)viewId
                                           arguments:(id _Nullable)args {
-    MAP_METHOD_HANDLER = @{
-            @"map#clear": [ClearMap alloc],
-            @"map#setMyLocationStyle": [SetMyLocationStyle alloc],
-            @"map#setUiSettings": [SetUiSettings alloc],
-            @"map#calculateDriveRoute": [CalculateDriveRoute alloc],
-            @"marker#addMarker": [AddMarker alloc],
-            @"marker#addMarkers": [AddMarkers alloc],
-            @"map#showIndoorMap": [ShowIndoorMap alloc],
-            @"map#setMapType": [SetMapType alloc],
-            @"map#setLanguage": [SetLanguage alloc],
-            @"map#searchPoi": [SearchPoi alloc],
-            @"map#searchPoiBound": [SearchPoiBound alloc],
-            @"map#searchPoiPolygon": [SearchPoiPolygon alloc],
-            @"map#searchPoiId": [SearchPoiId alloc],
-            @"map#searchRoutePoiLine": [SearchRoutePoiLine alloc],
-            @"map#searchRoutePoiPolygon": [SearchRoutePoiPolygon alloc],
-            @"marker#clear": [ClearMarker alloc],
-            @"map#setZoomLevel": [SetZoomLevel alloc],
-            @"map#setPosition": [SetPosition alloc],
-            @"map#setMapStatusLimits": [SetMapStatusLimits alloc],
-    };
-
     JSONModelError *error;
     UnifiedAMapOptions *options = [[UnifiedAMapOptions alloc] initWithString:(NSString *) args error:&error];
 
@@ -153,7 +130,7 @@ NSDictionary<NSString *, NSObject <MapMethodHandler> *> *MAP_METHOD_HANDLER;
     _methodChannel = [FlutterMethodChannel methodChannelWithName:[NSString stringWithFormat:@"%@%lld", mapChannelName, _viewId]
                                                  binaryMessenger:[AMapBasePlugin registrar].messenger];
     [_methodChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
-        NSObject <MapMethodHandler> *handler = MAP_METHOD_HANDLER[call.method];
+        NSObject <MapMethodHandler> *handler = MapFunctionRegistry.mapMethodHandler[call.method];
         if (handler) {
             [[handler initWith:_mapView] onMethodCall:call :result];
         } else {

@@ -16,53 +16,15 @@ import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
 import me.yohom.amapbase.*
 import me.yohom.amapbase.AMapBasePlugin.Companion.registrar
-import me.yohom.amapbase.map.handlers.calculatetool.ConvertCoordinate
-import me.yohom.amapbase.map.handlers.createmap.*
-import me.yohom.amapbase.map.handlers.draw.AddMarker
-import me.yohom.amapbase.map.handlers.draw.AddMarkers
-import me.yohom.amapbase.map.handlers.draw.ClearMarker
-import me.yohom.amapbase.map.handlers.fetchdata.*
-import me.yohom.amapbase.map.handlers.interact.SetMapStatusLimits
-import me.yohom.amapbase.map.handlers.interact.SetPosition
-import me.yohom.amapbase.map.handlers.interact.SetZoomLevel
-import me.yohom.amapbase.map.handlers.routeplan.CalculateDriveRoute
-import me.yohom.amapbase.map.model.UnifiedAMapOptions
-import me.yohom.amapbase.map.model.UnifiedMarkerOptions
 import me.yohom.amapbase.common.checkPermission
 import me.yohom.amapbase.common.toJson
+import me.yohom.amapbase.map.model.UnifiedAMapOptions
+import me.yohom.amapbase.map.model.UnifiedMarkerOptions
 import java.util.concurrent.atomic.AtomicInteger
 
 const val mapChannelName = "me.yohom/map"
-const val toolChannelName = "me.yohom/tool"
 const val markerClickedChannelName = "me.yohom/marker_clicked"
 const val success = "调用成功"
-
-val MAP_METHOD_HANDLER: Map<String, MapMethodHandler> = mapOf(
-        "map#setMyLocationStyle" to SetMyLocationStyle,
-        "map#setUiSettings" to SetUiSettings,
-        "map#calculateDriveRoute" to CalculateDriveRoute,
-        "marker#addMarker" to AddMarker,
-        "marker#addMarkers" to AddMarkers,
-        "marker#clear" to ClearMarker,
-        "map#showIndoorMap" to ShowIndoorMap,
-        "map#setMapType" to SetMapType,
-        "map#setLanguage" to SetLanguage,
-        "map#clear" to ClearMap,
-        "map#searchPoi" to SearchPoi,
-        "map#searchPoiBound" to SearchPoiBound,
-        "map#searchPoiPolygon" to SearchPoiPolygon,
-        "map#searchPoiId" to SearchPoiId,
-        "map#searchRoutePoiLine" to SearchRoutePoiLine,
-        "map#searchRoutePoiPolygon" to SearchRoutePoiPolygon,
-        "map#setZoomLevel" to SetZoomLevel,
-        "map#setPosition" to SetPosition,
-        "map#setMapStatusLimits" to SetMapStatusLimits,
-        "tool#convertCoordinate" to ConvertCoordinate
-)
-
-val TOOL_METHOD_HANDLER: Map<String, MapMethodHandler> = mapOf(
-        "tool#convertCoordinate" to ConvertCoordinate
-)
 
 class AMapFactory(private val activityState: AtomicInteger)
     : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
@@ -128,15 +90,7 @@ class AMapView(context: Context,
                     ?.onMethodCall(call, result) ?: result.notImplemented()
         }
 
-        // 高德工具相关method channel
-        val toolChannel = MethodChannel(registrar.messenger(), toolChannelName)
-        toolChannel.setMethodCallHandler { call, result ->
-            TOOL_METHOD_HANDLER[call.method]
-                    ?.with(mapView.map)
-                    ?.onMethodCall(call, result) ?: result.notImplemented()
-        }
-
-        // 设置marker click event channel
+        // marker click event channel
         var eventSink: EventChannel.EventSink? = null
         val markerClickedEventChannel = EventChannel(registrar.messenger(), "$markerClickedChannelName$id")
         markerClickedEventChannel.setStreamHandler(object : EventChannel.StreamHandler {
