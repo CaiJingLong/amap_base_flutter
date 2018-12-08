@@ -42,4 +42,6 @@
 
 + (void)handlerArgumentError:(JSONModelError *)error result:(FlutterResult)result;
 
++(NSString* ) toAMapErrorDesc:(NSInteger) errorCode;
+
 @end
