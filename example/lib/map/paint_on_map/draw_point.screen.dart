@@ -1,4 +1,6 @@
 import 'package:amap_base/amap_base.dart';
+import 'package:amap_base_example/utils/misc.dart';
+import 'package:amap_base_example/utils/view.dart';
 import 'package:flutter/material.dart';
 
 const markerList = const [
@@ -35,15 +37,18 @@ class DrawPointScreenState extends State<DrawPointScreen> {
         onAMapViewCreated: (controller) {
           _controller = controller;
           _controller.markerClickedEvent.listen(print);
-          controller.addMarkers(
-            markerList
-                .map((latLng) => MarkerOptions(
-                      position: latLng,
-                      title: '哈哈',
-                      snippet: '呵呵',
-                    ))
-                .toList(),
-          );
+          loading(
+            context,
+            controller.addMarkers(
+              markerList
+                  .map((latLng) => MarkerOptions(
+                        position: latLng,
+                        title: '哈哈',
+                        snippet: '呵呵',
+                      ))
+                  .toList(),
+            ),
+          ).catchError((e) => showError(context, e.toString()));
         },
         amapOptions: AMapOptions(),
       ),
