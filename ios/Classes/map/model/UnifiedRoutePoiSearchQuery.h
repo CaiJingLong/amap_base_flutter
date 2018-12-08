@@ -3,22 +3,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JSONModel.h"
 
-@protocol LatLng;
 @class LatLng;
 @class AMapRoutePOISearchRequest;
 
-@interface UnifiedRoutePoiSearchQuery : JSONModel
+@interface UnifiedRoutePoiSearchQuery : NSObject
 @property(nonatomic) LatLng *from;
 @property(nonatomic) LatLng *to;
 @property(nonatomic) NSInteger mode;
 @property(nonatomic) NSInteger searchType;
 @property(nonatomic) NSInteger range;
-@property(nonatomic) NSArray <LatLng, Optional> *polylines;
+@property(nonatomic) NSArray <LatLng *> *polylines;
 
-- (AMapRoutePOISearchRequest*)toAMapRoutePOISearchRequestLine;
+- (AMapRoutePOISearchRequest *)toAMapRoutePOISearchRequestLine;
 
-- (AMapRoutePOISearchRequest*)toAMapRoutePOISearchRequestPolygon;
+- (AMapRoutePOISearchRequest *)toAMapRoutePOISearchRequestPolygon;
 
 @end

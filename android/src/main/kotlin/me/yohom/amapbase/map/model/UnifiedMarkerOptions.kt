@@ -5,7 +5,7 @@ import com.amap.api.maps.CameraUpdateFactory
 import com.amap.api.maps.model.LatLng
 import com.amap.api.maps.model.LatLngBounds
 import com.amap.api.maps.model.MarkerOptions
-import me.yohom.amapbase.utils.UnifiedAssets
+import me.yohom.amapbase.common.UnifiedAssets
 import java.util.*
 
 class UnifiedMarkerOptions(

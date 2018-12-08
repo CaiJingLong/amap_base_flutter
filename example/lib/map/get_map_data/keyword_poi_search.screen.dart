@@ -1,5 +1,6 @@
 import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/utils/misc.dart';
+import 'package:amap_base_example/utils/view.dart';
 import 'package:amap_base_example/widgets/button.widget.dart';
 import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +91,7 @@ class _KeywordPoiSearchScreenState extends State<KeywordPoiSearchScreen> {
                           .toList()
                           .map((position) => MarkerOptions(position: position))
                           .toList());
-                    });
+                    }).catchError((e) => showError(context, e));
                   },
                 ),
               ],

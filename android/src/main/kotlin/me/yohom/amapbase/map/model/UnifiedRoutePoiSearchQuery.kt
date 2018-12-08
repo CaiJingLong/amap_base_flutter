@@ -4,7 +4,7 @@ import android.content.Context
 import com.amap.api.maps.model.LatLng
 import com.amap.api.services.routepoisearch.RoutePOISearch
 import com.amap.api.services.routepoisearch.RoutePOISearchQuery
-import me.yohom.amapbase.utils.toLatLonPoint
+import me.yohom.amapbase.common.toLatLonPoint
 
 class UnifiedRoutePoiSearchQuery(
         private val from: LatLng,

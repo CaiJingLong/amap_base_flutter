@@ -3,7 +3,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JSONModel.h"
 
 @class AMapPOIKeywordsSearchRequest;
 
@@ -11,16 +10,16 @@
 @class UnifiedSearchBound;
 
 /// 搜索请求参数 Android是合并在一个类里的, iOS分裂成了多个类, 在这里也并在一起, 然后提供各自的生成方法
-@interface UnifiedPoiSearchQuery : JSONModel
+@interface UnifiedPoiSearchQuery : NSObject
 
 /// 查询字符串，多个关键字用“|”分割
 @property(nonatomic) NSString *query;
 
 /// 待查询建筑物的标识
-@property(nonatomic) NSString <Optional> *building;
+@property(nonatomic) NSString *building;
 
 /// 待查分类组合
-@property(nonatomic) NSString <Optional> *category;
+@property(nonatomic) NSString *category;
 
 /// 待查城市（地区）的电话区号
 @property(nonatomic) NSString *city;
@@ -44,10 +43,10 @@
 @property(nonatomic) BOOL distanceSort;
 
 /// 设置的经纬度
-@property(nonatomic) LatLng <Optional> *location;
+@property(nonatomic) LatLng *location;
 
 /// 搜索边界
-@property(nonatomic) UnifiedSearchBound <Optional> *searchBound;
+@property(nonatomic) UnifiedSearchBound *searchBound;
 
 /// 转换为关键字搜索对象
 - (AMapPOIKeywordsSearchRequest *)toAMapPOIKeywordsSearchRequest;

@@ -6,8 +6,8 @@ import android.os.Bundle
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import me.yohom.amapbase.map.AMapFactory
+import me.yohom.amapbase.map.MAP_METHOD_HANDLER
 import me.yohom.amapbase.navi.setupNaviChannel
-import me.yohom.amapbase.tools.setupToolsChannel
 import java.util.concurrent.atomic.AtomicInteger
 
 private const val setKey = "setKey"
@@ -18,7 +18,7 @@ const val STOPPED = 5
 const val DESTROYED = 6
 
 class AMapBasePlugin {
-    companion object: Application.ActivityLifecycleCallbacks {
+    companion object : Application.ActivityLifecycleCallbacks {
 
         lateinit var registrar: Registrar
         private var registrarActivityHashCode: Int = 0
@@ -34,17 +34,23 @@ class AMapBasePlugin {
             registrar.activity().application.registerActivityLifecycleCallbacks(this)
 
             // 设置key channel
-            MethodChannel(registrar.messenger(), "me.yohom/amap_base").setMethodCallHandler { methodCall, result ->
-                when (methodCall.method) {
-                    setKey -> result.success("android端需要在Manifest里配置key")
-                    else -> result.notImplemented()
-                }
-            }
+            MethodChannel(registrar.messenger(), "me.yohom/amap_base")
+                    .setMethodCallHandler { methodCall, result ->
+                        when (methodCall.method) {
+                            setKey -> result.success("android端需要在Manifest里配置key")
+                            else -> result.notImplemented()
+                        }
+                    }
+
+            // 地图计算工具相关method channel
+            MethodChannel(Companion.registrar.messenger(), "me.yohom/tool")
+                    .setMethodCallHandler { call, result ->
+                        MAP_METHOD_HANDLER[call.method]
+                                ?.onMethodCall(call, result) ?: result.notImplemented()
+                    }
 
             // 导航相关插件
             registrar.setupNaviChannel()
-
-            registrar.setupToolsChannel()
 
             // MapView
             registrar

@@ -3,12 +3,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JSONModel.h"
 
 @class LatLng;
 
 
-@interface RoutePlanParam : JSONModel
+@interface RoutePlanParam : NSObject
 
 /// 起点
 @property(nonatomic) LatLng *from;
@@ -20,13 +19,13 @@
 @property(nonatomic) NSInteger mode;
 
 /// 途经点，可选
-@property(nonatomic) NSArray<LatLng *> <Optional> *passedByPoints;
+@property(nonatomic) NSArray<LatLng *> *passedByPoints;
 
 /// 避让区域，可选，支持32个避让区域，每个区域最多可有16个顶点。如果是四边形则有4个坐标点，如果是五边形则有5个坐标点
-@property(nonatomic) NSArray<NSArray<LatLng *> *> <Optional> *avoidPolygons;
+@property(nonatomic) NSArray<NSArray<LatLng *> *> *avoidPolygons;
 
 /// 避让道路，只支持一条避让道路，避让区域和避让道路同时设置，只有避让道路生效
-@property(nonatomic) NSString <Optional> *avoidRoad;
+@property(nonatomic) NSString *avoidRoad;
 
 - (NSString *)description;
 

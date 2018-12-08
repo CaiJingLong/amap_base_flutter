@@ -6,7 +6,6 @@
 
 @class LatLng;
 
-
 @interface UnifiedSearchBound : NSObject
 
 /// 左下
@@ -22,6 +21,6 @@
 /// 按距离排序
 @property(nonatomic) BOOL isDistanceSort;
 /// 多边形的顶点坐标
-@property(nonatomic) NSArray<LatLng *> *polyGonList;
+@property(nonatomic) NSArray <LatLng *> *polyGonList;
 
 @end

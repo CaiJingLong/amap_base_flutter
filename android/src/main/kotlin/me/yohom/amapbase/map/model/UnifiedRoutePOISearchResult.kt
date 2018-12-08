@@ -4,7 +4,7 @@ import com.amap.api.maps.model.LatLng
 import com.amap.api.services.routepoisearch.RoutePOIItem
 import com.amap.api.services.routepoisearch.RoutePOISearchQuery
 import com.amap.api.services.routepoisearch.RoutePOISearchResult
-import me.yohom.amapbase.utils.toLatLng
+import me.yohom.amapbase.common.toLatLng
 
 class UnifiedRoutePOISearchResult(routePOISearchResult: RoutePOISearchResult) {
     private val routePoiList: List<UnifiedRoutePOIItem> = routePOISearchResult.routePois?.map { UnifiedRoutePOIItem(it) }

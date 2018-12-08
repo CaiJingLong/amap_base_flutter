@@ -2,7 +2,8 @@
 #import "AMapSearchKit.h"
 #import "NSObject+Navi.h"
 #import "AMapViewFactory.h"
-#import "NSObject+NSObject_Tools.h"
+#import "MapMethodHandler.h"
+#import "MapFunctionRegistry.h"
 
 static NSObject <FlutterPluginRegistrar> *_registrar;
 
@@ -12,11 +13,11 @@ static NSObject <FlutterPluginRegistrar> *_registrar;
     [AMapServices sharedServices].enableHTTPS = YES;
     _registrar = registrar;
 
-    FlutterMethodChannel *naviChannel = [FlutterMethodChannel
+    FlutterMethodChannel *setKeyChannel = [FlutterMethodChannel
             methodChannelWithName:@"me.yohom/amap_base"
                   binaryMessenger:[registrar messenger]];
 
-    [naviChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
+    [setKeyChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
         if ([@"setKey" isEqualToString:call.method]) {
             NSString *key = call.arguments[@"key"];
             [AMapServices sharedServices].apiKey = key;
@@ -26,8 +27,20 @@ static NSObject <FlutterPluginRegistrar> *_registrar;
         }
     }];
 
+    FlutterMethodChannel *toolChannel = [FlutterMethodChannel
+            methodChannelWithName:@"me.yohom/tool"
+                  binaryMessenger:[registrar messenger]];
+
+    [toolChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
+        NSObject <MapMethodHandler> *handler = [MapFunctionRegistry mapMethodHandler][call.method];
+        if (handler) {
+            [[handler init] onMethodCall:call :result];
+        } else {
+            result(FlutterMethodNotImplemented);
+        }
+    }];
+
     [_registrar setupNaviChannel];
-    [_registrar setupToolsChannel];
 
     [_registrar registerViewFactory:[[AMapViewFactory alloc] init]
                              withId:@"me.yohom/AMapView"];

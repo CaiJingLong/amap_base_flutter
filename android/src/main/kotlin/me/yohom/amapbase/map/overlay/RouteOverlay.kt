@@ -5,7 +5,7 @@ import android.graphics.Color
 import com.amap.api.maps.AMap
 import com.amap.api.maps.CameraUpdateFactory
 import com.amap.api.maps.model.*
-import me.yohom.amapbase.utils.UnifiedAssets
+import me.yohom.amapbase.common.UnifiedAssets
 
 open class RouteOverlay(val map: AMap,
                         val from: LatLng,

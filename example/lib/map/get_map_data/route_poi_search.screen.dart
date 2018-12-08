@@ -1,5 +1,6 @@
 import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/utils/misc.dart';
+import 'package:amap_base_example/utils/view.dart';
 import 'package:amap_base_example/widgets/button.widget.dart';
 import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,7 @@ class _RoutePoiSearchScreenState extends State<RoutePoiSearchScreen> {
                         RoutePoiSearchQuery.line(
                           from: LatLng(39.993291, 116.473188),
                           to: LatLng(39.940474, 116.355426),
+                          searchType: 0,
                         ),
                       ),
                     ).then((routePoiResult) {
@@ -69,7 +71,7 @@ class _RoutePoiSearchScreenState extends State<RoutePoiSearchScreen> {
                             .map((it) => MarkerOptions(position: it.point))
                             .toList(),
                       );
-                    });
+                    }).catchError((e) => showError(context, e));
                   },
                 ),
               ],

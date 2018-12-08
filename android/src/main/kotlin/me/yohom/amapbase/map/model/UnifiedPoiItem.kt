@@ -2,7 +2,7 @@ package me.yohom.amapbase.map.model
 
 import com.amap.api.maps.model.LatLng
 import com.amap.api.services.core.PoiItem
-import me.yohom.amapbase.utils.toLatLng
+import me.yohom.amapbase.common.toLatLng
 
 class UnifiedPoiItem(poiItem: PoiItem) {
     val businessArea: String? = poiItem.businessArea

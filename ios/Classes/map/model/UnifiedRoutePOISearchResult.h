@@ -3,22 +3,23 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JSONModel.h"@class AMapRoutePOISearchResponse;
+
+@class AMapRoutePOISearchResponse;
 
 @class UnifiedRoutePOIItem;
 @class LatLng;
 @class AMapPOI;
 
 
-@interface UnifiedRoutePOISearchResult : JSONModel
+@interface UnifiedRoutePOISearchResult : NSObject
 
 - (instancetype)initWithAMapRoutePOISearchResponse:(AMapRoutePOISearchResponse *)result;
 
-@property(nonatomic) NSArray <UnifiedRoutePOIItem *> *routePoiList;
+@property(nonatomic) NSArray <UnifiedRoutePOIItem*> *routePoiList;
 @property(nonatomic) NSString *query;
 @end
 
-@interface UnifiedRoutePOIItem : JSONModel
+@interface UnifiedRoutePOIItem : NSObject
 
 - (instancetype)initWithAMapPOI:(AMapPOI *)aMapPOI;
 

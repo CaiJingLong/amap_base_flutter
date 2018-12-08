@@ -3,12 +3,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <JSONModel/JSONModel.h>
 
 @class MAUserLocationRepresentation;
 @class MAMapView;
 
-@interface UnifiedMyLocationStyle : JSONModel
+@interface UnifiedMyLocationStyle: NSObject
 
 /// 圆形区域（以定位位置为圆心，定位半径的圆形区域）的填充颜色值
 @property(nonatomic) NSString *radiusFillColor;
@@ -38,7 +37,7 @@
 @property(nonatomic) BOOL enablePulseAnnimation;
 
 /// 定位图标, 与蓝色原点互斥
-@property(nonatomic) NSString<Optional> *image;
+@property(nonatomic) NSString *image;
 
 - (NSString *)description;
 

@@ -1,6 +1,8 @@
 # 高德地图Flutter插件 基于AndroidView和UiKitView
 
-[![pub package](https://img.shields.io/pub/v/amap_base.svg)](https://pub.flutter-io.cn/packages/amap_base)
+[![pub package](https://img.shields.io/pub/v/amap_base.svg)](https://pub.Flutter-io.cn/packages/amap_base)
+
+[TOC]
 
 ## 安装
 在你的`pubspec.yaml`文件的dependencies节点下添加:
@@ -11,7 +13,7 @@ amap_base: x.x.x
 ```
 amap_base:
   git:
-    url: https://github.com/yohom/amap_base_flutter.git
+    url: https://github.com/yohom/amap_base_Flutter.git
     ref: 0.0.1/branch/commit
 ```
 导入:
@@ -31,7 +33,7 @@ iOS端设置key:
 ```
 AMap.setKey('您的key'); // 这个方法在Android端无效
 ```
-iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要手动打开开关, 在info.plist文件中新增一行`io.flutter.embedded_views_preview`为`true`. 参考[iOS view embedding support has landed on master](https://github.com/flutter/flutter/issues/19030#issuecomment-437534853)
+iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要手动打开开关, 在info.plist文件中新增一行`io.Flutter.embedded_views_preview`为`true`. 参考[iOS view embedding support has landed on master](https://github.com/Flutter/Flutter/issues/19030#issuecomment-437534853)
 
 ## 关于高德的Android SDK和iOS SDK
 - 由于Android和iOS端的实现完全不一样, Android端照抄了Google Map的api设计, 而iOS
@@ -41,11 +43,38 @@ iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要�
 - ~~目前主分支的计划是实现全功能的高德地图, 然后开单独的分支实现高德的单独的功能, 这样包会小一点.~~
 - 这个库依赖了高德导航库(包含了3dMap库), 以及搜索库.
 
+## 关于项目结构
+项目结构按照高德官方网站的[开发指南](https://lbs.amap.com/api/android-sdk/guide/create-project/get-key)组织. 分为`地图`, `定位`, `导航`三大块.
+- me.yohom.amapbase
+    - `AMapBasePlugin`: Flutter插件类
+    - common: 通用代码
+    - map: 地图功能模块
+        - handlers: 单个功能的**处理委托对象**
+            - calculatetool: `地图计算工具`
+            - createmap: `创建地图`
+            - draw: `在地图上绘制`
+            - fetchdata: `获取地图数据`
+            - interact: `与地图交互`
+            - routeplan: `出行路线规划`
+        - model: 地图数据的模型
+        - overlay: 覆盖物
+        - `AMapFactory`: AMapView工厂, Flutter的platform view需要
+        - `MapFunctionRegistry`: 地图功能登记处, 所有功能都需要在此处注册.
+        - `MapMethodHandler`: **处理委托对象**接口.
+    - navi: 导航功能模块(未实现)
+    - location: 定位功能模块(未实现)
+
+## 关于贡献代码
+1. 在`handlers`包下找到要实现的功能模块包, 比如说要实现[显示地图](https://lbs.amap.com/api/android-sdk/guide/create-map/show-map), 那么先找到`me.yohom.amapbase/map/handlers/createmap`包, 然后在该包下创建新的实现`MapMethodHandler`接口的委托类.
+2. 实现功能后, 在`MapFunctionRegistry`类中注册功能.
+3. 在dart增加对应的方法.
+4. 新功能的开发就完成了.
+
 ## FAQ:
-1. 定位到非洲去了
+1. 为什么定位到非洲去了?
 - 实际上是定位在了经纬度(0, 0)的位置了, 那个位置大致在非洲西部的几内亚湾, 原因是key
 设置错了, 建议检查一下key的设置.
-2. Android用flutter编译失败, 但是直接用Android SDK编译成功
+2. 为什么Android端用Flutter运行后奔溃, 但是直接用Android SDK运行成功?
 - 指定项目的编译选项`Additional arguments`增加`--target-platform android-arm`.从![screen shot 2018-12-06 at 09 36 20](https://user-images.githubusercontent.com/10418364/49555454-e9c19f00-f93a-11e8-928b-6c3780b81f20.png)这里打开选项对话框.
 
 ## TODO LIST:

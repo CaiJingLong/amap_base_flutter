@@ -10,7 +10,6 @@ import 'package:amap_base/src/map/model/route_plan_param.dart';
 import 'package:amap_base/src/map/model/route_poi_result.dart';
 import 'package:amap_base/src/map/model/ui_settings.dart';
 import 'package:amap_base/src/utils/log.dart';
-import 'package:amap_base/src/utils/misc.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
