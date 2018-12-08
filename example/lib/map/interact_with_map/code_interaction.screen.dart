@@ -14,7 +14,6 @@ class CodeInteractionScreen extends StatefulWidget {
 
 class _CodeInteractionScreenState extends State<CodeInteractionScreen> {
   AMapController _controller;
-  UiSettings _uiSettings = UiSettings();
 
   @override
   Widget build(BuildContext context) {
