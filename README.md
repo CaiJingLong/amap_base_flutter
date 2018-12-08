@@ -1,6 +1,6 @@
 # 高德地图Flutter插件 基于AndroidView和UiKitView
 
-[![pub package](https://img.shields.io/pub/v/amap_base.svg)](https://pub.flutter-io.cn/packages/amap_base)
+[![pub package](https://img.shields.io/pub/v/amap_base.svg)](https://pub.Flutter-io.cn/packages/amap_base)
 
 [TOC]
 
@@ -13,7 +13,7 @@ amap_base: x.x.x
 ```
 amap_base:
   git:
-    url: https://github.com/yohom/amap_base_flutter.git
+    url: https://github.com/yohom/amap_base_Flutter.git
     ref: 0.0.1/branch/commit
 ```
 导入:
@@ -33,7 +33,7 @@ iOS端设置key:
 ```
 AMap.setKey('您的key'); // 这个方法在Android端无效
 ```
-iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要手动打开开关, 在info.plist文件中新增一行`io.flutter.embedded_views_preview`为`true`. 参考[iOS view embedding support has landed on master](https://github.com/flutter/flutter/issues/19030#issuecomment-437534853)
+iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要手动打开开关, 在info.plist文件中新增一行`io.Flutter.embedded_views_preview`为`true`. 参考[iOS view embedding support has landed on master](https://github.com/Flutter/Flutter/issues/19030#issuecomment-437534853)
 
 ## 关于高德的Android SDK和iOS SDK
 - 由于Android和iOS端的实现完全不一样, Android端照抄了Google Map的api设计, 而iOS
@@ -70,10 +70,10 @@ iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要�
 3. 新功能的开发就完成了.
 
 ## FAQ:
-1. 定位到非洲去了
+1. 为什么定位到非洲去了?
 - 实际上是定位在了经纬度(0, 0)的位置了, 那个位置大致在非洲西部的几内亚湾, 原因是key
 设置错了, 建议检查一下key的设置.
-2. Android用flutter编译失败, 但是直接用Android SDK编译成功
+2. 为什么Android端用Flutter运行后奔溃, 但是直接用Android SDK运行成功?
 - 指定项目的编译选项`Additional arguments`增加`--target-platform android-arm`.从![screen shot 2018-12-06 at 09 36 20](https://user-images.githubusercontent.com/10418364/49555454-e9c19f00-f93a-11e8-928b-6c3780b81f20.png)这里打开选项对话框.
 
 ## TODO LIST:
