@@ -2,48 +2,16 @@
 // Created by Yohom Bao on 2018/11/25.
 //
 
-#import <AMapSearch/AMapSearchKit/AMapSearchObj.h>
-#import <AMapSearch/AMapSearchKit/AMapSearchAPI.h>
-#import <Foundation/Foundation.h>
 #import "AMapViewFactory.h"
 #import "MAMapView.h"
 #import "UnifiedAMapOptions.h"
 #import "AMapBasePlugin.h"
-#import "UnifiedMyLocationStyle.h"
-#import "UnifiedUiSettings.h"
-#import "RoutePlanParam.h"
-#import "NSArray+Rx.h"
 #import "MANaviAnnotation.h"
 #import "MANaviRoute.h"
-#import "Misc.h"
 #import "UnifiedAssets.h"
 #import "UnifiedMarkerOptions.h"
 #import "MarkerAnnotation.h"
-#import "MarkerAnnotation.h"
-#import "UnifiedPoiSearchQuery.h"
-#import "UnifiedPoiResult.h"
-#import "UnifiedRoutePoiSearchQuery.h"
-#import "UnifiedRoutePOISearchResult.h"
-#import "NSObject+Permission.h"
 #import "ClearMap.h"
-#import "SetMyLocationStyle.h"
-#import "CalculateDriveRoute.h"
-#import "AddMarker.h"
-#import "AddMarkers.h"
-#import "ShowIndoorMap.h"
-#import "SetMapType.h"
-#import "SetLanguage.h"
-#import "SearchPoiKeyword.h"
-#import "SearchPoiBound.h"
-#import "SearchPoiPolygon.h"
-#import "SearchPoiId.h"
-#import "SearchRoutePoiLine.h"
-#import "SearchRoutePoiPolygon.h"
-#import "ClearMarker.h"
-#import "SetZoomLevel.h"
-#import "SetPosition.h"
-#import "SetMapStatusLimits.h"
-#import "SetUiSettings.h"
 #import "MapFunctionRegistry.h"
 #import "MJExtension.h"
 
@@ -100,9 +68,6 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
 }
 
 - (void)setup {
-    // 设置delegate, 渲染overlay和annotation的时候需要
-    _mapView.delegate = self;
-
     //region 初始化地图配置, 跟android一样, 不能在view方法里设置, 不然地图会卡住不动, android端是直接把AMapOptions赋值到MapView就可以了
     // 尽可能地统一android端的api了, ios这边的配置选项多很多, 后期再观察吧
     // 因为android端的mapType从1开始, 所以这里减去1
@@ -131,9 +96,12 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
     _methodChannel = [FlutterMethodChannel methodChannelWithName:[NSString stringWithFormat:@"%@%lld", mapChannelName, _viewId]
                                                  binaryMessenger:[AMapBasePlugin registrar].messenger];
     [_methodChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
+        // 设置delegate, 渲染overlay和annotation的时候需要
+        self->_mapView.delegate = self;
+
         NSObject <MapMethodHandler> *handler = [MapFunctionRegistry mapMethodHandler][call.method];
         if (handler) {
-            [[handler initWith:_mapView] onMethodCall:call :result];
+            [[handler initWith:self->_mapView] onMethodCall:call :result];
         } else {
             result(FlutterMethodNotImplemented);
         }

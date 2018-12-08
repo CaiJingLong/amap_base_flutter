@@ -60,9 +60,7 @@
     routeQuery.avoidroad = _routePlanParam.avoidRoad;
     routeQuery.requireExtension = YES;
 
-    NSLog(@"AMapDrivingRouteSearchRequest: %@", routeQuery.formattedDescription);
     [_search AMapDrivingRouteSearch:routeQuery];
-
 }
 
 /// 路径规划搜索回调.
@@ -88,10 +86,8 @@
     _overlay = [MANaviRoute naviRouteForPath:path
                                 withNaviType:MANaviAnnotationTypeDrive
                                  showTraffic:YES
-                                  startPoint:[AMapGeoPoint locationWithLatitude:_routePlanParam.from.latitude
-                                                                      longitude:_routePlanParam.from.longitude]
-                                    endPoint:[AMapGeoPoint locationWithLatitude:_routePlanParam.to.latitude
-                                                                      longitude:_routePlanParam.to.longitude]];
+                                  startPoint:[_routePlanParam.from toAMapGeoPoint]
+                                    endPoint:[_routePlanParam.to toAMapGeoPoint]];
     [_overlay addToMapView:_mapView];
 
     // 收缩地图到路径范围
