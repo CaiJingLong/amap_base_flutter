@@ -65,7 +65,7 @@ iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要�
     - location: 定位功能模块(未实现)
 
 ## 关于贡献代码
-1. 在`handlers`包下找到要实现的功能模块包, 比如说要实现[显示地图](https://lbs.amap.com/api/android-sdk/guide/create-map/show-map), 那么先找到`amap_base/map/handler/createmap`包, 然后在该包下创建新的实现`MapMethodHandler`接口的委托类.
+1. 在`handlers`包下找到要实现的功能模块包, 比如说要实现[显示地图](https://lbs.amap.com/api/android-sdk/guide/create-map/show-map), 那么先找到`me.yohom.amapbase/map/handlers/createmap`包, 然后在该包下创建新的实现`MapMethodHandler`接口的委托类.
 2. 实现功能后, 在`MapFunctionRegistry`类中注册功能.
 3. 新功能的开发就完成了.
 
