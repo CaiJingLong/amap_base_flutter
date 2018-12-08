@@ -5,13 +5,13 @@ import com.amap.api.services.core.AMapException
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import me.yohom.amapbase.AMapBasePlugin.Companion.registrar
-import me.yohom.amapbase.map.MapMethodHandler
-import me.yohom.amapbase.map.model.UnifiedRoutePOISearchResult
-import me.yohom.amapbase.map.model.UnifiedRoutePoiSearchQuery
 import me.yohom.amapbase.common.log
 import me.yohom.amapbase.common.parseJson
 import me.yohom.amapbase.common.toAMapError
 import me.yohom.amapbase.common.toJson
+import me.yohom.amapbase.map.MapMethodHandler
+import me.yohom.amapbase.map.model.UnifiedRoutePOISearchResult
+import me.yohom.amapbase.map.model.UnifiedRoutePoiSearchQuery
 
 object SearchRoutePoiLine : MapMethodHandler {
 
@@ -35,10 +35,10 @@ object SearchRoutePoiLine : MapMethodHandler {
                             if (result != null) {
                                 methodResult.success(UnifiedRoutePOISearchResult(result).toJson())
                             } else {
-                                methodResult.error(rCode.toAMapError(), null, null)
+                                methodResult.error(rCode.toString(), rCode.toAMapError(), rCode.toAMapError())
                             }
                         } else {
-                            methodResult.error(rCode.toAMapError(), null, null)
+                            methodResult.error(rCode.toString(), rCode.toAMapError(), rCode.toAMapError())
                         }
                     }
                 }.searchRoutePOIAsyn()

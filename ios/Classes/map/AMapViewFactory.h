@@ -13,7 +13,7 @@ static NSString *success = @"调用成功";
 @interface AMapViewFactory : NSObject <FlutterPlatformViewFactory>
 @end
 
-@interface AMapView : NSObject <FlutterPlatformView, AMapSearchDelegate, MAMapViewDelegate, AMapSearchDelegate, FlutterStreamHandler>
+@interface AMapView : NSObject <FlutterPlatformView, MAMapViewDelegate, FlutterStreamHandler>
 - (instancetype)initWithFrame:(CGRect)frame
                       options:(UnifiedAMapOptions *)options
                viewIdentifier:(int64_t)viewId;

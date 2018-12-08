@@ -1,5 +1,5 @@
 //
-//  CommonUtility.h
+//  Misc.h
 //  SearchV3Demo
 //
 //  Created by songjian on 13-8-22.
@@ -9,14 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchAPI.h>
+#import "Flutter/Flutter.h"
 
-@interface CommonUtility : NSObject
+@class JSONModelError;
+
+@interface Misc : NSObject
 
 + (CLLocationCoordinate2D *)coordinatesForString:(NSString *)string
                                  coordinateCount:(NSUInteger *)coordinateCount
                                       parseToken:(NSString *)token;
 
 + (MAPolyline *)polylineForCoordinateString:(NSString *)coordinateString;
+
 + (MAPolyline *)polylineForBusLine:(AMapBusLine *)busLine;
 
 + (MAMapRect)unionMapRect1:(MAMapRect)mapRect1 mapRect2:(MAMapRect)mapRect2;
@@ -31,8 +35,11 @@
 + (MAMapRect)minMapRectForAnnotations:(NSArray *)annotations;
 
 + (NSString *)getApplicationScheme;
+
 + (NSString *)getApplicationName;
 
 + (double)distanceToPoint:(MAMapPoint)p fromLineSegmentBetween:(MAMapPoint)l1 and:(MAMapPoint)l2;
+
++ (void)handlerArgumentError:(JSONModelError *)error result:(FlutterResult)result;
 
 @end

@@ -6,6 +6,7 @@
 #import "JSONModelError.h"
 #import "UnifiedRoutePoiSearchQuery.h"
 #import "UnifiedRoutePOISearchResult.h"
+#import "Misc.h"
 
 
 @implementation SearchRoutePoiLine {
@@ -14,11 +15,15 @@
     FlutterResult _result;
 }
 - (NSObject <MapMethodHandler> *)initWith:(MAMapView *)mapView {
-    _mapView = mapView;
+    self = [super init];
+    if (self) {
+        _mapView = mapView;
 
-    // 搜索api回调设置
-    _search = [[AMapSearchAPI alloc] init];
-    _search.delegate = self;
+        // 搜索api回调设置
+        _search = [[AMapSearchAPI alloc] init];
+        _search.delegate = self;
+    }
+
     return self;
 }
 
@@ -33,27 +38,23 @@
 
     JSONModelError *error;
     UnifiedRoutePoiSearchQuery *request = [[UnifiedRoutePoiSearchQuery alloc] initWithString:query error:&error];
-    NSLog(@"JSONModelError: %@", error.description);
+    [Misc handlerArgumentError:error result:result];
 
     [_search AMapRoutePOISearch:[request toAMapRoutePOISearchRequestLine]];
 }
 
 /// 沿途搜索回调
 - (void)onRoutePOISearchDone:(AMapRoutePOISearchRequest *)request response:(AMapRoutePOISearchResponse *)response {
-    NSLog(@"poi搜索回调 SearchRoutePoiLine");
-    if (response.pois.count == 0) {
-        _result(@"没有找到POI");
-        return;
-    }
-
-//    UnifiedRoutePOISearchResult *result = [[UnifiedRoutePOISearchResult alloc] initWithAMapRoutePOISearchResponse:response];
-//    NSString *resultString = [result toJSONString];
-//    NSLog(@"RESULT: %@", resultString);
+    NSLog(@"poi搜索回调");
     _result([[[UnifiedRoutePOISearchResult alloc] initWithAMapRoutePOISearchResponse:response] toJSONString]);
 }
 
+/// 搜索失败回调
 - (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error {
-    _result(error);
+    NSLog(@"搜索失败回调");
+    _result([FlutterError errorWithCode:[NSString stringWithFormat:@"%d", error.code]
+                                message:error.domain
+                                details:nil]);
 }
 
 @end

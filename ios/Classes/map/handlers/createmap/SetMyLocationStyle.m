@@ -7,6 +7,7 @@
 #import "UnifiedMyLocationStyle.h"
 #import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
+#import "Misc.h"
 
 
 @implementation SetMyLocationStyle {
@@ -27,7 +28,7 @@
     JSONModelError *error;
     [[[UnifiedMyLocationStyle alloc] initWithString:styleJson error:&error] applyTo:_mapView];
 
-    NSLog(@"JSONModelError: %@", error.description);
+    [Misc handlerArgumentError:error result:result];
 
     result(success);
 }

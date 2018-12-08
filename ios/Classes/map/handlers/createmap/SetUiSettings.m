@@ -7,6 +7,7 @@
 #import "UnifiedUiSettings.h"
 #import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
+#import "Misc.h"
 
 
 @implementation SetUiSettings {
@@ -26,7 +27,7 @@
     JSONModelError *error;
     [[[UnifiedUiSettings alloc] initWithString:uiSettingsJson error:&error] applyTo:_mapView];
 
-    NSLog(@"JSONModelError: %@", error.description);
+    [Misc handlerArgumentError:error result:result];
 
     result(success);
 

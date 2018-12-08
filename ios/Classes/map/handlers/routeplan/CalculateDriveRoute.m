@@ -12,7 +12,7 @@
 #import "NSArray+Rx.h"
 #import "MAPointAnnotation.h"
 #import "MANaviRoute.h"
-#import "CommonUtility.h"
+#import "Misc.h"
 #import "AMapViewFactory.h"
 
 
@@ -96,7 +96,7 @@
     [_overlay addToMapView:_mapView];
 
     // 收缩地图到路径范围
-    [_mapView setVisibleMapRect:[CommonUtility mapRectForOverlays:_overlay.routePolylines]
+    [_mapView setVisibleMapRect:[Misc mapRectForOverlays:_overlay.routePolylines]
                     edgePadding:UIEdgeInsetsMake(20, 20, 20, 20)
                        animated:YES];
 

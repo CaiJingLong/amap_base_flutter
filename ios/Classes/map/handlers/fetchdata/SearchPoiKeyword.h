@@ -6,5 +6,5 @@
 #import "MapMethodHandler.h"
 
 
-@interface SearchPoi : NSObject<MapMethodHandler, AMapSearchDelegate>
+@interface SearchPoiKeyword : NSObject<MapMethodHandler, AMapSearchDelegate>
 @end

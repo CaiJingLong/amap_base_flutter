@@ -9,6 +9,7 @@
 #import "MarkerAnnotation.h"
 #import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
+#import "Misc.h"
 
 
 @implementation AddMarker {
@@ -27,7 +28,7 @@
     NSLog(@"方法marker#addMarker ios端参数: optionsJson -> %@", optionsJson);
     JSONModelError *error;
     UnifiedMarkerOptions *markerOptions = [[UnifiedMarkerOptions alloc] initWithString:optionsJson error:&error];
-    NSLog(@"JSONModelError: %@", error.description);
+    [Misc handlerArgumentError:error result:result];
 
     MarkerAnnotation *annotation = [[MarkerAnnotation alloc] init];
     annotation.coordinate = [markerOptions.position toCLLocationCoordinate2D];

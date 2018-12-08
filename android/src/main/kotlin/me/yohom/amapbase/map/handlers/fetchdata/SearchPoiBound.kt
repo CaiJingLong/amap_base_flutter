@@ -8,13 +8,13 @@ import com.amap.api.services.poisearch.PoiSearch
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import me.yohom.amapbase.AMapBasePlugin.Companion.registrar
-import me.yohom.amapbase.map.MapMethodHandler
-import me.yohom.amapbase.map.model.UnifiedPoiResult
-import me.yohom.amapbase.map.model.UnifiedPoiSearchQuery
 import me.yohom.amapbase.common.log
 import me.yohom.amapbase.common.parseJson
 import me.yohom.amapbase.common.toAMapError
 import me.yohom.amapbase.common.toJson
+import me.yohom.amapbase.map.MapMethodHandler
+import me.yohom.amapbase.map.model.UnifiedPoiResult
+import me.yohom.amapbase.map.model.UnifiedPoiSearchQuery
 
 object SearchPoiBound : MapMethodHandler {
 
@@ -41,10 +41,10 @@ object SearchPoiBound : MapMethodHandler {
                                 if (result != null) {
                                     methodResult.success(UnifiedPoiResult(result).toJson())
                                 } else {
-                                    methodResult.error(rCode.toAMapError(), null, null)
+                                    methodResult.error(rCode.toString(), rCode.toAMapError(), rCode.toAMapError())
                                 }
                             } else {
-                                methodResult.error(rCode.toAMapError(), null, null)
+                                methodResult.error(rCode.toString(), rCode.toAMapError(), rCode.toAMapError())
                             }
                         }
                     })

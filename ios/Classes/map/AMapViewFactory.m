@@ -15,7 +15,7 @@
 #import "NSArray+Rx.h"
 #import "MANaviAnnotation.h"
 #import "MANaviRoute.h"
-#import "CommonUtility.h"
+#import "Misc.h"
 #import "UnifiedAssets.h"
 #import "UnifiedMarkerOptions.h"
 #import "MarkerAnnotation.h"
@@ -33,7 +33,7 @@
 #import "ShowIndoorMap.h"
 #import "SetMapType.h"
 #import "SetLanguage.h"
-#import "SearchPoi.h"
+#import "SearchPoiKeyword.h"
 #import "SearchPoiBound.h"
 #import "SearchPoiPolygon.h"
 #import "SearchPoiId.h"
@@ -85,7 +85,8 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
 - (instancetype)initWithFrame:(CGRect)frame
                       options:(UnifiedAMapOptions *)options
                viewIdentifier:(int64_t)viewId {
-    if ([super init]) {
+    self = [super init];
+    if (self) {
         _frame = frame;
         _viewId = viewId;
         _options = options;
@@ -130,7 +131,7 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
     _methodChannel = [FlutterMethodChannel methodChannelWithName:[NSString stringWithFormat:@"%@%lld", mapChannelName, _viewId]
                                                  binaryMessenger:[AMapBasePlugin registrar].messenger];
     [_methodChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
-        NSObject <MapMethodHandler> *handler = MapFunctionRegistry.mapMethodHandler[call.method];
+        NSObject <MapMethodHandler> *handler = [MapFunctionRegistry mapMethodHandler][call.method];
         if (handler) {
             [[handler initWith:_mapView] onMethodCall:call :result];
         } else {

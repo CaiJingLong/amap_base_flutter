@@ -7,7 +7,7 @@
 //
 
 #import "MANaviRoute.h"
-#import "CommonUtility.h"
+#import "Misc.h"
 
 #define kMANaviRouteReplenishPolylineFilter     5
 
@@ -258,7 +258,7 @@
         return nil;
     }
     
-    return [CommonUtility polylineForCoordinateString:step.polyline];
+    return [Misc polylineForCoordinateString:step.polyline];
 }
 
 + (MAPolyline *)polylineForBusLine:(AMapBusLine *)busLine
@@ -268,7 +268,7 @@
         return nil;
     }
     
-    return [CommonUtility polylineForCoordinateString:busLine.polyline];
+    return [Misc polylineForCoordinateString:busLine.polyline];
 }
 
 #pragma mark - replenish

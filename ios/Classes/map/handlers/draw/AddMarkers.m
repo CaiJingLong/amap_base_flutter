@@ -9,6 +9,7 @@
 #import "UnifiedMarkerOptions.h"
 #import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
+#import "Misc.h"
 
 
 @implementation AddMarkers {
@@ -44,7 +45,7 @@
         annotation.subtitle = options.snippet;
         annotation.markerOptions = options;
 
-        NSLog(@"JSONModelError: %@", error.description);
+        [Misc handlerArgumentError:error result:result];
         [optionList addObject:annotation];
     }
 

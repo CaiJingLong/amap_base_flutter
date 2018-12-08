@@ -22,7 +22,7 @@ val MAP_METHOD_HANDLER: Map<String, MapMethodHandler> = mapOf(
         "map#setMapType" to SetMapType,
         "map#setLanguage" to SetLanguage,
         "map#clear" to ClearMap,
-        "map#searchPoi" to SearchPoi,
+        "map#searchPoi" to SearchPoiKeyword,
         "map#searchPoiBound" to SearchPoiBound,
         "map#searchPoiPolygon" to SearchPoiPolygon,
         "map#searchPoiId" to SearchPoiId,
