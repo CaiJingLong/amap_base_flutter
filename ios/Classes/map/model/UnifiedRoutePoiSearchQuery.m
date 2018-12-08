@@ -5,9 +5,8 @@
 #import <AMapSearch/AMapSearchKit/AMapSearchObj.h>
 #import "UnifiedAMapOptions.h"
 #import "NSArray+Rx.h"
-#import "../../../../example/ios/.symlinks/plugins/amap_base/ios/Classes/map/model/UnifiedRoutePoiSearchQuery.h"
 #import "MJExtension.h"
-
+#import "UnifiedRoutePoiSearchQuery.h"
 
 @implementation UnifiedRoutePoiSearchQuery {
 
