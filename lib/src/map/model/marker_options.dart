@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:amap_base/amap_base.dart';
+import 'package:amap_base/src/utils/misc.dart';
 import 'package:meta/meta.dart';
 
 class MarkerOptions {
@@ -150,8 +151,8 @@ class MarkerOptions {
 
   Map<String, Object> toJson() {
     return {
-      'icon': icon,
-      'icons': icons,
+      'icon': toResolutionAware(icon),
+      'icons': icons?.map((it) => toResolutionAware(it))?.toList(),
       'alpha': alpha,
       'anchorU': anchorU,
       'anchorV': anchorV,
