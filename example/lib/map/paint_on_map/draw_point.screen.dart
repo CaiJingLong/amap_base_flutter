@@ -42,6 +42,7 @@ class DrawPointScreenState extends State<DrawPointScreen> {
             controller.addMarkers(
               markerList
                   .map((latLng) => MarkerOptions(
+                        icon: 'images/home_map_icon_positioning_nor.png',
                         position: latLng,
                         title: '哈哈',
                         snippet: '呵呵',

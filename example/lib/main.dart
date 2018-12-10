@@ -17,8 +17,7 @@ import 'package:flutter/material.dart';
 
 void main() async {
   // final result = await AMap.setKey('27d67839721288be2ddd87b4fd868822');
-  final result = await AMap.setKey('27d67839721288be2ddd87b4fd868822');
-  print('设置key的结果: $result');
+  await AMap.init('27d67839721288be2ddd87b4fd868822');
   runApp(MaterialApp(home: MapsDemo()));
 }
 
@@ -161,8 +160,10 @@ class _FunctionGroup extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text(headLabel, style: Theme.of(context).textTheme.headline),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text(headLabel,
+                    style: Theme.of(context).textTheme.headline),
               ),
               Divider(height: 1, indent: 16),
             ],
