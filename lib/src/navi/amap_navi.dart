@@ -1,19 +1,21 @@
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
-class AmapNavi {
+class AMapNavi {
   static final _channel = MethodChannel('me.yohom/amap_navi');
+
+  static const drive = 0;
+  static const walk = 1;
+  static const ride = 2;
 
   static void startNavi({
     @required double lat,
     @required double lon,
+    int naviType = drive,
   }) {
     _channel.invokeMethod(
       'startNavi',
-      {
-        'lat': lat,
-        'lon': lon,
-      },
+      {'lat': lat, 'lon': lon, 'naviType': naviType},
     );
   }
 }

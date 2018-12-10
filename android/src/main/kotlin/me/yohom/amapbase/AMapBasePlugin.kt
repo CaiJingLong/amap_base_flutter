@@ -58,7 +58,7 @@ class AMapBasePlugin {
                     .registerViewFactory("me.yohom/AMapView", AMapFactory(activityState))
         }
 
-        override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle) {
+        override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
             if (activity.hashCode() != registrarActivityHashCode) {
                 return
             }
@@ -91,7 +91,7 @@ class AMapBasePlugin {
             activityState.set(STOPPED)
         }
 
-        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {}
 
         override fun onActivityDestroyed(activity: Activity) {
             if (activity.hashCode() != registrarActivityHashCode) {

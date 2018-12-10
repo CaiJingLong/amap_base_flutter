@@ -45,24 +45,25 @@ iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要�
 
 ## 关于项目结构
 项目结构按照高德官方网站的[开发指南](https://lbs.amap.com/api/android-sdk/guide/create-project/get-key)组织. 分为`地图`, `定位`, `导航`三大块.
-- me.yohom.amapbase
-    - `AMapBasePlugin`: Flutter插件类
-    - common: 通用代码
-    - map: 地图功能模块
-        - handlers: 单个功能的**处理委托对象**
-            - calculatetool: `地图计算工具`
-            - createmap: `创建地图`
-            - draw: `在地图上绘制`
-            - fetchdata: `获取地图数据`
-            - interact: `与地图交互`
-            - routeplan: `出行路线规划`
-        - model: 地图数据的模型
-        - overlay: 覆盖物
-        - `AMapFactory`: AMapView工厂, Flutter的platform view需要
-        - `MapFunctionRegistry`: 地图功能登记处, 所有功能都需要在此处注册.
-        - `MapMethodHandler`: **处理委托对象**接口.
-    - navi: 导航功能模块(未实现)
-    - location: 定位功能模块(未实现)
+
+    |-- me.yohom.amapbase
+        |-- `AMapBasePlugin`: Flutter插件类
+        |-- common: 通用代码
+        |-- map: 地图功能模块
+            |-- handlers: 单个功能的**处理委托对象**
+                |-- calculatetool: `地图计算工具`
+                |-- createmap: `创建地图`
+                |-- draw: `在地图上绘制`
+                |-- fetchdata: `获取地图数据`
+                |-- interact: `与地图交互`
+                |-- routeplan: `出行路线规划`
+            |-- model: 地图数据的模型
+            |-- overlay: 覆盖物
+            |-- `AMapFactory`: AMapView工厂, Flutter的platform view需要
+            |-- `MapFunctionRegistry`: 地图功能登记处, 所有功能都需要在此处注册.
+            |-- `MapMethodHandler`: **处理委托对象**接口.
+        |-- navi: 导航功能模块(未实现)
+        |-- location: 定位功能模块(未实现)
 
 ## 关于贡献代码
 1. 在`handlers`包下找到要实现的功能模块包, 比如说要实现[显示地图](https://lbs.amap.com/api/android-sdk/guide/create-map/show-map), 那么先找到`me.yohom.amapbase/map/handlers/createmap`包, 然后在该包下创建新的实现`MapMethodHandler`接口的委托类.

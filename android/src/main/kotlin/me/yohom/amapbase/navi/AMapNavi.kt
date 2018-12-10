@@ -10,7 +10,6 @@ import io.flutter.plugin.common.PluginRegistry
 
 private const val channel = "me.yohom/amap_navi"
 private const val startNavi = "startNavi"
-private const val setKey = "setKey"
 
 fun PluginRegistry.Registrar.setupNaviChannel() {
     val channel = MethodChannel(messenger(), channel)
@@ -19,14 +18,20 @@ fun PluginRegistry.Registrar.setupNaviChannel() {
             startNavi -> {
                 val lat = call.argument<Double>("lat")!!
                 val lon = call.argument<Double>("lon")!!
+                val naviType = call.argument<Int>("naviType") ?: AmapNaviType.DRIVER
+
                 val end = Poi(null, LatLng(lat, lon), "")
                 AmapNaviPage.getInstance().showRouteActivity(
                         activity(),
-                        AmapNaviParams(null, null, end, AmapNaviType.DRIVER),
+                        AmapNaviParams(null, null, end, when (naviType) {
+                            0 -> AmapNaviType.DRIVER
+                            1 -> AmapNaviType.WALK
+                            2 -> AmapNaviType.RIDE
+                            else -> AmapNaviType.DRIVER
+                        }),
                         null
                 )
             }
-            setKey -> result.success("android端需要在Manifest里配置key")
             else -> result.notImplemented()
         }
     }
