@@ -4,6 +4,7 @@ import me.yohom.amapbase.map.handlers.calculatetool.ConvertCoordinate
 import me.yohom.amapbase.map.handlers.createmap.*
 import me.yohom.amapbase.map.handlers.draw.AddMarker
 import me.yohom.amapbase.map.handlers.draw.AddMarkers
+import me.yohom.amapbase.map.handlers.draw.AddPolyline
 import me.yohom.amapbase.map.handlers.draw.ClearMarker
 import me.yohom.amapbase.map.handlers.fetchdata.*
 import me.yohom.amapbase.map.handlers.interact.SetMapStatusLimits
@@ -32,5 +33,6 @@ val MAP_METHOD_HANDLER: Map<String, MapMethodHandler> = mapOf(
         "map#setPosition" to SetPosition,
         "map#setMapStatusLimits" to SetMapStatusLimits,
         "tool#convertCoordinate" to ConvertCoordinate,
-        "offline#openOfflineManager" to OpenOfflineManager
+        "offline#openOfflineManager" to OpenOfflineManager,
+        "map#addPolyline" to AddPolyline
 )

@@ -20,11 +20,11 @@
     NSDictionary *paramDic = call.arguments;
 
     // 由于iOS端是从0开始算的, 所以这里减去1
-    NSInteger mapType = (NSInteger) paramDic[@"mapType"] - 1;
+    NSInteger mapType = [paramDic[@"mapType"] integerValue] - 1;
 
     NSLog(@"方法map#setMapType ios端参数: mapType -> %d", mapType);
 
-    [_mapView setMapType:mapType];
+    [_mapView setMapType:(MAMapType) mapType];
 
     result(success);
 }
