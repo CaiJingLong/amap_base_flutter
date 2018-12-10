@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 class PolylineOptions {
-  static const DOTTEDLINE_TYPE_CIRCLE = 1;
-  static const DOTTEDLINE_TYPE_SQUARE = 0;
+  static const DOTTED_LINE_TYPE_CIRCLE = 1;
+  static const DOTTED_LINE_TYPE_SQUARE = 0;
 
   static const LINE_CAP_TYPE_BUTT = 0;
   static const LINE_CAP_TYPE_SQUARE = 1;
@@ -18,40 +18,40 @@ class PolylineOptions {
   static const LINE_JOIN_MITER = 1;
   static const LINE_JOIN_ROUND = 2;
 
-  /// 顶点
+  /// 顶点 [Android, iOS]
   final List<LatLng> latLngList;
 
-  /// 线段的宽度
+  /// 线段的宽度 [Android, iOS]
   final double width;
 
-  /// 线段的颜色
+  /// 线段的颜色 [Android, iOS]
   final Color color;
 
-  /// 线段的Z轴值
+  /// 线段的Z轴值 [Android]
   final double zIndex;
 
-  /// 线段的可见属性
+  /// 线段的可见属性 [Android]
   final bool isVisible;
 
-  /// 线段是否画虚线，默认为false，画实线
+  /// 线段是否画虚线，默认为false，画实线 [Android, iOS]
   final bool isDottedLine;
 
-  /// 线段是否为大地曲线，默认false，不画大地曲线
+  /// 线段是否为大地曲线，默认false，不画大地曲线 [Android]
   final bool isGeodesic;
 
-  /// 虚线形状
+  /// 虚线形状 [Android, iOS]
   final int dottedLineType;
 
-  /// Polyline尾部形状
+  /// Polyline尾部形状 [Android, iOS]
   final int lineCapType;
 
-  /// Polyline连接处形状
+  /// Polyline连接处形状 [Android, iOS]
   final int lineJoinType;
 
-  /// 线段是否使用渐变色
+  /// 线段是否使用渐变色 [Android]
   final bool isUseGradient;
 
-  /// 线段是否使用纹理贴图
+  /// 线段是否使用纹理贴图 [Android]
   final bool isUseTexture;
 
   PolylineOptions({
@@ -62,7 +62,7 @@ class PolylineOptions {
     this.isVisible = true,
     this.isDottedLine = false,
     this.isGeodesic = false,
-    this.dottedLineType = DOTTEDLINE_TYPE_SQUARE,
+    this.dottedLineType = DOTTED_LINE_TYPE_SQUARE,
     this.lineCapType = LINE_CAP_TYPE_BUTT,
     this.lineJoinType = LINE_JOIN_BEVEL,
     this.isUseGradient = false,

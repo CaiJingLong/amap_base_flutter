@@ -26,6 +26,7 @@
 #import "SetMapStatusLimits.h"
 #import "ConvertCoordinate.h"
 #import "OpenOfflineManager.h"
+#import "AddPolyline.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_map;
 
@@ -56,6 +57,7 @@ static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_map;
                 @"map#setMapStatusLimits": [SetMapStatusLimits alloc],
                 @"tool#convertCoordinate": [ConvertCoordinate alloc],
                 @"offline#openOfflineManager": [OpenOfflineManager alloc],
+                @"map#addPolyline": [AddPolyline alloc],
         };
     }
     return _map;

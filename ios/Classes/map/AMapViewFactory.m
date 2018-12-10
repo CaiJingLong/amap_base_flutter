@@ -14,6 +14,10 @@
 #import "ClearMap.h"
 #import "MapFunctionRegistry.h"
 #import "MJExtension.h"
+#import "UnifiedPolylineOptions.h"
+#import "AddPolyline.h"
+#import "NSString+Color.h"
+#import "PolylineOverlay.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
@@ -124,6 +128,7 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
 
 /// 渲染overlay回调
 - (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay {
+    // 不知道
     if ([overlay isKindOfClass:[LineDashPolyline class]]) {
         MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:((LineDashPolyline *) overlay).polyline];
         polylineRenderer.lineWidth = 8;
@@ -132,6 +137,8 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
 
         return polylineRenderer;
     }
+
+    // 绘制导航线
     if ([overlay isKindOfClass:[MANaviPolyline class]]) {
         MANaviPolyline *naviPolyline = (MANaviPolyline *) overlay;
         MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:naviPolyline.polyline];
@@ -148,11 +155,34 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
 
         return polylineRenderer;
     }
+
+    // 不知道
     if ([overlay isKindOfClass:[MAMultiPolyline class]]) {
         MAMultiColoredPolylineRenderer *polylineRenderer = [[MAMultiColoredPolylineRenderer alloc] initWithMultiPolyline:overlay];
 
         polylineRenderer.lineWidth = 10;
         polylineRenderer.strokeColors = [_overlay.multiPolylineColors copy];
+
+        return polylineRenderer;
+    }
+
+    // 绘制折线
+    if ([overlay isKindOfClass:[PolylineOverlay class]]) {
+        PolylineOverlay *polyline =(PolylineOverlay *)overlay;
+
+        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
+
+        UnifiedPolylineOptions *options = [polyline options];
+
+        polylineRenderer.lineWidth = options.width;
+        polylineRenderer.strokeColor = [options.color hexStringToColor];
+        polylineRenderer.lineJoinType = (MALineJoinType) options.lineJoinType;
+        polylineRenderer.lineCapType = (MALineCapType) options.lineCapType;
+        if (options.isDottedLine) {
+            polylineRenderer.lineDashType = (MALineDashType) ((MALineCapType) options.dottedLineType + 1);
+        } else {
+            polylineRenderer.lineDashType = kMALineDashTypeNone;
+        }
 
         return polylineRenderer;
     }

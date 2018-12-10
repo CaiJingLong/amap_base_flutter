@@ -41,7 +41,8 @@ class _DrawPolylineScreenState extends State<DrawPolylineScreen> {
                 color: Colors.red,
                 isDottedLine: true,
                 isGeodesic: true,
-                width: 20,
+                dottedLineType: PolylineOptions.DOTTED_LINE_TYPE_CIRCLE,
+                width: 10,
               ),
             ),
           ).catchError((e) => showError(context, e.toString()));
