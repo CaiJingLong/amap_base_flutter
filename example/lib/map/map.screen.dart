@@ -1,6 +1,7 @@
 import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/map/create_map/show_indoor_map.screen.dart';
 import 'package:amap_base_example/map/create_map/show_map.screen.dart';
+import 'package:amap_base_example/map/create_map/switch_map_layer.screen.dart';
 import 'package:amap_base_example/map/get_map_data/bound_poi_search.screen.dart';
 import 'package:amap_base_example/map/get_map_data/id_poi_search.screen.dart';
 import 'package:amap_base_example/map/get_map_data/keyword_poi_search.screen.dart';
@@ -34,6 +35,11 @@ class MapScreen extends StatelessWidget {
               label: '显示室内地图',
               sublabel: 'ShowsIndoorMapScreen',
               target: ShowsIndoorMapScreen(),
+            ),
+            FunctionItem(
+              label: '切换地图图层',
+              sublabel: 'SwitchMapLayerScreen',
+              target: SwitchMapLayerScreen(),
             ),
             Column(
               children: <Widget>[
