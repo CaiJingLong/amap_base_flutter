@@ -40,6 +40,19 @@ static NSObject <FlutterPluginRegistrar> *_registrar;
         }
     }];
 
+    FlutterMethodChannel *offlineChannel = [FlutterMethodChannel
+            methodChannelWithName:@"me.yohom/offline"
+                  binaryMessenger:[registrar messenger]];
+
+    [offlineChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
+        NSObject <MapMethodHandler> *handler = [MapFunctionRegistry mapMethodHandler][call.method];
+        if (handler) {
+            [[handler init] onMethodCall:call :result];
+        } else {
+            result(FlutterMethodNotImplemented);
+        }
+    }];
+
     [_registrar setupNaviChannel];
 
     [_registrar registerViewFactory:[[AMapViewFactory alloc] init]

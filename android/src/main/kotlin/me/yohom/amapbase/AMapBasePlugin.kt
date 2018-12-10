@@ -10,8 +10,6 @@ import me.yohom.amapbase.map.MAP_METHOD_HANDLER
 import me.yohom.amapbase.navi.setupNaviChannel
 import java.util.concurrent.atomic.AtomicInteger
 
-private const val setKey = "setKey"
-
 const val CREATED = 1
 const val RESUMED = 3
 const val STOPPED = 5
@@ -37,13 +35,20 @@ class AMapBasePlugin {
             MethodChannel(registrar.messenger(), "me.yohom/amap_base")
                     .setMethodCallHandler { methodCall, result ->
                         when (methodCall.method) {
-                            setKey -> result.success("android端需要在Manifest里配置key")
+                            "setKey" -> result.success("android端需要在Manifest里配置key")
                             else -> result.notImplemented()
                         }
                     }
 
             // 地图计算工具相关method channel
-            MethodChannel(Companion.registrar.messenger(), "me.yohom/tool")
+            MethodChannel(registrar.messenger(), "me.yohom/tool")
+                    .setMethodCallHandler { call, result ->
+                        MAP_METHOD_HANDLER[call.method]
+                                ?.onMethodCall(call, result) ?: result.notImplemented()
+                    }
+
+            // 离线地图 channel
+            MethodChannel(registrar.messenger(), "me.yohom/offline")
                     .setMethodCallHandler { call, result ->
                         MAP_METHOD_HANDLER[call.method]
                                 ?.onMethodCall(call, result) ?: result.notImplemented()

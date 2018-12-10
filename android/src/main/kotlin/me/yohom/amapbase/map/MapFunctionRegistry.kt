@@ -31,5 +31,6 @@ val MAP_METHOD_HANDLER: Map<String, MapMethodHandler> = mapOf(
         "map#setZoomLevel" to SetZoomLevel,
         "map#setPosition" to SetPosition,
         "map#setMapStatusLimits" to SetMapStatusLimits,
-        "tool#convertCoordinate" to ConvertCoordinate
+        "tool#convertCoordinate" to ConvertCoordinate,
+        "offline#openOfflineManager" to OpenOfflineManager
 )

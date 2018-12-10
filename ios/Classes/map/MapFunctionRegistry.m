@@ -25,6 +25,7 @@
 #import "SetPosition.h"
 #import "SetMapStatusLimits.h"
 #import "ConvertCoordinate.h"
+#import "OpenOfflineManager.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_map;
 
@@ -54,6 +55,7 @@ static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_map;
                 @"map#setPosition": [SetPosition alloc],
                 @"map#setMapStatusLimits": [SetMapStatusLimits alloc],
                 @"tool#convertCoordinate": [ConvertCoordinate alloc],
+                @"offline#openOfflineManager": [OpenOfflineManager alloc],
         };
     }
     return _map;
