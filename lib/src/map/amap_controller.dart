@@ -6,6 +6,7 @@ import 'package:amap_base/src/map/model/marker_options.dart';
 import 'package:amap_base/src/map/model/my_location_style.dart';
 import 'package:amap_base/src/map/model/poi_result.dart';
 import 'package:amap_base/src/map/model/poi_search_query.dart';
+import 'package:amap_base/src/map/model/polyline_options.dart';
 import 'package:amap_base/src/map/model/route_plan_param.dart';
 import 'package:amap_base/src/map/model/route_poi_result.dart';
 import 'package:amap_base/src/map/model/ui_settings.dart';
@@ -255,6 +256,16 @@ class AMapController {
         'deltaLat': deltaLat,
         'deltaLng': deltaLng,
       },
+    );
+  }
+
+  /// 添加线
+  Future addPolyline(PolylineOptions options) {
+    L.p('addPolyline dart端参数: options -> $options');
+
+    return _mapChannel.invokeMethod(
+      'map#addPolyline',
+      {'options': options.toJsonString()},
     );
   }
 

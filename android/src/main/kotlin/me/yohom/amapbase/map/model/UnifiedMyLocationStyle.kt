@@ -3,6 +3,7 @@ package me.yohom.amapbase.map.model
 import android.graphics.Color
 import com.amap.api.maps.AMap
 import com.amap.api.maps.model.MyLocationStyle
+import me.yohom.amapbase.common.hexStringToColorInt
 
 class UnifiedMyLocationStyle(
         // todo 实现自定义的图标
@@ -30,23 +31,12 @@ class UnifiedMyLocationStyle(
         map.myLocationStyle = MyLocationStyle()
                 .myLocationIcon(null)
                 .anchor(anchorU, anchorV)
-                .radiusFillColor(hexStringToColorInt(radiusFillColor) ?: Color.argb(100, 0, 0, 180))
-                .strokeColor(hexStringToColorInt(strokeColor) ?: Color.argb(255, 0, 0, 220))
+                .radiusFillColor(radiusFillColor.hexStringToColorInt() ?: Color.argb(100, 0, 0, 180))
+                .strokeColor(strokeColor.hexStringToColorInt() ?: Color.argb(255, 0, 0, 220))
                 .strokeWidth(strokeWidth)
                 .myLocationType(myLocationType)
                 .interval(interval)
                 .showMyLocation(showMyLocation)
     }
 
-    private fun hexStringToColorInt(source: String): Int? {
-        return try {
-            val alpha = source.substring(0, 2).toInt(16)
-            val red = source.substring(2, 4).toInt(16)
-            val green = source.substring(4, 6).toInt(16)
-            val blue = source.substring(6, 8).toInt(16)
-            Color.argb(alpha, red, green, blue)
-        } catch (e: Exception) {
-            null
-        }
-    }
 }

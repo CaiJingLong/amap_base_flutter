@@ -15,6 +15,7 @@ export 'src/map/model/latlng.dart';
 export 'src/map/model/marker_options.dart';
 export 'src/map/model/my_location_style.dart';
 export 'src/map/model/poi_search_query.dart';
+export 'src/map/model/polyline_options.dart';
 export 'src/map/model/route_plan_param.dart';
 export 'src/map/model/route_poi_result.dart';
 export 'src/map/model/route_poi_search_query.dart';

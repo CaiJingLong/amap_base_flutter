@@ -1,5 +1,6 @@
 package me.yohom.amapbase.common
 
+import android.graphics.Color
 import com.amap.api.maps.model.LatLng
 import com.amap.api.services.core.LatLonPoint
 import com.amap.api.services.core.PoiItem
@@ -13,6 +14,18 @@ fun LatLng.toLatLonPoint(): LatLonPoint {
 
 fun LatLonPoint.toLatLng(): LatLng {
     return LatLng(latitude, longitude)
+}
+
+fun String.hexStringToColorInt(): Int? {
+    return try {
+        val alpha = substring(0, 2).toInt(16)
+        val red = substring(2, 4).toInt(16)
+        val green = substring(4, 6).toInt(16)
+        val blue = substring(6, 8).toInt(16)
+        Color.argb(alpha, red, green, blue)
+    } catch (e: Exception) {
+        null
+    }
 }
 
 fun Int.toAMapError(): String {

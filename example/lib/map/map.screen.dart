@@ -12,6 +12,7 @@ import 'package:amap_base_example/map/interact_with_map/code_interaction.screen.
 import 'package:amap_base_example/map/interact_with_map/control_interaction.screen.dart';
 import 'package:amap_base_example/map/interact_with_map/gesture_interaction.screen.dart';
 import 'package:amap_base_example/map/paint_on_map/draw_point.screen.dart';
+import 'package:amap_base_example/map/paint_on_map/draw_polyline.screen.dart';
 import 'package:amap_base_example/map/tools/coordinate_transformation_screen.dart';
 import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:amap_base_example/widgets/function_group.widget.dart';
@@ -94,6 +95,11 @@ class MapScreen extends StatelessWidget {
               label: '绘制点标记',
               sublabel: 'DrawPointScreen',
               target: DrawPointScreen(),
+            ),
+            FunctionItem(
+              label: '绘制线',
+              sublabel: 'DrawPolylineScreen',
+              target: DrawPolylineScreen(),
             ),
           ],
         ),
