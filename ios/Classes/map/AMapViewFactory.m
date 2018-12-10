@@ -217,8 +217,8 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
 
         if (annotationView.image != nil) {
             CGSize size = annotationView.imageView.frame.size;
-            annotationView.frame = CGRectMake(annotationView.center.x + size.width / 2, annotationView.center.y, 24, 24);
-            annotationView.centerOffset = CGPointMake(0, -12);
+            annotationView.frame = CGRectMake(annotationView.center.x + size.width / 2, annotationView.center.y, 36, 36);
+            annotationView.centerOffset = CGPointMake(0, -18);
         }
 
         return annotationView;
