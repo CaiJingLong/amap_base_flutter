@@ -1,3 +1,4 @@
+import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/map/create_map/show_indoor_map.screen.dart';
 import 'package:amap_base_example/map/create_map/show_map.screen.dart';
 import 'package:amap_base_example/map/get_map_data/bound_poi_search.screen.dart';
@@ -33,6 +34,17 @@ class MapScreen extends StatelessWidget {
               label: '显示室内地图',
               sublabel: 'ShowsIndoorMapScreen',
               target: ShowsIndoorMapScreen(),
+            ),
+            Column(
+              children: <Widget>[
+                ListTile(
+                  title: Text('使用离线地图'),
+                  subtitle: Text('使用离线地图'),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                  onTap: () => OfflineManager.openOfflineManager(),
+                ),
+                Divider(height: 1, indent: 16),
+              ],
             ),
           ],
         ),

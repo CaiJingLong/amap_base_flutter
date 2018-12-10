@@ -20,6 +20,7 @@ export 'src/map/model/route_poi_result.dart';
 export 'src/map/model/route_poi_search_query.dart';
 export 'src/map/model/search_bound.dart';
 export 'src/map/model/ui_settings.dart';
+export 'src/map/offline_manager.dart';
 export 'src/navi/amap_navi.dart';
 
 class AMap {
