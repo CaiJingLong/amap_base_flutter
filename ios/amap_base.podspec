@@ -3,7 +3,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'amap_base'
-  s.version          = '0.0.1'
+  s.version          = '0.1.8'
   s.summary          = 'A new Flutter plugin.'
   s.description      = <<-DESC
 A new Flutter plugin.
