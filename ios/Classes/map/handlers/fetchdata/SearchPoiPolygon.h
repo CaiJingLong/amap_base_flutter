@@ -5,7 +5,8 @@
 #import <Foundation/Foundation.h>
 #import "MapMethodHandler.h"
 #import "AMapSearchKit.h"
+#import "SearchMethodHandler.h"
 
 
-@interface SearchPoiPolygon : NSObject<MapMethodHandler, AMapSearchDelegate>
+@interface SearchPoiPolygon : NSObject<SearchMethodHandler, AMapSearchDelegate>
 @end

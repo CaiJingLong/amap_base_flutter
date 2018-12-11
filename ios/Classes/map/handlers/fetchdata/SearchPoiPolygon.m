@@ -14,11 +14,10 @@
     AMapSearchAPI *_search;
     FlutterResult _result;
 }
-- (NSObject <MapMethodHandler> *)initWith:(MAMapView *)mapView {
+
+- (instancetype)init {
     self = [super init];
     if (self) {
-        _mapView = mapView;
-
         // 搜索api回调设置
         _search = [[AMapSearchAPI alloc] init];
         _search.delegate = self;

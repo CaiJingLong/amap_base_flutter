@@ -5,7 +5,8 @@
 #import <Foundation/Foundation.h>
 #import "MapMethodHandler.h"
 #import "AMapSearchKit.h"
+#import "SearchMethodHandler.h"
 
 
-@interface CalculateDriveRoute : NSObject<MapMethodHandler, AMapSearchDelegate>
+@interface CalculateDriveRoute : NSObject<SearchMethodHandler, AMapSearchDelegate>
 @end
