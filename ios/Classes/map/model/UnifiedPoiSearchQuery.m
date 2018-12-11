@@ -2,12 +2,12 @@
 // Created by Yohom Bao on 2018-12-03.
 //
 
-#import <AMapSearch/AMapSearchKit/AMapSearchObj.h>
 #import "UnifiedAMapOptions.h"
 #import "UnifiedSearchBound.h"
 #import "NSArray+Rx.h"
 #import "UnifiedPoiSearchQuery.h"
 #import "MJExtension.h"
+#import "AMapSearchKit.h"
 
 
 @implementation UnifiedPoiSearchQuery {

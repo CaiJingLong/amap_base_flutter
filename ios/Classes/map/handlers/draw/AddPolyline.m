@@ -2,8 +2,6 @@
 // Created by Yohom Bao on 2018-12-10.
 //
 
-#import <AMap3DMap/MAMapKit/MAPolyline.h>
-#import <AMap3DMap/MAMapKit/MAMapView.h>
 #import "AddPolyline.h"
 #import "UnifiedPolylineOptions.h"
 #import "MJExtension.h"
@@ -17,7 +15,6 @@
     MAMapView *_mapView;
 }
 - (NSObject <MapMethodHandler> *)initWith:(MAMapView *)mapView {
-    _mapView = mapView;
     return self;
 }
 

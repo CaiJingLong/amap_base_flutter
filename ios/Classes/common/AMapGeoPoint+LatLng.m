@@ -5,7 +5,6 @@
 #import "AMapGeoPoint+LatLng.h"
 #import "UnifiedAMapOptions.h"
 
-
 @implementation AMapGeoPoint (LatLng)
 
 - (LatLng *)toLatLng {
