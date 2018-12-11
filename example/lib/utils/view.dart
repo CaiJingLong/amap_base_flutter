@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:amap_base_example/utils/empty_util.dart';
 import 'package:amap_base_example/utils/enums.dart';
 import 'package:amap_base_example/utils/log.dart';
 import 'package:flutter/material.dart';
