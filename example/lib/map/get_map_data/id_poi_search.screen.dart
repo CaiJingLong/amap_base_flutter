@@ -55,7 +55,7 @@ class _IdPoiSearchScreenState extends State<IdPoiSearchScreen> {
 
                     loading(
                       context,
-                      _controller.searchPoiId('B0FFJD44SX'),
+                      AMapSearch().searchPoiId('B0FFJD44SX'),
                     ).then((poiResult) {
                       _controller.addMarker(
                         MarkerOptions(position: poiResult.latLonPoint),

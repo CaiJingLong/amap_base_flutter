@@ -8,6 +8,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 import me.yohom.amapbase.map.AMapFactory
 import me.yohom.amapbase.map.MAP_METHOD_HANDLER
 import me.yohom.amapbase.navi.setupNaviChannel
+import me.yohom.amapbase.search.SEARCH_METHOD_HANDLER
 import java.util.concurrent.atomic.AtomicInteger
 
 const val CREATED = 1
@@ -51,6 +52,13 @@ class AMapBasePlugin {
             MethodChannel(registrar.messenger(), "me.yohom/offline")
                     .setMethodCallHandler { call, result ->
                         MAP_METHOD_HANDLER[call.method]
+                                ?.onMethodCall(call, result) ?: result.notImplemented()
+                    }
+
+            // 搜索 channel
+            MethodChannel(registrar.messenger(), "me.yohom/search")
+                    .setMethodCallHandler { call, result ->
+                        SEARCH_METHOD_HANDLER[call.method]
                                 ?.onMethodCall(call, result) ?: result.notImplemented()
                     }
 

@@ -57,7 +57,7 @@ class _RoutePoiSearchScreenState extends State<RoutePoiSearchScreen> {
 
                     loading(
                       context,
-                      _controller.searchRoutePoiLine(
+                      AMapSearch().searchRoutePoiLine(
                         RoutePoiSearchQuery.line(
                           from: LatLng(39.993291, 116.473188),
                           to: LatLng(39.940474, 116.355426),

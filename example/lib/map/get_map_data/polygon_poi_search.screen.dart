@@ -72,7 +72,7 @@ class _PolygonPoiSearchScreenState extends State<PolygonPoiSearchScreen> {
 
                     loading(
                       context,
-                      _controller.searchPoiPolygon(
+                      AMapSearch().searchPoiPolygon(
                         PoiSearchQuery(
                           query: _keywordController.text,
                           searchBound: SearchBound(

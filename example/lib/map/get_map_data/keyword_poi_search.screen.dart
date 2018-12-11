@@ -79,7 +79,7 @@ class _KeywordPoiSearchScreenState extends State<KeywordPoiSearchScreen> {
 
                     loading(
                       context,
-                      _controller.searchPoi(
+                      AMapSearch().searchPoi(
                         PoiSearchQuery(
                           query: _queryController.text,
                           city: _cityController.text,

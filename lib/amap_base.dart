@@ -23,6 +23,7 @@ export 'src/map/model/search_bound.dart';
 export 'src/map/model/ui_settings.dart';
 export 'src/map/offline_manager.dart';
 export 'src/navi/amap_navi.dart';
+export 'src/search/amap_search.dart';
 
 class AMap {
   static final _channel = MethodChannel('me.yohom/amap_base');
