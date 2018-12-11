@@ -3,7 +3,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AMapSearch/AMapSearchKit/AMapCommonObj.h>
+#import "AMapSearchAPI.h"
 
 @class LatLng;
 

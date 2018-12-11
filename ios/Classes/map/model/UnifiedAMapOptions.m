@@ -2,8 +2,8 @@
 // Created by Yohom Bao on 2018/11/26.
 //
 
-#import <AMapSearch/AMapSearchKit/AMapCommonObj.h>
 #import "UnifiedAMapOptions.h"
+#import "AMapSearchKit.h"
 
 
 @implementation UnifiedAMapOptions {

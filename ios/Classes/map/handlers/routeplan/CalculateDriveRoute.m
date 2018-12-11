@@ -2,9 +2,6 @@
 // Created by Yohom Bao on 2018-12-07.
 //
 
-#import <AMapSearch/AMapSearchKit/AMapSearchObj.h>
-#import <AMapSearch/AMapSearchKit/AMapSearchAPI.h>
-#import <AMap3DMap/MAMapKit/MAMapView.h>
 #import "CalculateDriveRoute.h"
 #import "RoutePlanParam.h"
 #import "UnifiedAMapOptions.h"

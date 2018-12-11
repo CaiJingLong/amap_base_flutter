@@ -2,7 +2,6 @@
 // Created by Yohom Bao on 2018-12-07.
 //
 
-#import <AMapSearch/AMapSearchKit/AMapSearchAPI.h>
 #import "SearchPoiKeyword.h"
 #import "UnifiedPoiSearchQuery.h"
 #import "UnifiedPoiResult.h"

@@ -2,7 +2,6 @@
 // Created by Yohom Bao on 2018-12-07.
 //
 
-#import <AMap3DMap/MAMapKit/MAMapView.h>
 #import "AddMarkers.h"
 #import "MarkerAnnotation.h"
 #import "UnifiedMarkerOptions.h"

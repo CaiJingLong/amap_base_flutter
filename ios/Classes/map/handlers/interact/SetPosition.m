@@ -2,7 +2,6 @@
 // Created by Yohom Bao on 2018-12-07.
 //
 
-#import <AMap3DMap/MAMapKit/MAMapView.h>
 #import "SetPosition.h"
 #import "UnifiedAMapOptions.h"
 #import "AMapSearchKit.h"

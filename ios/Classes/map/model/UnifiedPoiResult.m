@@ -2,8 +2,6 @@
 // Created by Yohom Bao on 2018-12-03.
 //
 
-#import <AMapSearch/AMapSearchKit/AMapSearchObj.h>
-#import <AMapSearch/AMapSearchKit/AMapCommonObj.h>
 #import "UnifiedPoiResult.h"
 #import "UnifiedAMapOptions.h"
 #import "NSArray+Rx.h"

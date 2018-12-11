@@ -18,6 +18,7 @@ A new Flutter plugin.
   s.dependency 'AMapNavi'
   s.dependency 'AMapSearch'
   s.dependency 'MJExtension'
+  s.static_framework = true
 
   s.ios.deployment_target = '8.0'
 end

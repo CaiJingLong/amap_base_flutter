@@ -2,7 +2,7 @@
 // Created by Yohom Bao on 2018-12-10.
 //
 
-#import <AMap3DMap/MAMapKit/MAOfflineMapViewController.h>
+#import "MAOfflineMapViewController.h"
 #import "OpenOfflineManager.h"
 
 @implementation OpenOfflineManager {

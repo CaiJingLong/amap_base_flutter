@@ -1,5 +1,4 @@
 #import "AMapBasePlugin.h"
-#import "AMapSearchKit.h"
 #import "NSObject+Navi.h"
 #import "AMapViewFactory.h"
 #import "MapMethodHandler.h"

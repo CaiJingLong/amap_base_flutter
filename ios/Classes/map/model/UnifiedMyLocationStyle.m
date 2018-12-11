@@ -2,8 +2,8 @@
 // Created by Yohom Bao on 2018/11/27.
 //
 
-#import <AMap3DMap/MAMapKit/MAUserLocationRepresentation.h>
-#import <AMap3DMap/MAMapKit/MAMapView.h>
+#import "MAMapView.h"
+#import "MAUserLocationRepresentation.h"
 #import "UnifiedMyLocationStyle.h"
 #import "NSString+Color.h"
 
