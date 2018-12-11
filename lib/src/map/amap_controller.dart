@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:amap_base/amap_base.dart';
+import 'package:amap_base/src/common/log.dart';
 import 'package:amap_base/src/map/model/marker_options.dart';
 import 'package:amap_base/src/map/model/my_location_style.dart';
 import 'package:amap_base/src/map/model/poi_result.dart';
@@ -10,7 +11,6 @@ import 'package:amap_base/src/map/model/polyline_options.dart';
 import 'package:amap_base/src/map/model/route_plan_param.dart';
 import 'package:amap_base/src/map/model/route_poi_result.dart';
 import 'package:amap_base/src/map/model/ui_settings.dart';
-import 'package:amap_base/src/utils/log.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
