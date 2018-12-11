@@ -1,6 +1,6 @@
 name: amap_base
 description: Fully Functional AMap Flutter Plugin. Based on AndroidView/UiKitView.
-version: 0.1.8
+version: 0.1.8+1
 author: yohom <382146139@qq.com>
 homepage: https://github.com/yohom/amap_base_flutter
 

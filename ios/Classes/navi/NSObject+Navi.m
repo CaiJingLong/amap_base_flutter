@@ -2,6 +2,7 @@
 // Created by Yohom Bao on 2018/11/25.
 //
 
+#import "AMapServices.h"
 #import "AMapNaviCompositeManager.h"
 #import "AMapNaviCompositeUserConfig.h"
 #import "NSObject+Navi.h"

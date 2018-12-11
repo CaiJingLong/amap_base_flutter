@@ -43,6 +43,9 @@ iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要�
 - ~~目前主分支的计划是实现全功能的高德地图, 然后开单独的分支实现高德的单独的功能, 这样包会小一点.~~
 - 这个库依赖了高德导航库(包含了3dMap库), 以及搜索库.
 
+## 关于Swift项目
+- 这个库做了对Swift项目的相关处理, 但是Flutter项目添加了amap_base依赖之后, 会报高德相关的头文件找不到, 一个解决方案是[为iOS项目手动添加Search Paths](https://blog.csdn.net/yutianlong9306/article/details/53306850). 如果有更好的解决方案, 请告知我.
+
 ## 关于项目结构
 项目结构按照高德官方网站的[开发指南](https://lbs.amap.com/api/android-sdk/guide/create-project/get-key)组织. 分为`地图`, `定位`, `导航`三大块.
 
