@@ -51,6 +51,8 @@ iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要�
 
     |-- me.yohom.amapbase
         |-- `AMapBasePlugin`: Flutter插件类
+        |-- `FunctionRegistry`: 功能登记处, 所有功能都需要在此处注册.
+        |-- `IMapMethodHandler`: **处理委托对象**接口.
         |-- common: 通用代码
         |-- map: 地图功能模块
             |-- handlers: 单个功能的**处理委托对象**
@@ -63,14 +65,12 @@ iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要�
             |-- model: 地图数据的模型
             |-- overlay: 覆盖物
             |-- `AMapFactory`: AMapView工厂, Flutter的platform view需要
-            |-- `MapFunctionRegistry`: 地图功能登记处, 所有功能都需要在此处注册.
-            |-- `MapMethodHandler`: **处理委托对象**接口.
         |-- navi: 导航功能模块(未实现)
         |-- location: 定位功能模块(未实现)
 
 ## 关于贡献代码
 1. 在`handlers`包下找到要实现的功能模块包, 比如说要实现[显示地图](https://lbs.amap.com/api/android-sdk/guide/create-map/show-map), 那么先找到`me.yohom.amapbase/map/handlers/createmap`包, 然后在该包下创建新的实现`MapMethodHandler`接口的委托类.
-2. 实现功能后, 在`MapFunctionRegistry`类中注册功能.
+2. 实现功能后, 在`FunctionRegistry`类中注册功能.
 3. 在dart增加对应的方法.
 4. 新功能的开发就完成了.
 

@@ -5,9 +5,9 @@ import com.amap.api.maps.model.LatLng
 import com.amap.api.maps.model.LatLngBounds
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import me.yohom.amapbase.map.MapMethodHandler
-import me.yohom.amapbase.map.success
+import me.yohom.amapbase.MapMethodHandler
 import me.yohom.amapbase.common.parseJson
+import me.yohom.amapbase.map.success
 
 object SetMapStatusLimits : MapMethodHandler {
 

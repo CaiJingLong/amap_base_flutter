@@ -7,10 +7,10 @@ import com.amap.api.services.poisearch.PoiSearch
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import me.yohom.amapbase.AMapBasePlugin.Companion.registrar
+import me.yohom.amapbase.SearchMethodHandler
 import me.yohom.amapbase.common.log
 import me.yohom.amapbase.common.toAMapError
 import me.yohom.amapbase.common.toJson
-import me.yohom.amapbase.search.SearchMethodHandler
 import me.yohom.amapbase.search.model.UnifiedPoiItem
 
 object SearchPoiId : SearchMethodHandler {

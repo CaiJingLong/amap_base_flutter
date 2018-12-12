@@ -3,11 +3,11 @@ package me.yohom.amapbase.map.handler.createmap
 import com.amap.api.maps.AMap
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import me.yohom.amapbase.map.MapMethodHandler
-import me.yohom.amapbase.map.model.UnifiedUiSettings
-import me.yohom.amapbase.map.success
+import me.yohom.amapbase.MapMethodHandler
 import me.yohom.amapbase.common.log
 import me.yohom.amapbase.common.parseJson
+import me.yohom.amapbase.map.model.UnifiedUiSettings
+import me.yohom.amapbase.map.success
 
 object SetUiSettings : MapMethodHandler {
 

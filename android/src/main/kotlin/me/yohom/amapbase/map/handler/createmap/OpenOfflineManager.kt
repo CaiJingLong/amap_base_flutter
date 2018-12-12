@@ -6,7 +6,7 @@ import com.amap.api.maps.offlinemap.OfflineMapActivity
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import me.yohom.amapbase.AMapBasePlugin.Companion.registrar
-import me.yohom.amapbase.map.MapMethodHandler
+import me.yohom.amapbase.MapMethodHandler
 
 object OpenOfflineManager: MapMethodHandler {
 

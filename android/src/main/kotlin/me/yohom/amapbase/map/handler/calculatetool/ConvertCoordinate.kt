@@ -6,8 +6,8 @@ import com.amap.api.maps.model.LatLng
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import me.yohom.amapbase.AMapBasePlugin.Companion.registrar
+import me.yohom.amapbase.MapMethodHandler
 import me.yohom.amapbase.common.toJson
-import me.yohom.amapbase.map.MapMethodHandler
 
 private val types = arrayListOf(
         CoordinateConverter.CoordType.GPS,

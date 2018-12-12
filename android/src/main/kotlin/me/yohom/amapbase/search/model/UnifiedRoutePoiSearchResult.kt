@@ -12,7 +12,7 @@ class UnifiedRoutePoiSearchResult(routePOISearchResult: RoutePOISearchResult) {
     private val query: RoutePOISearchQuery = routePOISearchResult.query
 }
 
-class UnifiedRoutePOIItem(poiItem: RoutePOIItem) {
+private class UnifiedRoutePOIItem(poiItem: RoutePOIItem) {
     val id: String = poiItem.id
     val title: String = poiItem.title
     val point: LatLng? = poiItem.point?.toLatLng()

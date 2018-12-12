@@ -4,10 +4,10 @@ import com.amap.api.services.route.*
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import me.yohom.amapbase.AMapBasePlugin
+import me.yohom.amapbase.SearchMethodHandler
 import me.yohom.amapbase.common.log
 import me.yohom.amapbase.common.parseJson
 import me.yohom.amapbase.common.toLatLonPoint
-import me.yohom.amapbase.search.SearchMethodHandler
 import me.yohom.amapbase.search.model.RoutePlanParam
 
 object CalculateDriveRoute : SearchMethodHandler {

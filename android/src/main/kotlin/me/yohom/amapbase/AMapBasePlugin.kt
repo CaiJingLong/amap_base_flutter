@@ -6,9 +6,7 @@ import android.os.Bundle
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import me.yohom.amapbase.map.AMapFactory
-import me.yohom.amapbase.map.MAP_METHOD_HANDLER
 import me.yohom.amapbase.navi.setupNaviChannel
-import me.yohom.amapbase.search.SEARCH_METHOD_HANDLER
 import java.util.concurrent.atomic.AtomicInteger
 
 const val CREATED = 1
