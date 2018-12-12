@@ -12,12 +12,12 @@
 #import "UnifiedMarkerOptions.h"
 #import "MarkerAnnotation.h"
 #import "ClearMap.h"
-#import "MapFunctionRegistry.h"
 #import "MJExtension.h"
 #import "UnifiedPolylineOptions.h"
 #import "AddPolyline.h"
 #import "NSString+Color.h"
 #import "PolylineOverlay.h"
+#import "FunctionRegistry.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";

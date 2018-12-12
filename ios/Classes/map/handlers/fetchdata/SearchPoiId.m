@@ -9,7 +9,6 @@
 
 
 @implementation SearchPoiId {
-    MAMapView *_mapView;
     AMapSearchAPI *_search;
     FlutterResult _result;
 }

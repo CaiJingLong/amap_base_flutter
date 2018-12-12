@@ -3,7 +3,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MapMethodHandler.h"
+#import "IMethodHandler.h"
 
 
 @interface SetMapStatusLimits : NSObject<MapMethodHandler>

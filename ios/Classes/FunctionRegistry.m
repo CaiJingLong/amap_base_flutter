@@ -1,13 +1,19 @@
 //
-// Created by Yohom Bao on 2018-12-08.
+// Created by Yohom Bao on 2018-12-12.
 //
 
-#import "MapFunctionRegistry.h"
-#import "MapMethodHandler.h"
+#import "FunctionRegistry.h"
+#import "IMethodHandler.h"
+#import "CalculateDriveRoute.h"
+#import "SearchPoiKeyword.h"
+#import "SearchPoiBound.h"
+#import "SearchPoiPolygon.h"
+#import "SearchPoiId.h"
+#import "SearchRoutePoiLine.h"
+#import "SearchRoutePoiPolygon.h"
 #import "ClearMap.h"
 #import "SetMyLocationStyle.h"
 #import "SetUiSettings.h"
-#import "AMapSearchKit.h"
 #import "AddMarker.h"
 #import "AddMarkers.h"
 #import "ShowIndoorMap.h"
@@ -21,14 +27,15 @@
 #import "OpenOfflineManager.h"
 #import "AddPolyline.h"
 
-static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_map;
+
+static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
 
 @implementation MapFunctionRegistry {
 }
 
 + (NSDictionary<NSString *, NSObject <MapMethodHandler> *> *)mapMethodHandler {
-    if (!_map) {
-        _map = @{
+    if (!_mapDictionary) {
+        _mapDictionary = @{
                 @"map#clear": [ClearMap alloc],
                 @"map#setMyLocationStyle": [SetMyLocationStyle alloc],
                 @"map#setUiSettings": [SetUiSettings alloc],
@@ -46,7 +53,29 @@ static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_map;
                 @"map#addPolyline": [AddPolyline alloc],
         };
     }
-    return _map;
+    return _mapDictionary;
+}
+
+@end
+
+static NSDictionary<NSString *, NSObject <SearchMethodHandler> *> *_searchDictionary;
+
+@implementation SearchFunctionRegistry {
+
+}
++ (NSDictionary<NSString *, NSObject <SearchMethodHandler> *> *)searchMethodHandler {
+    if (!_searchDictionary) {
+        _searchDictionary = @{
+                @"search#calculateDriveRoute": [CalculateDriveRoute alloc],
+                @"search#searchPoi": [SearchPoiKeyword alloc],
+                @"search#searchPoiBound": [SearchPoiBound alloc],
+                @"search#searchPoiPolygon": [SearchPoiPolygon alloc],
+                @"search#searchPoiId": [SearchPoiId alloc],
+                @"search#searchRoutePoiLine": [SearchRoutePoiLine alloc],
+                @"search#searchRoutePoiPolygon": [SearchRoutePoiPolygon alloc],
+        };
+    }
+    return _searchDictionary;
 }
 
 @end

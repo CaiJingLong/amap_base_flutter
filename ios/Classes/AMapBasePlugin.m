@@ -1,10 +1,8 @@
 #import "AMapBasePlugin.h"
 #import "NSObject+Navi.h"
 #import "AMapViewFactory.h"
-#import "MapMethodHandler.h"
-#import "MapFunctionRegistry.h"
-#import "SearchMethodHandler.h"
-#import "SearchFunctionRegistry.h"
+#import "IMethodHandler.h"
+#import "FunctionRegistry.h"
 
 static NSObject <FlutterPluginRegistrar> *_registrar;
 

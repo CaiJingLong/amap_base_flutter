@@ -8,6 +8,7 @@ import me.yohom.amapbase.SearchMethodHandler
 import me.yohom.amapbase.common.log
 import me.yohom.amapbase.common.parseJson
 import me.yohom.amapbase.common.toLatLonPoint
+import me.yohom.amapbase.map.success
 import me.yohom.amapbase.search.model.RoutePlanParam
 
 object CalculateDriveRoute : SearchMethodHandler {
@@ -44,7 +45,7 @@ object CalculateDriveRoute : SearchMethodHandler {
 //                                    zoomToSpan()
 //                                }
 //
-//                        result.success(success)
+                        result.success(success)
 //                    }
                 }
 

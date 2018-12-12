@@ -2,31 +2,31 @@
 // Created by Yohom Bao on 2018-12-07.
 //
 
+#import "IMethodHandler.h"
 #import "CalculateDriveRoute.h"
 #import "RoutePlanParam.h"
 #import "UnifiedAMapOptions.h"
 #import "NSArray+Rx.h"
 #import "MAPointAnnotation.h"
 #import "MANaviRoute.h"
-#import "Misc.h"
 #import "AMapViewFactory.h"
 #import "MJExtension.h"
 
 
 @implementation CalculateDriveRoute {
-    MAMapView *_mapView;
     RoutePlanParam *_routePlanParam;
     AMapSearchAPI *_search;
     FlutterResult _result;
-    MANaviRoute *_overlay;
 }
 
-- (NSObject <MapMethodHandler> *)initWith:(MAMapView *)mapView {
-    _mapView = mapView;
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        // 搜索api回调设置
+        _search = [[AMapSearchAPI alloc] init];
+        _search.delegate = self;
+    }
 
-    // 搜索api回调设置
-    _search = [[AMapSearchAPI alloc] init];
-    _search.delegate = self;
     return self;
 }
 
@@ -75,22 +75,22 @@
     destinationAnnotation.coordinate = [_routePlanParam.to toCLLocationCoordinate2D];
     destinationAnnotation.title = @"终点";
 
-    [_mapView addAnnotation:startAnnotation];
-    [_mapView addAnnotation:destinationAnnotation];
-
-    // 添加中间的路径
-    AMapPath *path = response.route.paths[0];
-    _overlay = [MANaviRoute naviRouteForPath:path
-                                withNaviType:MANaviAnnotationTypeDrive
-                                 showTraffic:YES
-                                  startPoint:[_routePlanParam.from toAMapGeoPoint]
-                                    endPoint:[_routePlanParam.to toAMapGeoPoint]];
-    [_overlay addToMapView:_mapView];
-
-    // 收缩地图到路径范围
-    [_mapView setVisibleMapRect:[Misc mapRectForOverlays:_overlay.routePolylines]
-                    edgePadding:UIEdgeInsetsMake(20, 20, 20, 20)
-                       animated:YES];
+//    [_mapView addAnnotation:startAnnotation];
+//    [_mapView addAnnotation:destinationAnnotation];
+//
+//    // 添加中间的路径
+//    AMapPath *path = response.route.paths[0];
+//    _overlay = [MANaviRoute naviRouteForPath:path
+//                                withNaviType:MANaviAnnotationTypeDrive
+//                                 showTraffic:YES
+//                                  startPoint:[_routePlanParam.from toAMapGeoPoint]
+//                                    endPoint:[_routePlanParam.to toAMapGeoPoint]];
+//    [_overlay addToMapView:_mapView];
+//
+//    // 收缩地图到路径范围
+//    [_mapView setVisibleMapRect:[Misc mapRectForOverlays:_overlay.routePolylines]
+//                    edgePadding:UIEdgeInsetsMake(20, 20, 20, 20)
+//                       animated:YES];
 
     _result(success);
 }

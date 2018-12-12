@@ -1,5 +1,5 @@
 //
-// Created by Yohom Bao on 2018-12-07.
+// Created by Yohom Bao on 2018-12-12.
 //
 
 #import <Foundation/Foundation.h>
@@ -15,4 +15,9 @@
 @required
 - (void)onMethodCall:(FlutterMethodCall *)call :(FlutterResult)result;
 
+@end
+
+@protocol SearchMethodHandler <NSObject>
+@required
+- (void)onMethodCall:(FlutterMethodCall *)call :(FlutterResult)result;
 @end

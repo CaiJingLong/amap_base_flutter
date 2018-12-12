@@ -3,8 +3,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MapMethodHandler.h"
-
+#import "IMethodHandler.h"
 
 @interface SetMapType : NSObject<MapMethodHandler>
 @end
