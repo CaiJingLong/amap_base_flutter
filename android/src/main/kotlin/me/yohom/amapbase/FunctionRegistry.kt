@@ -9,6 +9,7 @@ import me.yohom.amapbase.map.handler.draw.ClearMarker
 import me.yohom.amapbase.map.handler.interact.SetMapStatusLimits
 import me.yohom.amapbase.map.handler.interact.SetPosition
 import me.yohom.amapbase.map.handler.interact.SetZoomLevel
+import me.yohom.amapbase.navi.handler.StartNavi
 import me.yohom.amapbase.search.handler.fetchdata.*
 import me.yohom.amapbase.search.handler.routeplan.CalculateDriveRoute
 
@@ -45,3 +46,15 @@ val SEARCH_METHOD_HANDLER: Map<String, SearchMethodHandler> = mapOf(
         "search#searchRoutePoiLine" to SearchRoutePoiLine,
         "search#searchRoutePoiPolygon" to SearchRoutePoiPolygon
 )
+
+/**
+ * 导航功能集合
+ */
+val NAVI_METHOD_HANDLER: Map<String, NaviMethodHandler> = mapOf(
+        "navi#startNavi" to StartNavi
+)
+
+/**
+ * 定位功能集合
+ */
+val LOCATION_METHOD_HANDLER: Map<String, LocationMethodHandler> = mapOf()

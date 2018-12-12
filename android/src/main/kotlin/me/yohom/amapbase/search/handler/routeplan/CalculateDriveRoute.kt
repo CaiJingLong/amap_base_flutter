@@ -7,9 +7,9 @@ import me.yohom.amapbase.AMapBasePlugin
 import me.yohom.amapbase.SearchMethodHandler
 import me.yohom.amapbase.common.log
 import me.yohom.amapbase.common.parseJson
-import me.yohom.amapbase.common.toLatLonPoint
 import me.yohom.amapbase.map.success
 import me.yohom.amapbase.search.model.RoutePlanParam
+import me.yohom.amapbase.search.toLatLonPoint
 
 object CalculateDriveRoute : SearchMethodHandler {
 

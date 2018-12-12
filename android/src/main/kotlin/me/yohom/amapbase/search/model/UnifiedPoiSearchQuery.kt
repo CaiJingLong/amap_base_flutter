@@ -3,7 +3,7 @@ package me.yohom.amapbase.search.model
 import android.content.Context
 import com.amap.api.maps.model.LatLng
 import com.amap.api.services.poisearch.PoiSearch
-import me.yohom.amapbase.common.toLatLonPoint
+import me.yohom.amapbase.search.toLatLonPoint
 
 class UnifiedPoiSearchQuery(
         /// 查询字符串，多个关键字用“|”分割
