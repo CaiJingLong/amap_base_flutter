@@ -42,7 +42,6 @@ class UnifiedDriveStep(driveStep: DriveStep) {
     val assistantAction: String = driveStep.assistantAction
     val routeSearchCityList: List<UnifiedRouteSearchCity> = driveStep.routeSearchCityList.map { UnifiedRouteSearchCity(it) }
     val TMCs: List<UnifiedTMC> = driveStep.tmCs.map { UnifiedTMC(it) }
-
 }
 
 class UnifiedRouteSearchCity(routeSearchCity: RouteSearchCity) {
