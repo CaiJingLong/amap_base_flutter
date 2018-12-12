@@ -10,9 +10,13 @@
 @class UnifiedDistrict;
 @class UnifiedTMC;
 @class UnifiedRouteSearchCity;
+@class AMapGeoPoint;
 
 
 @interface UnifiedRouteOverlay : NSObject
+
++(instancetype) initWithJson: (NSString *)json;
+
 @property(nonatomic) NSString *type;
 @property(nonatomic) LatLng *from;
 @property(nonatomic) LatLng *to;
@@ -21,13 +25,13 @@
 @end
 
 @interface UnifiedDrivePath : NSObject
+
 @property(nonatomic) NSString *strategy;
 @property(nonatomic) CGFloat tolls;
 @property(nonatomic) CGFloat tollDistance;
 @property(nonatomic) NSInteger totalTrafficlights;
 @property(nonatomic) NSArray <UnifiedDriveStep *> *steps;
 @property(nonatomic) NSInteger restriction;
-
 @end
 
 @interface UnifiedDriveStep : NSObject
@@ -51,6 +55,7 @@
 @end
 
 @interface UnifiedTMC : NSObject
+
 @property(nonatomic) NSInteger distance;
 @property(nonatomic) NSString *status;
 @property(nonatomic) NSArray <LatLng *> *polyline;

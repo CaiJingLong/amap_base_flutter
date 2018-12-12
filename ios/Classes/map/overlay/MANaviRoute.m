@@ -8,376 +8,37 @@
 
 #import "MANaviRoute.h"
 #import "Misc.h"
+#import "UnifiedRouteOverlay.h"
+#import "NSArray+Rx.h"
+#import "UnifiedAMapOptions.h"
+#import "MJExtension.h"
 
 #define kMANaviRouteReplenishPolylineFilter     5
 
 @interface MANaviRoute ()
 
 @property(nonatomic, weak) MAMapView *mapView;
-@property(nonatomic, strong) NSArray<UIColor *> *trafficColors;
 
 @end
 
 @implementation MANaviRoute
 
-- (void)addToMapView:(MAMapView *)mapView {
-    self.mapView = mapView;
-
-    if ([self.routePolylines count] > 0) {
-        [mapView addOverlays:self.routePolylines];
-    }
-
-    if (self.anntationVisible && [self.naviAnnotations count] > 0) {
-        [mapView addAnnotations:self.naviAnnotations];
-    }
-}
-
-- (void)removeFromMapView {
-    if (self.mapView == nil) {
-        return;
-    }
-
-    if ([self.routePolylines count] > 0) {
-        [self.mapView removeOverlays:self.routePolylines];
-    }
-
-    if (self.anntationVisible && [self.naviAnnotations count] > 0) {
-        [self.mapView removeAnnotations:self.naviAnnotations];
-    }
-
-    self.mapView = nil;
-}
-
-- (void)setNaviAnnotationVisibility:(BOOL)visible {
-    if (visible == self.anntationVisible) {
-        return;
-    }
-
-    self.anntationVisible = visible;
-
-    if (self.mapView == nil) {
-        return;
-    }
-
-    if (self.anntationVisible) {
-        [self.mapView addAnnotations:self.naviAnnotations];
-    } else {
-        [self.mapView removeAnnotations:self.naviAnnotations];
-    }
-}
-
 #pragma mark - Format Search Result
-
-/* _naviRoute parsed from _search result. */
-+ (MANaviRoute *)naviRouteForRailway:(AMapRailway *)railway {
-    if (railway == nil || railway.uid.length == 0) {
-        return nil;
-    }
-
-    NSMutableArray *polylines = [NSMutableArray array];
-    NSMutableArray *naviAnnotations = [NSMutableArray array];
-
-    NSMutableArray *stations = [NSMutableArray array];
-    [stations addObject:railway.departureStation];
-    [stations addObjectsFromArray:railway.viaStops];
-    [stations addObject:railway.arrivalStation];
-
-
-    for (int i = 0; i < stations.count - 1; i++) {
-        AMapRailwayStation *currentStation = stations[i];
-        AMapRailwayStation *nextStation = stations[i + 1];
-        CLLocationCoordinate2D coordinates[2];
-        coordinates[0] = CLLocationCoordinate2DMake(currentStation.location.latitude, currentStation.location.longitude);
-        coordinates[1] = CLLocationCoordinate2DMake(nextStation.location.latitude, nextStation.location.longitude);
-
-        MAPolyline *polyline = [MAPolyline polylineWithCoordinates:coordinates count:2];
-        MANaviPolyline *naviPolyline = [[MANaviPolyline alloc] initWithPolyline:polyline];
-        naviPolyline.type = MANaviAnnotationTypeRailway;
-
-        [polylines addObject:naviPolyline];
-
-        MANaviAnnotation *annotation = [[MANaviAnnotation alloc] init];
-        annotation.coordinate = CLLocationCoordinate2DMake(currentStation.location.latitude, currentStation.location.longitude);
-        annotation.type = MANaviAnnotationTypeRailway;
-        annotation.title = currentStation.name;
-        [naviAnnotations addObject:annotation];
-
-        if (i == stations.count - 2) {
-            // add last station
-            MANaviAnnotation *lannotation = [[MANaviAnnotation alloc] init];
-            lannotation.coordinate = CLLocationCoordinate2DMake(nextStation.location.latitude, nextStation.location.longitude);
-            lannotation.type = MANaviAnnotationTypeRailway;
-            lannotation.title = nextStation.name;
-            [naviAnnotations addObject:lannotation];
-        }
-    }
-
-    return [MANaviRoute naviRouteForPolylines:polylines andAnnotations:naviAnnotations];
-}
-
-+ (MANaviRoute *)naviRouteForTaxi:(AMapTaxi *)taxi {
-    if (taxi == nil) {
-        return nil;
-    }
-
-    NSMutableArray *polylines = [NSMutableArray array];
-    NSMutableArray *naviAnnotations = [NSMutableArray array];
-
-    CLLocationCoordinate2D coordinates[2];
-    coordinates[0] = CLLocationCoordinate2DMake(taxi.origin.latitude, taxi.origin.longitude);
-    coordinates[1] = CLLocationCoordinate2DMake(taxi.destination.latitude, taxi.destination.longitude);
-
-    MAPolyline *polyline = [MAPolyline polylineWithCoordinates:coordinates count:2];
-    MANaviPolyline *naviPolyline = [[MANaviPolyline alloc] initWithPolyline:polyline];
-    naviPolyline.type = MANaviAnnotationTypeBus;
-
-    [polylines addObject:naviPolyline];
-
-    // 暂不添加annotation
-    return [MANaviRoute naviRouteForPolylines:polylines andAnnotations:naviAnnotations];
-}
-
-+ (MANaviRoute *)naviRouteForWalking:(AMapWalking *)walking {
-    if (walking == nil || walking.steps.count == 0) {
-        return nil;
-    }
-
-    NSMutableArray *polylines = [NSMutableArray array];
-    NSMutableArray *naviAnnotations = [NSMutableArray array];
-
-    [walking.steps enumerateObjectsUsingBlock:^(AMapStep *step, NSUInteger idx, BOOL *stop) {
-
-        MAPolyline *stepPolyline = [self polylineForStep:step];
-
-        if (stepPolyline != nil) {
-            MANaviPolyline *naviPolyline = [[MANaviPolyline alloc] initWithPolyline:stepPolyline];
-            naviPolyline.type = MANaviAnnotationTypeWalking;
-
-            [polylines addObject:naviPolyline];
-
-            MANaviAnnotation *annotation = [[MANaviAnnotation alloc] init];
-            annotation.coordinate = MACoordinateForMapPoint(stepPolyline.points[0]);
-            annotation.type = MANaviAnnotationTypeWalking;
-            annotation.title = step.instruction;
-            [naviAnnotations addObject:annotation];
-
-            if (idx > 0) {
-                [self replenishPolylinesForWalkingWith:stepPolyline LastPolyline:[self polylineForStep:[walking.steps objectAtIndex:idx - 1]] Polylines:polylines Walking:walking];
-            }
-        }
-
-    }];
-
-    return [MANaviRoute naviRouteForPolylines:polylines andAnnotations:naviAnnotations];
-}
-
-+ (MANaviRoute *)naviRouteForSegment:(AMapSegment *)segment {
-    if (segment == nil) {
-        return nil;
-    }
-
-    NSMutableArray *polylines = [NSMutableArray array];
-    NSMutableArray *annotations = [NSMutableArray array];
-
-    MANaviRoute *walkingRoute = [MANaviRoute naviRouteForWalking:segment.walking];
-    if (walkingRoute) {
-        [polylines addObjectsFromArray:walkingRoute.routePolylines];
-        [annotations addObjectsFromArray:walkingRoute.naviAnnotations];
-    }
-
-    // taxi
-    MANaviRoute *taxiRoute = [MANaviRoute naviRouteForTaxi:segment.taxi];
-    if (taxiRoute) {
-        [polylines addObjectsFromArray:taxiRoute.routePolylines];
-        [annotations addObjectsFromArray:taxiRoute.naviAnnotations];
-    }
-
-    // railway
-    MANaviRoute *railwayRoute = [MANaviRoute naviRouteForRailway:segment.railway];
-    if (railwayRoute) {
-        [polylines addObjectsFromArray:railwayRoute.routePolylines];
-        [annotations addObjectsFromArray:railwayRoute.naviAnnotations];
-    }
-
-    AMapBusLine *firstLine = [segment.buslines firstObject];
-    MAPolyline *busLinePolyline = [MANaviRoute polylineForBusLine:firstLine];
-    if (busLinePolyline) {
-        MANaviPolyline *naviPolyline = [[MANaviPolyline alloc] initWithPolyline:busLinePolyline];
-        naviPolyline.type = MANaviAnnotationTypeBus;
-
-        [polylines addObject:naviPolyline];
-
-        MANaviAnnotation *bus = [[MANaviAnnotation alloc] init];
-        bus.coordinate = MACoordinateForMapPoint(busLinePolyline.points[0]);
-        bus.type = MANaviAnnotationTypeBus;
-        bus.title = firstLine.name;
-        [annotations addObject:bus];
-    }
-
-    [self replenishPolylinesForSegment:walkingRoute.routePolylines busLinePolyline:busLinePolyline Segment:segment polylines:polylines];
-
-    return [MANaviRoute naviRouteForPolylines:polylines andAnnotations:annotations];
-
-}
 
 /* polyline parsed from _search result. */
 
-+ (MAPolyline *)polylineForStep:(AMapStep *)step {
++ (MAPolyline *)polylineForStep:(UnifiedDriveStep *)step {
     if (step == nil) {
         return nil;
     }
 
-    return [Misc polylineForCoordinateString:step.polyline];
-}
-
-+ (MAPolyline *)polylineForBusLine:(AMapBusLine *)busLine {
-    if (busLine == nil) {
-        return nil;
-    }
-
-    return [Misc polylineForCoordinateString:busLine.polyline];
+    NSString *result = [[step.polyline map:^(LatLng *latLng) {
+        return [NSString stringWithFormat:@"%f,%f", latLng.longitude, latLng.latitude];
+    }] componentsJoinedByString:@";"];
+    return [Misc polylineForCoordinateString:result];
 }
 
 #pragma mark - replenish
-
-/// 补充起点和终点对于路径的空隙
-+ (void)replenishPolylinesForStartPoint:(AMapGeoPoint *)start
-                               endPoint:(AMapGeoPoint *)end
-                              Polylines:(NSMutableArray *)polylines {
-    if (polylines.count < 1) {
-        return;
-    }
-
-    LineDashPolyline *startDashPolyline = nil;
-    LineDashPolyline *endDashPolyline = nil;
-    if (start) {
-        CLLocationCoordinate2D startCoor1 = CLLocationCoordinate2DMake(start.latitude, start.longitude);
-        CLLocationCoordinate2D endCoor1 = startCoor1;
-
-        MANaviPolyline *naviPolyline = [polylines firstObject];
-        MAPolyline *polyline = nil;
-        if ([naviPolyline isKindOfClass:[MANaviPolyline class]]) {
-            polyline = naviPolyline.polyline;
-        } else if ([naviPolyline isKindOfClass:[MAPolyline class]]) {
-            polyline = (MAPolyline *) naviPolyline;
-        }
-
-        if (polyline) {
-            [polyline getCoordinates:&endCoor1 range:NSMakeRange(0, 1)];
-            startDashPolyline = [self replenishPolylineWithStart:startCoor1 end:endCoor1];
-
-        }
-    } // end start
-
-    if (end) {
-        CLLocationCoordinate2D startCoor2;
-        CLLocationCoordinate2D endCoor2;
-
-        MANaviPolyline *naviPolyline = [polylines lastObject];
-        MAPolyline *polyline = nil;
-        if ([naviPolyline isKindOfClass:[MANaviPolyline class]]) {
-            polyline = naviPolyline.polyline;
-        } else if ([naviPolyline isKindOfClass:[MAPolyline class]]) {
-            polyline = (MAPolyline *) naviPolyline;
-        }
-
-        if (polyline) {
-            [polyline getCoordinates:&startCoor2 range:NSMakeRange(polyline.pointCount - 1, 1)];
-            endCoor2 = CLLocationCoordinate2DMake(end.latitude, end.longitude);
-
-            endDashPolyline = [self replenishPolylineWithStart:startCoor2 end:endCoor2];
-        }
-    } //end end
-
-    if (startDashPolyline) {
-        [polylines addObject:startDashPolyline];
-    }
-    if (endDashPolyline) {
-        [polylines addObject:endDashPolyline];
-    }
-}
-
-+ (void)replenishPolylinesForWalkingWith:(MAPolyline *)stepPolyline
-                            LastPolyline:(MAPolyline *)lastPolyline
-                               Polylines:(NSMutableArray *)polylines
-                                 Walking:(AMapWalking *)walking {
-    CLLocationCoordinate2D startCoor;
-    CLLocationCoordinate2D endCoor;
-
-    [stepPolyline getCoordinates:&endCoor range:NSMakeRange(0, 1)];
-    [lastPolyline getCoordinates:&startCoor range:NSMakeRange(lastPolyline.pointCount - 1, 1)];
-
-    if (endCoor.latitude != startCoor.latitude || endCoor.longitude != startCoor.longitude) {
-        LineDashPolyline *dashPolyline = [self replenishPolylineWithStart:startCoor end:endCoor];
-        if (dashPolyline) {
-            [polylines addObject:dashPolyline];
-        }
-    }
-}
-
-+ (void)replenishPolylinesForSegment:(NSArray *)walkingPolylines
-                     busLinePolyline:(MAPolyline *)busLinePolyline
-                             Segment:(AMapSegment *)segment
-                           polylines:(NSMutableArray *)polylines {
-    if (walkingPolylines.count != 0) {
-        AMapGeoPoint *walkingEndPoint = segment.walking.destination;
-
-        if (busLinePolyline) {
-            CLLocationCoordinate2D startCoor = CLLocationCoordinate2DMake(walkingEndPoint.latitude, walkingEndPoint.longitude);
-
-            CLLocationCoordinate2D endCoor;
-            [busLinePolyline getCoordinates:&endCoor range:NSMakeRange(0, 1)];
-            LineDashPolyline *dashPolyline = [self replenishPolylineWithStart:startCoor end:endCoor];
-            if (dashPolyline) {
-                [polylines addObject:dashPolyline];
-            }
-        }
-    }
-
-}
-
-+ (void)replenishPolylinesForTransit:(AMapSegment *)lastSegment
-                      CurrentSegment:(AMapSegment *)segment
-                           Polylines:(NSMutableArray *)polylines {
-    if (lastSegment) {
-        CLLocationCoordinate2D startCoor = kCLLocationCoordinate2DInvalid;
-        CLLocationCoordinate2D endCoor = kCLLocationCoordinate2DInvalid;
-
-        MAPolyline *busLinePolyline = [self polylineForBusLine:[(lastSegment).buslines firstObject]];
-        if (busLinePolyline != nil) {
-            [busLinePolyline getCoordinates:&startCoor range:NSMakeRange(busLinePolyline.pointCount - 1, 1)];
-        } else if (lastSegment.railway.arrivalStation) {
-            startCoor = CLLocationCoordinate2DMake(lastSegment.railway.arrivalStation.location.latitude, lastSegment.railway.arrivalStation.location.longitude);
-        } else {
-            if ((lastSegment).walking && [(lastSegment).walking.steps count] != 0) {
-                startCoor.latitude = (lastSegment).walking.destination.latitude;
-                startCoor.longitude = (lastSegment).walking.destination.longitude;
-            } else {
-                return;
-            }
-        }
-
-        if ((segment).walking && [(segment).walking.steps count] != 0) {
-            AMapStep *step = [(segment).walking.steps objectAtIndex:0];
-            MAPolyline *stepPolyline = [self polylineForStep:step];
-
-            [stepPolyline getCoordinates:&endCoor range:NSMakeRange(0, 1)];
-        } else {
-            AMapBusLine *firstLine = [segment.buslines firstObject];
-            MAPolyline *busLinePolyline = [self polylineForBusLine:firstLine];
-            if (busLinePolyline != nil) {
-                [busLinePolyline getCoordinates:&endCoor range:NSMakeRange(0, 1)];
-            } else if (segment.railway.departureStation) {
-                endCoor = CLLocationCoordinate2DMake(segment.railway.departureStation.location.latitude, segment.railway.departureStation.location.longitude);
-            }
-        }
-
-        LineDashPolyline *dashPolyline = [self replenishPolylineWithStart:startCoor end:endCoor];
-        if (dashPolyline) {
-            [polylines addObject:dashPolyline];
-        }
-    }
-}
 
 + (void)replenishPolylinesForPathWith:(MAPolyline *)stepPolyline
                          lastPolyline:(MAPolyline *)lastPolyline
@@ -421,7 +82,7 @@
 
 #pragma mark - colored route
 
-+ (MAPolyline *)multiColoredPolylineWithDrivePath:(AMapPath *)path polylineColors:(NSArray **)polylineColors {
++ (MAPolyline *)multiColoredPolylineWithDrivePath:(UnifiedDrivePath *)path polylineColors:(NSArray **)polylineColors {
     if (path == nil) {
         return nil;
     }
@@ -431,19 +92,18 @@
     NSMutableArray *coordinates = [NSMutableArray array];
     NSMutableArray *indexes = [NSMutableArray array];
 
-    NSMutableArray<AMapTMC *> *tmcs = [NSMutableArray array];
+    NSMutableArray<UnifiedTMC *> *tmcs = [NSMutableArray array];
     NSMutableArray *coorArray = [NSMutableArray array];
 
-    [path.steps enumerateObjectsUsingBlock:^(AMapStep *_Nonnull step, NSUInteger idx, BOOL *_Nonnull stop) {
-
-        [coorArray addObjectsFromArray:[self coordinateArrayWithPolylineString:step.polyline]];
-        [tmcs addObjectsFromArray:step.tmcs];
+    [path.steps enumerateObjectsUsingBlock:^(UnifiedDriveStep *_Nonnull step, NSUInteger idx, BOOL *_Nonnull stop) {
+        [coorArray addObjectsFromArray:step.polyline];
+        [tmcs addObjectsFromArray:step.TMCs];
     }];
 
     NSMutableArray *mergedTmcs = [NSMutableArray array];
-    NSString *prevStatus = tmcs.firstObject.status;
+    NSString *prevStatus = [UnifiedTMC mj_objectWithKeyValues:tmcs.firstObject].status;
     double sumDistance = 0;
-    for (AMapTMC *tmc in tmcs) {
+    for (UnifiedTMC *tmc in tmcs) {
         if ([prevStatus isEqualToString:tmc.status]) {
             sumDistance += tmc.distance;
         } else {
@@ -471,37 +131,37 @@
     NSInteger curTrafficLength = tmcs.firstObject.distance;
     [mutablePolylineColors addObject:[self colorWithTrafficStatus:tmcs.firstObject.status]];
     [indexes addObject:@(0)];
-    [coordinates addObject:[coorArray objectAtIndex:0]];
+//    [coordinates addObject:coorArray[0]];
     for (; i < coorArray.count; ++i) {
         double oneDis = [self calcDistanceBetweenCoor:[self coordinateWithString:coorArray[i - 1]] andCoor:[self coordinateWithString:coorArray[i]]];
         if (sumLength + oneDis >= curTrafficLength) {
             if (sumLength + oneDis == curTrafficLength) {
-                [coordinates addObject:[coorArray objectAtIndex:i]];
-                [indexes addObject:[NSNumber numberWithInteger:([coordinates count] - 1)]];
+                [coordinates addObject:coorArray[i]];
+                [indexes addObject:@([coordinates count] - 1)];
             } else // 需要插入一个点
             {
                 double rate = (oneDis == 0 ? 0 : ((curTrafficLength - sumLength) / oneDis));
-                NSString *extrnPoint = [self calcPointWithStartPoint:[coorArray objectAtIndex:i - 1] endPoint:[coorArray objectAtIndex:i] rate:MAX(MIN(rate, 1.0), 0)];
+                NSString *extrnPoint = [self calcPointWithStartPoint:coorArray[i - 1] endPoint:coorArray[i] rate:MAX(MIN(rate, 1.0), 0)];
                 if (extrnPoint) {
                     [coordinates addObject:extrnPoint];
-                    [indexes addObject:[NSNumber numberWithInteger:([coordinates count] - 1)]];
-                    [coordinates addObject:[coorArray objectAtIndex:i]];
+                    [indexes addObject:@([coordinates count] - 1)];
+                    [coordinates addObject:coorArray[i]];
                 } else {
-                    [coordinates addObject:[coorArray objectAtIndex:i]];
-                    [indexes addObject:[NSNumber numberWithInteger:([coordinates count] - 1)]];
+                    [coordinates addObject:coorArray[i]];
+                    [indexes addObject:@([coordinates count] - 1)];
                 }
 
             }
 
-            sumLength = sumLength + oneDis - curTrafficLength;
+            sumLength = (NSInteger) (sumLength + oneDis - curTrafficLength);
 
             if (++statusesIndex >= [tmcs count]) {
                 break;
             }
-            curTrafficLength = tmcs[statusesIndex].distance;
+            curTrafficLength = tmcs[(NSUInteger) statusesIndex].distance;
             [mutablePolylineColors addObject:[self colorWithTrafficStatus:tmcs[statusesIndex].status]];
         } else {
-            [coordinates addObject:[coorArray objectAtIndex:i]];
+            [coordinates addObject:coorArray[i]];
             sumLength += oneDis;
         }
     } // end for
@@ -509,15 +169,14 @@
     //将最后一个点对齐到路径终点
     if (i < [coorArray count]) {
         while (i < [coorArray count]) {
-            [coordinates addObject:[coorArray objectAtIndex:i]];
+            [coordinates addObject:coorArray[i]];
             i++;
         }
 
         [indexes removeLastObject];
-        [indexes addObject:[NSNumber numberWithInteger:([coordinates count] - 1)]];
+        [indexes addObject:@([coordinates count] - 1)];
     }
 
-//    NSArray *array2 = [indexes subarrayWithRange:NSMakeRange(0, 2000)];
     NSArray *array2 = indexes;
     // 添加overlay
 
@@ -581,10 +240,6 @@
     return MAMetersBetweenMapPoints(mapPointA, mapPointB);
 }
 
-+ (NSArray *)coordinateArrayWithPolylineString:(NSString *)string {
-    return [string componentsSeparatedByString:@";"];
-}
-
 + (CLLocationCoordinate2D)coordinateWithString:(NSString *)string {
     NSArray *coorArray = [string componentsSeparatedByString:@","];
     if (coorArray.count != 2) {
@@ -595,69 +250,11 @@
 
 #pragma mark - Life Cycle
 
-+ (instancetype)naviRouteForTransit:(AMapTransit *)transit startPoint:(AMapGeoPoint *)start endPoint:(AMapGeoPoint *)end {
-    return [[self alloc] initWithTransit:transit startPoint:start endPoint:end];
-}
-
-+ (instancetype)naviRouteForPath:(AMapPath *)path withNaviType:(MANaviAnnotationType)type showTraffic:(BOOL)showTraffic startPoint:(AMapGeoPoint *)start endPoint:(AMapGeoPoint *)end {
++ (instancetype)naviRouteForPath:(UnifiedDrivePath *)path withNaviType:(MANaviAnnotationType)type showTraffic:(BOOL)showTraffic startPoint:(AMapGeoPoint *)start endPoint:(AMapGeoPoint *)end {
     return [[self alloc] initWithPath:path withNaviType:type showTraffic:showTraffic startPoint:start endPoint:end];
 }
 
-+ (instancetype)naviRouteForPolylines:(NSArray *)polylines andAnnotations:(NSArray *)annotations {
-    return [[self alloc] initWithPolylines:polylines andAnnotations:annotations];
-}
-
-- (instancetype)initWithPolylines:(NSArray *)polylines andAnnotations:(NSArray *)annotations {
-    self = [self init];
-
-    if (self) {
-        self.routePolylines = polylines;
-        self.naviAnnotations = annotations;
-    }
-
-    return self;
-}
-
-- (instancetype)initWithTransit:(AMapTransit *)transit startPoint:(AMapGeoPoint *)start endPoint:(AMapGeoPoint *)end {
-    self = [self init];
-
-    if (self == nil) {
-        return nil;
-    }
-
-    if (transit == nil || transit.segments.count == 0) {
-        return self;
-    }
-
-    NSMutableArray *polylines = [NSMutableArray array];
-    NSMutableArray *anntations = [NSMutableArray array];
-
-    [transit.segments enumerateObjectsUsingBlock:^(AMapSegment *segment, NSUInteger idx, BOOL *stop) {
-
-        MANaviRoute *routeSegment = [MANaviRoute naviRouteForSegment:segment];
-
-        if (routeSegment.routePolylines.count != 0) {
-            [polylines addObjectsFromArray:routeSegment.routePolylines];
-        }
-        if (routeSegment.naviAnnotations.count != 0) {
-            [anntations addObjectsFromArray:routeSegment.naviAnnotations];
-        }
-
-        if (idx > 0) {
-            [MANaviRoute replenishPolylinesForTransit:[transit.segments objectAtIndex:idx - 1] CurrentSegment:segment Polylines:polylines];
-        }
-    }];
-
-    [MANaviRoute replenishPolylinesForStartPoint:start endPoint:end Polylines:polylines];
-
-    self.routePolylines = polylines;
-    self.naviAnnotations = anntations;
-
-    return self;
-
-}
-
-- (instancetype)initWithPath:(AMapPath *)path withNaviType:(MANaviAnnotationType)type showTraffic:(BOOL)showTraffic startPoint:(AMapGeoPoint *)start endPoint:(AMapGeoPoint *)end {
+- (instancetype)initWithPath:(UnifiedDrivePath *)path withNaviType:(MANaviAnnotationType)type showTraffic:(BOOL)showTraffic startPoint:(AMapGeoPoint *)start endPoint:(AMapGeoPoint *)end {
     self = [self init];
 
     if (self == nil) {
@@ -679,9 +276,8 @@
             [polylines addObject:polyline];
             self.multiPolylineColors = polylineColors;
         }
-
     } else {
-        [path.steps enumerateObjectsUsingBlock:^(AMapStep *step, NSUInteger idx, BOOL *stop) {
+        [path.steps enumerateObjectsUsingBlock:^(UnifiedDriveStep *step, NSUInteger idx, BOOL *stop) {
 
             MAPolyline *stepPolyline = [MANaviRoute polylineForStep:step];
 
@@ -702,14 +298,12 @@
                 if (idx > 0) {
                     // 填充step和step之间的空隙
                     [MANaviRoute replenishPolylinesForPathWith:stepPolyline
-                                                  lastPolyline:[MANaviRoute polylineForStep:[path.steps objectAtIndex:idx - 1]]
+                                                  lastPolyline:[MANaviRoute polylineForStep:path.steps[idx - 1]]
                                                      Polylines:polylines];
                 }
             }
         }];
     }
-
-    [MANaviRoute replenishPolylinesForStartPoint:start endPoint:end Polylines:polylines];
 
     self.routePolylines = polylines;
     self.naviAnnotations = naviAnnotations;
@@ -720,14 +314,12 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.anntationVisible = YES;
         self.routeColor = [UIColor blueColor];
         self.walkingColor = [UIColor cyanColor];
         self.railwayColor = [UIColor greenColor];
 
-        self.trafficColors = @[[UIColor greenColor], [UIColor greenColor], [UIColor yellowColor], [UIColor redColor]];
+        @[[UIColor greenColor], [UIColor greenColor], [UIColor yellowColor], [UIColor redColor]];
     }
-
     return self;
 }
 

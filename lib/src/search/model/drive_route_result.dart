@@ -4,7 +4,7 @@ class DriveRouteResult {
   List<DrivePath> paths;
   LatLng startPos;
   LatLng targetPos;
-  double taxiCost;
+  num taxiCost;
 
   DriveRouteResult({
     this.paths,
@@ -24,7 +24,7 @@ class DriveRouteResult {
         json['startPos'] != null ? LatLng.fromJson(json['startPos']) : null;
     targetPos =
         json['targetPos'] != null ? LatLng.fromJson(json['targetPos']) : null;
-    taxiCost = json['taxiCost'] as double;
+    taxiCost = json['taxiCost'] as num;
   }
 
   Map<String, dynamic> toJson() {
@@ -46,7 +46,7 @@ class DriveRouteResult {
     List paths,
     LatLng startPos,
     LatLng targetPos,
-    double taxiCost,
+    num taxiCost,
   }) {
     return DriveRouteResult(
       paths: paths ?? this.paths,
@@ -84,12 +84,12 @@ class DriveRouteResult {
 }
 
 class DrivePath {
-  int restriction;
+  num restriction;
   List<Steps> steps;
   String strategy;
-  double tollDistance;
-  double tolls;
-  int totalTrafficlights;
+  num tollDistance;
+  num tolls;
+  num totalTrafficlights;
 
   DrivePath({
     this.restriction,
@@ -101,7 +101,7 @@ class DrivePath {
   });
 
   DrivePath.fromJson(Map<String, dynamic> json) {
-    restriction = json['restriction'] as int;
+    restriction = json['restriction'] as num;
     if (json['steps'] != null) {
       steps = List<Steps>();
       json['steps'].forEach((v) {
@@ -109,9 +109,9 @@ class DrivePath {
       });
     }
     strategy = json['strategy'] as String;
-    tollDistance = json['tollDistance'] as double;
-    tolls = json['tolls'] as double;
-    totalTrafficlights = json['totalTrafficlights'] as int;
+    tollDistance = json['tollDistance'] as num;
+    tolls = json['tolls'] as num;
+    totalTrafficlights = json['totalTrafficlights'] as num;
   }
 
   Map<String, dynamic> toJson() {
@@ -131,8 +131,8 @@ class DrivePath {
     int restriction,
     List steps,
     String strategy,
-    double tollDistance,
-    double tolls,
+    num tollDistance,
+    num tolls,
     int totalTrafficlights,
   }) {
     return DrivePath(
@@ -182,16 +182,16 @@ class Steps {
   List<TMC> TMCs;
   String action;
   String assistantAction;
-  double distance;
-  double duration;
+  num distance;
+  num duration;
   String instruction;
   String orientation;
-  List<Polyline> polyline;
+  List<LatLng> polyline;
   String road;
   List<RouteSearchCityList> routeSearchCityList;
-  double tollDistance;
+  num tollDistance;
   String tollRoad;
-  double tolls;
+  num tolls;
 
   Steps({
     this.TMCs,
@@ -218,14 +218,14 @@ class Steps {
     }
     action = json['action'] as String;
     assistantAction = json['assistantAction'] as String;
-    distance = json['distance'] as double;
-    duration = json['duration'] as double;
+    distance = json['distance'] as num;
+    duration = json['duration'] as num;
     instruction = json['instruction'] as String;
     orientation = json['orientation'] as String;
     if (json['polyline'] != null) {
-      polyline = List<Polyline>();
+      polyline = List<LatLng>();
       json['polyline'].forEach((v) {
-        polyline.add(Polyline.fromJson(v as Map<String, dynamic>));
+        polyline.add(LatLng.fromJson(v as Map<String, dynamic>));
       });
     }
     road = json['road'] as String;
@@ -236,9 +236,9 @@ class Steps {
             .add(RouteSearchCityList.fromJson(v as Map<String, dynamic>));
       });
     }
-    tollDistance = json['tollDistance'] as double;
+    tollDistance = json['tollDistance'] as num;
     tollRoad = json['tollRoad'] as String;
-    tolls = json['tolls'] as double;
+    tolls = json['tolls'] as num;
   }
 
   Map<String, dynamic> toJson() {
@@ -270,16 +270,16 @@ class Steps {
     List TMCs,
     String action,
     String assistantAction,
-    double distance,
-    double duration,
+    num distance,
+    num duration,
     String instruction,
     String orientation,
     List polyline,
     String road,
     List routeSearchCityList,
-    double tollDistance,
+    num tollDistance,
     String tollRoad,
-    double tolls,
+    num tolls,
   }) {
     return Steps(
       TMCs: TMCs ?? this.TMCs,
@@ -353,8 +353,8 @@ class Steps {
 }
 
 class TMC {
-  int distance;
-  List<Polyline> polyline;
+  num distance;
+  List<LatLng> polyline;
   String status;
 
   TMC({
@@ -364,11 +364,11 @@ class TMC {
   });
 
   TMC.fromJson(Map<String, dynamic> json) {
-    distance = json['distance'] as int;
+    distance = json['distance'] as num;
     if (json['polyline'] != null) {
-      polyline = List<Polyline>();
+      polyline = List<LatLng>();
       json['polyline'].forEach((v) {
-        polyline.add(Polyline.fromJson(v as Map<String, dynamic>));
+        polyline.add(LatLng.fromJson(v as Map<String, dynamic>));
       });
     }
     status = json['status'] as String;
@@ -414,56 +414,6 @@ class TMC {
 		distance: $distance,
 		polyline: $polyline,
 		status: $status}''';
-  }
-}
-
-class Polyline {
-  double latitude;
-  double longitude;
-
-  Polyline({
-    this.latitude,
-    this.longitude,
-  });
-
-  Polyline.fromJson(Map<String, dynamic> json) {
-    latitude = json['latitude'] as double;
-    longitude = json['longitude'] as double;
-  }
-
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    return data;
-  }
-
-  Polyline copyWith({
-    double latitude,
-    double longitude,
-  }) {
-    return Polyline(
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Polyline &&
-          runtimeType == other.runtimeType &&
-          latitude == other.latitude &&
-          longitude == other.longitude;
-
-  @override
-  int get hashCode => latitude.hashCode ^ longitude.hashCode;
-
-  @override
-  String toString() {
-    return '''Polyline{
-		latitude: $latitude,
-		longitude: $longitude}''';
   }
 }
 

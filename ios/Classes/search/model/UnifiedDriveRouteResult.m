@@ -5,6 +5,7 @@
 #import "UnifiedDriveRouteResult.h"
 #import "AMapSearchKit.h"
 #import "NSArray+Rx.h"
+#import "NSString+LatLng.h"
 
 
 @implementation UnifiedDriveRouteResult {
@@ -54,7 +55,7 @@
         _road = step.road;
         _distance = step.distance;
         _duration = step.duration;
-        _polyline = step.polyline;
+        _polyline = [step.polyline stringToAMapGeoPoint];
         _action = step.action;
         _assistantAction = step.assistantAction;
         _tolls = step.tolls;
@@ -93,7 +94,7 @@
     if ([self init]) {
         _distance = tmc.distance;
         _status = tmc.status;
-        _polyline = tmc.polyline;
+        _polyline = [tmc.polyline stringToAMapGeoPoint];
     }
     return self;
 }
