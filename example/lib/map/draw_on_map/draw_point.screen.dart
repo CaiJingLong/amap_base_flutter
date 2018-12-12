@@ -33,25 +33,32 @@ class DrawPointScreenState extends State<DrawPointScreen> {
         backgroundColor: Colors.black,
         centerTitle: true,
       ),
-      body: AMapView(
-        onAMapViewCreated: (controller) {
-          _controller = controller;
-          _controller.markerClickedEvent.listen(print);
-          loading(
-            context,
-            controller.addMarkers(
-              markerList
-                  .map((latLng) => MarkerOptions(
-                        icon: 'images/home_map_icon_positioning_nor.png',
-                        position: latLng,
-                        title: '哈哈',
-                        snippet: '呵呵',
-                      ))
-                  .toList(),
-            ),
-          ).catchError((e) => showError(context, e.toString()));
+      body: Builder(
+        builder: (context) {
+          return AMapView(
+            onAMapViewCreated: (controller) {
+              _controller = controller;
+              _controller.markerClickedEvent.listen((marker) {
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text(marker.toString())));
+              });
+              loading(
+                context,
+                controller.addMarkers(
+                  markerList
+                      .map((latLng) => MarkerOptions(
+                            icon: 'images/home_map_icon_positioning_nor.png',
+                            position: latLng,
+                            title: '哈哈',
+                            snippet: '呵呵',
+                          ))
+                      .toList(),
+                ),
+              ).catchError((e) => showError(context, e.toString()));
+            },
+            amapOptions: AMapOptions(),
+          );
         },
-        amapOptions: AMapOptions(),
       ),
     );
   }

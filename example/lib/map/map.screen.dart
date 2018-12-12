@@ -11,8 +11,8 @@ import 'package:amap_base_example/map/going_out_plan/driving_route_plan.screen.d
 import 'package:amap_base_example/map/interact_with_map/code_interaction.screen.dart';
 import 'package:amap_base_example/map/interact_with_map/control_interaction.screen.dart';
 import 'package:amap_base_example/map/interact_with_map/gesture_interaction.screen.dart';
-import 'package:amap_base_example/map/paint_on_map/draw_point.screen.dart';
-import 'package:amap_base_example/map/paint_on_map/draw_polyline.screen.dart';
+import 'package:amap_base_example/map/draw_on_map/draw_point.screen.dart';
+import 'package:amap_base_example/map/draw_on_map/draw_polyline.screen.dart';
 import 'package:amap_base_example/map/tools/coordinate_transformation_screen.dart';
 import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:amap_base_example/widgets/function_group.widget.dart';
