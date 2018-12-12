@@ -17,17 +17,19 @@
 
 @interface MANaviRoute : NSObject
 
-@property (nonatomic, strong) NSArray *routePolylines;
-@property (nonatomic, strong) NSArray *naviAnnotations;
+@property(nonatomic, strong) NSArray *routePolylines;
+@property(nonatomic, strong) NSArray *naviAnnotations;
 
 /// 普通路线颜色
-@property (nonatomic, strong) UIColor *routeColor;
+@property(nonatomic, strong) UIColor *routeColor;
 /// 步行路线颜色
-@property (nonatomic, strong) UIColor *walkingColor;
+@property(nonatomic, strong) UIColor *walkingColor;
 /// 铁路路线颜色
-@property (nonatomic, strong) UIColor *railwayColor;
+@property(nonatomic, strong) UIColor *railwayColor;
 /// 多彩线颜色
-@property (nonatomic, strong) NSArray<UIColor *> *multiPolylineColors;
+@property(nonatomic, strong) NSArray<UIColor *> *multiPolylineColors;
+
+- (void)addToMapView:(MAMapView *)mapView;
 
 + (instancetype)naviRouteForPath:(UnifiedDrivePath *)path withNaviType:(MANaviAnnotationType)type showTraffic:(BOOL)showTraffic startPoint:(AMapGeoPoint *)start endPoint:(AMapGeoPoint *)end;
 

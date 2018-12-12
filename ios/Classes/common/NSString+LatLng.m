@@ -18,6 +18,7 @@
         AMapGeoPoint *geoPoint = [[AMapGeoPoint alloc] init];
         geoPoint.longitude = [point[0] floatValue];
         geoPoint.latitude = [point[1] floatValue];
+        [result addObject:geoPoint];
     }
     return result;
 }

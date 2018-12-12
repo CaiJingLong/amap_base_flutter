@@ -23,6 +23,19 @@
 
 @implementation MANaviRoute
 
+- (void)addToMapView:(MAMapView *)mapView {
+    self.mapView = mapView;
+
+    if ([self.routePolylines count] > 0) {
+        [mapView addOverlays:self.routePolylines];
+    }
+
+    if ([self.naviAnnotations count] > 0) {
+        [mapView addAnnotations:self.naviAnnotations];
+    }
+}
+
+
 #pragma mark - Format Search Result
 
 /* polyline parsed from _search result. */
@@ -89,11 +102,11 @@
 
     NSMutableArray *mutablePolylineColors = [NSMutableArray array];
 
-    NSMutableArray *coordinates = [NSMutableArray array];
+    NSMutableArray<LatLng *> *coordinates = [NSMutableArray array];
     NSMutableArray *indexes = [NSMutableArray array];
 
     NSMutableArray<UnifiedTMC *> *tmcs = [NSMutableArray array];
-    NSMutableArray *coorArray = [NSMutableArray array];
+    NSMutableArray <LatLng *> *coorArray = [NSMutableArray array];
 
     [path.steps enumerateObjectsUsingBlock:^(UnifiedDriveStep *_Nonnull step, NSUInteger idx, BOOL *_Nonnull stop) {
         [coorArray addObjectsFromArray:step.polyline];
@@ -131,9 +144,9 @@
     NSInteger curTrafficLength = tmcs.firstObject.distance;
     [mutablePolylineColors addObject:[self colorWithTrafficStatus:tmcs.firstObject.status]];
     [indexes addObject:@(0)];
-//    [coordinates addObject:coorArray[0]];
+    [coordinates addObject:coorArray[0]];
     for (; i < coorArray.count; ++i) {
-        double oneDis = [self calcDistanceBetweenCoor:[self coordinateWithString:coorArray[i - 1]] andCoor:[self coordinateWithString:coorArray[i]]];
+        double oneDis = [self calcDistanceBetweenCoor:[coorArray[i - 1] toCLLocationCoordinate2D] andCoor:[coorArray[i] toCLLocationCoordinate2D]];
         if (sumLength + oneDis >= curTrafficLength) {
             if (sumLength + oneDis == curTrafficLength) {
                 [coordinates addObject:coorArray[i]];
@@ -141,7 +154,7 @@
             } else // 需要插入一个点
             {
                 double rate = (oneDis == 0 ? 0 : ((curTrafficLength - sumLength) / oneDis));
-                NSString *extrnPoint = [self calcPointWithStartPoint:coorArray[i - 1] endPoint:coorArray[i] rate:MAX(MIN(rate, 1.0), 0)];
+                LatLng* extrnPoint = [self calcPointWithStartPoint:coorArray[i - 1] endPoint:coorArray[i] rate:MAX(MIN(rate, 1.0), 0)];
                 if (extrnPoint) {
                     [coordinates addObject:extrnPoint];
                     [indexes addObject:@([coordinates count] - 1)];
@@ -184,8 +197,7 @@
     CLLocationCoordinate2D *runningCoords = (CLLocationCoordinate2D *) malloc(count * sizeof(CLLocationCoordinate2D));
 
     for (int j = 0; j < count; ++j) {
-        NSString *oneCoor = coordinates[j];
-        CLLocationCoordinate2D coor = [self coordinateWithString:oneCoor];
+        CLLocationCoordinate2D coor = [coordinates[j] toCLLocationCoordinate2D];
         runningCoords[j] = coor;
     }
 
@@ -215,13 +227,13 @@
     return colorMapping[status] ?: [UIColor greenColor];
 }
 
-+ (NSString *)calcPointWithStartPoint:(NSString *)start endPoint:(NSString *)end rate:(double)rate {
++ (LatLng*)calcPointWithStartPoint:(LatLng *)start endPoint:(LatLng *)end rate:(double)rate {
     if (rate > 1.0 || rate < 0) {
         return nil;
     }
 
-    MAMapPoint from = MAMapPointForCoordinate([self coordinateWithString:start]);
-    MAMapPoint to = MAMapPointForCoordinate([self coordinateWithString:end]);
+    MAMapPoint from = MAMapPointForCoordinate([start toCLLocationCoordinate2D]);
+    MAMapPoint to = MAMapPointForCoordinate([end toCLLocationCoordinate2D]);
 
     double latitudeDelta = (to.y - from.y) * rate;
     double longitudeDelta = (to.x - from.x) * rate;
@@ -229,7 +241,10 @@
     MAMapPoint newPoint = MAMapPointMake(from.x + longitudeDelta, from.y + latitudeDelta);
 
     CLLocationCoordinate2D coordinate = MACoordinateForMapPoint(newPoint);
-    return [NSString stringWithFormat:@"%.6f,%.6f", coordinate.longitude, coordinate.latitude];
+    LatLng *result = [[LatLng alloc] init];
+    result.latitude = coordinate.latitude;
+    result.longitude = coordinate.longitude;
+    return result;
 }
 
 
@@ -240,21 +255,21 @@
     return MAMetersBetweenMapPoints(mapPointA, mapPointB);
 }
 
-+ (CLLocationCoordinate2D)coordinateWithString:(NSString *)string {
-    NSArray *coorArray = [string componentsSeparatedByString:@","];
-    if (coorArray.count != 2) {
-        return kCLLocationCoordinate2DInvalid;
-    }
-    return CLLocationCoordinate2DMake([coorArray[1] doubleValue], [coorArray[0] doubleValue]);
-}
-
 #pragma mark - Life Cycle
 
-+ (instancetype)naviRouteForPath:(UnifiedDrivePath *)path withNaviType:(MANaviAnnotationType)type showTraffic:(BOOL)showTraffic startPoint:(AMapGeoPoint *)start endPoint:(AMapGeoPoint *)end {
++ (instancetype)naviRouteForPath:(UnifiedDrivePath *)path
+                    withNaviType:(MANaviAnnotationType)type
+                     showTraffic:(BOOL)showTraffic
+                      startPoint:(AMapGeoPoint *)start
+                        endPoint:(AMapGeoPoint *)end {
     return [[self alloc] initWithPath:path withNaviType:type showTraffic:showTraffic startPoint:start endPoint:end];
 }
 
-- (instancetype)initWithPath:(UnifiedDrivePath *)path withNaviType:(MANaviAnnotationType)type showTraffic:(BOOL)showTraffic startPoint:(AMapGeoPoint *)start endPoint:(AMapGeoPoint *)end {
+- (instancetype)initWithPath:(UnifiedDrivePath *)path
+                withNaviType:(MANaviAnnotationType)type
+                 showTraffic:(BOOL)showTraffic
+                  startPoint:(AMapGeoPoint *)start
+                    endPoint:(AMapGeoPoint *)end {
     self = [self init];
 
     if (self == nil) {

@@ -47,6 +47,7 @@
                                              showTraffic:YES
                                               startPoint:[routeOverlay.from toAMapGeoPoint]
                                                 endPoint:[routeOverlay.to toAMapGeoPoint]];
+    [overlay addToMapView:_mapView];
 
     // 收缩地图到路径范围
     [_mapView setVisibleMapRect:[Misc mapRectForOverlays:overlay.routePolylines]
