@@ -1,5 +1,6 @@
 package me.yohom.amapbase.search.handler.routeplan
 
+import com.amap.api.services.core.AMapException
 import com.amap.api.services.route.*
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -7,8 +8,9 @@ import me.yohom.amapbase.AMapBasePlugin
 import me.yohom.amapbase.SearchMethodHandler
 import me.yohom.amapbase.common.log
 import me.yohom.amapbase.common.parseJson
-import me.yohom.amapbase.map.success
+import me.yohom.amapbase.common.toJson
 import me.yohom.amapbase.search.model.RoutePlanParam
+import me.yohom.amapbase.search.model.UnifiedDriveRouteResult
 import me.yohom.amapbase.search.toLatLonPoint
 
 object CalculateDriveRoute : SearchMethodHandler {
@@ -16,8 +18,6 @@ object CalculateDriveRoute : SearchMethodHandler {
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         // 规划参数
         val param = call.argument<String>("routePlanParam")!!.parseJson<RoutePlanParam>()
-        val showRouteImmediately = call.argument<Boolean>("showRouteImmediately")
-                ?: true
 
         log("方法setUiSettings android端参数: routePlanParam -> $param")
 
@@ -31,11 +31,11 @@ object CalculateDriveRoute : SearchMethodHandler {
         RouteSearch(AMapBasePlugin.registrar.context()).run {
             setRouteSearchListener(object : RouteSearch.OnRouteSearchListener {
                 override fun onDriveRouteSearched(r: DriveRouteResult?, errorCode: Int) {
-//                    if (errorCode != AMapException.CODE_AMAP_SUCCESS || r == null) {
-//                        result.error("路线规划失败, 错误码: $errorCode", null, null)
-//                    } else if (r.paths.isEmpty()) {
-//                        result.error("没有规划出合适的路线", null, null)
-//                    } else if (showRouteImmediately) {
+                    if (errorCode != AMapException.CODE_AMAP_SUCCESS || r == null) {
+                        result.error("路线规划失败, 错误码: $errorCode", null, null)
+                    } else if (r.paths.isEmpty()) {
+                        result.error("没有规划出合适的路线", null, null)
+                    } else {
 //                        map.clear()
 //                        DrivingRouteOverlay(map, r.startPos, r.targetPos, listOf(), r.paths[0])
 //                                .apply {
@@ -44,9 +44,9 @@ object CalculateDriveRoute : SearchMethodHandler {
 //                                    addToMap()
 //                                    zoomToSpan()
 //                                }
-//
-                        result.success(success)
-//                    }
+
+                        result.success(UnifiedDriveRouteResult(r).toJson())
+                    }
                 }
 
                 override fun onBusRouteSearched(result: BusRouteResult?, errorCode: Int) {}

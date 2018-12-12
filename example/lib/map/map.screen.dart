@@ -48,7 +48,7 @@ class MapScreen extends StatelessWidget {
                   title: Text('使用离线地图'),
                   subtitle: Text('使用离线地图'),
                   trailing: Icon(Icons.keyboard_arrow_right),
-                  onTap: () => OfflineManager.openOfflineManager(),
+                  onTap: () => OfflineManager().openOfflineManager(),
                 ),
                 Divider(height: 1, indent: 16),
               ],

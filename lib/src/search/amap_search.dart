@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:amap_base/amap_base.dart';
 import 'package:amap_base/src/common/log.dart';
 import 'package:amap_base/src/map/model/poi_result.dart';
+import 'package:amap_base/src/search/model/drive_route_result.dart';
 import 'package:flutter/services.dart';
 
 class AMapSearch {
@@ -82,5 +83,19 @@ class AMapSearch {
             'search#searchRoutePoiPolygon', {'query': query.toJsonString()})
         .then((result) => result as String)
         .then((jsonString) => RoutePoiResult.fromJson(jsonDecode(jsonString)));
+  }
+
+  /// 计算驾驶路线
+  Future<DriveRouteResult> calculateDriveRoute(RoutePlanParam param) {
+    final _routePlanParam = param.toJsonString();
+    L.p('方法calculateDriveRoute dart端参数: _routePlanParam -> $_routePlanParam');
+    return _searchChannel
+        .invokeMethod(
+          'search#calculateDriveRoute',
+          {'routePlanParam': _routePlanParam},
+        )
+        .then((result) => result as String)
+        .then(
+            (jsonResult) => DriveRouteResult.fromJson(jsonDecode(jsonResult)));
   }
 }

@@ -8,6 +8,7 @@ import 'package:amap_base/src/map/model/my_location_style.dart';
 import 'package:amap_base/src/map/model/poi_result.dart';
 import 'package:amap_base/src/map/model/poi_search_query.dart';
 import 'package:amap_base/src/map/model/polyline_options.dart';
+import 'package:amap_base/src/map/model/route_overlay.dart';
 import 'package:amap_base/src/map/model/route_plan_param.dart';
 import 'package:amap_base/src/map/model/route_poi_result.dart';
 import 'package:amap_base/src/map/model/ui_settings.dart';
@@ -43,21 +44,6 @@ class AMapController {
     return _mapChannel.invokeMethod(
       'map#setUiSettings',
       {'uiSettings': _uiSettings},
-    );
-  }
-
-  Future calculateDriveRoute(
-    RoutePlanParam param, {
-    bool showRouteImmediately = true,
-  }) {
-    final _routePlanParam = param.toJsonString();
-    L.p('方法calculateDriveRoute dart端参数: _routePlanParam -> $_routePlanParam');
-    return _mapChannel.invokeMethod(
-      'map#calculateDriveRoute',
-      {
-        'routePlanParam': _routePlanParam,
-        'showRouteImmediately': showRouteImmediately,
-      },
     );
   }
 
@@ -182,6 +168,17 @@ class AMapController {
     return _mapChannel.invokeMethod(
       'map#addPolyline',
       {'options': options.toJsonString()},
+    );
+  }
+
+  Future addRouteOverlay(RouteOverlay overlay) {
+    final _overlayJson = overlay.toJsonString();
+
+    L.p('addRouteOverlay dart端参数: _overlayJson -> $_overlayJson');
+
+    return _mapChannel.invokeMethod(
+      'map#addRouteOverlay',
+      {'overlay': _overlayJson},
     );
   }
 

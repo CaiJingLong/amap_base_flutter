@@ -8,13 +8,26 @@ import '../map/model/latlng.dart';
 class CalculateTools {
   static const _channel = MethodChannel('me.yohom/tool');
 
+  static CalculateTools _instance;
+
+  CalculateTools._();
+
+  factory CalculateTools() {
+    if (_instance == null) {
+      _instance = CalculateTools._();
+      return _instance;
+    } else {
+      return _instance;
+    }
+  }
+
   /// 转换坐标系
   ///
   /// [lat] 纬度
   /// [lon] 经度
   ///
   /// [type] 原坐标类型, 这部分请查阅高德地图官方文档
-  static Future<LatLng> convertCoordinate({
+  Future<LatLng> convertCoordinate({
     @required double lat,
     @required double lon,
     @required LatLngType type,

@@ -48,13 +48,19 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
                   onPressed: (_) {
                     loading(
                       context,
-                      _controller.calculateDriveRoute(
+                      AMapSearch().calculateDriveRoute(
                         RoutePlanParam(
                           from: LatLng(39.993291, 116.473188),
                           to: LatLng(39.940474, 116.355426),
                         ),
                       ),
-                    ).catchError((e) => showError(context, e.toString()));
+                    ).then((result) {
+                      _controller.addRouteOverlay(RouteOverlay(
+                        from: result.startPos,
+                        to: result.targetPos,
+                        drivePath: result.paths[0],
+                      ));
+                    }).catchError((e) => showError(context, e.toString()));
                   },
                 ),
               ],

@@ -4,11 +4,10 @@ import android.graphics.Color
 import com.amap.api.maps.AMap
 import com.amap.api.maps.model.*
 import com.amap.api.services.core.LatLonPoint
-import com.amap.api.services.route.DrivePath
-import com.amap.api.services.route.DriveStep
-import com.amap.api.services.route.TMC
 import me.yohom.amapbase.common.UnifiedAssets
-import me.yohom.amapbase.search.toLatLng
+import me.yohom.amapbase.map.model.UnifiedDrivePath
+import me.yohom.amapbase.map.model.UnifiedDriveStep
+import me.yohom.amapbase.map.model.UnifiedTMC
 import java.util.*
 
 
@@ -20,19 +19,19 @@ import java.util.*
  * @param drivePath 导航路线规划方案。
  */
 class DrivingRouteOverlay(map: AMap,
-                          from: LatLonPoint,
-                          to: LatLonPoint,
-                          private val passbyPointList: List<LatLonPoint>,
-                          private val drivePath: DrivePath) : RouteOverlay(map, from.toLatLng(), to.toLatLng()) {
+                          from: LatLng,
+                          to: LatLng,
+                          private val passbyPointList: List<LatLng>,
+                          private val drivePath: UnifiedDrivePath) : RouteOverlay(map, from, to) {
     private val passbyMarkerList = arrayListOf<Marker>()
     private var passbyMarkerVisible = true
     /**
      * 交通拥堵信息
      */
-    private var tmcs: MutableList<TMC> = mutableListOf()
+    private var tmcs: MutableList<UnifiedTMC> = mutableListOf()
     private var polylineOptions: PolylineOptions = PolylineOptions()
     private var polylineOptionsColor: PolylineOptions = PolylineOptions()
-    var isColorfulLine = true
+    private var isColorfulLine = true
 
     /**
      * 设置路线宽度 路线宽度，取值范围：大于0
@@ -44,7 +43,7 @@ class DrivingRouteOverlay(map: AMap,
         get() {
             val b = LatLngBounds.builder()
             b.include(from)
-            passbyPointList.forEach { b.include(it.toLatLng()) }
+            passbyPointList.forEach { b.include(it) }
             b.include(to)
             return b.build()
         }
@@ -65,13 +64,13 @@ class DrivingRouteOverlay(map: AMap,
         for (step in drivePaths) {
             val latlonPoints = step.polyline
 
-            tmcs.addAll(step.tmCs)
+            tmcs.addAll(step.TMCs)
 
-            addDrivingStationMarkers(step, latlonPoints[0].toLatLng())
+            addDrivingStationMarkers(step, latlonPoints[0])
 
             latlonPoints.forEach {
-                polylineOptions.add(it.toLatLng())
-                latLngsOfPath.add(it.toLatLng())
+                polylineOptions.add(it)
+                latLngsOfPath.add(it)
             }
         }
         polylineOptions.add(to)
@@ -109,17 +108,17 @@ class DrivingRouteOverlay(map: AMap,
      *
      * @routePlanParam tmcSection
      */
-    private fun colorWayUpdate(tmcSection: List<TMC>?) {
+    private fun colorWayUpdate(tmcSection: List<UnifiedTMC>?) {
         if (tmcSection == null || tmcSection.isEmpty()) {
             return
         }
-        var segmentTrafficStatus: TMC
+        var segmentTrafficStatus: UnifiedTMC
         polylineOptionsColor = PolylineOptions()
         polylineOptionsColor.width(routeWidth)
         polylineOptionsColor.color(driveColor)
         polylineOptionsColor.add(from)
 
-        polylineOptionsColor.add(tmcSection[0].polyline[0].toLatLng())
+        polylineOptionsColor.add(tmcSection[0].polyline[0])
         for (i in tmcSection.indices) {
             segmentTrafficStatus = tmcSection[i]
             val color = getColor(segmentTrafficStatus.status)
@@ -127,7 +126,7 @@ class DrivingRouteOverlay(map: AMap,
             polylineOptionsColor.color(color)
             var lastLanLng: LatLng? = null
             for (j in 1 until ployline.size) {
-                lastLanLng = ployline[j].toLatLng()
+                lastLanLng = ployline[j]
                 polylineOptionsColor.add(lastLanLng)
             }
             map.addPolyline(polylineOptionsColor)
@@ -163,7 +162,7 @@ class DrivingRouteOverlay(map: AMap,
      * @param driveStep
      * @param latLng
      */
-    private fun addDrivingStationMarkers(driveStep: DriveStep, latLng: LatLng) {
+    private fun addDrivingStationMarkers(driveStep: UnifiedDriveStep, latLng: LatLng) {
         addStationMarker(MarkerOptions()
                 .position(latLng)
                 .title("\u65B9\u5411:" + driveStep.action
@@ -174,7 +173,7 @@ class DrivingRouteOverlay(map: AMap,
 
     private fun addPassbyMarker() {
         if (passbyPointList.isNotEmpty()) {
-            var latLonPoint: LatLonPoint?
+            var latLonPoint: LatLng?
             for (i in passbyPointList.indices) {
                 latLonPoint = passbyPointList[i]
                 passbyMarkerList.add(map
