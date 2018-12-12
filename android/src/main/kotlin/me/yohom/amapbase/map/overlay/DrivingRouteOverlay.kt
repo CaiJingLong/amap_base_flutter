@@ -8,7 +8,7 @@ import com.amap.api.services.route.DrivePath
 import com.amap.api.services.route.DriveStep
 import com.amap.api.services.route.TMC
 import me.yohom.amapbase.common.UnifiedAssets
-import me.yohom.amapbase.common.toLatLng
+import me.yohom.amapbase.search.toLatLng
 import java.util.*
 
 

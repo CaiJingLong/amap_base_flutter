@@ -26,6 +26,7 @@
 #import "ConvertCoordinate.h"
 #import "OpenOfflineManager.h"
 #import "AddPolyline.h"
+#import "StartNavi.h"
 
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
@@ -76,6 +77,36 @@ static NSDictionary<NSString *, NSObject <SearchMethodHandler> *> *_searchDictio
         };
     }
     return _searchDictionary;
+}
+
+@end
+
+static NSDictionary<NSString *, NSObject <NaviMethodHandler> *> *_naviDictionary;
+
+@implementation NaviFunctionRegistry {
+
+}
++ (NSDictionary<NSString *, NSObject <NaviMethodHandler> *> *)naviMethodHandler {
+    if (!_naviDictionary) {
+        _naviDictionary = @{
+                @"navi#startNavi": [StartNavi alloc],
+        };
+    }
+    return _naviDictionary;
+}
+
+@end
+
+static NSDictionary<NSString *, NSObject <LocationMethodHandler> *> *_locationDictionary;
+
+@implementation LocationFunctionRegistry {
+
+}
++ (NSDictionary<NSString *, NSObject <LocationMethodHandler> *> *)locationMethodHandler {
+    if (!_locationDictionary) {
+        _locationDictionary = @{};
+    }
+    return _locationDictionary;
 }
 
 @end

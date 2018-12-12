@@ -1,5 +1,4 @@
 #import "AMapBasePlugin.h"
-#import "NSObject+Navi.h"
 #import "AMapViewFactory.h"
 #import "IMethodHandler.h"
 #import "FunctionRegistry.h"
@@ -54,6 +53,7 @@ static NSObject <FlutterPluginRegistrar> *_registrar;
         }
     }];
 
+    // 离线地图 channel
     FlutterMethodChannel *offlineChannel = [FlutterMethodChannel
             methodChannelWithName:@"me.yohom/offline"
                   binaryMessenger:[registrar messenger]];
@@ -67,7 +67,33 @@ static NSObject <FlutterPluginRegistrar> *_registrar;
         }
     }];
 
-    [_registrar setupNaviChannel];
+    // 导航 channel
+    FlutterMethodChannel *naviChannel = [FlutterMethodChannel
+            methodChannelWithName:@"me.yohom/navi"
+                  binaryMessenger:[registrar messenger]];
+
+    [naviChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
+        NSObject <NaviMethodHandler> *handler = [NaviFunctionRegistry naviMethodHandler][call.method];
+        if (handler) {
+            [[handler init] onMethodCall:call :result];
+        } else {
+            result(FlutterMethodNotImplemented);
+        }
+    }];
+
+    // 定位 channel
+    FlutterMethodChannel *locationChannel = [FlutterMethodChannel
+            methodChannelWithName:@"me.yohom/location"
+                  binaryMessenger:[registrar messenger]];
+
+    [locationChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
+        NSObject <LocationMethodHandler> *handler = [LocationFunctionRegistry locationMethodHandler][call.method];
+        if (handler) {
+            [[handler init] onMethodCall:call :result];
+        } else {
+            result(FlutterMethodNotImplemented);
+        }
+    }];
 
     [_registrar registerViewFactory:[[AMapViewFactory alloc] init]
                              withId:@"me.yohom/AMapView"];

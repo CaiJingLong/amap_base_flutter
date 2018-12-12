@@ -6,7 +6,6 @@ import android.os.Bundle
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import me.yohom.amapbase.map.AMapFactory
-import me.yohom.amapbase.navi.setupNaviChannel
 import java.util.concurrent.atomic.AtomicInteger
 
 const val CREATED = 1
@@ -60,8 +59,19 @@ class AMapBasePlugin {
                                 ?.onMethodCall(call, result) ?: result.notImplemented()
                     }
 
-            // 导航相关插件
-            registrar.setupNaviChannel()
+            // 导航 channel
+            MethodChannel(registrar.messenger(), "me.yohom/navi")
+                    .setMethodCallHandler { call, result ->
+                        NAVI_METHOD_HANDLER[call.method]
+                                ?.onMethodCall(call, result) ?: result.notImplemented()
+                    }
+
+            // 定位 channel
+            MethodChannel(registrar.messenger(), "me.yohom/location")
+                    .setMethodCallHandler { call, result ->
+                        LOCATION_METHOD_HANDLER[call.method]
+                                ?.onMethodCall(call, result) ?: result.notImplemented()
+                    }
 
             // MapView
             registrar

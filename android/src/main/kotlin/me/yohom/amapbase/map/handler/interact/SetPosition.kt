@@ -7,9 +7,10 @@ import com.amap.api.maps.model.LatLng
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import me.yohom.amapbase.MapMethodHandler
-import me.yohom.amapbase.common.beijingLatLng
 import me.yohom.amapbase.common.parseJson
 import me.yohom.amapbase.map.success
+
+val beijingLatLng = LatLng(39.941711, 116.382248)
 
 object SetPosition : MapMethodHandler {
 
