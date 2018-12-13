@@ -2,11 +2,11 @@
 // Created by Yohom Bao on 2018-12-12.
 //
 
-#import "NSString+LatLng.h"
+#import "NSString+GeoPoint.h"
 #import "AMapSearchKit.h"
 
 
-@implementation NSString (LatLng)
+@implementation NSString (GeoPoint)
 
 - (NSArray<AMapGeoPoint *> *)stringToAMapGeoPoint {
     // 格式 116.473648,39.99369;116.474335,39.993225;116.474594,39.993172;116.474678,39.993111
