@@ -47,7 +47,7 @@ iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要�
 - Swift项目需要注释掉Podfile中的`use_framework!`. 尝试了在podspec中添加`s.static_framework = true`, 但是会造成找不到pod里的头文件. 如果有更好的解决方案, 请告知我.
 
 ## 关于项目结构
-项目结构按照高德官方网站的[开发指南](https://lbs.amap.com/api/android-sdk/guide/create-project/get-key)组织. 分为`地图`, `定位`, `导航`三大块.
+项目结构按照高德官方的4个子包(不包括2D地图)组织. 分为`地图`, `定位`, `导航`, `搜索`四大块.
 
     |-- me.yohom.amapbase
         |-- `AMapBasePlugin`: Flutter插件类
