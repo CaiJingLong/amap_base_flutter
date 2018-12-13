@@ -3,7 +3,6 @@
 //
 
 #import "UnifiedSearchBound.h"
-#import "UnifiedAMapOptions.h"
 
 
 @implementation UnifiedSearchBound {
