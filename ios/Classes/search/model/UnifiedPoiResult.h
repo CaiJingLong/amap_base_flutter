@@ -5,7 +5,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 
-@class LatLng;
+@class AMapGeoPoint;
 @class IndoorData;
 @class Photo;
 @class SubPoiItem;
@@ -63,11 +63,11 @@
 /// 是否有室内地图
 @property BOOL isIndoorMap;
 /// 经纬度
-@property(nonatomic) LatLng *latLonPoint;
+@property(nonatomic) AMapGeoPoint *latLonPoint;
 /// 入口经纬度
-@property(nonatomic) LatLng *enter;
+@property(nonatomic) AMapGeoPoint *enter;
 /// 出口经纬度
-@property(nonatomic) LatLng *exit;
+@property(nonatomic) AMapGeoPoint *exit;
 /// 停车场类型，地上、地下、路边
 @property(nonatomic) NSString *parkingType;
 /// 图片列表
@@ -131,7 +131,7 @@
 /// 距中心点距离
 @property NSInteger distance;
 /// 经纬度
-@property(nonatomic) LatLng *latLonPoint;
+@property(nonatomic) AMapGeoPoint *latLonPoint;
 /// 地址
 @property(nonatomic) NSString *snippet;
 /// 子POI类型
