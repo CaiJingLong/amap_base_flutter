@@ -1,7 +1,6 @@
 package me.yohom.amapbase.common
 
 import android.graphics.Color
-import com.amap.api.maps.model.LatLng
 
 fun String.hexStringToColorInt(): Int? {
     return try {

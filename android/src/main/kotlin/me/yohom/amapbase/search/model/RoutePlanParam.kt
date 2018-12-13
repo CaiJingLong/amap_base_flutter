@@ -1,7 +1,5 @@
 package me.yohom.amapbase.search.model
 
-import com.amap.api.maps.model.LatLng
-
 class RoutePlanParam(
         /// 起点
         val from: LatLng,

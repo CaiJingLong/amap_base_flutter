@@ -1,7 +1,6 @@
 package me.yohom.amapbase.search.model
 
 import android.content.Context
-import com.amap.api.maps.model.LatLng
 import com.amap.api.services.routepoisearch.RoutePOISearch
 import com.amap.api.services.routepoisearch.RoutePOISearchQuery
 import me.yohom.amapbase.search.toLatLonPoint
