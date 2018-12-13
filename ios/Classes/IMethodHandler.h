@@ -6,12 +6,9 @@
 #import <Flutter/Flutter.h>
 
 //region 地图
-@class MAMapView;
 @class FlutterMethodCall;
 
 @protocol MapMethodHandler <NSObject>
-@required
-- (NSObject <MapMethodHandler> *)initWith:(MAMapView *)mapView;
 @required
 - (void)onMethodCall:(FlutterMethodCall *)call :(FlutterResult)result;
 @end
