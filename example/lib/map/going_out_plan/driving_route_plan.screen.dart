@@ -58,11 +58,17 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
                       final allPoint = result.paths[0].steps
                           .expand((step) => step.polyline)
                           .toList();
-                      _controller.addPolyline((PolylineOptions(
-                        latLngList: allPoint,
-                        width: 10,
-                        color: Colors.cyan,
-                      )));
+
+                      result.paths[0].steps
+                          .expand((step) => step.TMCs)
+                          .forEach((tmc) {
+                        _controller.addPolyline((PolylineOptions(
+                          latLngList: tmc.polyline,
+                          width: 15,
+                          color: _getTmcColor(tmc.status),
+                        )));
+                      });
+
                       _controller.zoomToSpan(allPoint);
                     }).catchError((e) => showError(context, e.toString()));
                   },
@@ -73,6 +79,21 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
         ],
       ),
     );
+  }
+
+  Color _getTmcColor(String tmc) {
+    switch (tmc) {
+      case '未知':
+        return Colors.cyan;
+      case '畅通':
+        return Colors.green;
+      case '缓行':
+        return Colors.yellow;
+      case '拥堵':
+        return Colors.red;
+      default:
+        return Colors.cyan;
+    }
   }
 
   @override

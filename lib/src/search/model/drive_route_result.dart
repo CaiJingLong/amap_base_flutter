@@ -352,6 +352,7 @@ class Steps {
   }
 }
 
+/// 道路拥堵情况
 class TMC {
   num distance;
   List<LatLng> polyline;
