@@ -4,9 +4,7 @@
 
 #import "SetUiSettings.h"
 #import "UnifiedUiSettings.h"
-#import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
-#import "Misc.h"
 #import "MJExtension.h"
 
 

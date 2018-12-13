@@ -3,7 +3,6 @@
 //
 
 #import "PolylineOverlay.h"
-#import "UnifiedPolylineOptions.h"
 
 
 @implementation PolylineOverlay {

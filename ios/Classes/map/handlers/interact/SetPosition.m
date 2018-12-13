@@ -4,7 +4,6 @@
 
 #import "SetPosition.h"
 #import "UnifiedAMapOptions.h"
-#import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
 #import "MJExtension.h"
 
