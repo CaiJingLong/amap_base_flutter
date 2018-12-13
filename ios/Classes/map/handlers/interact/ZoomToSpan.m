@@ -20,6 +20,7 @@
     NSDictionary *paramDic = call.arguments;
 
     NSString *boundJson = (NSString *) paramDic[@"bound"];
+    NSInteger padding = [paramDic[@"padding"] integerValue] / 2;
 
     NSArray <LatLng *> *latLngArray = [LatLng mj_objectArrayWithKeyValuesArray:boundJson];
 
@@ -31,7 +32,7 @@
     }
 
     MAPolyline *polyline = [MAPolyline polylineWithCoordinates:commonPolylineCoords count:count];
-    [_mapView showOverlays:@[polyline] edgePadding:UIEdgeInsetsMake(50, 50, 50, 50) animated:YES];
+    [_mapView showOverlays:@[polyline] edgePadding:UIEdgeInsetsMake(padding, padding, padding, padding) animated:YES];
 }
 
 @end

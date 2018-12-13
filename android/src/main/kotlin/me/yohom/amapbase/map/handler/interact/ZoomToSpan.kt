@@ -21,6 +21,7 @@ object ZoomToSpan : MapMethodHandler {
 
     override fun onMethodCall(methodCall: MethodCall, methodResult: MethodChannel.Result) {
         val boundJson = methodCall.argument<String>("bound") ?: "[]"
+        val padding = methodCall.argument<Int>("padding") ?: 80
 
         map.moveCamera(CameraUpdateFactory.newLatLngBounds(
                 LatLngBounds.builder().run {
@@ -29,7 +30,7 @@ object ZoomToSpan : MapMethodHandler {
                     }
                     build()
                 },
-                100
+                padding
         ))
 
         methodResult.success(success)

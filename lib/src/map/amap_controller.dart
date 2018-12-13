@@ -7,6 +7,7 @@ import 'package:amap_base/src/map/model/marker_options.dart';
 import 'package:amap_base/src/map/model/my_location_style.dart';
 import 'package:amap_base/src/map/model/polyline_options.dart';
 import 'package:amap_base/src/map/model/ui_settings.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
@@ -167,7 +168,10 @@ class AMapController {
   }
 
   /// 移动镜头到当前的视角
-  Future zoomToSpan(List<LatLng> bound) {
+  Future zoomToSpan(
+    List<LatLng> bound, {
+    int padding = 80,
+  }) {
     final boundJson =
         jsonEncode(bound?.map((it) => it.toJson())?.toList() ?? List());
 
@@ -175,7 +179,10 @@ class AMapController {
 
     return _mapChannel.invokeMethod(
       'map#zoomToSpan',
-      {'bound': boundJson},
+      {
+        'bound': boundJson,
+        'padding': padding,
+      },
     );
   }
 
