@@ -13,8 +13,8 @@
     NSMutableArray <AMapGeoPoint *> * result = [[NSMutableArray alloc] init];
 
     NSArray <NSString *> *pointStringArray = [self componentsSeparatedByString:@";"];
-    for (int i = 0; i < pointStringArray.count; ++i) {
-        NSArray <NSString *> *point = [self componentsSeparatedByString:@","];
+    for (NSUInteger i = 0; i < pointStringArray.count; ++i) {
+        NSArray <NSString *> *point = [pointStringArray[i] componentsSeparatedByString:@","];
         AMapGeoPoint *geoPoint = [[AMapGeoPoint alloc] init];
         geoPoint.longitude = [point[0] floatValue];
         geoPoint.latitude = [point[1] floatValue];

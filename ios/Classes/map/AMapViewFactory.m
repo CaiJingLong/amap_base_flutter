@@ -129,11 +129,11 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
     if ([overlay isKindOfClass:[PolylineOverlay class]]) {
         PolylineOverlay *polyline =(PolylineOverlay *)overlay;
 
-        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
+        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:polyline];
 
         UnifiedPolylineOptions *options = [polyline options];
 
-        polylineRenderer.lineWidth = options.width;
+        polylineRenderer.lineWidth = (CGFloat) (options.width * 0.5); // 相同的值, Android的线比iOS的粗
         polylineRenderer.strokeColor = [options.color hexStringToColor];
         polylineRenderer.lineJoinType = (MALineJoinType) options.lineJoinType;
         polylineRenderer.lineCapType = (MALineCapType) options.lineCapType;

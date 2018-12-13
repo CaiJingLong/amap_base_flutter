@@ -24,16 +24,16 @@
 
     NSLog(@"map#addPolyline ios端参数: optionsJson -> %@", optionsJson);
 
-    UnifiedPolylineOptions *options = [UnifiedPolylineOptions mj_objectWithKeyValues:optionsJson];
+    UnifiedPolylineOptions *options = [UnifiedPolylineOptions initWithJson:optionsJson];
 
     NSUInteger count = options.latLngList.count;
 
     CLLocationCoordinate2D commonPolylineCoords[count];
-    for (int i = 0; i < count; ++i) {
-        commonPolylineCoords[i] = [[LatLng mj_objectWithKeyValues:options.latLngList[i]] toCLLocationCoordinate2D];
+    for (NSUInteger i = 0; i < count; ++i) {
+        commonPolylineCoords[i] = [options.latLngList[i] toCLLocationCoordinate2D];
     }
 
-    PolylineOverlay *polyline = [PolylineOverlay polylineWithCoordinates:commonPolylineCoords count:count];
+    PolylineOverlay *polyline = [PolylineOverlay polylineWithCoordinates:commonPolylineCoords count:options.latLngList.count];
     polyline.options = options;
     [_mapView addOverlay:polyline];
 

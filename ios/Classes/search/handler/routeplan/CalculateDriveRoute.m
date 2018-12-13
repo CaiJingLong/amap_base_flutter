@@ -66,7 +66,7 @@
         return _result(@"没有规划出合适的路线");
     }
 
-    NSLog(@"%@", [[[UnifiedDriveRouteResult alloc] initWithAMapRouteSearchResponse:response] mj_JSONString]);
+    UnifiedDriveRouteResult *result = [[UnifiedDriveRouteResult alloc] initWithAMapRouteSearchResponse:response];
     _result([[[UnifiedDriveRouteResult alloc] initWithAMapRouteSearchResponse:response] mj_JSONString]);
 }
 
