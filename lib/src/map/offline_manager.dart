@@ -1,15 +1,23 @@
-import 'dart:convert';
-
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
-
-import '../map/model/latlng.dart';
 
 class OfflineManager {
+  static OfflineManager _instance;
+
   static const _channel = MethodChannel('me.yohom/offline');
 
+  OfflineManager._();
+
+  factory OfflineManager() {
+    if (_instance == null) {
+      _instance = OfflineManager._();
+      return _instance;
+    } else {
+      return _instance;
+    }
+  }
+
   /// 打开离线地图管理页
-  static Future openOfflineManager() {
+  Future openOfflineManager() {
     return _channel.invokeMethod('offline#openOfflineManager');
   }
 }

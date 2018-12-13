@@ -45,16 +45,26 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
                 SPACE_NORMAL,
                 Button(
                   label: '开始规划',
-                  onPressed: (_) {
+                  onPressed: (context) {
                     loading(
                       context,
-                      _controller.calculateDriveRoute(
+                      AMapSearch().calculateDriveRoute(
                         RoutePlanParam(
                           from: LatLng(39.993291, 116.473188),
                           to: LatLng(39.940474, 116.355426),
                         ),
                       ),
-                    ).catchError((e) => showError(context, e.toString()));
+                    ).then((result) {
+                      final allPoint = result.paths[0].steps
+                          .expand((step) => step.polyline)
+                          .toList();
+                      _controller.addPolyline((PolylineOptions(
+                        latLngList: allPoint,
+                        width: 10,
+                        color: Colors.cyan,
+                      )));
+                      _controller.zoomToSpan(allPoint);
+                    }).catchError((e) => showError(context, e.toString()));
                   },
                 ),
               ],

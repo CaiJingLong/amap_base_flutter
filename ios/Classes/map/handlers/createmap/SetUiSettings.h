@@ -3,7 +3,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MapMethodHandler.h"
+#import "IMethodHandler.h"
 
 
 @interface SetUiSettings : NSObject<MapMethodHandler>

@@ -3,8 +3,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MapMethodHandler.h"
 #import "MAPolyline.h"
+#import "IMethodHandler.h"
 
 @class UnifiedPolylineOptions;
 

@@ -99,7 +99,7 @@ class _BoundPoiSearchScreenState extends State<BoundPoiSearchScreen> {
 
                     loading(
                       context,
-                      _controller.searchPoiBound(
+                      AMapSearch().searchPoiBound(
                         PoiSearchQuery(
                           query: _keywordController.text,
                           location: LatLng(39.909604, 116.397228), // iOS必须

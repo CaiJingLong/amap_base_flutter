@@ -4,9 +4,19 @@
 
 #import "UnifiedPolylineOptions.h"
 #import "UnifiedAMapOptions.h"
+#import "MJExtension.h"
 
 
 @implementation UnifiedPolylineOptions {
 
 }
++ (instancetype)initWithJson:(NSString *)json {
+    [UnifiedPolylineOptions mj_setupObjectClassInArray:^NSDictionary *{
+        return @{
+                @"latLngList" : @"LatLng",
+        };
+    }];
+    return [UnifiedPolylineOptions mj_objectWithKeyValues:json];
+}
+
 @end

@@ -9,6 +9,8 @@
 
 @interface UnifiedPolylineOptions : NSObject
 
++ (instancetype)initWithJson:(NSString *)json;
+
 /// 顶点
 @property(nonatomic) NSArray<LatLng *> *latLngList;
 

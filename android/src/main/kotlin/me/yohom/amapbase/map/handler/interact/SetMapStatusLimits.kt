@@ -1,0 +1,29 @@
+package me.yohom.amapbase.map.handler.interact
+
+import com.amap.api.maps.AMap
+import com.amap.api.maps.model.LatLng
+import com.amap.api.maps.model.LatLngBounds
+import io.flutter.plugin.common.MethodCall
+import io.flutter.plugin.common.MethodChannel
+import me.yohom.amapbase.MapMethodHandler
+import me.yohom.amapbase.common.parseJson
+import me.yohom.amapbase.map.success
+
+object SetMapStatusLimits : MapMethodHandler {
+
+    lateinit var map: AMap
+
+    override fun with(map: AMap): SetMapStatusLimits {
+        this.map = map
+        return this
+    }
+
+    override fun onMethodCall(methodCall: MethodCall, methodResult: MethodChannel.Result) {
+        val swLatLng: LatLng? = methodCall.argument<String>("swLatLng")?.parseJson()
+        val neLatLng: LatLng? = methodCall.argument<String>("neLatLng")?.parseJson()
+
+        map.setMapStatusLimits(LatLngBounds(swLatLng, neLatLng))
+
+        methodResult.success(success)
+    }
+}

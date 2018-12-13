@@ -29,11 +29,13 @@ class _CoordinateTransformationStateScreen
   }
 
   void update() {
-    CalculateTools.convertCoordinate(
+    CalculateTools()
+        .convertCoordinate(
       lat: _lat,
       lon: _lon,
       type: type,
-    ).then((result) {
+    )
+        .then((result) {
       L.p('result: $result');
       setState(() => this.current = result);
     });

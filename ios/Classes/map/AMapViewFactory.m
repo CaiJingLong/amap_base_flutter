@@ -6,18 +6,16 @@
 #import "MAMapView.h"
 #import "UnifiedAMapOptions.h"
 #import "AMapBasePlugin.h"
-#import "MANaviAnnotation.h"
-#import "MANaviRoute.h"
 #import "UnifiedAssets.h"
 #import "UnifiedMarkerOptions.h"
 #import "MarkerAnnotation.h"
 #import "ClearMap.h"
-#import "MapFunctionRegistry.h"
 #import "MJExtension.h"
 #import "UnifiedPolylineOptions.h"
 #import "AddPolyline.h"
 #import "NSString+Color.h"
 #import "PolylineOverlay.h"
+#import "FunctionRegistry.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
@@ -51,7 +49,6 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
     FlutterEventChannel *_markerClickedEventChannel;
     FlutterEventSink _sink;
     MAMapView *_mapView;
-    MANaviRoute *_overlay;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -128,53 +125,15 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
 
 /// 渲染overlay回调
 - (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay {
-    // 不知道
-    if ([overlay isKindOfClass:[LineDashPolyline class]]) {
-        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:((LineDashPolyline *) overlay).polyline];
-        polylineRenderer.lineWidth = 8;
-        polylineRenderer.lineDashType = kMALineDashTypeSquare;
-        polylineRenderer.strokeColor = [UIColor redColor];
-
-        return polylineRenderer;
-    }
-
-    // 绘制导航线
-    if ([overlay isKindOfClass:[MANaviPolyline class]]) {
-        MANaviPolyline *naviPolyline = (MANaviPolyline *) overlay;
-        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:naviPolyline.polyline];
-
-        polylineRenderer.lineWidth = 8;
-
-        if (naviPolyline.type == MANaviAnnotationTypeWalking) {
-            polylineRenderer.strokeColor = _overlay.walkingColor;
-        } else if (naviPolyline.type == MANaviAnnotationTypeRailway) {
-            polylineRenderer.strokeColor = _overlay.railwayColor;
-        } else {
-            polylineRenderer.strokeColor = _overlay.routeColor;
-        }
-
-        return polylineRenderer;
-    }
-
-    // 不知道
-    if ([overlay isKindOfClass:[MAMultiPolyline class]]) {
-        MAMultiColoredPolylineRenderer *polylineRenderer = [[MAMultiColoredPolylineRenderer alloc] initWithMultiPolyline:overlay];
-
-        polylineRenderer.lineWidth = 10;
-        polylineRenderer.strokeColors = [_overlay.multiPolylineColors copy];
-
-        return polylineRenderer;
-    }
-
     // 绘制折线
     if ([overlay isKindOfClass:[PolylineOverlay class]]) {
         PolylineOverlay *polyline =(PolylineOverlay *)overlay;
 
-        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
+        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:polyline];
 
         UnifiedPolylineOptions *options = [polyline options];
 
-        polylineRenderer.lineWidth = options.width;
+        polylineRenderer.lineWidth = (CGFloat) (options.width * 0.5); // 相同的值, Android的线比iOS的粗
         polylineRenderer.strokeColor = [options.color hexStringToColor];
         polylineRenderer.lineJoinType = (MALineJoinType) options.lineJoinType;
         polylineRenderer.lineCapType = (MALineCapType) options.lineCapType;
@@ -205,24 +164,7 @@ static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
                                                           reuseIdentifier:routePlanningCellIdentifier];
         }
 
-        if ([annotation isKindOfClass:[MANaviAnnotation class]]) {
-            switch (((MANaviAnnotation *) annotation).type) {
-                case MANaviAnnotationTypeRailway:
-                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/railway_station.png"]];
-                    break;
-                case MANaviAnnotationTypeBus:
-                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/bus.png"]];
-                    break;
-                case MANaviAnnotationTypeDrive:
-                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/car.png"]];
-                    break;
-                case MANaviAnnotationTypeWalking:
-                    annotationView.image = [UIImage imageWithContentsOfFile:[UnifiedAssets getDefaultAssetPath:@"images/man.png"]];
-                    break;
-                default:
-                    break;
-            }
-        } else if ([annotation isKindOfClass:[MarkerAnnotation class]]) {
+        if ([annotation isKindOfClass:[MarkerAnnotation class]]) {
             UnifiedMarkerOptions *options = ((MarkerAnnotation *) annotation).markerOptions;
             annotationView.zIndex = (NSInteger) options.zIndex;
             if (options.icon != nil) {
