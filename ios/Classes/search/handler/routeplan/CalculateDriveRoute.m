@@ -66,7 +66,6 @@
         return _result(@"没有规划出合适的路线");
     }
 
-    UnifiedDriveRouteResult *result = [[UnifiedDriveRouteResult alloc] initWithAMapRouteSearchResponse:response];
     _result([[[UnifiedDriveRouteResult alloc] initWithAMapRouteSearchResponse:response] mj_JSONString]);
 }
 
