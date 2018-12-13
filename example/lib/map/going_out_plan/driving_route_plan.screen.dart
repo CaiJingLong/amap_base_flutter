@@ -55,11 +55,13 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
                         ),
                       ),
                     ).then((result) {
-                      _controller.addRouteOverlay(RouteOverlay(
-                        from: result.startPos,
-                        to: result.targetPos,
-                        drivePath: result.paths[0],
-                      ));
+                      _controller.addPolyline((PolylineOptions(
+                        latLngList: result.paths[0].steps
+                            .expand((step) => step.polyline)
+                            .toList(),
+                        width: 20,
+                        color: Colors.cyan,
+                      )));
                     }).catchError((e) => showError(context, e.toString()));
                   },
                 ),

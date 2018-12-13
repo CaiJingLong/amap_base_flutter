@@ -171,17 +171,6 @@ class AMapController {
     );
   }
 
-  Future addRouteOverlay(RouteOverlay overlay) {
-    final _overlayJson = overlay.toJsonString();
-
-    L.p('addRouteOverlay dart端参数: _overlayJson -> $_overlayJson');
-
-    return _mapChannel.invokeMethod(
-      'map#addRouteOverlay',
-      {'overlay': _overlayJson},
-    );
-  }
-
   //endregion
 
   /// marker点击事件流
