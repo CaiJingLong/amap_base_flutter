@@ -4,6 +4,7 @@
 
 #import "RoutePlanParam.h"
 #import "UnifiedAMapOptions.h"
+#import "AMapCommonObj.h"
 
 
 @implementation RoutePlanParam {

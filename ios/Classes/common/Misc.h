@@ -8,10 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MAMapKit/MAMapKit.h>
-#import <AMapSearchKit/AMapSearchAPI.h>
 #import "Flutter/Flutter.h"
-
-@class JSONModelError;
 
 @interface Misc : NSObject
 

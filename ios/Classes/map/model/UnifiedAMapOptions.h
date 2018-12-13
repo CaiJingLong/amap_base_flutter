@@ -66,8 +66,6 @@
 @property(nonatomic) CGFloat latitude;
 @property(nonatomic) CGFloat longitude;
 
-- (AMapGeoPoint *)toAMapGeoPoint;
-
 - (CLLocationCoordinate2D)toCLLocationCoordinate2D;
 
 - (NSString *)description;

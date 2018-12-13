@@ -45,7 +45,7 @@
 @property(nonatomic) BOOL distanceSort;
 
 /// 设置的经纬度
-@property(nonatomic) LatLng *location;
+@property(nonatomic) AMapGeoPoint *location;
 
 /// 搜索边界
 @property(nonatomic) UnifiedSearchBound *searchBound;

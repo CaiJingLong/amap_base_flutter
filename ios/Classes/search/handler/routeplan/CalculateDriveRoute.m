@@ -43,17 +43,11 @@
 
     // 路线请求参数构造
     AMapDrivingRouteSearchRequest *routeQuery = [[AMapDrivingRouteSearchRequest alloc] init];
-    routeQuery.origin = [_routePlanParam.from toAMapGeoPoint];
-    routeQuery.destination = [_routePlanParam.to toAMapGeoPoint];
+    routeQuery.origin = _routePlanParam.from;
+    routeQuery.destination = _routePlanParam.to;
     routeQuery.strategy = _routePlanParam.mode;
-    routeQuery.waypoints = [_routePlanParam.passedByPoints map:^(id it) {
-        return [it toAMapGeoPoint];
-    }];
-    routeQuery.avoidpolygons = [_routePlanParam.avoidPolygons map:^(id list) {
-        return [list map:^(id it) {
-            return [it toAMapGeoPoint];
-        }];
-    }];
+    routeQuery.waypoints = _routePlanParam.passedByPoints;
+    routeQuery.avoidpolygons = _routePlanParam.avoidPolygons;
     routeQuery.avoidroad = _routePlanParam.avoidRoad;
     routeQuery.requireExtension = YES;
 

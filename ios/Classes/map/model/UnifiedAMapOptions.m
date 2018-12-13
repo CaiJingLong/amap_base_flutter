@@ -3,8 +3,6 @@
 //
 
 #import "UnifiedAMapOptions.h"
-#import "AMapSearchKit.h"
-
 
 @implementation UnifiedAMapOptions {
 }
@@ -62,10 +60,6 @@
 @end
 
 @implementation LatLng {
-}
-
-- (AMapGeoPoint *)toAMapGeoPoint {
-    return [AMapGeoPoint locationWithLatitude:self.latitude longitude:self.longitude];
 }
 
 - (CLLocationCoordinate2D)toCLLocationCoordinate2D {

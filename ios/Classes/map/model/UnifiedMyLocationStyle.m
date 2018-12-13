@@ -3,7 +3,6 @@
 //
 
 #import "MAMapView.h"
-#import "MAUserLocationRepresentation.h"
 #import "UnifiedMyLocationStyle.h"
 #import "NSString+Color.h"
 

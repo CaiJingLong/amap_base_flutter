@@ -3,7 +3,6 @@
 //
 
 #import "UnifiedMarkerOptions.h"
-#import "UnifiedAMapOptions.h"
 
 @implementation UnifiedMarkerOptions {
 
