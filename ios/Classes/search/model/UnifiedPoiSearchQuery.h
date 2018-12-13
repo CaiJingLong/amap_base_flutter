@@ -6,10 +6,10 @@
 
 @class AMapPOIKeywordsSearchRequest;
 
-@class LatLng;
 @class UnifiedSearchBound;
 @class AMapPOIAroundSearchRequest;
 @class AMapPOIPolygonSearchRequest;
+@class AMapGeoPoint;
 
 /// 搜索请求参数 Android是合并在一个类里的, iOS分裂成了多个类, 在这里也并在一起, 然后提供各自的生成方法
 @interface UnifiedPoiSearchQuery : NSObject

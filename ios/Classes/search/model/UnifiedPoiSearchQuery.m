@@ -7,6 +7,7 @@
 #import "UnifiedPoiSearchQuery.h"
 #import "MJExtension.h"
 #import "AMapSearchKit.h"
+#import "AMapCommonObj.h"
 
 
 @implementation UnifiedPoiSearchQuery {
