@@ -59,7 +59,7 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
                         latLngList: result.paths[0].steps
                             .expand((step) => step.polyline)
                             .toList(),
-                        width: 20,
+                        width: 10,
                         color: Colors.cyan,
                       )));
                     }).catchError((e) => showError(context, e.toString()));

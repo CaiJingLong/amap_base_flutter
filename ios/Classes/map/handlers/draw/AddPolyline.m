@@ -15,6 +15,7 @@
     MAMapView *_mapView;
 }
 - (NSObject <MapMethodHandler> *)initWith:(MAMapView *)mapView {
+    _mapView = mapView;
     return self;
 }
 
