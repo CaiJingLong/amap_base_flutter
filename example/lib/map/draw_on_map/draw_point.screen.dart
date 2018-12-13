@@ -1,16 +1,14 @@
+import 'dart:math';
+
 import 'package:amap_base/amap_base.dart';
-import 'package:amap_base_example/utils/misc.dart';
-import 'package:amap_base_example/utils/view.dart';
 import 'package:flutter/material.dart';
 
 const markerList = const [
-  LatLng(39.992520, 116.336170),
-  LatLng(39.992520, 116.336170),
-  LatLng(39.998293, 116.352343),
-  LatLng(40.004087, 116.348904),
-  LatLng(40.004087, 116.348904),
-  LatLng(39.989105, 116.353915),
-  LatLng(39.998439, 116.360201),
+  LatLng(30.308802, 120.071179),
+  LatLng(30.2412, 120.00938),
+  LatLng(30.296945, 120.35133),
+  LatLng(30.328955, 120.365063),
+  LatLng(30.181862, 120.369183),
 ];
 
 class DrawPointScreen extends StatefulWidget {
@@ -42,22 +40,28 @@ class DrawPointScreenState extends State<DrawPointScreen> {
                 Scaffold.of(context)
                     .showSnackBar(SnackBar(content: Text(marker.toString())));
               });
-              loading(
-                context,
-                controller.addMarkers(
-                  markerList
-                      .map((latLng) => MarkerOptions(
-                            icon: 'images/home_map_icon_positioning_nor.png',
-                            position: latLng,
-                            title: '哈哈',
-                            snippet: '呵呵',
-                          ))
-                      .toList(),
-                ),
-              ).catchError((e) => showError(context, e.toString()));
+              controller.addMarkers(
+                markerList
+                    .map((latLng) => MarkerOptions(
+                          icon: 'images/home_map_icon_positioning_nor.png',
+                          position: latLng,
+                          title: '哈哈',
+                          snippet: '呵呵',
+                        ))
+                    .toList(),
+              );
             },
             amapOptions: AMapOptions(),
           );
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () async {
+          final nextLatLng = _nextLatLng();
+          await _controller.addMarker(MarkerOptions(position: nextLatLng));
+          await _controller.changeLatLng(nextLatLng);
         },
       ),
     );
@@ -67,5 +71,12 @@ class DrawPointScreenState extends State<DrawPointScreen> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  LatLng _nextLatLng() {
+    final _random = Random();
+    double nextLat = (301818 + _random.nextInt(303289 - 301818)) / 10000;
+    double nextLng = (1200093 + _random.nextInt(1203691 - 1200093)) / 10000;
+    return LatLng(nextLat, nextLng);
   }
 }
