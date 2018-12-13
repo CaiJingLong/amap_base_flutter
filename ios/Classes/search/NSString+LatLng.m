@@ -3,7 +3,7 @@
 //
 
 #import "NSString+LatLng.h"
-#import "AMapCommonObj.h"
+#import "AMapSearchKit.h"
 
 
 @implementation NSString (LatLng)
