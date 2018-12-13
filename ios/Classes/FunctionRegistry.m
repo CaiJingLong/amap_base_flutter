@@ -28,6 +28,7 @@
 #import "AddPolyline.h"
 #import "StartNavi.h"
 #import "ZoomToSpan.h"
+#import "ChangeLatLng.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
 
@@ -53,6 +54,7 @@ static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
                 @"offline#openOfflineManager": [OpenOfflineManager alloc],
                 @"map#addPolyline": [AddPolyline alloc],
                 @"map#zoomToSpan": [ZoomToSpan alloc],
+                @"map#changeLatLng": [ChangeLatLng alloc],
         };
     }
     return _mapDictionary;

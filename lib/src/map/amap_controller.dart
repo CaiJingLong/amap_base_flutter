@@ -186,6 +186,16 @@ class AMapController {
     );
   }
 
+  /// 移动指定LatLng到中心
+  Future changeLatLng(LatLng target) {
+    L.p('changeLatLng dart端参数: target -> $target');
+
+    return _mapChannel.invokeMethod(
+      'map#changeLatLng',
+      {'target': target.toJsonString()},
+    );
+  }
+
   //endregion
 
   /// marker点击事件流
