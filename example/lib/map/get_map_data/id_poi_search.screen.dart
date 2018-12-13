@@ -60,7 +60,7 @@ class _IdPoiSearchScreenState extends State<IdPoiSearchScreen> {
                       _controller.addMarker(
                         MarkerOptions(position: poiResult.latLonPoint),
                       );
-                    }).catchError((e) => showError(context, e));
+                    }).catchError((e) => showError(context, e.toString()));
                   },
                 ),
               ],

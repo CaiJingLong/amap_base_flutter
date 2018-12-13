@@ -71,7 +71,7 @@ class _RoutePoiSearchScreenState extends State<RoutePoiSearchScreen> {
                             .map((it) => MarkerOptions(position: it.point))
                             .toList(),
                       );
-                    }).catchError((e) => showError(context, e));
+                    }).catchError((e) => showError(context, e.toString()));
                   },
                 ),
               ],
