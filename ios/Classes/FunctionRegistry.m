@@ -4,13 +4,6 @@
 
 #import "FunctionRegistry.h"
 #import "IMethodHandler.h"
-#import "CalculateDriveRoute.h"
-#import "SearchPoiKeyword.h"
-#import "SearchPoiBound.h"
-#import "SearchPoiPolygon.h"
-#import "SearchPoiId.h"
-#import "SearchRoutePoiLine.h"
-#import "SearchRoutePoiPolygon.h"
 #import "ClearMap.h"
 #import "SetMyLocationStyle.h"
 #import "SetUiSettings.h"
@@ -26,7 +19,6 @@
 #import "ConvertCoordinate.h"
 #import "OpenOfflineManager.h"
 #import "AddPolyline.h"
-#import "StartNavi.h"
 #import "ZoomToSpan.h"
 #import "ChangeLatLng.h"
 
@@ -70,13 +62,6 @@ static NSDictionary<NSString *, NSObject <SearchMethodHandler> *> *_searchDictio
 + (NSDictionary<NSString *, NSObject <SearchMethodHandler> *> *)searchMethodHandler {
     if (!_searchDictionary) {
         _searchDictionary = @{
-                @"search#calculateDriveRoute": [CalculateDriveRoute alloc],
-                @"search#searchPoi": [SearchPoiKeyword alloc],
-                @"search#searchPoiBound": [SearchPoiBound alloc],
-                @"search#searchPoiPolygon": [SearchPoiPolygon alloc],
-                @"search#searchPoiId": [SearchPoiId alloc],
-                @"search#searchRoutePoiLine": [SearchRoutePoiLine alloc],
-                @"search#searchRoutePoiPolygon": [SearchRoutePoiPolygon alloc],
         };
     }
     return _searchDictionary;
@@ -92,7 +77,6 @@ static NSDictionary<NSString *, NSObject <NaviMethodHandler> *> *_naviDictionary
 + (NSDictionary<NSString *, NSObject <NaviMethodHandler> *> *)naviMethodHandler {
     if (!_naviDictionary) {
         _naviDictionary = @{
-                @"navi#startNavi": [StartNavi alloc],
         };
     }
     return _naviDictionary;
