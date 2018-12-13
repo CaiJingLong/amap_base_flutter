@@ -5,12 +5,7 @@ import 'package:amap_base/amap_base.dart';
 import 'package:amap_base/src/common/log.dart';
 import 'package:amap_base/src/map/model/marker_options.dart';
 import 'package:amap_base/src/map/model/my_location_style.dart';
-import 'package:amap_base/src/map/model/poi_result.dart';
-import 'package:amap_base/src/map/model/poi_search_query.dart';
 import 'package:amap_base/src/map/model/polyline_options.dart';
-import 'package:amap_base/src/map/model/route_overlay.dart';
-import 'package:amap_base/src/map/model/route_plan_param.dart';
-import 'package:amap_base/src/map/model/route_poi_result.dart';
 import 'package:amap_base/src/map/model/ui_settings.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
@@ -168,6 +163,19 @@ class AMapController {
     return _mapChannel.invokeMethod(
       'map#addPolyline',
       {'options': options.toJsonString()},
+    );
+  }
+
+  /// 移动镜头到当前的视角
+  Future zoomToSpan(List<LatLng> bound) {
+    final boundJson =
+        jsonEncode(bound?.map((it) => it.toJson())?.toList() ?? List());
+
+    L.p('zoomToSpan dart端参数: bound -> $boundJson');
+
+    return _mapChannel.invokeMethod(
+      'map#zoomToSpan',
+      {'bound': boundJson},
     );
   }
 

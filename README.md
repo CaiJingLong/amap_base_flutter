@@ -33,7 +33,7 @@ iOS端设置key:
 ```
 await AMap.init('您的key'); // 这个方法在Android端无效
 ```
-iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要手动打开开关, 在info.plist文件中新增一行`io.Flutter.embedded_views_preview`为`true`. 参考[iOS view embedding support has landed on master](https://github.com/Flutter/Flutter/issues/19030#issuecomment-437534853)
+iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要手动打开开关, 在info.plist文件中新增一行`io.flutter.embedded_views_preview`为`true`. 参考[iOS view embedding support has landed on master](https://github.com/Flutter/Flutter/issues/19030#issuecomment-437534853)
 
 ## 关于高德的Android SDK和iOS SDK
 - 由于Android和iOS端的实现完全不一样, Android端照抄了Google Map的api设计, 而iOS

@@ -55,13 +55,15 @@ class _DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
                         ),
                       ),
                     ).then((result) {
+                      final allPoint = result.paths[0].steps
+                          .expand((step) => step.polyline)
+                          .toList();
                       _controller.addPolyline((PolylineOptions(
-                        latLngList: result.paths[0].steps
-                            .expand((step) => step.polyline)
-                            .toList(),
+                        latLngList: allPoint,
                         width: 10,
                         color: Colors.cyan,
                       )));
+                      _controller.zoomToSpan(allPoint);
                     }).catchError((e) => showError(context, e.toString()));
                   },
                 ),

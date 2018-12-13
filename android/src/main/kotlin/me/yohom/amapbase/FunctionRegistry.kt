@@ -9,6 +9,7 @@ import me.yohom.amapbase.map.handler.draw.ClearMarker
 import me.yohom.amapbase.map.handler.interact.SetMapStatusLimits
 import me.yohom.amapbase.map.handler.interact.SetPosition
 import me.yohom.amapbase.map.handler.interact.SetZoomLevel
+import me.yohom.amapbase.map.handler.interact.ZoomToSpan
 import me.yohom.amapbase.navi.handler.StartNavi
 import me.yohom.amapbase.search.handler.fetchdata.*
 import me.yohom.amapbase.search.handler.routeplan.CalculateDriveRoute
@@ -31,7 +32,8 @@ val MAP_METHOD_HANDLER: Map<String, MapMethodHandler> = mapOf(
         "map#setMapStatusLimits" to SetMapStatusLimits,
         "tool#convertCoordinate" to ConvertCoordinate,
         "offline#openOfflineManager" to OpenOfflineManager,
-        "map#addPolyline" to AddPolyline
+        "map#addPolyline" to AddPolyline,
+        "map#zoomToSpan" to ZoomToSpan
 )
 
 /**
