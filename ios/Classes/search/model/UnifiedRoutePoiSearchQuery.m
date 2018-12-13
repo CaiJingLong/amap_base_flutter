@@ -6,7 +6,6 @@
 #import "MJExtension.h"
 #import "UnifiedRoutePoiSearchQuery.h"
 #import "AMapSearchKit.h"
-#import "AMapCommonObj.h"
 
 @implementation UnifiedRoutePoiSearchQuery {
 

@@ -5,10 +5,6 @@
 #import "IMethodHandler.h"
 #import "CalculateDriveRoute.h"
 #import "RoutePlanParam.h"
-#import "UnifiedAMapOptions.h"
-#import "NSArray+Rx.h"
-#import "MAPointAnnotation.h"
-#import "AMapViewFactory.h"
 #import "MJExtension.h"
 #import "UnifiedDriveRouteResult.h"
 

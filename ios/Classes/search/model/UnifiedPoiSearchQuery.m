@@ -2,7 +2,6 @@
 // Created by Yohom Bao on 2018-12-03.
 //
 
-#import "UnifiedAMapOptions.h"
 #import "UnifiedSearchBound.h"
 #import "NSArray+Rx.h"
 #import "UnifiedPoiSearchQuery.h"
