@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <MAMapKit/MAMapKit.h>
 #import "Flutter/Flutter.h"
 
 @interface Misc : NSObject
