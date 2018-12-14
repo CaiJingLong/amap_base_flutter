@@ -1,4 +1,4 @@
-import 'package:amap_base_map/amap_base.dart';
+import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/utils/misc.dart';
 import 'package:amap_base_example/utils/view.dart';
 import 'package:amap_base_example/widgets/button.widget.dart';
