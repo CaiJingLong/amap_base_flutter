@@ -17,7 +17,7 @@ amap_base_location: x.x.x # 仅定位(暂未实现)
 ```
 amap_base:
   git:
-    url: https://github.com/yohom/amap_base_Flutter.git
+    url: https://github.com/yohom/amap_base_flutter.git
     ref: 0.0.1/branch/commit
 ```
 导入:
