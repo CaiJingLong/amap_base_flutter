@@ -22,7 +22,7 @@ amap_base:
 ```
 导入:
 ```
-import 'package:amap_base_navi/amap_base.dart';
+import 'package:amap_base/amap_base.dart';
 ```
 Android端设置key:
 ```

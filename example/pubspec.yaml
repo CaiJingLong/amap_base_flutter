@@ -24,7 +24,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  amap_base_navi:
+  amap_base:
     path: ../
 
 # For information on the generic Dart part of this file, see the

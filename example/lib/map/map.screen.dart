@@ -1,4 +1,4 @@
-import 'package:amap_base_navi/amap_base.dart';
+import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/map/create_map/show_indoor_map.screen.dart';
 import 'package:amap_base_example/map/create_map/show_map.screen.dart';
 import 'package:amap_base_example/map/create_map/switch_map_layer.screen.dart';
