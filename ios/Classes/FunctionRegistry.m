@@ -11,6 +11,7 @@
 #import "SearchPoiId.h"
 #import "SearchRoutePoiLine.h"
 #import "SearchRoutePoiPolygon.h"
+#import "SearchGeocode.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
 
@@ -41,6 +42,7 @@ static NSDictionary<NSString *, NSObject <SearchMethodHandler> *> *_searchDictio
                 @"search#searchPoiId": [SearchPoiId alloc],
                 @"search#searchRoutePoiLine": [SearchRoutePoiLine alloc],
                 @"search#searchRoutePoiPolygon": [SearchRoutePoiPolygon alloc],
+                @"search#searchGeocode": [SearchGeocode alloc],
         };
     }
     return _searchDictionary;

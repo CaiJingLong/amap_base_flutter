@@ -19,7 +19,7 @@ object CalculateDriveRoute : SearchMethodHandler {
         // 规划参数
         val param = call.argument<String>("routePlanParam")!!.parseJson<RoutePlanParam>()
 
-        log("方法setUiSettings android端参数: routePlanParam -> $param")
+        log("方法calculateDriveRoute android端参数: routePlanParam -> $param")
 
         val routeQuery = RouteSearch.DriveRouteQuery(
                 RouteSearch.FromAndTo(param.from.toLatLonPoint(), param.to.toLatLonPoint()),
