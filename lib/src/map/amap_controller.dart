@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:amap_base/amap_base.dart';
-import 'package:amap_base/src/common/log.dart';
-import 'package:amap_base/src/map/model/marker_options.dart';
-import 'package:amap_base/src/map/model/my_location_style.dart';
-import 'package:amap_base/src/map/model/polyline_options.dart';
-import 'package:amap_base/src/map/model/ui_settings.dart';
+import 'package:amap_base_navi/amap_base.dart';
+import 'package:amap_base_navi/src/common/log.dart';
+import 'package:amap_base_navi/src/map/model/marker_options.dart';
+import 'package:amap_base_navi/src/map/model/my_location_style.dart';
+import 'package:amap_base_navi/src/map/model/polyline_options.dart';
+import 'package:amap_base_navi/src/map/model/ui_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';

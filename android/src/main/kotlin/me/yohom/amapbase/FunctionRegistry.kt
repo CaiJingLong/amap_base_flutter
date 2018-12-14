@@ -7,6 +7,7 @@ import me.yohom.amapbase.map.handler.draw.AddMarkers
 import me.yohom.amapbase.map.handler.draw.AddPolyline
 import me.yohom.amapbase.map.handler.draw.ClearMarker
 import me.yohom.amapbase.map.handler.interact.*
+import me.yohom.amapbase.navi.handler.StartNavi
 
 /**
  * 地图功能集合
@@ -41,6 +42,7 @@ val SEARCH_METHOD_HANDLER: Map<String, SearchMethodHandler> = mapOf(
  * 导航功能集合
  */
 val NAVI_METHOD_HANDLER: Map<String, NaviMethodHandler> = mapOf(
+        "navi#startNavi" to StartNavi
 )
 
 /**

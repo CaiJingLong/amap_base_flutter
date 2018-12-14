@@ -1,5 +1,5 @@
-import 'package:amap_base/amap_base.dart';
-import 'package:amap_base/src/map/model/search_bound.dart';
+import 'package:amap_base_navi/amap_base.dart';
+import 'package:amap_base_navi/src/map/model/search_bound.dart';
 
 class PoiResult {
   /// 返回的POI数目 [Android, iOS]
