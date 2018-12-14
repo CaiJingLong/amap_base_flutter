@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:amap_base_search/amap_base.dart';
-import 'package:amap_base_search/src/common/log.dart';
-import 'package:amap_base_search/src/map/model/poi_result.dart';
-import 'package:amap_base_search/src/search/model/drive_route_result.dart';
+import 'package:amap_base/amap_base.dart';
+import 'package:amap_base/src/common/log.dart';
+import 'package:amap_base/src/map/model/poi_result.dart';
+import 'package:amap_base/src/search/model/drive_route_result.dart';
 import 'package:flutter/services.dart';
 
 class AMapSearch {
