@@ -8,6 +8,10 @@
 在你的`pubspec.yaml`文件的dependencies节点下添加:
 ```
 amap_base: x.x.x
+amap_base_map: x.x.x # 仅地图
+amap_base_navi: x.x.x # 仅导航(高德导航SDK已包含地图, 不要跟amap_base_map重复引用)
+amap_base_search: x.x.x # 仅搜索
+amap_base_location: x.x.x # 仅定位(暂未实现)
 ```
 如果你想要指定某个版本/分支/提交, 那么:
 ```
@@ -40,8 +44,11 @@ iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要�
 端又没有去抄Google Map的设计, 导致需要额外的工作去兼容两个平台的功能. 这个库的目标是尽可能的统一双端的api设置, 采用取各自平台api的**并集**, 然后在文档中指出针对哪个平台有效的策略来实现api统一.
 
 ## 关于包的大小
-- ~~目前主分支的计划是实现全功能的高德地图, 然后开单独的分支实现高德的单独的功能, 这样包会小一点.~~
-- 这个库依赖了高德导航库(包含了3dMap库), 以及搜索库.
+- 目前已经按照高德提供的各个子包, 分出了4个分支(2d地图暂不支持).
+    - `feature/map`分支依赖了高德3DMap库.
+    - `feature/location`分支依赖了高德Location库.
+    - `feature/navi`分支依赖了高德Navi库(Navi库包含了3DMap库, 不要重复引用Navi库和3DMap库!).
+    - `feature/search`分支依赖了高德Search库.
 
 ## 关于Swift项目
 - Swift项目需要注释掉Podfile中的`use_framework!`. 尝试了在podspec中添加`s.static_framework = true`, 但是会造成找不到pod里的头文件. 如果有更好的解决方案, 请告知我.
