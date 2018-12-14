@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:amap_base/amap_base.dart';
-import 'package:amap_base/src/map/model/search_bound.dart';
+import 'package:amap_base_navi/amap_base.dart';
+import 'package:amap_base_navi/src/map/model/search_bound.dart';
 
 class PoiSearchQuery {
   /// Android: 查询字符串，多个关键字用“|”分割

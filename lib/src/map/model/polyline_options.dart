@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:amap_base/amap_base.dart';
+import 'package:amap_base_navi/amap_base.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
