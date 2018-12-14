@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:amap_base/src/map/model/latlng.dart';
+import 'package:amap_base_search/src/map/model/latlng.dart';
 
 /// Android全部有效, iOS部分有效
 class CameraPosition {
