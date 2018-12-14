@@ -36,15 +36,6 @@ object CalculateDriveRoute : SearchMethodHandler {
                     } else if (r.paths.isEmpty()) {
                         result.error("没有规划出合适的路线", null, null)
                     } else {
-//                        map.clear()
-//                        DrivingRouteOverlay(map, r.startPos, r.targetPos, listOf(), r.paths[0])
-//                                .apply {
-//                                    nodeIconVisible = false//设置节点marker是否显示
-//                                    removeFromMap()
-//                                    addToMap()
-//                                    zoomToSpan()
-//                                }
-
                         result.success(UnifiedDriveRouteResult(r).toJson())
                     }
                 }

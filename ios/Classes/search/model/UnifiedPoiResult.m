@@ -3,9 +3,8 @@
 //
 
 #import "UnifiedPoiResult.h"
-#import "UnifiedAMapOptions.h"
 #import "NSArray+Rx.h"
-#import "AMapGeoPoint+LatLng.h"
+#import "AMapSearchKit.h"
 
 
 @implementation UnifiedPoiResult {
@@ -43,9 +42,9 @@
         _email = aMapPOI.email;
         _indoorData = [[IndoorData alloc] initWithAMapIndoorData:aMapPOI.indoorData];
         _isIndoorMap = aMapPOI.hasIndoorMap;
-        _latLonPoint = [aMapPOI.location toLatLng];
-        _enter = [aMapPOI.enterLocation toLatLng];
-        _exit = [aMapPOI.exitLocation toLatLng];
+        _latLonPoint = aMapPOI.location;
+        _enter = aMapPOI.enterLocation;
+        _exit = aMapPOI.exitLocation;
         _parkingType = aMapPOI.parkingType;
         _photos = [aMapPOI.images map:^(AMapImage *image) {
             return [[Photo alloc] initWithAMapImage:image];
@@ -96,7 +95,7 @@
         _title = subPOI.name;
         _subName = subPOI.sname;
         _distance = subPOI.distance;
-        _latLonPoint = [subPOI.location toLatLng];
+        _latLonPoint = subPOI.location;
         _snippet = subPOI.address;
         _subTypeDes = subPOI.subtype;
     }

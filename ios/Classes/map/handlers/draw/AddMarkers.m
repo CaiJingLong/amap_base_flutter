@@ -5,9 +5,7 @@
 #import "AddMarkers.h"
 #import "MarkerAnnotation.h"
 #import "UnifiedMarkerOptions.h"
-#import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
-#import "Misc.h"
 #import "MJExtension.h"
 
 

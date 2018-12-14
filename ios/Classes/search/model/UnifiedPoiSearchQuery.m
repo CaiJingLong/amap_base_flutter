@@ -2,12 +2,12 @@
 // Created by Yohom Bao on 2018-12-03.
 //
 
-#import "UnifiedAMapOptions.h"
 #import "UnifiedSearchBound.h"
 #import "NSArray+Rx.h"
 #import "UnifiedPoiSearchQuery.h"
 #import "MJExtension.h"
 #import "AMapSearchKit.h"
+#import "AMapCommonObj.h"
 
 
 @implementation UnifiedPoiSearchQuery {
@@ -29,7 +29,7 @@
     request.keywords = _query;
     request.city = _city;
     request.cityLimit = _cityLimit;
-    request.location = [_location toAMapGeoPoint];
+    request.location = _location;
     return request;
 }
 
@@ -48,7 +48,7 @@
     request.requireSubPOIs = _requireSubPois;
     request.keywords = _query;
     request.city = _city;
-    request.location = [_location toAMapGeoPoint];
+    request.location = _location;
     request.radius = _searchBound.range;
     return request;
 }
@@ -69,7 +69,7 @@
     request.keywords = _query;
 
     NSArray <AMapGeoPoint *> *polygonList = [_searchBound.polyGonList map:^(NSDictionary *location) {
-        return [[LatLng mj_objectWithKeyValues:location] toAMapGeoPoint];
+        return [AMapGeoPoint mj_objectWithKeyValues:location];
     }];
     request.polygon = [AMapGeoPolygon polygonWithPoints:polygonList];
     return request;

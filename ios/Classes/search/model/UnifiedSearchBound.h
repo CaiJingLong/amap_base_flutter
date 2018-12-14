@@ -4,16 +4,16 @@
 
 #import <Foundation/Foundation.h>
 
-@class LatLng;
+@class AMapGeoPoint;
 
 @interface UnifiedSearchBound : NSObject
 
 /// 左下
-@property(nonatomic) LatLng *lowerLeft;
+@property(nonatomic) AMapGeoPoint *lowerLeft;
 /// 右上
-@property(nonatomic) LatLng *upperRight;
+@property(nonatomic) AMapGeoPoint *upperRight;
 /// 中心点
-@property(nonatomic) LatLng *center;
+@property(nonatomic) AMapGeoPoint *center;
 /// 半径范围
 @property(nonatomic) NSInteger range;
 /// 形状
@@ -21,6 +21,6 @@
 /// 按距离排序
 @property(nonatomic) BOOL isDistanceSort;
 /// 多边形的顶点坐标
-@property(nonatomic) NSArray <LatLng *> *polyGonList;
+@property(nonatomic) NSArray <AMapGeoPoint *> *polyGonList;
 
 @end

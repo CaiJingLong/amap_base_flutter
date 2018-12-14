@@ -91,7 +91,7 @@ class _KeywordPoiSearchScreenState extends State<KeywordPoiSearchScreen> {
                           .toList()
                           .map((position) => MarkerOptions(position: position))
                           .toList());
-                    }).catchError((e) => showError(context, e));
+                    }).catchError((e) => showError(context, e.toString()));
                   },
                 ),
               ],

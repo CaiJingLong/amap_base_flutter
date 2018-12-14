@@ -5,7 +5,6 @@
 #import "SetMapStatusLimits.h"
 #import "UnifiedAMapOptions.h"
 #import "MAGeometry.h"
-#import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
 #import "MJExtension.h"
 

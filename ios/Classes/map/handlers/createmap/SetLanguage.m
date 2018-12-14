@@ -3,7 +3,6 @@
 //
 
 #import "SetLanguage.h"
-#import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
 
 

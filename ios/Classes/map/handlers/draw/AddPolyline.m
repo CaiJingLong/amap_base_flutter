@@ -5,7 +5,6 @@
 #import "AddPolyline.h"
 #import "UnifiedPolylineOptions.h"
 #import "MJExtension.h"
-#import "NSArray+Rx.h"
 #import "UnifiedAMapOptions.h"
 #import "PolylineOverlay.h"
 #import "AMapViewFactory.h"

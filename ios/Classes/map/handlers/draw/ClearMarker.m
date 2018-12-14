@@ -3,7 +3,6 @@
 //
 
 #import "ClearMarker.h"
-#import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
 
 

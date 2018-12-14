@@ -4,12 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class UnifiedDriveStep;
 @class AMapGeoPoint;
-@class UnifiedRouteSearchCity;
-@class UnifiedTMC;
-@class UnifiedDistrict;
-@class UnifiedDrivePath;
 @class AMapRouteSearchResponse;
 @class AMapPath;
 @class AMapStep;

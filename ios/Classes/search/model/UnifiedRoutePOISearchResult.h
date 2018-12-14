@@ -7,9 +7,8 @@
 @class AMapRoutePOISearchResponse;
 
 @class UnifiedRoutePOIItem;
-@class LatLng;
 @class AMapPOI;
-
+@class AMapGeoPoint;
 
 @interface UnifiedRoutePOISearchResult : NSObject
 
@@ -25,7 +24,7 @@
 
 @property(nonatomic) NSString *id;
 @property(nonatomic) NSString *title;
-@property(nonatomic) LatLng *point;
+@property(nonatomic) AMapGeoPoint *point;
 @property(nonatomic) NSInteger distance;
 @property(nonatomic) NSInteger duration;
 

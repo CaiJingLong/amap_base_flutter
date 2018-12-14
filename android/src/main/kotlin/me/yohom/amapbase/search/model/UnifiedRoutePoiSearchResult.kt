@@ -1,6 +1,5 @@
 package me.yohom.amapbase.search.model
 
-import com.amap.api.maps.model.LatLng
 import com.amap.api.services.routepoisearch.RoutePOIItem
 import com.amap.api.services.routepoisearch.RoutePOISearchQuery
 import com.amap.api.services.routepoisearch.RoutePOISearchResult

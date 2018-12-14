@@ -3,7 +3,6 @@
 //
 
 #import "MarkerAnnotation.h"
-#import "UnifiedMarkerOptions.h"
 
 
 @implementation MarkerAnnotation {

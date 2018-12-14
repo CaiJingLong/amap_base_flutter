@@ -1,6 +1,5 @@
 package me.yohom.amapbase.search.model
 
-import com.amap.api.maps.model.LatLng
 import com.amap.api.services.core.SuggestionCity
 import com.amap.api.services.poisearch.*
 import me.yohom.amapbase.search.toLatLng

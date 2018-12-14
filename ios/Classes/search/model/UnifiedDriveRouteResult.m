@@ -5,7 +5,7 @@
 #import "UnifiedDriveRouteResult.h"
 #import "AMapSearchKit.h"
 #import "NSArray+Rx.h"
-#import "NSString+LatLng.h"
+#import "NSString+GeoPoint.h"
 
 
 @implementation UnifiedDriveRouteResult {

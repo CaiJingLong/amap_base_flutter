@@ -4,24 +4,25 @@ import 'package:amap_base_example/utils/view.dart';
 import 'package:amap_base_example/widgets/button.widget.dart';
 import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
+//B0FFJD44SX
 
-class RoutePoiSearchScreen extends StatefulWidget {
-  RoutePoiSearchScreen();
+class IdPoiSearchScreen extends StatefulWidget {
+  IdPoiSearchScreen();
 
-  factory RoutePoiSearchScreen.forDesignTime() => RoutePoiSearchScreen();
+  factory IdPoiSearchScreen.forDesignTime() => IdPoiSearchScreen();
 
   @override
-  _RoutePoiSearchScreenState createState() => _RoutePoiSearchScreenState();
+  _IdPoiSearchScreenState createState() => _IdPoiSearchScreenState();
 }
 
-class _RoutePoiSearchScreenState extends State<RoutePoiSearchScreen> {
+class _IdPoiSearchScreenState extends State<IdPoiSearchScreen> {
   AMapController _controller;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('道路沿途检索POI'),
+        title: const Text('ID检索POI'),
         backgroundColor: Colors.black,
         centerTitle: true,
       ),
@@ -43,10 +44,7 @@ class _RoutePoiSearchScreenState extends State<RoutePoiSearchScreen> {
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
               children: <Widget>[
-                Text(
-                  '出发点: LatLng(39.993291, 116.473188),\n终点: LatLng(39.940474, 116.355426)',
-                  textAlign: TextAlign.center,
-                ),
+                Text('ID: B0FFJD44SX', textAlign: TextAlign.center),
                 SPACE_NORMAL,
                 Button(
                   label: '开始搜索',
@@ -57,21 +55,12 @@ class _RoutePoiSearchScreenState extends State<RoutePoiSearchScreen> {
 
                     loading(
                       context,
-                      AMapSearch().searchRoutePoiLine(
-                        RoutePoiSearchQuery.line(
-                          from: LatLng(39.993291, 116.473188),
-                          to: LatLng(39.940474, 116.355426),
-                          searchType: 0,
-                        ),
-                      ),
-                    ).then((routePoiResult) {
-                      print(routePoiResult);
-                      _controller.addMarkers(
-                        routePoiResult.routePoiList
-                            .map((it) => MarkerOptions(position: it.point))
-                            .toList(),
+                      AMapSearch().searchPoiId('B0FFJD44SX'),
+                    ).then((poiResult) {
+                      _controller.addMarker(
+                        MarkerOptions(position: poiResult.latLonPoint),
                       );
-                    }).catchError((e) => showError(context, e));
+                    }).catchError((e) => showError(context, e.toString()));
                   },
                 ),
               ],

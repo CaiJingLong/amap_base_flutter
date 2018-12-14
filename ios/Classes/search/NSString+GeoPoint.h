@@ -5,7 +5,7 @@
 #import <Foundation/Foundation.h>
 @class AMapGeoPoint;
 
-@interface NSString (LatLng)
+@interface NSString (GeoPoint)
 
 -(NSArray<AMapGeoPoint *> *)stringToAMapGeoPoint;
 

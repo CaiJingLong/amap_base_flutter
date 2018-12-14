@@ -3,9 +3,9 @@
 //
 
 #import "UnifiedRoutePOISearchResult.h"
-#import "UnifiedAMapOptions.h"
 #import "NSArray+Rx.h"
-#import "AMapGeoPoint+LatLng.h"
+#import "AMapCommonObj.h"
+#import "AMapSearchKit.h"
 
 
 @implementation UnifiedRoutePOISearchResult {
@@ -30,7 +30,7 @@
     if ([self init]) {
         _id = aMapPOI.uid;
         _title = aMapPOI.name;
-        _point = [aMapPOI.location toLatLng];
+        _point = aMapPOI.location;
         _distance = aMapPOI.distance;
         _duration = 0;
     }

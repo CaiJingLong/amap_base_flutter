@@ -4,9 +4,7 @@
 
 #import "SetMyLocationStyle.h"
 #import "UnifiedMyLocationStyle.h"
-#import "AMapSearchKit.h"
 #import "AMapViewFactory.h"
-#import "Misc.h"
 #import "MJExtension.h"
 
 @implementation SetMyLocationStyle {
