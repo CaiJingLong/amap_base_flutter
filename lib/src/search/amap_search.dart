@@ -98,4 +98,17 @@ class AMapSearch {
         .then(
             (jsonResult) => DriveRouteResult.fromJson(jsonDecode(jsonResult)));
   }
+
+  /// 地址转坐标 [name]表示地址，第二个参数表示查询城市，中文或者中文全拼，citycode、adcode
+  Future<GeocodeResult> searchGeocode(String name, String city) {
+    L.p('方法searchGeocode dart端参数: name -> $name, cityCode -> $city');
+
+    return _searchChannel
+        .invokeMethod(
+          'search#searchGeocode',
+          {'name': name, 'city': city},
+        )
+        .then((result) => result as String)
+        .then((jsonResult) => GeocodeResult.fromJson(jsonDecode(jsonResult)));
+  }
 }

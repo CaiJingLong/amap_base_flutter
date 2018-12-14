@@ -15,7 +15,7 @@ class IdPoiSearchScreen extends StatefulWidget {
 }
 
 class _IdPoiSearchScreenState extends State<IdPoiSearchScreen> {
-  AMapController _controller;
+  String _result = '';
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +28,6 @@ class _IdPoiSearchScreenState extends State<IdPoiSearchScreen> {
       body: ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height / 2,
-            child: AMapView(
-              onAMapViewCreated: (controller) {
-                setState(() => _controller = controller);
-              },
-              amapOptions: AMapOptions(),
-            ),
-          ),
           Form(
             child: ListView(
               padding: const EdgeInsets.all(8.0),
@@ -56,23 +47,19 @@ class _IdPoiSearchScreenState extends State<IdPoiSearchScreen> {
                       context,
                       AMapSearch().searchPoiId('B0FFJD44SX'),
                     ).then((poiResult) {
-                      _controller.addMarker(
-                        MarkerOptions(position: poiResult.latLonPoint),
-                      );
+                      setState(() {
+                        _result = poiResult.toString();
+                      });
                     }).catchError((e) => showError(context, e.toString()));
                   },
                 ),
+                SPACE_NORMAL,
+                Text(_result),
               ],
             ),
           ),
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }

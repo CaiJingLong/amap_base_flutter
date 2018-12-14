@@ -5,67 +5,60 @@ import 'package:amap_base_example/widgets/button.widget.dart';
 import 'package:amap_base_example/widgets/dimens.dart';
 import 'package:flutter/material.dart';
 
-class KeywordPoiSearchScreen extends StatefulWidget {
-  KeywordPoiSearchScreen();
+class GeocodeScreen extends StatefulWidget {
+  GeocodeScreen();
 
-  factory KeywordPoiSearchScreen.forDesignTime() => KeywordPoiSearchScreen();
+  factory GeocodeScreen.forDesignTime() => GeocodeScreen();
 
   @override
-  _KeywordPoiSearchScreenState createState() => _KeywordPoiSearchScreenState();
+  _GeocodeScreenState createState() => _GeocodeScreenState();
 }
 
-class _KeywordPoiSearchScreenState extends State<KeywordPoiSearchScreen> {
-  AMapController _controller;
-  TextEditingController _queryController = TextEditingController(text: '肯德基');
-  TextEditingController _cityController = TextEditingController(text: '杭州');
+class _GeocodeScreenState extends State<GeocodeScreen> {
+  String _result = '';
+
+  TextEditingController _nameController = TextEditingController(text: '方恒国际中心');
+  TextEditingController _cityController = TextEditingController(text: '北京');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('关键字检索POI'),
+        title: const Text('地理编码（地址转坐标）'),
         backgroundColor: Colors.black,
         centerTitle: true,
       ),
       body: ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height / 2,
-            child: AMapView(
-              onAMapViewCreated: (controller) {
-                setState(() => _controller = controller);
-              },
-              amapOptions: AMapOptions(),
-            ),
-          ),
           Form(
             child: ListView(
               padding: const EdgeInsets.all(8.0),
               shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
               children: <Widget>[
                 TextFormField(
                   decoration: InputDecoration(
-                    hintText: '输入关键字',
+                    hintText: '输入目标地址',
                     border: OutlineInputBorder(),
                   ),
-                  controller: _queryController,
+                  controller: _nameController,
                   validator: (value) {
                     if (value.isEmpty) {
-                      return '请输入关键字';
+                      return '输入目标地址';
                     }
                   },
                 ),
                 SPACE_NORMAL,
                 TextFormField(
                   decoration: InputDecoration(
-                    hintText: '输入城市',
+                    hintText: '输入所在城市',
                     border: OutlineInputBorder(),
                   ),
                   controller: _cityController,
                   validator: (value) {
                     if (value.isEmpty) {
-                      return '请输入城市';
+                      return '输入所在城市';
                     }
                   },
                 ),
@@ -79,21 +72,19 @@ class _KeywordPoiSearchScreenState extends State<KeywordPoiSearchScreen> {
 
                     loading(
                       context,
-                      AMapSearch().searchPoi(
-                        PoiSearchQuery(
-                          query: _queryController.text,
-                          city: _cityController.text,
-                        ),
+                      AMapSearch().searchGeocode(
+                        _nameController.text,
+                        _cityController.text,
                       ),
-                    ).then((poiResult) {
-                      _controller.addMarkers(poiResult.pois
-                          .map((it) => it.latLonPoint)
-                          .toList()
-                          .map((position) => MarkerOptions(position: position))
-                          .toList());
+                    ).then((result) {
+                      setState(() {
+                        _result = result.toString();
+                      });
                     }).catchError((e) => showError(context, e.toString()));
                   },
                 ),
+                SPACE_NORMAL,
+                Text(_result),
               ],
             ),
           ),
@@ -104,7 +95,8 @@ class _KeywordPoiSearchScreenState extends State<KeywordPoiSearchScreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _nameController.dispose();
+    _cityController.dispose();
     super.dispose();
   }
 }

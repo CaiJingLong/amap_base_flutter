@@ -19,7 +19,8 @@ val SEARCH_METHOD_HANDLER: Map<String, SearchMethodHandler> = mapOf(
         "search#searchPoiPolygon" to SearchPoiPolygon,
         "search#searchPoiId" to SearchPoiId,
         "search#searchRoutePoiLine" to SearchRoutePoiLine,
-        "search#searchRoutePoiPolygon" to SearchRoutePoiPolygon
+        "search#searchRoutePoiPolygon" to SearchRoutePoiPolygon,
+        "search#searchGeocode" to SearchGeocode
 )
 
 /**
