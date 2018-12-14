@@ -5,6 +5,7 @@ import android.app.Application
 import android.os.Bundle
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry.Registrar
+import me.yohom.amapbase.map.AMapFactory
 import java.util.concurrent.atomic.AtomicInteger
 
 const val CREATED = 1
@@ -72,6 +73,10 @@ class AMapBasePlugin {
                                 ?.onMethodCall(call, result) ?: result.notImplemented()
                     }
 
+            // MapView
+            registrar
+                    .platformViewRegistry()
+                    .registerViewFactory("me.yohom/AMapView", AMapFactory(activityState))
         }
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
