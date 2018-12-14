@@ -1,4 +1,4 @@
-import 'package:amap_base/amap_base.dart';
+import 'package:amap_base_search/amap_base.dart';
 
 class RoutePoiResult {
   List<RoutePoiItem> routePoiList;
