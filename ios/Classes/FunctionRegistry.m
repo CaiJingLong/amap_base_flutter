@@ -29,6 +29,7 @@
 #import "StartNavi.h"
 #import "ZoomToSpan.h"
 #import "ChangeLatLng.h"
+#import "SearchGeocode.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
 
@@ -77,6 +78,7 @@ static NSDictionary<NSString *, NSObject <SearchMethodHandler> *> *_searchDictio
                 @"search#searchPoiId": [SearchPoiId alloc],
                 @"search#searchRoutePoiLine": [SearchRoutePoiLine alloc],
                 @"search#searchRoutePoiPolygon": [SearchRoutePoiPolygon alloc],
+                @"search#searchGeocode": [SearchGeocode alloc],
         };
     }
     return _searchDictionary;

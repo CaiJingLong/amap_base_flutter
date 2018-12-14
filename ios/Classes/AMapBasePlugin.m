@@ -1,3 +1,4 @@
+#import "AMapServices.h"
 #import "AMapBasePlugin.h"
 #import "AMapViewFactory.h"
 #import "IMethodHandler.h"

@@ -15,7 +15,7 @@ class BoundPoiSearchScreen extends StatefulWidget {
 }
 
 class _BoundPoiSearchScreenState extends State<BoundPoiSearchScreen> {
-  AMapController _controller;
+  String _result = '';
 
   TextEditingController _centerController = TextEditingController(text: '天安门');
   TextEditingController _keywordController = TextEditingController(text: '厕所');
@@ -32,15 +32,6 @@ class _BoundPoiSearchScreenState extends State<BoundPoiSearchScreen> {
       body: ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height / 2,
-            child: AMapView(
-              onAMapViewCreated: (controller) {
-                setState(() => _controller = controller);
-              },
-              amapOptions: AMapOptions(),
-            ),
-          ),
           Form(
             child: ListView(
               padding: const EdgeInsets.all(8.0),
@@ -110,14 +101,14 @@ class _BoundPoiSearchScreenState extends State<BoundPoiSearchScreen> {
                         ),
                       ),
                     ).then((poiResult) {
-                      _controller.addMarkers(poiResult.pois
-                          .map((it) => it.latLonPoint)
-                          .toList()
-                          .map((position) => MarkerOptions(position: position))
-                          .toList());
+                      setState(() {
+                        _result = poiResult.toString();
+                      });
                     }).catchError((e) => showError(context, e.toString()));
                   },
                 ),
+                SPACE_NORMAL,
+                Text(_result),
               ],
             ),
           ),
@@ -128,7 +119,9 @@ class _BoundPoiSearchScreenState extends State<BoundPoiSearchScreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _centerController.dispose();
+    _keywordController.dispose();
+    _rangeController.dispose();
     super.dispose();
   }
 }
