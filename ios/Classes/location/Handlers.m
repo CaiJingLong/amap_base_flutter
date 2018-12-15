@@ -2,17 +2,36 @@
 // Created by Yohom Bao on 2018-12-15.
 //
 
-#import "StartLocate.h"
-#import "UnifiedLocationClientOptions.h"
-
+#import "Handlers.h"
 #import "MJExtension.h"
-#import "UnifiedAMapLocation.h"
-#import "Init.h"
 #import "AMapBasePlugin.h"
+#import "Models.h"
+
+static AMapLocationManager *_locationManager;
+
+@implementation Init {
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _locationManager = [[AMapLocationManager alloc] init];
+    }
+
+    return self;
+}
+
+
+- (void)onMethodCall:(FlutterMethodCall *)call :(FlutterResult)result {
+    result(@"成功");
+}
+
+@end
+
+
+#pragma 开始定位
 
 @implementation StartLocate {
-    AMapLocationManager *_locationManager;
-
     FlutterEventChannel *_locationEventChannel;
     FlutterEventSink _sink;
 }
@@ -37,7 +56,6 @@
 
     UnifiedLocationClientOptions *options = [UnifiedLocationClientOptions mj_objectWithKeyValues:optionJson];
 
-    _locationManager = [Init locationManager];
     _locationManager.delegate = self;
 
     [options applyTo:_locationManager];
@@ -79,6 +97,18 @@
 
 - (FlutterError *_Nullable)onCancelWithArguments:(id _Nullable)arguments {
     return nil;
+}
+
+@end
+
+
+#pragma 结束定位
+
+@implementation StopLocate {
+
+}
+- (void)onMethodCall:(FlutterMethodCall *)call :(FlutterResult)result {
+    [_locationManager stopUpdatingLocation];
 }
 
 @end

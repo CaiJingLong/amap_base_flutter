@@ -4,9 +4,7 @@
 
 #import "FunctionRegistry.h"
 #import "IMethodHandler.h"
-#import "Init.h"
-#import "StartLocate.h"
-#import "StopLocate.h"
+#import "Handlers.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
 
