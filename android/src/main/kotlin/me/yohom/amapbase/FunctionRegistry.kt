@@ -1,5 +1,9 @@
 package me.yohom.amapbase
 
+import me.yohom.amapbase.location.handler.Init
+import me.yohom.amapbase.location.handler.StartLocate
+import me.yohom.amapbase.location.handler.StopLocate
+
 /**
  * 地图功能集合
  */
@@ -21,4 +25,8 @@ val NAVI_METHOD_HANDLER: Map<String, NaviMethodHandler> = mapOf(
 /**
  * 定位功能集合
  */
-val LOCATION_METHOD_HANDLER: Map<String, LocationMethodHandler> = mapOf()
+val LOCATION_METHOD_HANDLER: Map<String, LocationMethodHandler> = mapOf(
+        "location#init" to Init,
+        "location#startLocate" to StartLocate,
+        "location#stopLocate" to StopLocate
+)

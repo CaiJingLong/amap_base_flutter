@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:amap_base/amap_base.dart';
-import 'package:amap_base/src/search/model/drive_route_result.dart';
+import 'package:amap_base_location/amap_base.dart';
+import 'package:amap_base_location/src/search/model/drive_route_result.dart';
 import 'package:meta/meta.dart';
 
 class RouteOverlay {

@@ -26,6 +26,9 @@ export 'src/map/offline_manager.dart';
 export 'src/navi/amap_navi.dart';
 export 'src/search/amap_search.dart';
 export 'src/search/model/drive_route_result.dart';
+export 'src/location/amap_location.dart';
+export 'src/location/model/location.dart';
+export 'src/location/model/location_client_options.dart';
 
 class AMap {
   static final _channel = MethodChannel('me.yohom/amap_base');

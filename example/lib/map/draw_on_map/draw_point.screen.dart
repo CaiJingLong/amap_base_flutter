@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:amap_base/amap_base.dart';
+import 'package:amap_base_location/amap_base.dart';
 import 'package:flutter/material.dart';
 
 const markerList = const [
