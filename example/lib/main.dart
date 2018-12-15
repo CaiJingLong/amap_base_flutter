@@ -21,13 +21,14 @@ class LauncherScreen extends StatelessWidget {
       ),
       backgroundColor: Colors.grey.shade200,
       body: DefaultTabController(
-        length: 3,
+        length: 4,
         child: Column(
           children: <Widget>[
             Flexible(
               child: TabBarView(children: [
                 MapScreen(),
                 SearchScreen(),
+                LocationScreen(),
                 NaviScreen(),
               ]),
             ),
@@ -39,6 +40,7 @@ class LauncherScreen extends StatelessWidget {
                 tabs: [
                   Text('地图', style: TextStyle(color: Colors.black)),
                   Text('搜索', style: TextStyle(color: Colors.black)),
+                  Text('定位', style: TextStyle(color: Colors.black)),
                   Text('导航', style: TextStyle(color: Colors.black)),
                 ],
               ),

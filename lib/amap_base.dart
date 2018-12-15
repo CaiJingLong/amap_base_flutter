@@ -2,10 +2,14 @@ library amap_base;
 
 import 'dart:convert';
 
+import 'package:amap_base_location/amap_base.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 export 'amap_base.dart';
+export 'src/location/amap_location.dart';
+export 'src/location/model/location.dart';
+export 'src/location/model/location_client_options.dart';
 export 'src/map/amap_controller.dart';
 export 'src/map/amap_view.dart';
 export 'src/map/calculate_tool.dart';
@@ -53,6 +57,8 @@ class AMap {
         return SynchronousFuture<Map<String, List<String>>>(parsedManifest);
       },
     );
+
+    await AMapLocation().init();
   }
 
   @Deprecated('使用init方法初始化的时候设置key')
