@@ -13,7 +13,7 @@ object StartLocate : LocationMethodHandler {
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         val optionJson = call.argument<String>("options")?: "{}"
 
-        log("startLocate android: options.toJsonString() -> $optionJson")
+        log("startLocate android端: options.toJsonString() -> $optionJson")
 
         locationClient.setLocationOption(optionJson.parseJson<UnifiedLocationClientOptions>().toLocationClientOptions())
         locationClient.startLocation()

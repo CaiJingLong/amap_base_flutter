@@ -2,10 +2,14 @@ library amap_base;
 
 import 'dart:convert';
 
+import 'package:amap_base_location/amap_base.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 export 'amap_base.dart';
+export 'src/location/amap_location.dart';
+export 'src/location/model/location.dart';
+export 'src/location/model/location_client_options.dart';
 export 'src/map/amap_controller.dart';
 export 'src/map/amap_view.dart';
 export 'src/map/calculate_tool.dart';
@@ -26,9 +30,6 @@ export 'src/map/offline_manager.dart';
 export 'src/navi/amap_navi.dart';
 export 'src/search/amap_search.dart';
 export 'src/search/model/drive_route_result.dart';
-export 'src/location/amap_location.dart';
-export 'src/location/model/location.dart';
-export 'src/location/model/location_client_options.dart';
 
 class AMap {
   static final _channel = MethodChannel('me.yohom/amap_base');
@@ -55,6 +56,8 @@ class AMap {
         return SynchronousFuture<Map<String, List<String>>>(parsedManifest);
       },
     );
+
+    await AMapLocation().init();
   }
 
   @Deprecated('使用init方法初始化的时候设置key')

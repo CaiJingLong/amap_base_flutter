@@ -33,11 +33,28 @@ class _LocationScreenState extends State<LocationScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         RaisedButton(
-          child: Text('开始定位'),
+          child: Text('单次定位'),
+          onPressed: () {
+            AMapLocation()
+                .startLocate(LocationClientOptions(
+                    isOnceLocation: true, locatingWithReGeocode: true))
+                .listen((result) {
+              print(result.toString());
+              setState(() {
+                _result = result.toString();
+              });
+            });
+          },
+        ),
+        RaisedButton(
+          child: Text('连续定位'),
           onPressed: () async {
             await AMapLocation().init();
             AMapLocation()
-                .startLocate(LocationClientOptions(isOnceLocation: true))
+                .startLocate(LocationClientOptions(
+              isOnceLocation: false,
+              locatingWithReGeocode: true,
+            ))
                 .listen((result) {
               print(result.toString());
               setState(() {

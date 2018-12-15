@@ -1,36 +1,36 @@
 class Location {
-  double accuracy;
+  num accuracy;
   String adCode;
   String address;
-  double altitude;
+  num altitude;
   String aoiName;
-  double bearing;
+  num bearing;
   String buildingId;
   String city;
   String cityCode;
   String coordType;
   String country;
   String district;
-  int errorCode;
+  num errorCode;
   String errorInfo;
-  String floor;
-  int gpsAccuracyStatus;
+  num floor;
+  num gpsAccuracyStatus;
   bool isFixLastLocation;
   bool isMock;
   bool isOffset;
-  double latitude;
+  num latitude;
   String locationDetail;
   LocationQualityReport locationQualityReport;
-  int locationType;
-  double longitude;
+  num locationType;
+  num longitude;
   String poiName;
   String provider;
   String province;
-  int satellites;
-  double speed;
+  num satellites;
+  num speed;
   String street;
   String streetNum;
-  int trustedLevel;
+  num trustedLevel;
 
   Location({
     this.accuracy,
@@ -68,12 +68,12 @@ class Location {
   });
 
   Location.fromJson(Map<String, dynamic> json) {
-    accuracy = json['accuracy'] as double;
+    accuracy = json['accuracy'] as num;
     adCode = json['adCode'] as String;
     address = json['address'] as String;
-    altitude = json['altitude'] as double;
+    altitude = json['altitude'] as num;
     aoiName = json['aoiName'] as String;
-    bearing = json['bearing'] as double;
+    bearing = json['bearing'] as num;
     buildingId = json['buildingId'] as String;
     city = json['city'] as String;
     cityCode = json['cityCode'] as String;
@@ -82,23 +82,23 @@ class Location {
     district = json['district'] as String;
     errorCode = json['errorCode'] as int;
     errorInfo = json['errorInfo'] as String;
-    floor = json['floor'] as String;
+    floor = json['floor'] as int;
     gpsAccuracyStatus = json['gpsAccuracyStatus'] as int;
     isFixLastLocation = json['isFixLastLocation'] as bool;
     isMock = json['isMock'] as bool;
     isOffset = json['isOffset'] as bool;
-    latitude = json['latitude'] as double;
+    latitude = json['latitude'] as num;
     locationDetail = json['locationDetail'] as String;
     locationQualityReport = json['locationQualityReport'] != null
         ? LocationQualityReport.fromJson(json['locationQualityReport'])
         : null;
     locationType = json['locationType'] as int;
-    longitude = json['longitude'] as double;
+    longitude = json['longitude'] as num;
     poiName = json['poiName'] as String;
     provider = json['provider'] as String;
     province = json['province'] as String;
     satellites = json['satellites'] as int;
-    speed = json['speed'] as double;
+    speed = json['speed'] as num;
     street = json['street'] as String;
     streetNum = json['streetNum'] as String;
     trustedLevel = json['trustedLevel'] as int;
@@ -144,38 +144,38 @@ class Location {
   }
 
   Location copyWith({
-    double accuracy,
+    num accuracy,
     String adCode,
     String address,
-    double altitude,
+    num altitude,
     String aoiName,
-    double bearing,
+    num bearing,
     String buildingId,
     String city,
     String cityCode,
     String coordType,
     String country,
     String district,
-    int errorCode,
+    num errorCode,
     String errorInfo,
     String floor,
-    int gpsAccuracyStatus,
+    num gpsAccuracyStatus,
     bool isFixLastLocation,
     bool isMock,
     bool isOffset,
-    double latitude,
+    num latitude,
     String locationDetail,
     LocationQualityReport locationQualityReport,
-    int locationType,
-    double longitude,
+    num locationType,
+    num longitude,
     String poiName,
     String provider,
     String province,
-    int satellites,
-    double speed,
+    num satellites,
+    num speed,
     String street,
     String streetNum,
-    int trustedLevel,
+    num trustedLevel,
   }) {
     return Location(
       accuracy: accuracy ?? this.accuracy,
@@ -327,10 +327,10 @@ class Location {
 
 class LocationQualityReport {
   String adviseMessage;
-  int gpsSatellites;
-  int gpsStatus;
+  num gpsSatellites;
+  num gpsStatus;
   bool isWifiAble;
-  int netUseTime;
+  num netUseTime;
   String networkType;
 
   LocationQualityReport({
@@ -364,10 +364,10 @@ class LocationQualityReport {
 
   LocationQualityReport copyWith({
     String adviseMessage,
-    int gpsSatellites,
-    int gpsStatus,
+    num gpsSatellites,
+    num gpsStatus,
     bool isWifiAble,
-    int netUseTime,
+    num netUseTime,
     String networkType,
   }) {
     return LocationQualityReport(

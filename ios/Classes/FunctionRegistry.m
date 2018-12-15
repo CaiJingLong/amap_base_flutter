@@ -4,6 +4,9 @@
 
 #import "FunctionRegistry.h"
 #import "IMethodHandler.h"
+#import "Init.h"
+#import "StartLocate.h"
+#import "StopLocate.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
 
@@ -57,7 +60,11 @@ static NSDictionary<NSString *, NSObject <LocationMethodHandler> *> *_locationDi
 }
 + (NSDictionary<NSString *, NSObject <LocationMethodHandler> *> *)locationMethodHandler {
     if (!_locationDictionary) {
-        _locationDictionary = @{};
+        _locationDictionary = @{
+                @"location#init": [Init alloc],
+                @"location#startLocate": [StartLocate alloc],
+                @"location#stopLocate": [StopLocate alloc],
+        };
     }
     return _locationDictionary;
 }
