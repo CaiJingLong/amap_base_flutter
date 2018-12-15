@@ -4,6 +4,7 @@
 
 #import "FunctionRegistry.h"
 #import "IMethodHandler.h"
+#import "MapHandlers.h"
 #import "CalculateDriveRoute.h"
 #import "SearchPoiKeyword.h"
 #import "SearchPoiBound.h"
