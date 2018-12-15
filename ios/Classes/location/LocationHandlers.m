@@ -2,10 +2,10 @@
 // Created by Yohom Bao on 2018-12-15.
 //
 
-#import "Handlers.h"
+#import "LocationHandlers.h"
 #import "MJExtension.h"
 #import "AMapBasePlugin.h"
-#import "Models.h"
+#import "LocationModels.h"
 
 static AMapLocationManager *_locationManager;
 
