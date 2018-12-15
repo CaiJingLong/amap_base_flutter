@@ -7,10 +7,10 @@
 #import "MapModels.h"
 #import "AMapBasePlugin.h"
 #import "UnifiedAssets.h"
-#import "ClearMap.h"
 #import "MJExtension.h"
 #import "NSString+Color.h"
 #import "FunctionRegistry.h"
+#import "MapHandlers.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";

@@ -4,23 +4,7 @@
 
 #import "FunctionRegistry.h"
 #import "IMethodHandler.h"
-#import "ClearMap.h"
-#import "SetMyLocationStyle.h"
-#import "SetUiSettings.h"
-#import "AddMarker.h"
-#import "AddMarkers.h"
-#import "ShowIndoorMap.h"
-#import "SetMapType.h"
-#import "SetLanguage.h"
-#import "ClearMarker.h"
-#import "SetZoomLevel.h"
-#import "SetPosition.h"
-#import "SetMapStatusLimits.h"
-#import "ConvertCoordinate.h"
-#import "OpenOfflineManager.h"
-#import "AddPolyline.h"
-#import "ZoomToSpan.h"
-#import "ChangeLatLng.h"
+#import "MapHandlers.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
 
