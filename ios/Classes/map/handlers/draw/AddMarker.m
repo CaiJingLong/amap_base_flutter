@@ -3,11 +3,9 @@
 //
 
 #import "AddMarker.h"
-#import "UnifiedMarkerOptions.h"
-#import "MarkerAnnotation.h"
+#import "MapModels.h"
 #import "AMapViewFactory.h"
 #import "MJExtension.h"
-
 
 @implementation AddMarker {
     MAMapView *_mapView;

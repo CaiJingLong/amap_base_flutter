@@ -3,7 +3,7 @@
 //
 
 #import "SetUiSettings.h"
-#import "UnifiedUiSettings.h"
+#import "MapModels.h"
 #import "AMapViewFactory.h"
 #import "MJExtension.h"
 

@@ -3,7 +3,7 @@
 //
 
 #import "SetMyLocationStyle.h"
-#import "UnifiedMyLocationStyle.h"
+#import "MapModels.h"
 #import "AMapViewFactory.h"
 #import "MJExtension.h"
 

@@ -3,8 +3,7 @@
 //
 
 #import "SetMapStatusLimits.h"
-#import "UnifiedAMapOptions.h"
-#import "MAGeometry.h"
+#import "MapModels.h"
 #import "AMapViewFactory.h"
 #import "MJExtension.h"
 

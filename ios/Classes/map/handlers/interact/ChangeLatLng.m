@@ -4,7 +4,7 @@
 
 #import "MAMapView.h"
 #import "ChangeLatLng.h"
-#import "UnifiedAMapOptions.h"
+#import "MapModels.h"
 #import "MJExtension.h"
 #import "AMapViewFactory.h"
 

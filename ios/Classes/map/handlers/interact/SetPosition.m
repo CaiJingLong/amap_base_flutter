@@ -3,7 +3,7 @@
 //
 
 #import "SetPosition.h"
-#import "UnifiedAMapOptions.h"
+#import "MapModels.h"
 #import "AMapViewFactory.h"
 #import "MJExtension.h"
 
