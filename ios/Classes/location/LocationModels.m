@@ -3,7 +3,7 @@
 //
 
 #import "AMapLocationManager.h"
-#import "Models.h"
+#import "LocationModels.h"
 
 
 @implementation UnifiedAMapLocation {

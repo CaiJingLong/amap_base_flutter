@@ -30,7 +30,7 @@
 #import "ZoomToSpan.h"
 #import "ChangeLatLng.h"
 #import "SearchGeocode.h"
-#import "Handlers.h"
+#import "LocationHandlers.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
 
