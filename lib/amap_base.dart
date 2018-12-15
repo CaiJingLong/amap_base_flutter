@@ -2,7 +2,7 @@ library amap_base;
 
 import 'dart:convert';
 
-import 'package:amap_base_location/amap_base.dart';
+import 'package:amap_base/amap_base.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 

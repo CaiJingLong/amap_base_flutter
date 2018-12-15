@@ -1,3 +1,4 @@
+import 'package:amap_base_example/location/location.screen.dart';
 import 'package:amap_base_example/search/search.screen.dart';
 import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/map/map.screen.dart';
