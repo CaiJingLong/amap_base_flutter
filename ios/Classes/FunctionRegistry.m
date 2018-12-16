@@ -15,6 +15,7 @@
 #import "StartNavi.h"
 #import "SearchGeocode.h"
 #import "LocationHandlers.h"
+#import "SearchHandlers.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
 
