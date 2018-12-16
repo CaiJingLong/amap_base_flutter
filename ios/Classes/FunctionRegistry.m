@@ -4,14 +4,7 @@
 
 #import "FunctionRegistry.h"
 #import "IMethodHandler.h"
-#import "CalculateDriveRoute.h"
-#import "SearchPoiKeyword.h"
-#import "SearchPoiBound.h"
-#import "SearchPoiPolygon.h"
-#import "SearchPoiId.h"
-#import "SearchRoutePoiLine.h"
-#import "SearchRoutePoiPolygon.h"
-#import "SearchGeocode.h"
+#import "SearchHandlers.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
 
