@@ -76,7 +76,7 @@ class _KeywordPoiSearchScreenState extends State<KeywordPoiSearchScreen> {
                   ),
                 ).then((poiResult) {
                   setState(() {
-                    _result = poiResult.toString();
+                    _result = jsonFormat(poiResult.toJson());
                   });
                 }).catchError((e) => showError(context, e.toString()));
               },

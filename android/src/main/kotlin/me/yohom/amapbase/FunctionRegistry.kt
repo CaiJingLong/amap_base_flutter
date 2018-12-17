@@ -1,18 +1,11 @@
 package me.yohom.amapbase
 
-import me.yohom.amapbase.location.handler.Init
-import me.yohom.amapbase.location.handler.StartLocate
-import me.yohom.amapbase.location.handler.StopLocate
-import me.yohom.amapbase.map.handler.calculatetool.ConvertCoordinate
-import me.yohom.amapbase.map.handler.createmap.*
-import me.yohom.amapbase.map.handler.draw.AddMarker
-import me.yohom.amapbase.map.handler.draw.AddMarkers
-import me.yohom.amapbase.map.handler.draw.AddPolyline
-import me.yohom.amapbase.map.handler.draw.ClearMarker
-import me.yohom.amapbase.map.handler.interact.*
+import me.yohom.amapbase.location.Init
+import me.yohom.amapbase.location.StartLocate
+import me.yohom.amapbase.location.StopLocate
+import me.yohom.amapbase.map.*
 import me.yohom.amapbase.navi.handler.StartNavi
-import me.yohom.amapbase.search.handler.fetchdata.*
-import me.yohom.amapbase.search.handler.routeplan.CalculateDriveRoute
+import me.yohom.amapbase.search.*
 
 /**
  * 地图功能集合

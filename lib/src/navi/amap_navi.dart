@@ -8,7 +8,20 @@ class AMapNavi {
   static const walk = 1;
   static const ride = 2;
 
-  static void startNavi({
+  static AMapNavi _instance;
+
+  AMapNavi._();
+
+  factory AMapNavi() {
+    if (_instance == null) {
+      _instance = AMapNavi._();
+      return _instance;
+    } else {
+      return _instance;
+    }
+  }
+
+  void startNavi({
     @required double lat,
     @required double lon,
     int naviType = drive,

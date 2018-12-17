@@ -75,7 +75,7 @@ class _PolygonPoiSearchScreenState extends State<PolygonPoiSearchScreen> {
                   ),
                 ).then((poiResult) {
                   setState(() {
-                    _result = poiResult.toString();
+                    _result = jsonFormat(poiResult.toJson());
                   });
                 }).catchError((e) => showError(context, e.toString()));
               },

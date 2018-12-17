@@ -8,7 +8,11 @@ class NaviScreen extends StatelessWidget {
       child: RaisedButton(
         child: Text('开始导航'),
         onPressed: () {
-          AMapNavi.startNavi(lat: 29.12, lon: 119.64, naviType: AMapNavi.ride);
+          AMapNavi().startNavi(
+            lat: 29.12,
+            lon: 119.64,
+            naviType: AMapNavi.ride,
+          );
         },
       ),
     );

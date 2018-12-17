@@ -18,8 +18,6 @@ import me.yohom.amapbase.*
 import me.yohom.amapbase.AMapBasePlugin.Companion.registrar
 import me.yohom.amapbase.common.checkPermission
 import me.yohom.amapbase.common.toJson
-import me.yohom.amapbase.map.model.UnifiedAMapOptions
-import me.yohom.amapbase.map.model.UnifiedMarkerOptions
 import java.util.concurrent.atomic.AtomicInteger
 
 const val mapChannelName = "me.yohom/map"

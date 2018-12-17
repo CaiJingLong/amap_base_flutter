@@ -21,6 +21,7 @@
         <meta-data
                 android:name="com.amap.api.v2.apikey"
                 android:value="cb5e27c594f97720cbed9cda82ed791a"/>
+
         <activity
                 android:name=".MainActivity"
                 android:launchMode="singleTop"

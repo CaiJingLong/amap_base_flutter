@@ -46,7 +46,7 @@ class DrivingRoutPlanScreenState extends State<DrivingRoutPlanScreen> {
                   ),
                 ).then((result) {
                   setState(() {
-                    _result = result.toString();
+                    _result = jsonFormat(result.toJson());
                   });
                 }).catchError((e) => showError(context, e.toString()));
               },
