@@ -62,26 +62,18 @@ iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要�
         |-- `IMapMethodHandler`: **处理委托对象**接口.
         |-- common: 通用代码
         |-- map: 地图功能模块
-            |-- handlers: 单个功能的**处理委托对象**
-                |-- calculatetool: `地图计算工具`
-                |-- createmap: `创建地图`
-                |-- draw: `在地图上绘制`
-                |-- interact: `与地图交互`
-            |-- model: 地图数据的模型
+            |-- MapHandlers.h
+            |-- MapModels.h: 数据模型
             |-- `AMapFactory`: AMapView工厂, Flutter的platform view需要
         |-- navi: 导航功能模块(未实现)
+            |-- NaviHandlers.h
+            |-- NaviModels.h: 数据模型
         |-- search: 搜索功能模块
-            |-- handlers: 单个功能的**处理委托对象**
-                |-- fetchdata: `获取地图数据`
-                |-- routeplan: `出行路线规划`
-            |-- model: 搜索数据的模型
+            |-- SearchHandlers.h
+            |-- SearchModels.h: 数据模型
         |-- location: 定位功能模块(未实现)
-
-## 关于贡献代码
-1. 在`handlers`包下找到要实现的功能模块包, 比如说要实现[显示地图](https://lbs.amap.com/api/android-sdk/guide/create-map/show-map), 那么先找到`me.yohom.amapbase/map/handlers/createmap`包, 然后在该包下创建新的实现`MapMethodHandler`接口的委托类.
-2. 实现功能后, 在`FunctionRegistry`类中注册功能.
-3. 在dart增加对应的方法.
-4. 新功能的开发就完成了.
+            |-- LocationHandlers.h
+            |-- LocationModels.h: 数据模型
 
 ## FAQ:
 1. 为什么定位到非洲去了?
@@ -131,3 +123,29 @@ iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要�
         * [ ] 公交出行路线规划
         * [ ] 骑行出行路线规划
         * [ ] 货车出行路线规划
+* 导航
+    * [x] 导航组件
+        * [x] 使用导航组件
+    * [ ] 出行路线规划
+        * [ ] 驾车路线规划
+        * [ ] 货车路线规划
+        * [ ] 步行路线规划
+        * [ ] 骑行路线规划
+    * [ ] 在地图上导航
+        * [ ] 实时导航
+        * [ ] 模拟导航
+        * [ ] 智能巡航
+        * [ ] 传入外部GPS数据
+        * [ ] 导航UI定制化
+    * [ ] HUD导航模式
+        * [ ] HUD导航
+    * [ ] 获取导航数据
+        * [ ] 导航数据
+    * [ ] 语音播报
+        * [ ] 语音合成
+* 定位
+    * [x] 获取位置
+        * [x] 获取定位数据
+    * [ ] 辅助功能
+        * [ ] 地理围栏
+        * [ ] 坐标转换与位置判断
