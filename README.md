@@ -62,18 +62,18 @@ iOS端的`UiKitView`目前还只是preview状态, 默认是不支持的, 需要�
         |-- `IMapMethodHandler`: **处理委托对象**接口.
         |-- common: 通用代码
         |-- map: 地图功能模块
-            |-- MapHandlers.h
-            |-- MapModels.h: 数据模型
+            |-- MapHandlers
+            |-- MapModels: 数据模型
             |-- `AMapFactory`: AMapView工厂, Flutter的platform view需要
         |-- navi: 导航功能模块(未实现)
-            |-- NaviHandlers.h
-            |-- NaviModels.h: 数据模型
+            |-- NaviHandlers
+            |-- NaviModels: 数据模型
         |-- search: 搜索功能模块
-            |-- SearchHandlers.h
-            |-- SearchModels.h: 数据模型
-        |-- location: 定位功能模块(未实现)
-            |-- LocationHandlers.h
-            |-- LocationModels.h: 数据模型
+            |-- SearchHandlers
+            |-- SearchModels: 数据模型
+        |-- location: 定位功能模块
+            |-- LocationHandlers
+            |-- LocationModels: 数据模型
 
 ## FAQ:
 1. 为什么定位到非洲去了?
