@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:amap_base/amap_base.dart';
+import 'package:amap_base/src/common/misc.dart';
 import 'package:meta/meta.dart';
 
 class MarkerOptions {
@@ -8,7 +9,7 @@ class MarkerOptions {
   String icon;
 
   /// Marker覆盖物的动画帧图标列表，动画的描点和大小以第一帧为准，建议图片大小保持一致 [Android]
-  List<String> icons;
+  List icons;
 
   /// Marker覆盖物的透明度 [Android]
   num alpha;
@@ -123,7 +124,7 @@ class MarkerOptions {
     this.rightCalloutAccessoryView,
   });
 
-  MarkerOptions.fromJson(Map<String, dynamic> json) {
+  MarkerOptions.fromJson(Map<String, Object> json) {
     alpha = json['alpha'] as num;
     anchorU = json['anchorU'] as num;
     anchorV = json['anchorV'] as num;
@@ -150,8 +151,8 @@ class MarkerOptions {
 
   Map<String, Object> toJson() {
     return {
-      'icon': icon,
-      'icons': icons,
+      'icon': toResolutionAware(icon),
+      'icons': icons?.map((it) => toResolutionAware(it))?.toList(),
       'alpha': alpha,
       'anchorU': anchorU,
       'anchorV': anchorV,

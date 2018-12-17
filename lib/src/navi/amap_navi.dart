@@ -1,33 +1,34 @@
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
-class AmapNavi {
-  static final _channel = MethodChannel('me.yohom/amap_navi');
-  static const _startNavi = 'startNavi';
-  static const _setKey = 'setKey';
+class AMapNavi {
+  static final _channel = MethodChannel('me.yohom/navi');
 
-  static void startNavi({
-    @required double lat,
-    @required double lon,
-  }) {
-    _channel.invokeMethod(_startNavi, {
-      'lat': lat,
-      'lon': lon,
-    });
+  static const drive = 0;
+  static const walk = 1;
+  static const ride = 2;
+
+  static AMapNavi _instance;
+
+  AMapNavi._();
+
+  factory AMapNavi() {
+    if (_instance == null) {
+      _instance = AMapNavi._();
+      return _instance;
+    } else {
+      return _instance;
+    }
   }
 
-  @Deprecated('使用AMap.setKey代替')
-  static Future setIOSKey(String key) async {
-    try {
-      if (Platform.isAndroid) {
-        return true;
-      } else if (Platform.isIOS) {
-        return _channel.invokeMethod(_setKey, {'key': key});
-      }
-    } catch (e) {
-      return false;
-    }
+  void startNavi({
+    @required double lat,
+    @required double lon,
+    int naviType = drive,
+  }) {
+    _channel.invokeMethod(
+      'navi#startNavi',
+      {'lat': lat, 'lon': lon, 'naviType': naviType},
+    );
   }
 }

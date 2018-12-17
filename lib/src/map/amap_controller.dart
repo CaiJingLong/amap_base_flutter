@@ -2,15 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:amap_base/amap_base.dart';
+import 'package:amap_base/src/common/log.dart';
 import 'package:amap_base/src/map/model/marker_options.dart';
 import 'package:amap_base/src/map/model/my_location_style.dart';
-import 'package:amap_base/src/map/model/poi_result.dart';
-import 'package:amap_base/src/map/model/poi_search_query.dart';
-import 'package:amap_base/src/map/model/route_plan_param.dart';
-import 'package:amap_base/src/map/model/route_poi_result.dart';
+import 'package:amap_base/src/map/model/polyline_options.dart';
 import 'package:amap_base/src/map/model/ui_settings.dart';
-import 'package:amap_base/src/utils/log.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 
 class AMapController {
   final MethodChannel _mapChannel;
@@ -41,21 +40,6 @@ class AMapController {
     return _mapChannel.invokeMethod(
       'map#setUiSettings',
       {'uiSettings': _uiSettings},
-    );
-  }
-
-  Future calculateDriveRoute(
-    RoutePlanParam param, {
-    bool showRouteImmediately = true,
-  }) {
-    final _routePlanParam = param.toJsonString();
-    L.p('方法calculateDriveRoute dart端参数: _routePlanParam -> $_routePlanParam');
-    return _mapChannel.invokeMethod(
-      'map#calculateDriveRoute',
-      {
-        'routePlanParam': _routePlanParam,
-        'showRouteImmediately': showRouteImmediately,
-      },
     );
   }
 
@@ -112,90 +96,6 @@ class AMapController {
     return _mapChannel.invokeMethod('map#clear');
   }
 
-  /// 搜索poi
-  Future<PoiResult> searchPoi(PoiSearchQuery query) {
-    L.p('方法searchPoi dart端参数: query.toJsonString() -> ${query.toJsonString()}');
-
-    return _mapChannel
-        .invokeMethod(
-          'map#searchPoi',
-          {'query': query.toJsonString()},
-        )
-        .then((result) => result as String)
-        .then((resultJsonString) =>
-            PoiResult.fromJson(jsonDecode(resultJsonString)));
-  }
-
-  /// 搜索poi 周边搜索
-  Future<PoiResult> searchPoiBound(PoiSearchQuery query) {
-    L.p('searchPoiBound dart端参数: query.toJsonString() -> ${query.toJsonString()}');
-
-    return _mapChannel
-        .invokeMethod(
-          'map#searchPoiBound',
-          {'query': query.toJsonString()},
-        )
-        .then((result) => result as String)
-        .then((resultJsonString) =>
-            PoiResult.fromJson(jsonDecode(resultJsonString)));
-  }
-
-  /// 搜索poi 多边形搜索
-  Future<PoiResult> searchPoiPolygon(PoiSearchQuery query) {
-    L.p('searchPoiPolygon dart端参数: query.toJsonString() -> ${query.toJsonString()}');
-
-    return _mapChannel
-        .invokeMethod(
-          'map#searchPoiPolygon',
-          {'query': query.toJsonString()},
-        )
-        .then((result) => result as String)
-        .then((resultJsonString) =>
-            PoiResult.fromJson(jsonDecode(resultJsonString)));
-  }
-
-  /// 按id搜索poi
-  Future<PoiItem> searchPoiId(String id) {
-    L.p('searchPoiId dart端参数: id -> $id');
-
-    return _mapChannel
-        .invokeMethod(
-          'map#searchPoiId',
-          {'id': id},
-        )
-        .then((result) => result as String)
-        .then((resultJsonString) =>
-            PoiItem.fromJson(jsonDecode(resultJsonString)));
-  }
-
-  /// 道路沿途直线检索POI
-  Future<RoutePoiResult> searchRoutePoiLine(RoutePoiSearchQuery query) {
-    L.p('searchRoutePoiLine dart端参数: query.toJsonString() -> ${query.toJsonString()}');
-
-    return _mapChannel
-        .invokeMethod(
-          'map#searchRoutePoiLine',
-          {'query': query.toJsonString()},
-        )
-        .then((result) => result as String)
-        .then((resultJsonString) =>
-            RoutePoiResult.fromJson(jsonDecode(resultJsonString)));
-  }
-
-  /// 道路沿途多边形检索POI
-  Future<RoutePoiResult> searchRoutePoiPolygon(RoutePoiSearchQuery query) {
-    L.p('searchRoutePoiPolygon dart端参数: query.toJsonString() -> ${query.toJsonString()}');
-
-    return _mapChannel
-        .invokeMethod(
-          'map#searchRoutePoiPolygon',
-          {'query': query.toJsonString()},
-        )
-        .then((result) => result as String)
-        .then((resultJsonString) =>
-            RoutePoiResult.fromJson(jsonDecode(resultJsonString)));
-  }
-
   /// 设置缩放等级
   Future setZoomLevel(int level) {
     L.p('setZoomLevel dart端参数: level -> $level');
@@ -206,8 +106,99 @@ class AMapController {
     );
   }
 
+  /// 设置地图中心点
+  Future setPosition({
+    @required LatLng target,
+    double zoom = 10,
+    double tilt = 0,
+    double bearing = 0,
+  }) {
+    L.p('setPosition dart端参数: target -> $target, zoom -> $zoom, tilt -> $tilt, bearing -> $bearing');
+
+    return _mapChannel.invokeMethod(
+      'map#setPosition',
+      {
+        'target': target.toJsonString(),
+        'zoom': zoom,
+        'tilt': tilt,
+        'bearing': bearing,
+      },
+    );
+  }
+
+  /// 限制地图的显示范围
+  Future setMapStatusLimits({
+    /// 西南角 [Android]
+    @required LatLng swLatLng,
+
+    /// 东北角 [Android]
+    @required LatLng neLatLng,
+
+    /// 中心 [iOS]
+    @required LatLng center,
+
+    /// 纬度delta [iOS]
+    @required double deltaLat,
+
+    /// 经度delta [iOS]
+    @required double deltaLng,
+  }) {
+    L.p('setPosition dart端参数: swLatLng -> $swLatLng, neLatLng -> $neLatLng, center -> $center, deltaLat -> $deltaLat, deltaLng -> $deltaLng');
+
+    return _mapChannel.invokeMethod(
+      'map#setMapStatusLimits',
+      {
+        'swLatLng': swLatLng.toJsonString(),
+        'neLatLng': neLatLng.toJsonString(),
+        'center': center.toJsonString(),
+        'deltaLat': deltaLat,
+        'deltaLng': deltaLng,
+      },
+    );
+  }
+
+  /// 添加线
+  Future addPolyline(PolylineOptions options) {
+    L.p('addPolyline dart端参数: options -> $options');
+
+    return _mapChannel.invokeMethod(
+      'map#addPolyline',
+      {'options': options.toJsonString()},
+    );
+  }
+
+  /// 移动镜头到当前的视角
+  Future zoomToSpan(
+    List<LatLng> bound, {
+    int padding = 80,
+  }) {
+    final boundJson =
+        jsonEncode(bound?.map((it) => it.toJson())?.toList() ?? List());
+
+    L.p('zoomToSpan dart端参数: bound -> $boundJson');
+
+    return _mapChannel.invokeMethod(
+      'map#zoomToSpan',
+      {
+        'bound': boundJson,
+        'padding': padding,
+      },
+    );
+  }
+
+  /// 移动指定LatLng到中心
+  Future changeLatLng(LatLng target) {
+    L.p('changeLatLng dart端参数: target -> $target');
+
+    return _mapChannel.invokeMethod(
+      'map#changeLatLng',
+      {'target': target.toJsonString()},
+    );
+  }
+
   //endregion
 
+  /// marker点击事件流
   Stream<MarkerOptions> get markerClickedEvent => _markerClickedEventChannel
       .receiveBroadcastStream()
       .map((data) => MarkerOptions.fromJson(jsonDecode(data)));

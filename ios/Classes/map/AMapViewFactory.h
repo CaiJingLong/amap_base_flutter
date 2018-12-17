@@ -6,12 +6,14 @@
 #import <Flutter/Flutter.h>
 #import "MAMapKit.h"
 
+static NSString *success = @"调用成功";
+
 @class UnifiedAMapOptions;
 
 @interface AMapViewFactory : NSObject <FlutterPlatformViewFactory>
 @end
 
-@interface AMapView : NSObject <FlutterPlatformView, AMapSearchDelegate, MAMapViewDelegate, AMapSearchDelegate, FlutterStreamHandler>
+@interface AMapView : NSObject <FlutterPlatformView, MAMapViewDelegate, FlutterStreamHandler>
 - (instancetype)initWithFrame:(CGRect)frame
                       options:(UnifiedAMapOptions *)options
                viewIdentifier:(int64_t)viewId;

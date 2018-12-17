@@ -1,6 +1,6 @@
 name: amap_base
-description: 高德地图&导航.
-version: 0.0.10
+description: Fully Functional AMap Flutter Plugin. Based on AndroidView/UiKitView.
+version: 0.2.2+1
 author: yohom <382146139@qq.com>
 homepage: https://github.com/yohom/amap_base_flutter
 
