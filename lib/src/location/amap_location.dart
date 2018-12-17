@@ -27,6 +27,20 @@ class AMapLocation {
     return _locationChannel.invokeMethod('location#init');
   }
 
+  /// 只定位一次
+  Future<Location> getLocation(LocationClientOptions options) {
+    L.p('getLocation dart端参数: options.toJsonString() -> ${options.toJsonString()}');
+
+    _locationChannel.invokeMethod(
+        'location#startLocate', {'options': options.toJsonString()});
+
+    return _locationEventChannel
+        .receiveBroadcastStream()
+        .map((result) => result as String)
+        .map((resultJson) => Location.fromJson(jsonDecode(resultJson)))
+        .first;
+  }
+
   /// 开始定位, 返回定位 结果流
   Stream<Location> startLocate(LocationClientOptions options) {
     L.p('startLocate dart端参数: options.toJsonString() -> ${options.toJsonString()}');
