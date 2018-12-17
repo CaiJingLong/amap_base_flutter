@@ -1,5 +1,8 @@
 package me.yohom.amapbase
 
+import me.yohom.amapbase.location.handler.Init
+import me.yohom.amapbase.location.handler.StartLocate
+import me.yohom.amapbase.location.handler.StopLocate
 import me.yohom.amapbase.map.handler.calculatetool.ConvertCoordinate
 import me.yohom.amapbase.map.handler.createmap.*
 import me.yohom.amapbase.map.handler.draw.AddMarker
@@ -44,7 +47,8 @@ val SEARCH_METHOD_HANDLER: Map<String, SearchMethodHandler> = mapOf(
         "search#searchPoiPolygon" to SearchPoiPolygon,
         "search#searchPoiId" to SearchPoiId,
         "search#searchRoutePoiLine" to SearchRoutePoiLine,
-        "search#searchRoutePoiPolygon" to SearchRoutePoiPolygon
+        "search#searchRoutePoiPolygon" to SearchRoutePoiPolygon,
+        "search#searchGeocode" to SearchGeocode
 )
 
 /**
@@ -57,4 +61,8 @@ val NAVI_METHOD_HANDLER: Map<String, NaviMethodHandler> = mapOf(
 /**
  * 定位功能集合
  */
-val LOCATION_METHOD_HANDLER: Map<String, LocationMethodHandler> = mapOf()
+val LOCATION_METHOD_HANDLER: Map<String, LocationMethodHandler> = mapOf(
+        "location#init" to Init,
+        "location#startLocate" to StartLocate,
+        "location#stopLocate" to StopLocate
+)

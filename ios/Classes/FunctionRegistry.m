@@ -4,31 +4,10 @@
 
 #import "FunctionRegistry.h"
 #import "IMethodHandler.h"
-#import "CalculateDriveRoute.h"
-#import "SearchPoiKeyword.h"
-#import "SearchPoiBound.h"
-#import "SearchPoiPolygon.h"
-#import "SearchPoiId.h"
-#import "SearchRoutePoiLine.h"
-#import "SearchRoutePoiPolygon.h"
-#import "ClearMap.h"
-#import "SetMyLocationStyle.h"
-#import "SetUiSettings.h"
-#import "AddMarker.h"
-#import "AddMarkers.h"
-#import "ShowIndoorMap.h"
-#import "SetMapType.h"
-#import "SetLanguage.h"
-#import "ClearMarker.h"
-#import "SetZoomLevel.h"
-#import "SetPosition.h"
-#import "SetMapStatusLimits.h"
-#import "ConvertCoordinate.h"
-#import "OpenOfflineManager.h"
-#import "AddPolyline.h"
-#import "StartNavi.h"
-#import "ZoomToSpan.h"
-#import "ChangeLatLng.h"
+#import "LocationHandlers.h"
+#import "SearchHandlers.h"
+#import "MapHandlers.h"
+#import "NaviHandlers.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
 
@@ -77,6 +56,7 @@ static NSDictionary<NSString *, NSObject <SearchMethodHandler> *> *_searchDictio
                 @"search#searchPoiId": [SearchPoiId alloc],
                 @"search#searchRoutePoiLine": [SearchRoutePoiLine alloc],
                 @"search#searchRoutePoiPolygon": [SearchRoutePoiPolygon alloc],
+                @"search#searchGeocode": [SearchGeocode alloc],
         };
     }
     return _searchDictionary;
@@ -107,7 +87,11 @@ static NSDictionary<NSString *, NSObject <LocationMethodHandler> *> *_locationDi
 }
 + (NSDictionary<NSString *, NSObject <LocationMethodHandler> *> *)locationMethodHandler {
     if (!_locationDictionary) {
-        _locationDictionary = @{};
+        _locationDictionary = @{
+                @"location#init": [Init alloc],
+                @"location#startLocate": [StartLocate alloc],
+                @"location#stopLocate": [StopLocate alloc],
+        };
     }
     return _locationDictionary;
 }

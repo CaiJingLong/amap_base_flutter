@@ -45,5 +45,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.2.71'
     implementation 'com.amap.api:search:6.5.0.1'
+    implementation 'com.amap.api:location:4.4.0'
     implementation 'com.android.support:appcompat-v7:27.1.1'
 }
