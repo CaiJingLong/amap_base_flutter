@@ -1,8 +1,8 @@
 package me.yohom.amapbase
 
-import me.yohom.amapbase.location.handler.Init
-import me.yohom.amapbase.location.handler.StartLocate
-import me.yohom.amapbase.location.handler.StopLocate
+import me.yohom.amapbase.location.Init
+import me.yohom.amapbase.location.StartLocate
+import me.yohom.amapbase.location.StopLocate
 
 /**
  * 地图功能集合
