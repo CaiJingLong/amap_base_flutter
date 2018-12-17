@@ -13,6 +13,7 @@ import me.yohom.amapbase.map.handler.interact.*
 import me.yohom.amapbase.navi.handler.StartNavi
 import me.yohom.amapbase.search.handler.fetchdata.*
 import me.yohom.amapbase.search.handler.routeplan.CalculateDriveRoute
+import me.yohom.amapbase.map.*
 
 /**
  * 地图功能集合
