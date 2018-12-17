@@ -4,10 +4,10 @@
 
 #import "FunctionRegistry.h"
 #import "IMethodHandler.h"
-#import "MapHandlers.h"
-#import "StartNavi.h"
 #import "LocationHandlers.h"
 #import "SearchHandlers.h"
+#import "MapHandlers.h"
+#import "NaviHandlers.h"
 
 static NSDictionary<NSString *, NSObject <MapMethodHandler> *> *_mapDictionary;
 

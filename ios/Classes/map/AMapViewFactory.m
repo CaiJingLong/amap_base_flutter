@@ -11,6 +11,8 @@
 #import "NSString+Color.h"
 #import "FunctionRegistry.h"
 #import "MapHandlers.h"
+#import "MapModels.h"
+#import "MapHandlers.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
