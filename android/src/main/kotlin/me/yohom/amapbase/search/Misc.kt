@@ -4,7 +4,6 @@ import com.amap.api.services.core.LatLonPoint
 import com.amap.api.services.core.PoiItem
 import com.amap.api.services.poisearch.*
 import me.yohom.amapbase.common.toJson
-import me.yohom.amapbase.search.model.LatLng
 
 fun LatLng.toLatLonPoint(): LatLonPoint {
     return LatLonPoint(latitude, longitude)
