@@ -3,19 +3,13 @@
 //
 
 #import "AMapViewFactory.h"
-#import "MAMapView.h"
-#import "UnifiedAMapOptions.h"
 #import "AMapBasePlugin.h"
 #import "UnifiedAssets.h"
-#import "UnifiedMarkerOptions.h"
-#import "MarkerAnnotation.h"
-#import "ClearMap.h"
 #import "MJExtension.h"
-#import "UnifiedPolylineOptions.h"
-#import "AddPolyline.h"
 #import "NSString+Color.h"
-#import "PolylineOverlay.h"
 #import "FunctionRegistry.h"
+#import "MapModels.h"
+#import "MapHandlers.h"
 
 static NSString *mapChannelName = @"me.yohom/map";
 static NSString *markerClickedChannelName = @"me.yohom/marker_clicked";
