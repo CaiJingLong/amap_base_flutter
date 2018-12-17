@@ -54,7 +54,7 @@ class _RoutePoiSearchScreenState extends State<RoutePoiSearchScreen> {
                   ),
                 ).then((routePoiResult) {
                   setState(() {
-                    _result = routePoiResult.toString();
+                    _result = jsonFormat(routePoiResult.toJson());
                   });
                 }).catchError((e) => showError(context, e.toString()));
               },

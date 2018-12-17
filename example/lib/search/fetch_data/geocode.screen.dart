@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amap_base/amap_base.dart';
 import 'package:amap_base_example/utils/misc.dart';
 import 'package:amap_base_example/utils/view.dart';
@@ -78,7 +80,7 @@ class _GeocodeScreenState extends State<GeocodeScreen> {
                       ),
                     ).then((result) {
                       setState(() {
-                        _result = result.toString();
+                        _result = jsonFormat(result.toJson());
                       });
                     }).catchError((e) => showError(context, e.toString()));
                   },

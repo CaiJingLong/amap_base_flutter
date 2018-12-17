@@ -48,7 +48,7 @@ class _IdPoiSearchScreenState extends State<IdPoiSearchScreen> {
                       AMapSearch().searchPoiId('B0FFJD44SX'),
                     ).then((poiResult) {
                       setState(() {
-                        _result = poiResult.toString();
+                        _result = jsonFormat(poiResult.toJson());
                       });
                     }).catchError((e) => showError(context, e.toString()));
                   },
