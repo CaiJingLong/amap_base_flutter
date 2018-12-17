@@ -1,22 +1,5 @@
+import 'package:amap_base_example/utils/misc.dart';
 import 'package:amap_base_location/amap_base.dart';
-import 'package:amap_base_example/map/create_map/show_indoor_map.screen.dart';
-import 'package:amap_base_example/map/create_map/show_map.screen.dart';
-import 'package:amap_base_example/map/create_map/switch_map_layer.screen.dart';
-import 'package:amap_base_example/map/get_map_data/bound_poi_search.screen.dart';
-import 'package:amap_base_example/map/get_map_data/id_poi_search.screen.dart';
-import 'package:amap_base_example/map/get_map_data/keyword_poi_search.screen.dart';
-import 'package:amap_base_example/map/get_map_data/polygon_poi_search.screen.dart';
-import 'package:amap_base_example/map/get_map_data/route_poi_search.screen.dart';
-import 'package:amap_base_example/map/going_out_plan/driving_route_plan.screen.dart';
-import 'package:amap_base_example/map/interact_with_map/code_interaction.screen.dart';
-import 'package:amap_base_example/map/interact_with_map/control_interaction.screen.dart';
-import 'package:amap_base_example/map/interact_with_map/gesture_interaction.screen.dart';
-import 'package:amap_base_example/map/draw_on_map/draw_point.screen.dart';
-import 'package:amap_base_example/map/draw_on_map/draw_polyline.screen.dart';
-import 'package:amap_base_example/map/tools/coordinate_transformation_screen.dart';
-import 'package:amap_base_example/widgets/dimens.dart';
-import 'package:amap_base_example/widgets/function_group.widget.dart';
-import 'package:amap_base_example/widgets/function_item.widget.dart';
 import 'package:flutter/material.dart';
 
 class LocationScreen extends StatefulWidget {
@@ -41,7 +24,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 .listen((result) {
               print(result.toString());
               setState(() {
-                _result = result.toString();
+                _result = jsonFormat(result.toJson());
               });
             });
           },
@@ -58,7 +41,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 .listen((result) {
               print(result.toString());
               setState(() {
-                _result = result.toString();
+                _result = jsonFormat(result.toJson());
               });
             });
           },

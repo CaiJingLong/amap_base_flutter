@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amap_base_location/amap_base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,4 +35,9 @@ Future<T> loading<T>(BuildContext context, Future<T> futureTask) {
       Navigator.of(context, rootNavigator: true).pop(context);
     }
   });
+}
+
+String jsonFormat(Map<String, Object> json) {
+  JsonEncoder encoder = JsonEncoder.withIndent('  ');
+  return encoder.convert(json);
 }
