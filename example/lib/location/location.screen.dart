@@ -1,4 +1,5 @@
 import 'package:amap_base/amap_base.dart';
+import 'package:amap_base_example/utils/misc.dart';
 import 'package:flutter/material.dart';
 
 class LocationScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 .listen((result) {
               print(result.toString());
               setState(() {
-                _result = result.toString();
+                _result = jsonFormat(result.toJson());
               });
             });
           },
@@ -40,7 +41,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 .listen((result) {
               print(result.toString());
               setState(() {
-                _result = result.toString();
+                _result = jsonFormat(result.toJson());
               });
             });
           },
@@ -52,7 +53,12 @@ class _LocationScreenState extends State<LocationScreen> {
             AMapLocation().stopLocate();
           },
         ),
-        Flexible(child: ListView(children: <Widget>[Text(_result)])),
+        Flexible(
+          child: ListView(
+            padding: EdgeInsets.all(8),
+            children: <Widget>[Text(_result)],
+          ),
+        ),
       ],
     );
   }
